@@ -1,0 +1,13 @@
+
+@use "@material/animation";
+
+
+.collapse {
+    overflow: hidden;
+
+    &.transition-enter-init, &.transition-exit-transition, &.transition-exit-finalize { height: var(--transition-small-height);   width: var(--transition-small-width); }
+    &.transition-exit-init, &.transition-enter-transition, &.transition-enter-finalize { height: var(--transition-surface-height); width: var(--transition-surface-width); }
+
+    &.transition-enter-finalize   { height: auto; }
+}
+

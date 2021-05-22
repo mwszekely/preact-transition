@@ -1,0 +1,10 @@
+
+@use "@material/animation";
+@import "./base.scss";
+
+.zoom {
+    transform-origin: calc(var(--transition-origin-x) * 100%) calc(var(--transition-origin-y) * 100%);
+
+    &.transition-enter-init, &.transition-exit-transition, &.transition-exit-finalize { transform: scale(var(--transition-small-x), var(--transition-small-y)); }
+    &.transition-exit-init, &.transition-enter-transition, &.transition-enter-finalize { transform: scale(1, 1); }
+}

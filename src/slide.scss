@@ -1,0 +1,13 @@
+
+@use "@material/animation";
+@import "./base.scss";
+
+
+.slide {
+    &.transition-enter {  z-index: 1000; }
+
+    &.transition-enter-init, &.transition-exit-transition, &.transition-exit-finalize { transform: translate(var(--transition-slide-target-x), var(--transition-slide-target-y)); }
+    &.transition-exit-init, &.transition-enter-transition, &.transition-enter-finalize { transform: translate(0, 0); }
+
+}
+

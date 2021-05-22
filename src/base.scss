@@ -1,0 +1,12 @@
+
+// Because transitions don't inherit well at all, we just set everything to transition by default
+// You can override this.
+.transition-enter { transition: all, 175ms ease-in-out; }
+.transition-exit  { transition: all, 175ms ease-in-out; }
+
+.transition-enter-init { transition: none; }
+.transition-exit-init { transition: none; }
+
+.transition-exit-finalize   { visibility: hidden; }
+.transition-enter-finalize   { }
+

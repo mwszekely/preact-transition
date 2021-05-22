@@ -1,0 +1,16 @@
+@use "@material/animation";
+@import "./base.scss";
+
+.clip {
+  overflow: hidden;
+
+  &.transition-enter-init, &.transition-exit-transition, &.transition-exit-finalize {
+    clip-path: inset(
+      calc((0 + var(--transition-origin-y)) * 100%) calc((1 - var(--transition-origin-x)) * 100%)
+      calc((1 - var(--transition-origin-y)) * 100%) calc((0 + var(--transition-origin-x)) * 100%)
+    );
+  }
+  &.transition-exit-init, &.transition-enter-transition, &.transition-enter-finalize {
+    clip-path: inset(0 0 0 0);
+  }
+}

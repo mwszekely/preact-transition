@@ -1,0 +1,18 @@
+
+.transition-swap-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    position: relative;
+    overflow: hidden;
+
+    &-inline {
+        display: inline-grid;
+    }
+
+    & > * {
+        position: relative;
+        grid-area: 1 / 1 / 1 / 1;
+        align-self: flex-start;
+    }
+}

@@ -1,0 +1,11 @@
+
+@use "@material/animation";
+@import "./base.scss";
+
+
+.fade {
+    &.transition-enter-init, &.transition-exit-transition, &.transition-exit-finalize { opacity: 0; }
+    &.transition-exit-init, &.transition-enter-transition, &.transition-enter-finalize { opacity: 1; }
+}
+
+
