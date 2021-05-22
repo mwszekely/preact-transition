@@ -1,6 +1,6 @@
 {
-  "name": "webpack-test",
-  "version": "1.0.0",
+  "name": "preact-transition",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
