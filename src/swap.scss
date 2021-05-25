@@ -1,8 +1,10 @@
 
 .transition-swap-container {
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr;
+    // Required instead of just 1fr to allow width/height: 100% 
+    // to work on parent/child elements
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     position: relative;
     overflow: hidden;
 
