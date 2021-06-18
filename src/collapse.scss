@@ -9,5 +9,13 @@
     &.transition-exit-init, &.transition-enter-transition, &.transition-enter-finalize { height: var(--transition-surface-height); width: var(--transition-surface-width); }
 
     &.transition-enter-finalize   { height: auto; }
+
+    
+    @media (prefers-reduced-motion) { 
+        &.transition-exit-init, &.transition-enter-transition, &.transition-enter-finalize {
+            --transition-small-width: var(--transition-surface-width) !important;;
+            --transition-small-height: var(--transition-surface-height) !important;;
+        }
+    }
 }
 

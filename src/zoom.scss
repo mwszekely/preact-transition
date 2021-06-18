@@ -7,4 +7,9 @@
 
     &.transition-enter-init, &.transition-exit-transition, &.transition-exit-finalize { transform: scale(var(--transition-small-x), var(--transition-small-y)); }
     &.transition-exit-init, &.transition-enter-transition, &.transition-enter-finalize { transform: scale(1, 1); }
+
+    @media (prefers-reduced-motion) { 
+        --transition-small-x: 1 !important;
+        --transition-small-y: 1 !important;
+    }
 }

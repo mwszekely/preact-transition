@@ -6,8 +6,13 @@
 .slide {
     &.transition-enter {  z-index: 1000; }
 
-    &.transition-enter-init, &.transition-exit-transition, &.transition-exit-finalize { transform: translate(var(--transition-slide-target-x), var(--transition-slide-target-y)); }
+    &.transition-enter-init, &.transition-exit-transition, &.transition-exit-finalize { transform: translate(var(--transition-slide-target-x, 0), var(--transition-slide-target-y, 0)); }
     &.transition-exit-init, &.transition-enter-transition, &.transition-enter-finalize { transform: translate(0, 0); }
 
+    @media (prefers-reduced-motion) { 
+        --transition-slide-target-x: 0 !important;
+        --transition-slide-target-y: 0 !important;
+    }
 }
+
 

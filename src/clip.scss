@@ -13,4 +13,15 @@
   &.transition-exit-init, &.transition-enter-transition, &.transition-enter-finalize {
     clip-path: inset(0 0 0 0);
   }
+
+
+
+  @media (prefers-reduced-motion) { 
+    &.transition-exit-init, &.transition-enter-transition, &.transition-enter-finalize {
+      clip-path: inset(
+        calc((0 + var(--transition-origin-y)) * 100%) calc((1 - var(--transition-origin-x)) * 100%)
+        calc((1 - var(--transition-origin-y)) * 100%) calc((0 + var(--transition-origin-x)) * 100%)
+      ) !important;;
+    }
+  }
 }
