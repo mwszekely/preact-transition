@@ -4,7 +4,7 @@ import { CollapsePropsMin, collapseProps } from "./collapse";
 import { fadeProps, FadePropsMin } from "./fade";
 import { forwardElementRef } from "./forward-element-ref";
 import { slideProps, SlidePropsMin } from "./slide";
-import { Transition } from "./use-transition";
+import { Transition, useTransitionProps } from "./use-transition";
 import { zoomProps, ZoomPropsMin } from "./zoom";
 import { SwapContainer } from "./swap"
 
@@ -15,6 +15,8 @@ export {
     slideProps,
     zoomProps,
 
+    useTransitionProps,
+    Transition,
     SwapContainer
 }
 
