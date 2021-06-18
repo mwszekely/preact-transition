@@ -4,16 +4,19 @@ import { useCallback, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { forwardElementRef } from "./forward-element-ref";
 import { mergeStyles } from "./merge-style";
 import { useRefElement } from "./use-ref-element";
+import mergeProps from "merge-props";
 
-type TransitionPhase = 'init' | 'transition' | 'finalize';
-type TransitionDirection = 'enter' | 'exit';
+export type TransitionPhase = 'init' | 'transition' | 'finalize';
+export type TransitionDirection = 'enter' | 'exit';
 type TransitionState = `${TransitionDirection}-${TransitionPhase}`;
 
-export interface TransitionPropsMin<E extends HTMLElement> extends Pick<h.JSX.HTMLAttributes<E>, "className" | "style" | "onTransitionEnd"> {
+export interface TransitionPropsMin<E extends HTMLElement> /*extends Pick<h.JSX.HTMLAttributes<E>, "className" | "style" | "onTransitionEnd">*/ {
     open: boolean;
     classBase?: string;
     measure?: boolean;
     ref?: Ref<E>;
+    animateOnMount?: boolean;
+    onTransitionUpdate?: (direction: TransitionDirection, phase: TransitionPhase) => void;
 }
 
 
@@ -33,16 +36,20 @@ function getClassName<D extends TransitionDirection, P extends TransitionPhase>(
  * @param element 
  * @param param1 
  */
-export function useTransitionProps<E extends HTMLElement, P extends TransitionPropsMin<E>>({ measure, classBase, open, style, className, onTransitionEnd, ...props }: P) {
+export function useTransitionProps<P extends TransitionPropsMin<any>>({ measure, animateOnMount, classBase, onTransitionUpdate, open, ...props }: P) {
+    type E = P extends TransitionPropsMin<infer E> ? E : HTMLElement;
 
     classBase ??= "transition";
 
     const { element, useRefElementProps } = useRefElement<E>();
-    const [phase, setPhase] = useState<TransitionPhase | null>(null);
+    const [phase, setPhase] = useState<TransitionPhase | null>(animateOnMount ? "init" : null);
     const [direction, setDirection] = useState<TransitionDirection>(open ? "enter" : "exit");
     const [transitionSurfaceWidth, setTransitionSurfaceWidth] = useState<string | null>(null);
     const [transitionSurfaceHeight, setTransitionSurfaceHeight] = useState<string | null>(null);
+    const [transitionSurfaceX, setTransitionSurfaceX] = useState<string | null>(null);
+    const [transitionSurfaceY, setTransitionSurfaceY] = useState<string | null>(null);
 
+    const onTransitionUpdateRef = useRef<typeof onTransitionUpdate>(onTransitionUpdate);
     const phaseRef = useRef<TransitionPhase | null>(phase);
     const directionRef = useRef<TransitionDirection | null>(direction);
 
@@ -50,6 +57,7 @@ export function useTransitionProps<E extends HTMLElement, P extends TransitionPr
     const tooEarlyValueRef = useRef<boolean>(true);
     const tooLateTimeoutRef = useRef<number | null>(null);
 
+    useLayoutEffect(() => { onTransitionUpdateRef.current = onTransitionUpdate; }, [onTransitionUpdate]);
     useLayoutEffect(() => { phaseRef.current = phase; }, [phase]);
     useLayoutEffect(() => { directionRef.current = direction; }, [direction]);
 
@@ -58,7 +66,10 @@ export function useTransitionProps<E extends HTMLElement, P extends TransitionPr
     if (transitionSurfaceHeight)
         (style as any)[`--${classBase}-surface-height`] = transitionSurfaceHeight;*/
 
-
+    useLayoutEffect(() => {
+        if (phase)
+            onTransitionUpdateRef.current?.(direction, phase);
+    }, [direction, phase])
 
 
     useLayoutEffect(() => {
@@ -87,7 +98,6 @@ export function useTransitionProps<E extends HTMLElement, P extends TransitionPr
         //const element = RootProps?.ref.current;
 
         if (element) {
-
             classBase ??= "transition"
 
             const [nextDirection, nextInverseDirection] = open ?
@@ -117,7 +127,7 @@ export function useTransitionProps<E extends HTMLElement, P extends TransitionPr
 
                 element.classList.add(tempClass);
                 void (element.offsetTop);
-                const { width, height } = element.getBoundingClientRect();
+                const { x, y, width, height } = element.getBoundingClientRect();
 
                 // Now remove the class and force a reflow again.
                 // Yes, we're about to set it anyway the next time we render,
@@ -126,6 +136,8 @@ export function useTransitionProps<E extends HTMLElement, P extends TransitionPr
                 void (element.offsetTop);
 
 
+                setTransitionSurfaceX(x + "px");
+                setTransitionSurfaceY(y + "px");
                 setTransitionSurfaceWidth(width + "px");
                 setTransitionSurfaceHeight(height + "px");
             }
@@ -141,7 +153,6 @@ export function useTransitionProps<E extends HTMLElement, P extends TransitionPr
                 setPhase(nextPhase);
             }
             else {
-                //debugger;
                 element.classList.add(getClassName(classBase, nextDirection, 'init'));
                 void (element.offsetTop);
                 element.classList.add(getClassName(classBase, nextDirection, 'transition'));
@@ -149,7 +160,6 @@ export function useTransitionProps<E extends HTMLElement, P extends TransitionPr
                 void (element.offsetTop);
                 setDirection(nextDirection);
                 setPhase(nextPhase);
-
             }
 
 
@@ -163,22 +173,18 @@ export function useTransitionProps<E extends HTMLElement, P extends TransitionPr
 
     return useRefElementProps({
         ...props,
-        style: typeof style === "string" ? `${style};` : {
-            ...style,
-            ...({
-                [`--${classBase}-surface-width`]: transitionSurfaceWidth,
-                [`--${classBase}-surface-height`]: transitionSurfaceHeight
-            } as {})
-        },
+        style: {
+            [`--${classBase}-surface-x`]: transitionSurfaceX,
+            [`--${classBase}-surface-y`]: transitionSurfaceY,
+            [`--${classBase}-surface-width`]: transitionSurfaceWidth,
+            [`--${classBase}-surface-height`]: transitionSurfaceHeight
+        } as {},
         onTransitionEnd: useCallback((e: TransitionEvent) => {
-
             if (e.target === element && tooEarlyValueRef.current == false) {
                 setPhase("finalize");
             }
-
-            onTransitionEnd?.bind(e.target as E, e as TransitionEvent & { readonly currentTarget: E; });
-        }, [element, onTransitionEnd]),
-        className: clsx(getClassName(classBase, direction), phase && getClassName(classBase, direction, phase), className),
+        }, [element]),
+        className: clsx(getClassName(classBase, direction), phase && getClassName(classBase, direction, phase)),
     });
 
 
@@ -187,6 +193,8 @@ export function useTransitionProps<E extends HTMLElement, P extends TransitionPr
 
 export interface TransitionProps<E extends HTMLElement> extends TransitionPropsMin<E> {
     children: VNode<any>;
+    className?: string;
+    style?: h.JSX.CSSProperties;
     ref?: Ref<E>;
 }
 
@@ -195,9 +203,19 @@ export interface TransitionProps<E extends HTMLElement> extends TransitionPropsM
  * The name of the class is controlled with "classBase"--you'll still need to provide the additional 
  * class names/CSS variables needed to control how it looks based on the class names this adds.
  */
-export const Transition = forwardElementRef(function Transition<E extends HTMLElement>({ children: child, style, ...props }: TransitionProps<E>, ref: Ref<E>) {
-    const childProps = useTransitionProps<E, TransitionProps<E>>({ ...props, ...child.props, style: mergeStyles(child.props.style, style as any), ref });
-    
-    return cloneElement(child, childProps);
-})
+export const Transition = forwardElementRef(function Transition<E extends HTMLElement>({ children: child, classBase, measure, open, onTransitionUpdate, animateOnMount, ...props }: TransitionProps<E>, r: Ref<E>) {
+    const transitionProps = useTransitionProps({ classBase, measure, open, animateOnMount, onTransitionUpdate, ref: r });
+    const childProps = child.props;
+    const mergedProps = mergeProps(mergeClassName(transitionProps), mergeClassName(props), mergeClassName(childProps));
 
+    return cloneElement(child, mergedProps);
+});
+
+// mergeProps doesn't like className and class both existing, 
+// so this can quickly clean any object with "class" in it up.
+function mergeClassName<T extends { class?: string, className?: string }>({ className, "class": clasz, ...rest }: T) {
+    return {
+        ...rest,
+        className: clsx(className, clasz)
+    }
+}
