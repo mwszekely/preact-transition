@@ -2,7 +2,7 @@
 
 Easy management of CSS transition classes and inplace swappable content. Designed to be simple, small, and to prefer plain CSS for the actual transition animations.
 
-![Alt text](collapse.gif?raw=true "Title")
+![An animated image showing examples of a card and its contents transitioning in and out in place](collapse.gif?raw=true "Collapse demo image")
 
 ## Basics
 
@@ -15,8 +15,8 @@ This library includes a number of components that do this. All they are are a wr
 
 |Component|Props|Description|
 |---|---|---|
-|`Fade`|<ul><li>`fadeMin`</li><li>`fadeMax`</li></ul>|Simple opacity-based transition.|
-|`Clip`|<ul><li>`clipOrigin{\|Inline\|Block}`</li><li>`clipMin{\|Inline\|Block}`</li></ul>|Use `clip-path` to animate in/out. Note that `Inline` and `Block` are used instead of `X` and `Y` so the effect is consistent regardless of `writing-mode`. In some cases, this can be a more performant alternative to `<Collapse /`> if you're not picky about border styles.|
+|`Fade`|<ul><li>`fadeMin`</li><li>`fadeMax`</li></ul>|Simple opacity-based transition. `fadeMin` and `fadeMax` are, like the rest of all these props, are simply forwarded on as CSS variables.|
+|`Clip`|<ul><li>`clipOrigin{\|Inline\|Block}`</li><li>`clipMin{\|Inline\|Block}`</li></ul>|Use `clip-path` to animate in/out. Note that `Inline` and `Block` are used instead of `X` and `Y` so the effect is consistent regardless of `writing-mode`. In some cases, this can be a more performant alternative to `<Collapse />` if you're not picky about border styles.|
 |`Slide`|<ul><li>`slide{Inline\|Block}`</li></ul>|Slide the element out to the target position. A value of `0` for `slideInline` or `slideBlock` has the special meaning of "transition in from the last non-zero value" so that you don't need to keep track of what that was for each.|
 |`Zoom`|<ul><li>`zoomOrigin{\|Inline\|Block}`</li><li>`zoomMin{\|Inline\|Block}`</li></ul>|Simple `transform: scale`-based transition.|
 |`Collapse`|<ul><li>`minBlockSize`</li></ul>|Animate `height` (in horizontal languages, or `width` in vertial languages, or just `block-size` regardless) between `auto` and `0` (or some custom `minBlockSize`, like `10em`). Be sure to use caution, as animating these sorts of properties is *not* cheap for the browser to do and you may drop below 60fps on lower-powered devices.|
