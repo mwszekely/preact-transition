@@ -1,17 +1,28 @@
 {
   "name": "preact-transition",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Easy management of CSS transition classes and in-place swappable content.",
+  "source": "src/index.tsx",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": "./dist/index.modern.js",
   "scripts": {
     "watch-ts": "tsc --watch",
-    "watch-js": "rollup -wc --preserveSymlinks",
-    "watch-css": "sass --watch --load-path=node_modules ./src/index.scss:./dist/assets/index.css",
-    "watch-html": "node ./compile-html.mjs --watch src/index.html",
+    "watch-js": "microbundle watch --no-compress",
+    "watch-css": "sass --watch --load-path=node_modules ./src/index.scss:./dist/index.css",
     "watch": "concurrently \"npm:watch-*\"",
-    "start": "webpack --watch",
+    "build-js": "microbundle --no-compress",
+    "build-css": "sass --load-path=node_modules ./src/index.scss:./dist/index.css",
+    "build": "concurrently \"npm:build-*\"",
+    "watchdemo-ts": "tsc --watch",
+    "watchdemo-js": "microbundle --no-compress -i docs/main.tsx -o docs/bundle.js",
+    "watchdemo-css": "sass --watch --load-path=node_modules ./docs/main.scss:./docs/main.css",
+    "watchdemo": "concurrently \"npm:watchdemo-*\"",
+    "builddemo": "concurrently \"npm:builddemo-*\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "npx tsc || true"
+    "install": "npm run build"
   },
   "author": "",
   "license": "ISC",
@@ -19,29 +30,12 @@
     "preact": "^10.5.13"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/preset-env": "^7.12.16",
-    "@rollup/plugin-alias": "^3.1.1",
-    "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^16.0.0",
-    "@rollup/plugin-node-resolve": "^10.0.0",
-    "@rollup/plugin-typescript": "^6.1.0",
-    "@rollup/plugin-url": "^5.0.1",
-    "@types/color-name": "^1.1.1",
-    "@types/lodash": "^4.14.167",
-    "@types/node": "^14.14.10",
-    "chokidar": "^3.4.3",
     "commander": "^6.2.1",
     "concurrently": "^5.3.0",
-    "rollup": "^2.34.0",
+    "microbundle": "^0.13.3",
     "sass": "^1.29.0",
-    "serve": "^11.3.2",
-    "ts-toolbelt": "^9.6.0",
-    "type-fest": "^1.1.3",
-    "typescript": "^4.2.4"
-  },
-  "dependencies": {
+    "serve": "^12.0.0",
     "clsx": "^1.1.1",
-    "merge-props": "^5.0.3"
+    "typescript": "^4.4.0-dev.20210705"
   }
 }

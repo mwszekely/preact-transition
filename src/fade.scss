@@ -1,11 +1,8 @@
+@use "./base.scss" as *;
 
-@use "@material/animation";
-@import "./base.scss";
-
-
-.fade {
-    &.transition-enter-init, &.transition-exit-transition, &.transition-exit-finalize { opacity: 0; }
-    &.transition-exit-init, &.transition-enter-transition, &.transition-enter-finalize { opacity: 1; }
+.#{$transition-class-name}-fade {
+    &.#{$transition-class-name}-enter-init, &.#{$transition-class-name}-exit-transition, &.#{$transition-class-name}-exit-finalize { opacity: var(--#{$transition-class-name}-fade-min, 0); }
+    &.#{$transition-class-name}-exit-init, &.#{$transition-class-name}-enter-transition, &.#{$transition-class-name}-enter-finalize { opacity: var(--#{$transition-class-name}-fade-max, 1); }
 }
 
 

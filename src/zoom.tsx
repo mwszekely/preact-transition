@@ -1,28 +1,76 @@
-import clsx from "clsx";
-import { h } from "preact";
-import { mergeStyles } from "./merge-style";
+import { h, Ref } from "preact";
+import { forwardElementRef } from "./forward-element-ref";
+import { useMergedProps } from "./use-merged-props";
+import { Transitionable, TransitionableProps } from "./transitionable";
 
-export interface ZoomPropsMin extends Pick<h.JSX.HTMLAttributes<HTMLElement>, "className" | "style"> {
-    originX?: number;
-    originY?: number;
-    zoom?: "x" | "y" | "both";
-    minX?: number;   // Default is 0. Values (0-1] should only be used in combination with a fade effect, or something similar.
-    minY?: number;   // Default is 0. Values (0-1] should only be used in combination with a fade effect, or something similar.
+/**
+ * Properties that allow adjusting the origin, minimum size, and direction of the zoom effect.
+ */
+export interface CreateZoomProps {
+
+    /**
+     * The target point to zoom out of/into (with X & Y components identical)
+     * @default 0.5
+     */
+    zoomOrigin: number | null | undefined;
+
+    /**
+     * The target point to zoom out of/into (X component)
+     * @default 0.5
+     */
+    zoomOriginInline: number | undefined | null;
+
+    /**
+     * The target point to zoom out of/into (Y component)
+     * @default 0.5
+     */
+    zoomOriginBlock: number | undefined | null;
+
+    /**
+     * The minimum size to shrink to/from, from 0 to 1 (with X & Y components identical).
+     * @default 0
+     */
+    zoomMin: number | null | undefined;
+
+    /**
+     * The minimum size to shrink to/from, from 0 to 1 (X component in horizontal writing modes).
+     * @default 0
+     */
+    zoomMinInline: number | undefined | null;
+
+    /**
+     * The minimum size to shrink to/from, from 0 to 1 (Y component in horizontal writing modes).
+     * @default 0
+     */
+    zoomMinBlock: number | undefined | null;
+
+    classBase: string | null | undefined;
 }
 
-export function zoomProps<P extends ZoomPropsMin>({ className, originX, originY, style, zoom, minX, minY, ...props }: P) {
-
-    return {
-        ...props,
-
-        className: clsx("zoom", className),
-
-        style: mergeStyles(style, {
-            "--transition-origin-x": (originX ?? 0.5),
-            "--transition-origin-y": (originY ?? 0),
-
-            "--transition-small-x": (zoom != "y" ? (minX ?? 0) : 1),
-            "--transition-small-y": (zoom != "x" ? (minY ?? 0) : 1)
-        }) as never
-    };
+/**
+ * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+ */
+export function useCreateZoomProps<P extends {}>({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock }: CreateZoomProps, otherProps: P) {
+    classBase ??= "transition";
+    return useMergedProps({
+        className: `${classBase}-zoom`,
+        classBase,
+        style: {
+            [`--${classBase}-zoom-origin-inline`]: `${(zoomOriginInline ?? zoomOrigin ?? 0.5)}`,
+            [`--${classBase}-zoom-origin-block`]: `${(zoomOriginBlock ?? zoomOrigin ?? 0.5)}`,
+            [`--${classBase}-zoom-min-inline`]: `${(zoomMinInline ?? zoomMin ?? 0)}`,
+            [`--${classBase}-zoom-min-block`]: `${(zoomMinBlock ?? zoomMin ?? 0)}`,
+        } as h.JSX.CSSProperties,
+    }, otherProps);
 }
+
+export interface ZoomProps<E extends HTMLElement> extends Partial<CreateZoomProps>, TransitionableProps<E> { };
+
+/**
+ * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
+ * @see `Transitionable` `ZoomFade`
+ */
+export const Zoom = forwardElementRef(function Zoom<E extends HTMLElement>({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, open, ...rest }: ZoomProps<E>, ref: Ref<E>) {
+    return <Transitionable<E> open={open} {...useCreateZoomProps({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock }, { ...rest, ref })} />
+});
+

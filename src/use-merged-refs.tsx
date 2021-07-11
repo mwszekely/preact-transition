@@ -10,9 +10,17 @@ function processRef<T>(instance: T | null, ref: Ref<T> | null | undefined) {
     }
 }
 
-export function useMergedRefs<T>(lhs: Ref<T> | undefined, rhs: Ref<T> | undefined): RefCallback<T> {
-    return useCallback((current: T | null) => {
+/**
+ * Combines two refs into one. This allows a component to both use its own ref *and* forward a ref that was given to it.
+ * @param lhs 
+ * @param rhs 
+ * @returns 
+ */
+export function useMergedRefs<T>(lhs: Ref<T> | null | undefined, rhs: Ref<T> | null | undefined): RefCallback<T> {
+    let ret = useCallback((current: T | null) => {
         processRef(current, lhs);
         processRef(current, rhs);
     }, [lhs, rhs]);
+
+    return ret;
 }

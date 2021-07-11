@@ -1,0 +1,523 @@
+
+import { Fragment, h, render } from "./node_modules/preact";
+import { useCallback, useState } from "./node_modules/preact/hooks";
+import { Clip, ZoomFade, ClipFade, Collapse, Zoom, Fade, Slide, SlideFade, Transitionable, SlideZoomFade, SlideZoom, Swappable, CollapseFade, CreateTransitionableProps, Flip } from "..";
+
+function halfText(input: string, times: number): string {
+    if (times <= 0)
+        return input;
+    input = input.substr(input.length / 2);
+    if (times == 1)
+        return input;
+
+    return halfText(input, times - 1);
+}
+
+function Demo() {
+    const [writingMode, setWritingMode] = useState<"horizontal" | "vertical">("horizontal");
+    const [open1, setOpen1] = useState(true);
+    const [open3, setOpen3] = useState(0);
+    const [reflow, setReflow] = useState<"visible" | "hidden" | "removed">("hidden");
+    const [duration, setDuration] = useState(175);
+    const [text, setText] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+
+    const onInput1 = useCallback((e: Event) => { setOpen1(o => !o); e.preventDefault(); }, []);
+    const onInput3 = useCallback((e: Event) => { setText((e.target as HTMLInputElement).value); e.preventDefault(); }, []);
+    const onInput4 = useCallback((e: Event) => { setReflow("hidden"); e.preventDefault(); }, []);
+    const onInput5 = useCallback((e: Event) => { setReflow("removed"); e.preventDefault(); }, []);
+    const onInput5b = useCallback((e: Event) => { setReflow("visible"); e.preventDefault(); }, []);
+    const onInput6 = useCallback((e: Event) => { setWritingMode("horizontal"); e.preventDefault(); }, []);
+    const onInput7 = useCallback((e: Event) => { setWritingMode("vertical"); e.preventDefault(); }, []);
+    const onInput8 = useCallback((e: Event) => { setDuration((e.target as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+
+    const onInputA = useCallback((e: Event) => { setOpen3(0); e.preventDefault(); }, []);
+    const onInputB = useCallback((e: Event) => { setOpen3(1); e.preventDefault(); }, []);
+    const onInputC = useCallback((e: Event) => { setOpen3(2); e.preventDefault(); }, []);
+
+    return (
+        <>
+            <div id="controls">
+                <h1>Preact Transition</h1>
+                <label><input onInput={onInput1} type="checkbox" checked={open1}></input> Card open</label>
+                <div className="radiogroup">
+                    <div>Visible Swappable child: </div>
+                    <label className="code-mimic"><input type="radio" name="swap-index" onInput={onInputA} checked={open3 == 0} />#0</label>
+                    <label className="code-mimic"><input type="radio" name="swap-index" onInput={onInputB} checked={open3 == 1} />#1</label>
+                    <label className="code-mimic"><input type="radio" name="swap-index" onInput={onInputC} checked={open3 == 2} />#2</label>
+                </div>
+
+                <div className="radiogroup">
+                    <div>When transitioned out:</div>
+                    <label className="code-mimic"><input type="radio" name="hidden-type" onInput={onInput5b} checked={reflow == "visible"} />Do not hide (incl. focusables)</label>
+                    <label className="code-mimic"><input type="radio" name="hidden-type" onInput={onInput4} checked={reflow == "hidden"} />visibility: hidden</label>
+                    <label className="code-mimic"><input type="radio" name="hidden-type" onInput={onInput5} checked={reflow == "removed"} />display: none</label>
+                </div>
+
+                <div><label><input onInput={onInput8} type="number" value={duration}></input> Duration</label></div>
+
+                <div className="radiogroup">
+                    <div>Demo's writing mode: </div>
+                    <label><input type="radio" name="writing-mode" onInput={onInput6} checked={writingMode == "horizontal"} />Horizontal</label>
+                    <label><input type="radio" name="writing-mode" onInput={onInput7} checked={writingMode == "vertical"} />Vertical</label>
+                </div>
+                <textarea cols={30} rows={5} onInput={onInput3} value={text} />
+
+            </div>
+            <div id="root-body" className={`writing-mode-${writingMode}`} style={{ "--transition-duration": `${duration}ms` }}>
+                <div className="demo-section">
+                    <h2>Fade</h2>
+                    <div className="demo">
+                        <div></div>
+                        <Fade open={open1}>
+                            <Swappable>
+                                <div className="card">
+                                    <Fade open={open3 == 0} exitVisibility={reflow}><div className="card-contents">{halfText(text, 0)}<div><button>Focusable element</button></div></div></Fade>
+                                    <Fade open={open3 == 1} exitVisibility={reflow}><div className="card-contents">{halfText(text, 1)}<div><button>Focusable element</button></div></div></Fade>
+                                    <Fade open={open3 == 2} exitVisibility={reflow}><div className="card-contents">{halfText(text, 2)}<div><button>Focusable element</button></div></div></Fade>
+                                </div>
+                            </Swappable>
+                        </Fade>
+                        <div></div>
+                    </div>
+                </div>
+                <ClipDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
+
+                <ZoomDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
+                <SlideDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
+                <ZoomSlideDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
+                <CollapseDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
+                <FlipDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
+
+            </div>
+        </>
+    )
+}
+
+function SwapDemo({ exitVisibility, text }: { text: string, exitVisibility: EV }) {
+    const [page, setPage] = useState(0);
+
+    const onPage0Input = useCallback((e: Event) => { setPage(0); e.preventDefault() }, []);
+    const onPage1Input = useCallback((e: Event) => { setPage(1); e.preventDefault() }, []);
+    const onPage2Input = useCallback((e: Event) => { setPage(2); e.preventDefault() }, []);
+    return (
+        <div className="demo-section">
+            <h2>Swap</h2>
+            <div className="demo">
+                <div className="demo-controls">
+                    <label>Page 0 <input name="swap-demo-selected-page" onInput={onPage0Input} checked={page == 0} type="radio" /></label>
+                    <label>Page 1 <input name="swap-demo-selected-page" onInput={onPage1Input} checked={page == 1} type="radio" /></label>
+                    <label>Page 2 <input name="swap-demo-selected-page" onInput={onPage2Input} checked={page == 2} type="radio" /></label>
+                </div>
+                <Swappable>
+                    <div className="card">
+                        <SlideFade open={page == 0} slideTargetInline={0 - page} exitVisibility={exitVisibility}><div className="card-contents">Page #0:<br />{text}</div></SlideFade>
+                        <SlideFade open={page == 1} slideTargetInline={1 - page} exitVisibility={exitVisibility}><div className="card-contents">Page #1:<br />{text}<br />With an extra line here</div></SlideFade>
+                        <SlideFade open={page == 2} slideTargetInline={2 - page} exitVisibility={exitVisibility}><div className="card-contents">Page #2:<br />{text}</div></SlideFade>
+                    </div>
+
+                </Swappable>
+
+                {
+                    <code><pre>{`<Swappable>
+    <div className="card">
+        <SlideFade open={page == 0} slideTargetInline={0 - page} [...] />
+        <SlideFade open={page == 1} slideTargetInline={1 - page} [...] />
+        <SlideFade open={page == 2} slideTargetInline={2 - page} [...] />
+    </div>
+</Swappable>`}</pre></code>
+                }
+            </div >
+        </div >
+    )
+}
+
+type EV = CreateTransitionableProps<any>["exitVisibility"];
+
+function ClipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+    const [originX, setOriginX] = useState(0.5);
+    const [originY, setOriginY] = useState(0);
+    const [minX, setMinX] = useState(1);
+    const [minY, setMinY] = useState(0);
+    const [withFade, setWithFade] = useState(true);
+    const [ellipse, setEllipse] = useState(false);
+    const onOriginXInput = useCallback((e: Event) => { setOriginX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onOriginYInput = useCallback((e: Event) => { setOriginY(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onMinXInput = useCallback((e: Event) => { setMinX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onMinYInput = useCallback((e: Event) => { setMinY(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onWithFadeInput = useCallback((e: Event) => { setWithFade(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
+    const onEllipseInput = useCallback((e: Event) => { setEllipse(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
+
+    const C = withFade ? ClipFade : Clip;
+    const CS = withFade ? "ClipFade" : "Clip";
+
+    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} clipOriginInline={originX} clipOriginBlock={originY} clipMinInline={minX} clipMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+
+    return <div className="demo-section">
+        <h2>Clip</h2>
+        <div className="demo">
+            <div className="demo-controls">
+                <label>Origin to center the effect around on the inline-axis position (X-axis in English, etc.) <input onInput={onOriginXInput} value={originX} type="number" step={0.125} min={-2} max={2} /></label>
+                <label>Origin to center the effect around on the block-axis position (Y-axis in English, etc.)  <input onInput={onOriginYInput} value={originY} type="number" step={0.125} min={-2} max={2} /></label>
+                <label>Minimum size on the inline-axis <input onInput={onMinXInput} value={minX} type="number" step={0.125} min={0} max={1} /></label>
+                <label>Minimum size on the block-axis  <input onInput={onMinYInput} value={minY} type="number" step={0.125} min={0} max={1} /></label>
+                {/*<label>Ellipse<input checked={ellipse} onInput={onEllipseInput} type="checkbox" /></label>*/}
+                <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
+            </div>
+
+            <C open={cardOpen} exitVisibility={exitVisibility} clipMinInline={minX} clipMinBlock={minY} clipOriginInline={originX} clipOriginBlock={originY}>
+                <Swappable>
+                    <div className="card">
+                        {makeChild(0)}
+                        {makeChild(1)}
+                        {makeChild(2)}
+                    </div>
+                </Swappable>
+            </C>
+            {<code><pre>{`<${CS} 
+  open={${cardOpen.toString()}}${originX != 0.5 ? ` 
+  clipOriginX={${originX}}` : ``}${originY != 0.5 ? ` 
+  clipOriginY={${originY}}` : ``}${minX != 0 ? ` 
+  clipMinX={${minX}}` : ``}${minY != 0 ? ` 
+  clipMinY={${minY}}` : ``}${exitVisibility ? `
+  exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+  <Swappable>
+    <div className="card">
+      <${CS} 
+        open={${contentIndex.toString()} == 0}${originX != 0.5 ? ` 
+        clipOriginX={${originX}}` : ``}${originY != 0.5 ? ` 
+        clipOriginY={${originY}}` : ``}${minX != 0 ? ` 
+        clipMinX={${minX}}` : ``}${minY != 0 ? ` 
+        clipMinY={${minY}}` : ``}${exitVisibility ? `
+        exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+        <div className="card-contents">
+          {text}
+        </div>
+      </${CS}>
+      <${CS} open={${contentIndex.toString()} == 1} [...] />
+      <${CS} open={${contentIndex.toString()} == 2} [...] />
+    </div>
+  </Swappable>
+</${CS}>`}</pre></code>}
+        </div>
+    </div>
+}
+
+function ZoomSlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+    const [originX, setOriginX] = useState(0.5);
+    const [originY, setOriginY] = useState(0.5);
+    const [minX, setMinX] = useState(0.75);
+    const [minY, setMinY] = useState(0.75);
+    const [slideX, setSlideX] = useState(0.25);
+    const [slideY, setSlideY] = useState(0);
+    const [withFade, setWithFade] = useState(true);
+    const onSlideXInput = useCallback((e: Event) => { setSlideX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onSlideYInput = useCallback((e: Event) => { setSlideY(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onWithFadeInput = useCallback((e: Event) => { setWithFade(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
+    const onOriginXInput = useCallback((e: Event) => { setOriginX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onOriginYInput = useCallback((e: Event) => { setOriginY(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onMinXInput = useCallback((e: Event) => { setMinX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onMinYInput = useCallback((e: Event) => { setMinY(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+
+    const C = withFade ? SlideZoomFade : SlideZoom;
+    const CS = withFade ? "SlideZoomFade" : "SlideZoom";
+
+    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} slideTargetInline={slideX * Math.sign(i - contentIndex)} slideTargetBlock={slideY  * Math.sign(i - contentIndex)} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+
+    return <div className="demo-section">
+        <h2>Zoom &amp; Slide</h2>
+        <div className="demo">
+            <div className="demo-controls">
+                <label>Transform origin on the inline-axis position (X-axis in English, etc.) <input onInput={onOriginXInput} value={originX} type="number" step={0.125} min={-2} max={2} /></label>
+                <label>Transform origin on the block-axis position (Y-axis in English, etc.)  <input onInput={onOriginYInput} value={originY} type="number" step={0.125} min={-2} max={2} /></label>
+                <label>Target block-axis position (X-axis in English, etc.) <input onInput={onSlideXInput} value={slideX} type="number" step={0.125} min={-2} max={2} /></label>
+                <label>Target inline-axis position (Y-axis in English, etc.)  <input onInput={onSlideYInput} value={slideY} type="number" step={0.125} min={-2} max={2} /></label>
+                <label>Minimum size on the inline-axis <input onInput={onMinXInput} value={minX} type="number" step={0.125} min={0} max={1} /></label>
+                <label>Minimum size on the block-axis  <input onInput={onMinYInput} value={minY} type="number" step={0.125} min={0} max={1} /></label>
+                <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
+            </div>
+            <C open={cardOpen} exitVisibility={exitVisibility} slideTargetInline={slideX || null} slideTargetBlock={slideY || null} zoomMinInline={minX} zoomMinBlock={minY} zoomOriginInline={originX} zoomOriginBlock={originY}>
+                <Swappable>
+                    <div className="card">
+                        {makeChild(0)}
+                        {makeChild(1)}
+                        {makeChild(2)}
+                    </div>
+                </Swappable>
+            </C>
+            {<code><pre>{`<${CS} 
+  open={${cardOpen.toString()}}${originX != 0.5 ? ` 
+  originX={${originX}}` : ``}${originY != 0.5 ? ` 
+  originY={${originY}}` : ``}${minX != 0 ? ` 
+  minX={${minX}}` : ``}${minY != 0 ? ` 
+  minY={${minY}}` : ``}${slideX != 0 ? ` 
+  slideTargetInline={${slideX}}` : ``}${slideY != 0 ? ` 
+  slideTargetBlock={${slideY}}` : ``}${exitVisibility ? `
+  exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+  <Swappable>
+    <div className="card">
+      <${CS} 
+        open={0 == ${contentIndex.toString()}}${originX != 0.5 ? ` 
+        originX={${originX} * Math.sign(0 - ${contentIndex}}` : ``}${originY != 0.5 ? ` 
+        originY={${originY} * Math.sign(0 - ${contentIndex}}` : ``}${minX != 0 ? ` 
+        minX={${minX}}` : ``}${minY != 0 ? ` 
+        minY={${minY}}` : ``}${slideX != 0 ? ` 
+        slideTargetInline={${slideX}}` : ``}${slideY != 0 ? ` 
+        slideTargetBlock={${slideY}}` : ``}${exitVisibility ? `
+        exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+        <div className="card-contents">
+          {text}
+        </div>
+      </${CS}>
+      <${CS} open={1 == ${contentIndex.toString()}} [...] />
+      <${CS} open={2 == ${contentIndex.toString()}} [...] />
+    </div>
+  </Swappable>
+</${CS}>`}</pre></code>}
+        </div>
+    </div>
+}
+
+function ZoomDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+    const [originX, setOriginX] = useState(0.5);
+    const [originY, setOriginY] = useState(0.5);
+    const [minX, setMinX] = useState(0.75);
+    const [minY, setMinY] = useState(0.75);
+    const [withFade, setWithFade] = useState(true);
+    const onOriginXInput = useCallback((e: Event) => { setOriginX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onOriginYInput = useCallback((e: Event) => { setOriginY(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onMinXInput = useCallback((e: Event) => { setMinX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onMinYInput = useCallback((e: Event) => { setMinY(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onWithFadeInput = useCallback((e: Event) => { setWithFade(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
+
+    const C = withFade ? ZoomFade : Zoom;
+    const CS = withFade ? "ZoomFade" : "Zoom";
+
+    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+
+    return <div className="demo-section">
+        <h2>Zoom</h2>
+        <div className="demo">
+            <div className="demo-controls">
+                <label>Transform origin on the inline-axis position (X-axis in English, etc.) <input onInput={onOriginXInput} value={originX} type="number" step={0.125} min={-2} max={2} /></label>
+                <label>Transform origin on the block-axis position (Y-axis in English, etc.)  <input onInput={onOriginYInput} value={originY} type="number" step={0.125} min={-2} max={2} /></label>
+                <label>Minimum size on the inline-axis <input onInput={onMinXInput} value={minX} type="number" step={0.125} min={0} max={1} /></label>
+                <label>Minimum size on the block-axis  <input onInput={onMinYInput} value={minY} type="number" step={0.125} min={0} max={1} /></label>
+                <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
+            </div>
+            <C open={cardOpen} exitVisibility={exitVisibility} zoomMinInline={minX} zoomMinBlock={minY} zoomOriginInline={originX} zoomOriginBlock={originY}>
+                <Swappable>
+                    <div className="card">
+                        {makeChild(0)}
+                        {makeChild(1)}
+                        {makeChild(2)}
+                    </div>
+                </Swappable>
+            </C>
+            {<code><pre>{`<${CS} 
+  open={${cardOpen.toString()}}${originX != 0.5 ? ` 
+  originX={${originX}}` : ``}${originY != 0.5 ? ` 
+  originY={${originY}}` : ``}${minX != 0 ? ` 
+  minX={${minX}}` : ``}${minY != 0 ? ` 
+  minY={${minY}}` : ``}${exitVisibility ? `
+  exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+  <Swappable>
+    <div className="card">
+      <${CS} 
+        open={${contentIndex.toString()} == 0}${originX != 0.5 ? ` 
+        originX={${originX}}` : ``}${originY != 0.5 ? ` 
+        originY={${originY}}` : ``}${minX != 0 ? ` 
+        minX={${minX}}` : ``}${minY != 0 ? ` 
+        minY={${minY}}` : ``}${exitVisibility ? ` 
+        exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+        <div className="card-contents">
+          {text}
+        </div>
+      </${CS}>
+      <${CS} open={${contentIndex.toString()} == 1} [...] />
+      <${CS} open={${contentIndex.toString()} == 2} [...] />
+    </div>
+  </Swappable>
+</${CS}>`}</pre></code>}
+        </div>
+    </div>
+}
+
+function SlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+    const [slideX, setSlideX] = useState(0.25);
+    const [slideY, setSlideY] = useState(0);
+    const [withFade, setWithFade] = useState(true);
+    const onSlideXInput = useCallback((e: Event) => { setSlideX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onSlideYInput = useCallback((e: Event) => { setSlideY(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onWithFadeInput = useCallback((e: Event) => { setWithFade(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
+    //const [bare, setBare] = useState(false);
+    // const onBare = useCallback((e: Event) => { setBare(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
+
+    const C = withFade ? SlideFade : Slide;
+    const CS = withFade ? "SlideFade" : "Slide";
+
+    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} slideTargetInline={(slideX * Math.sign(i - contentIndex))} slideTargetBlock={slideY * Math.sign(i - contentIndex)}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+
+    return <div className="demo-section">
+        <h2>Slide</h2>
+        <div className="demo">
+            <div className="demo-controls">
+                <label>Target block-axis position (X-axis in English, etc.) <input onInput={onSlideXInput} value={slideX} type="number" step={0.125} min={-2} max={2} /></label>
+                <label>Target inline-axis position (Y-axis in English, etc.)  <input onInput={onSlideYInput} value={slideY} type="number" step={0.125} min={-2} max={2} /></label>
+                <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
+                {/*<label>Using boilerplate<input checked={bare} onInput={onBare} type="checkbox" /></label>*/}
+            </div>
+            <C open={cardOpen} exitVisibility={exitVisibility} slideTargetInline={slideX || null} slideTargetBlock={slideY || null}>
+                <Swappable>
+                    <div className="card">
+                        {makeChild(0)}
+                        {makeChild(1)}
+                        {makeChild(2)}
+                    </div>
+                </Swappable>
+            </C>
+            {<code><pre>{`<${CS} 
+  open={${cardOpen.toString()}} 
+  slideTargetInline={${slideX}}
+  slideTargetBlock={${slideY}}
+  exitVisibility={${JSON.stringify(exitVisibility)}}>
+    <div className="card">
+      <${CS} 
+        open={0 == ${contentIndex}}
+        exitVisibility={${JSON.stringify(exitVisibility)}}
+        slideTargetInline={${slideX} * Math.sign(0 - ${contentIndex})}
+        slideTargetBlock={${slideY} * Math.sign(0 - ${contentIndex}}>
+        <div className="card-contents">
+          {text}
+        </div>
+      </${CS}>
+      <${CS} open={1 == ${contentIndex}} [...] />
+      <${CS} open={2 == ${contentIndex}} [...] />
+    </div>
+  </Swappable>
+</${CS}>`}</pre></code>}
+        </div>
+    </div>
+}
+
+function CollapseDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+    const [minBlockSize, setMinBlockSize] = useState("0px");
+    const onWithFadeInput = useCallback((e: Event) => { setWithFade(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
+    const [withFade, setWithFade] = useState(true);
+    const C = withFade ? CollapseFade : Collapse;
+    const CS = withFade ? "CollapseFade" : "Collapse";
+    const onMinSize = useCallback((e: Event) => { setMinBlockSize(((e.target) as HTMLInputElement).value); e.preventDefault(); }, []);
+
+    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} minBlockSize={minBlockSize}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+
+
+    return (
+        <div className="demo-section">
+            <h2>Collapse</h2>
+            <div className="demo">
+                <div className="demo-controls">
+                    <label>Minimum size: <input type="text" value={minBlockSize} onInput={onMinSize} /></label>
+                    <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
+                    <div>Direction cannot be directly controlled. Only the size along the block axis (Y-axis in horizontal languages) can be resized.</div>
+                    <div>In general, only use this component if you <em>specifically</em> need its reflow transitioning properties. If you want a "disappear in place without zooming out", consider a Clip effect</div>
+                </div>
+                <C open={cardOpen} exitVisibility={exitVisibility} minBlockSize={minBlockSize}>
+                    <div>
+                        <Swappable>
+                            <div className="card">
+                                {makeChild(0)}
+                                {makeChild(1)}
+                                {makeChild(2)}
+                            </div>
+                        </Swappable>
+                    </div>
+                </C>
+                <code><pre>
+                    {`<${CS} open={${cardOpen.toString()}}${minBlockSize && minBlockSize != "0px" ? ` minBlockSize={${JSON.stringify(minBlockSize)}}` : ""}${exitVisibility ? ` exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+  {/* These cards have padding, 
+      and height doesn't include that, 
+      but a wrapper's would */}
+  <div>
+    <Swappable>
+      <div className="card">
+        <${CS} 
+          open={${contentIndex.toString()} == 0}${minBlockSize && minBlockSize != "0px" ? ` 
+          minBlockSize={${JSON.stringify(minBlockSize)}}` : ""}${exitVisibility ? ` 
+          exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+          <div className="card-contents">
+             {text}
+          </div>
+        </${CS}>
+      </div>
+    </Swappable>
+  </div>
+</${CS}>
+<${CS} open={1 == ${contentIndex.toString()}} [...] />
+<${CS} open={2 == ${contentIndex.toString()}} [...] />`}</pre></code>
+
+            </div>
+        </div>
+
+    )
+}
+
+
+
+function FlipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+    const [flipX, setFlipX] = useState(0);
+    const [flipY, setFlipY] = useState(180);
+    //const [axis, setAxis] = useState<"block" | "inline">("block");
+    //const [withFade, setWithFade] = useState(true);
+    const onFlipXInput = useCallback((e: Event) => { setFlipX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onFlipYInput = useCallback((e: Event) => { setFlipY(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    //const onWithFadeInput = useCallback((e: Event) => { setWithFade(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
+    //const [bare, setBare] = useState(false);
+    // const onBare = useCallback((e: Event) => { setBare(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
+
+    const C = /*withFade ? FlipFade :*/ Flip;
+    const CS = /*withFade ? "FlipFade" :*/ "Flip";
+
+    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} flipAngleInline={flipX * Math.sign(i - contentIndex)} flipAngleBlock={flipY * Math.sign(i - contentIndex)}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+
+    return <div className="demo-section">
+        <h2>Flip</h2>
+        <div className="demo">
+            <div className="demo-controls">
+                <label>Rotate on inline axis <input type="number" onInput={onFlipXInput} value={flipX} /></label>
+                <label>Rotate along block axis <input type="number" onInput={onFlipYInput} value={flipY} /></label>
+            </div>
+            <C open={cardOpen} exitVisibility={exitVisibility} flipAngleInline={flipX} flipAngleBlock={flipY}>
+                <Swappable>
+                    <div className="card">
+                        {makeChild(0)}
+                        {makeChild(1)}
+                        {makeChild(2)}
+                    </div>
+                </Swappable>
+            </C>
+            {<code><pre>{`<${CS} 
+  open={${cardOpen.toString()}} 
+  flipAngleInline={${JSON.stringify(flipX)}} 
+  flipAngleBlock={${JSON.stringify(flipY)}} 
+  exitVisibility={${JSON.stringify(exitVisibility)}}}>
+    <div className="card">
+      <${CS} 
+        open={0 == ${contentIndex.toString()}}
+        flipAngleInline={${JSON.stringify(flipX)} * Math.sign(0 - ${contentIndex.toString()})} 
+        flipAngleBlock={${JSON.stringify(flipY)} * Math.sign(0 - ${contentIndex.toString()})} 
+        exitVisibility={${JSON.stringify(exitVisibility)}}>
+        <div className="card-contents">
+          {text}
+        </div>
+      </${CS}>
+      <${CS} open={1 == ${contentIndex.toString()}} [...] />
+      <${CS} open={2 == ${contentIndex.toString()}} [...] />
+    </div>
+  </Swappable>
+</${CS}>`}</pre></code>}
+        </div>
+    </div>
+}
+
+requestAnimationFrame(() => {
+    render(<Demo />, document.getElementById("root")!);
+})

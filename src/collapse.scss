@@ -1,21 +1,28 @@
+@use "./base.scss" as *;
 
-@use "@material/animation";
-
-
-.collapse {
+.#{$transition-class-name}-collapse {
     overflow: hidden;
 
-    &.transition-enter-init, &.transition-exit-transition, &.transition-exit-finalize { height: var(--transition-small-height);   width: var(--transition-small-width); }
-    &.transition-exit-init, &.transition-enter-transition, &.transition-enter-finalize { height: var(--transition-surface-height); width: var(--transition-surface-width); }
+    &.#{$transition-class-name}-measure { block-size: auto; }
 
-    &.transition-enter-finalize   { height: auto; }
-
-    
-    @media (prefers-reduced-motion) { 
-        &.transition-exit-init, &.transition-enter-transition, &.transition-enter-finalize {
-            --transition-small-width: var(--transition-surface-width) !important;;
-            --transition-small-height: var(--transition-surface-height) !important;;
-        }
+    // Initialize the height to the current transitioning size
+    // (the size we're caught in mid-transition, and/or also at the end)
+    &.#{$transition-class-name}-enter-init, &.#{$transition-class-name}-exit-init {
+        block-size: var(--#{$transition-class-name}-transitioning-block-size); 
     }
+
+    // On exit, transition towards the specified minimum height.
+    &.#{$transition-class-name}-exit-transition, &.#{$transition-class-name}-exit-finalize { 
+        block-size: var(--#{$transition-class-name}-collapse-min-block, 0); 
+    }
+
+    // While entering, transition towards the height that was measured when the transition started
+    &.#{$transition-class-name}-enter-transition { 
+        block-size: var(--#{$transition-class-name}-surface-block-size); 
+    }
+
+    // When entering has finished, defer to the normal browser height behavior.
+    // TODO: Register a resize observer when it's auto
+    &.#{$transition-class-name}-enter-finalize { block-size: auto; }
 }
 

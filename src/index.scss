@@ -1,7 +1,13 @@
 
-@import "./clip.scss";
-@import "./zoom.scss";
-@import "./fade.scss";
-@import "./collapse.scss";
-@import "./swap.scss";
-@import "./slide.scss";
+@use "./fade.scss";
+@use "./clip.scss";
+@use "./clip-fade.scss";
+@use "./zoom.scss";
+@use "./zoom-fade.scss";
+@use "./slide.scss";
+@use "./slide-fade.scss";
+@use "./slide-zoom.scss";
+@use "./slide-zoom-fade.scss";
+@use "./flip.scss";
+@use "./collapse.scss";
+@use "./swappable.scss";

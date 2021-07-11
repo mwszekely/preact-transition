@@ -1,0 +1,23 @@
+@use "./base.scss" as *;
+// TODO: Technically it's only necessary for the variable,
+// but it'll be implicitly required anyway by any Transitionable
+
+.#{$transition-class-name}-swap-container {
+    display: grid;
+    // Required instead of just 1fr to allow width/height: 100% 
+    // to work on parent/child elements
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    position: relative;
+    overflow: hidden;
+
+    &-inline {
+        display: inline-grid;
+    }
+
+    & > * {
+        position: relative;
+        grid-area: 1 / 1 / 1 / 1;
+        align-self: flex-start;
+    }
+}
