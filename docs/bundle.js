@@ -286,98 +286,150 @@
     return ret;
   }
 
+  /**
+   * Inspects the element's style and determines the logical direction that text flows.
+   *
+   * Certain CSS properties, like `block-size`, respect the current writing mode and text direction.
+   * But `transform`, `clip`, etc. don't.
+   *
+   * This is provided so that transitions can consistently use those logical properties.
+   *
+   * See https://drafts.csswg.org/css-writing-modes/#logical-to-physical
+   *
+   * @returns A function that, when called, retrieves the current state of the element. (Function is constant between renders)
+   */
+
   function useLogicalDirection(element) {
     var _useState = l(null),
-        inlineDirection = _useState[0],
-        setInlineDirection = _useState[1];
+        writingMode = _useState[0],
+        setWritingMode = _useState[1];
 
     var _useState2 = l(null),
-        blockDirection = _useState2[0],
-        setBlockDirection = _useState2[1];
+        direction = _useState2[0],
+        setDirection = _useState2[1];
 
     var _useState3 = l(null),
-        lineAdvanceDirection = _useState3[0],
-        setLineAdvanceDirection = _useState3[1];
+        textOrientation = _useState3[0],
+        setTextOrientation = _useState3[1];
 
-    var inlineDirectionRef = s(inlineDirection);
-    var blockDirectionRef = s(blockDirection);
+    var writingModeRef = s(writingMode);
+    var directionRef = s(direction);
+    var textOrientationRef = s(textOrientation);
     h(function () {
-      inlineDirectionRef.current = inlineDirection;
-    }, [inlineDirection]);
+      writingModeRef.current = writingMode;
+    }, [writingMode]);
     h(function () {
-      blockDirectionRef.current = blockDirection;
-    }, [blockDirection]);
+      directionRef.current = direction;
+    }, [direction]);
+    h(function () {
+      textOrientationRef.current = textOrientation;
+    }, [textOrientation]);
     h(function () {
       if (element) {
-        // Lots of elements need to know the current writing mode in order to adjust the directions they animate appropriately
-        // so it makes sense to do this without being explicitly asked.
         var computedStyles = window.getComputedStyle(element);
+        var w = computedStyles.writingMode;
+        var t = computedStyles.textOrientation;
         var d = computedStyles.direction;
-
-        switch (computedStyles.writingMode) {
-          case "":
-          case null:
-          case undefined:
-          case "horizontal-tb":
-          case "lr":
-          case "lr-tb":
-            setInlineDirection(d);
-            setBlockDirection("ttb");
-            setLineAdvanceDirection("ttb");
-            break;
-
-          case "horizontal-bt":
-            // Doesn't exist
-            setInlineDirection(d);
-            setBlockDirection("btt");
-            setLineAdvanceDirection("ttb"); // ttb? btt?
-
-            break;
-
-          case "rl":
-            setInlineDirection("rtl");
-            setBlockDirection("ttb");
-            setLineAdvanceDirection("ttb");
-            break;
-
-          case "vertical-lr":
-            setBlockDirection("ltr");
-            setInlineDirection("ttb");
-            setLineAdvanceDirection("ltr");
-            break;
-
-          case "vertical-rl":
-            setBlockDirection("rtl");
-            setInlineDirection("ttb");
-            setLineAdvanceDirection("rtl");
-            break;
-
-          case "sideways-lr":
-            setBlockDirection("ltr");
-            setInlineDirection(d == "rtl" ? "ttb" : "btt");
-            setLineAdvanceDirection("ltr");
-            break;
-
-          case "sideways-rl":
-            setBlockDirection("rtl");
-            setInlineDirection(d == "rtl" ? "btt" : "ttb");
-            setLineAdvanceDirection("rtl");
-            break;
-        }
+        setWritingMode(w || "horizontal-tb");
+        setDirection(d || "rtl");
+        setTextOrientation(t || "mixed");
       }
     });
+    var getLogicalDirection = A$1(function () {
+      var _direction;
+
+      var writingMode = writingModeRef.current;
+      var direction = directionRef.current;
+      var textOrientation = textOrientationRef.current;
+      if (!writingMode || !direction || !textOrientation) return null;
+      if (textOrientation == "upright") direction = "ltr";
+      return _extends({}, WritingModes[writingMode != null ? writingMode : "horizontal-tb"][(_direction = direction) != null ? _direction : "ltr"]);
+    }, [writingModeRef, directionRef, textOrientationRef]);
     return {
-      inlineDirection: inlineDirection,
-      blockDirection: blockDirection,
-      lineAdvanceDirection: lineAdvanceDirection,
-      getInlineDirection: A$1(function () {
-        return inlineDirectionRef.current;
-      }, [inlineDirectionRef]),
-      getBlockDirection: A$1(function () {
-        return blockDirectionRef.current;
-      }, [blockDirectionRef])
+      getLogicalDirection: getLogicalDirection
     };
   }
+  var HorizontalTbLtr = {
+    inlineDirection: "ltr",
+    blockDirection: "ttb",
+    inlineSize: "width",
+    blockSize: "height",
+    over: "top",
+    under: "bottom",
+    lineLeft: "left",
+    lineRight: "right"
+  };
+
+  var HorizontalTbRtl = _extends({}, HorizontalTbLtr, {
+    inlineDirection: "rtl"
+  });
+
+  var VerticalRlLtr = {
+    inlineDirection: "ttb",
+    blockDirection: "rtl",
+    inlineSize: "height",
+    blockSize: "width",
+    over: "right",
+    under: "left",
+    lineLeft: "top",
+    lineRight: "bottom"
+  };
+
+  var VerticalRlRtl = _extends({}, VerticalRlLtr, {
+    inlineDirection: "btt"
+  });
+
+  var SidewaysRlLtr = _extends({}, VerticalRlLtr);
+
+  var SidewaysRlRtl = _extends({}, VerticalRlRtl);
+
+  var VerticalLrLtr = _extends({}, VerticalRlLtr, {
+    blockDirection: "ltr"
+  });
+
+  var VerticalLrRtl = _extends({}, VerticalRlRtl, {
+    blockDirection: "ltr"
+  });
+
+  var SidewaysLtLtr = _extends({}, VerticalLrLtr, {
+    inlineDirection: "btt",
+    over: "left",
+    under: "right",
+    lineLeft: "bottom",
+    lineRight: "top"
+  });
+
+  var SidewaysLtRtl = _extends({}, SidewaysLtLtr, {
+    inlineDirection: "ttb"
+  });
+
+  var HorizontalTb = {
+    ltr: HorizontalTbLtr,
+    rtl: HorizontalTbRtl
+  };
+  var VerticalRl = {
+    ltr: VerticalRlLtr,
+    rtl: VerticalRlRtl
+  };
+  var VerticalLr = {
+    ltr: VerticalLrLtr,
+    rtl: VerticalLrRtl
+  };
+  var SidewaysRl = {
+    ltr: SidewaysRlLtr,
+    rtl: SidewaysRlRtl
+  };
+  var SidewaysLr = {
+    ltr: SidewaysLtLtr,
+    rtl: SidewaysLtRtl
+  };
+  var WritingModes = {
+    "horizontal-tb": HorizontalTb,
+    "vertical-lr": VerticalLr,
+    "vertical-rl": VerticalRl,
+    "sideways-lr": SidewaysLr,
+    "sideways-rl": SidewaysRl
+  };
 
   /**
    * Allows accessing the element a ref references as soon as it does so.
@@ -434,7 +486,7 @@
 
 
   function useCreateTransitionableProps(_ref, otherProps) {
-    var _classBase, _removeEmpty, _getInlineDirection, _getBlockDirection;
+    var _classBase, _removeEmpty;
 
     var measure = _ref.measure,
         animateOnMount = _ref.animateOnMount,
@@ -491,12 +543,13 @@
         setTransitioningY = _useState10[1];
 
     var _useLogicalDirection = useLogicalDirection(element),
-        getBlockDirection = _useLogicalDirection.getBlockDirection,
-        getInlineDirection = _useLogicalDirection.getInlineDirection;
+        getLogicalDirection = _useLogicalDirection.getLogicalDirection;
 
+    var logicalDirection = getLogicalDirection();
     var onTransitionUpdateRef = s(onTransitionUpdate);
-    var phaseRef = s(phase);
-    var directionRef = s(direction);
+    var phaseRef = s(phase); //const directionRef = useRef<TransitionDirection | null>(direction);
+
+    var durationRef = s(duration);
     var tooEarlyTimeoutRef = s(null);
     var tooEarlyValueRef = s(true);
     var tooLateTimeoutRef = s(null);
@@ -510,10 +563,11 @@
     }, [onTransitionUpdate]);
     h(function () {
       phaseRef.current = phase;
-    }, [phase]);
+    }, [phase]); //useLayoutEffect(() => { directionRef.current = direction; }, [direction]);
+
     h(function () {
-      directionRef.current = direction;
-    }, [direction]);
+      durationRef.current = duration;
+    }, [duration]);
     h(function () {
       if (phase) onTransitionUpdateRef.current == null ? void 0 : onTransitionUpdateRef.current(direction, phase);
     }, [direction, phase]); // Every time the phase changes to "transition", add our transition timeout timeouts
@@ -521,6 +575,9 @@
 
     h(function () {
       if (phase == "transition") {
+        var _durationRef$current;
+
+        var timeoutDuration = (_durationRef$current = durationRef.current) != null ? _durationRef$current : 1000;
         tooEarlyTimeoutRef.current = window.setTimeout(function () {
           tooEarlyValueRef.current = false;
           tooEarlyTimeoutRef.current = null;
@@ -529,7 +586,7 @@
           tooEarlyValueRef.current = true;
           tooLateTimeoutRef.current = null;
           setPhase("finalize");
-        }, 1000);
+        }, timeoutDuration);
       }
 
       return function () {
@@ -540,13 +597,12 @@
     // In addition, measure the size of the element if requested.
 
     h(function () {
-      var previousPhase = phaseRef.current;
+      var previousPhase = phaseRef.current; // Swap our direction
 
       if (open) setDirection("enter");else setDirection("exit");
       setPhase(previousPhase === null ? "finalize" : "init");
 
       if (element && measure) {
-        debugger;
         var currentSizeWithTransition = element.getBoundingClientRect();
         {
           var x = currentSizeWithTransition.x,
@@ -560,6 +616,8 @@
         }
 
         if (previousPhase === "finalize") {
+          // We're going to be messing with the actual element's class, 
+          // so we'll want an easy way to restore it later.
           var backup = element.className;
           element.classList.add(classBase + "-measure");
           element.classList.remove(classBase + "-enter", classBase + "-enter-init", classBase + "-enter-transition", classBase + "-enter-finalize", classBase + "-exit", classBase + "-exit-init", classBase + "-exit-transition", classBase + "-exit-finalize");
@@ -581,7 +639,6 @@
     // change the phase to "transition" and re-render ().
 
     h(function () {
-
       if (element) {
         var _classBase2;
 
@@ -598,7 +655,9 @@
         }
       }
     }, [phase, measure, element]);
-    var writingModeIsHorizontal = getInlineDirection() == "ltr" || getInlineDirection() == "rtl";
+    var inlineDirection = logicalDirection == null ? void 0 : logicalDirection.inlineDirection;
+    var blockDirection = logicalDirection == null ? void 0 : logicalDirection.blockDirection;
+    var writingModeIsHorizontal = inlineDirection == "rtl" || inlineDirection == "ltr";
     var surfaceInlineInset = writingModeIsHorizontal ? surfaceX : surfaceY;
     var surfaceBlockInset = writingModeIsHorizontal ? surfaceY : surfaceX;
     var surfaceInlineSize = writingModeIsHorizontal ? surfaceWidth : surfaceHeight;
@@ -614,7 +673,7 @@
     }, {
       "aria-hidden": open ? undefined : "true"
     }, {
-      className: clsx(getClassName(classBase, direction), phase && getClassName(classBase, direction, phase), exitVisibility == "removed" && classBase + "-removed-on-exit", exitVisibility == "visible" && classBase + "-visible-on-exit", classBase + "-inline-direction-" + ((_getInlineDirection = getInlineDirection()) != null ? _getInlineDirection : "ltr"), classBase + "-block-direction-" + ((_getBlockDirection = getBlockDirection()) != null ? _getBlockDirection : "ttb"))
+      className: clsx(getClassName(classBase, direction), phase && getClassName(classBase, direction, phase), exitVisibility == "removed" && classBase + "-removed-on-exit", exitVisibility == "visible" && classBase + "-visible-on-exit", classBase + "-inline-direction-" + (inlineDirection != null ? inlineDirection : "ltr"), classBase + "-block-direction-" + (blockDirection != null ? blockDirection : "ttb"))
     }));
     return useMergedProps(almostDone, otherProps);
   }
@@ -1247,29 +1306,7 @@
                       "Vertical")),
               v$1("textarea", { cols: 30, rows: 5, onInput: onInput3, value: text })),
           v$1("div", { id: "root-body", className: `writing-mode-${writingMode}`, style: { "--transition-duration": `${duration}ms` } },
-              v$1("div", { className: "demo-section" },
-                  v$1("h2", null, "Fade"),
-                  v$1("div", { className: "demo" },
-                      v$1("div", null),
-                      v$1(Fade, { open: open1 },
-                          v$1(Swappable, null,
-                              v$1("div", { className: "card" },
-                                  v$1(Fade, { open: open3 == 0, exitVisibility: reflow },
-                                      v$1("div", { className: "card-contents" },
-                                          halfText(text, 0),
-                                          v$1("div", null,
-                                              v$1("button", null, "Focusable element")))),
-                                  v$1(Fade, { open: open3 == 1, exitVisibility: reflow },
-                                      v$1("div", { className: "card-contents" },
-                                          halfText(text, 1),
-                                          v$1("div", null,
-                                              v$1("button", null, "Focusable element")))),
-                                  v$1(Fade, { open: open3 == 2, exitVisibility: reflow },
-                                      v$1("div", { className: "card-contents" },
-                                          halfText(text, 2),
-                                          v$1("div", null,
-                                              v$1("button", null, "Focusable element"))))))),
-                      v$1("div", null))),
+              v$1(FadeDemo, { cardOpen: open1, contentIndex: open3, exitVisibility: reflow, text: text }),
               v$1(ClipDemo, { cardOpen: open1, contentIndex: open3, exitVisibility: reflow, text: text }),
               v$1(ZoomDemo, { cardOpen: open1, contentIndex: open3, exitVisibility: reflow, text: text }),
               v$1(SlideDemo, { cardOpen: open1, contentIndex: open3, exitVisibility: reflow, text: text }),
@@ -1277,19 +1314,69 @@
               v$1(CollapseDemo, { cardOpen: open1, contentIndex: open3, exitVisibility: reflow, text: text }),
               v$1(FlipDemo, { cardOpen: open1, contentIndex: open3, exitVisibility: reflow, text: text }))));
   }
+  function FadeDemo({ cardOpen, contentIndex, exitVisibility, text }) {
+      const [min, setMin] = l(0);
+      const [max, setMax] = l(1);
+      const onMinInput = A$1((e) => { setMin((e.target).valueAsNumber); e.preventDefault(); }, []);
+      const onMaxInput = A$1((e) => { setMax((e.target).valueAsNumber); e.preventDefault(); }, []);
+      const C = Fade;
+      const CS = "Fade";
+      const makeChild = (i) => v$1(C, { open: contentIndex === i, exitVisibility: exitVisibility, fadeMin: min, fadeMax: max },
+          v$1("div", { className: "card-contents" },
+              halfText(text, i),
+              v$1("div", null,
+                  v$1("button", null, "Focusable element"))));
+      return v$1("div", { className: "demo-section" },
+          v$1("h2", null, "Fade"),
+          v$1("div", { className: "demo" },
+              v$1("div", { className: "demo-controls" },
+                  v$1("label", null,
+                      "Minimum fade ",
+                      v$1("input", { onInput: onMinInput, value: min, type: "number", min: 0, max: 1, step: 0.0125 })),
+                  v$1("label", null,
+                      "Maximum fade ",
+                      v$1("input", { onInput: onMaxInput, value: max, type: "number", min: 0, max: 1, step: 0.0125 }))),
+              v$1(C, { open: cardOpen, exitVisibility: exitVisibility, fadeMin: min, fadeMax: max },
+                  v$1(Swappable, null,
+                      v$1("div", { className: "card" },
+                          makeChild(0),
+                          makeChild(1),
+                          makeChild(2)))),
+              v$1("code", null,
+                  v$1("pre", null, `<${CS} 
+  open={${cardOpen.toString()}}${min != 0 ? ` 
+  fadeMin={${min}}` : ``}${max != 1 ? ` 
+  fadeMax={${max}}` : ``}${exitVisibility != "hidden" ? `
+  exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+  <Swappable>
+    <div className="card">
+      <${CS} 
+        open={${contentIndex.toString()} == 0}${min != 0 ? ` 
+        fadeMin={${min}}` : ``}${max != 1 ? ` 
+        fadeMax={${max}}` : ``}${exitVisibility != "hidden" ? `
+        exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+        <div className="card-contents">
+          {text}
+        </div>
+      </${CS}>
+      <${CS} open={${contentIndex.toString()} == 1} [...] />
+      <${CS} open={${contentIndex.toString()} == 2} [...] />
+    </div>
+  </Swappable>
+</${CS}>`))));
+  }
   function ClipDemo({ cardOpen, contentIndex, exitVisibility, text }) {
       const [originX, setOriginX] = l(0.5);
       const [originY, setOriginY] = l(0);
       const [minX, setMinX] = l(1);
       const [minY, setMinY] = l(0);
       const [withFade, setWithFade] = l(true);
-      const [ellipse, setEllipse] = l(false);
+      l(false);
       const onOriginXInput = A$1((e) => { setOriginX((e.target).valueAsNumber); e.preventDefault(); }, []);
       const onOriginYInput = A$1((e) => { setOriginY((e.target).valueAsNumber); e.preventDefault(); }, []);
       const onMinXInput = A$1((e) => { setMinX((e.target).valueAsNumber); e.preventDefault(); }, []);
       const onMinYInput = A$1((e) => { setMinY((e.target).valueAsNumber); e.preventDefault(); }, []);
       const onWithFadeInput = A$1((e) => { setWithFade((e.target).checked); e.preventDefault(); }, []);
-      A$1((e) => { setEllipse((e.target).checked); e.preventDefault(); }, []);
       const C = withFade ? ClipFade : Clip;
       const CS = withFade ? "ClipFade" : "Clip";
       const makeChild = (i) => v$1(C, { open: contentIndex === i, exitVisibility: exitVisibility, clipOriginInline: originX, clipOriginBlock: originY, clipMinInline: minX, clipMinBlock: minY },
@@ -1351,7 +1438,7 @@
   }
   function ZoomSlideDemo({ cardOpen, contentIndex, exitVisibility, text }) {
       const [originX, setOriginX] = l(0.5);
-      const [originY, setOriginY] = l(0.5);
+      const [originY, setOriginY] = l(0);
       const [minX, setMinX] = l(0.75);
       const [minY, setMinY] = l(0.75);
       const [slideX, setSlideX] = l(0.25);
@@ -1435,7 +1522,7 @@
   }
   function ZoomDemo({ cardOpen, contentIndex, exitVisibility, text }) {
       const [originX, setOriginX] = l(0.5);
-      const [originY, setOriginY] = l(0.5);
+      const [originY, setOriginY] = l(0);
       const [minX, setMinX] = l(0.75);
       const [minY, setMinY] = l(0.75);
       const [withFade, setWithFade] = l(true);
@@ -1620,15 +1707,10 @@
   function FlipDemo({ cardOpen, contentIndex, exitVisibility, text }) {
       const [flipX, setFlipX] = l(0);
       const [flipY, setFlipY] = l(180);
-      //const [axis, setAxis] = useState<"block" | "inline">("block");
-      //const [withFade, setWithFade] = useState(true);
       const onFlipXInput = A$1((e) => { setFlipX((e.target).valueAsNumber); e.preventDefault(); }, []);
       const onFlipYInput = A$1((e) => { setFlipY((e.target).valueAsNumber); e.preventDefault(); }, []);
-      //const onWithFadeInput = useCallback((e: Event) => { setWithFade(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
-      //const [bare, setBare] = useState(false);
-      // const onBare = useCallback((e: Event) => { setBare(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
-      const C = /*withFade ? FlipFade :*/ Flip;
-      const CS = /*withFade ? "FlipFade" :*/ "Flip";
+      const C = Flip;
+      const CS = "Flip";
       const makeChild = (i) => v$1(C, { open: contentIndex === i, exitVisibility: exitVisibility, flipAngleInline: flipX * Math.sign(i - contentIndex), flipAngleBlock: flipY * Math.sign(i - contentIndex) },
           v$1("div", { className: "card-contents" },
               halfText(text, i),

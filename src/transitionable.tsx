@@ -50,7 +50,7 @@ export interface CreateTransitionableProps<E extends HTMLElement> {
     measure: boolean | null | undefined;
     ref: Ref<E> | undefined;
 
-    
+
     /**
      * If true, an element that mounts with open=true will animate that opening.
      * 
@@ -59,10 +59,15 @@ export interface CreateTransitionableProps<E extends HTMLElement> {
     animateOnMount: boolean | null | undefined;
 
     /**
-     * How long (in CSS time units) the transition should last.
+     * How long (in ms) the transition should last.
      * Default is whatever is provided via CSS.
+     * 
+     * This also controls the "emergency default timeout" just in case
+     * onTransitionEnd never fires, in which case the default is 1000.
+     * Use the CSS variable `--#{$transition-class-name}-duration` 
+     * to just control the former.
      */
-    duration: string | null | undefined;
+    duration: number | null | undefined;
 
     /**
      * Whether hidden content should be styled as
@@ -120,11 +125,13 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
     const [transitioningX, setTransitioningX] = useState<string | null>(null);
     const [transitioningY, setTransitioningY] = useState<string | null>(null);
 
-    const { getBlockDirection, getInlineDirection } = useLogicalDirection(element);
+    const { getLogicalDirection } = useLogicalDirection(element);
+    const logicalDirection = getLogicalDirection();
 
     const onTransitionUpdateRef = useRef<typeof onTransitionUpdate>(onTransitionUpdate);
     const phaseRef = useRef<TransitionPhase | null>(phase);
-    const directionRef = useRef<TransitionDirection | null>(direction);
+    //const directionRef = useRef<TransitionDirection | null>(direction);
+    const durationRef = useRef<number | null | undefined>(duration);
 
     const tooEarlyTimeoutRef = useRef<number | null>(null);
     const tooEarlyValueRef = useRef<boolean>(true);
@@ -139,7 +146,8 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
 
     useLayoutEffect(() => { onTransitionUpdateRef.current = onTransitionUpdate; }, [onTransitionUpdate]);
     useLayoutEffect(() => { phaseRef.current = phase; }, [phase]);
-    useLayoutEffect(() => { directionRef.current = direction; }, [direction]);
+    //useLayoutEffect(() => { directionRef.current = direction; }, [direction]);
+    useLayoutEffect(() => { durationRef.current = duration; }, [duration]);
 
     useLayoutEffect(() => {
         if (phase)
@@ -151,6 +159,8 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
     // to catch any time onTransitionEnd fails to report for whatever reason to be safe
     useLayoutEffect(() => {
         if (phase == "transition") {
+            const timeoutDuration = durationRef.current ?? 1000;
+
             tooEarlyTimeoutRef.current = window.setTimeout(() => {
                 tooEarlyValueRef.current = false;
                 tooEarlyTimeoutRef.current = null;
@@ -159,7 +169,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
                 tooEarlyValueRef.current = true;
                 tooLateTimeoutRef.current = null;
                 setPhase("finalize");
-            }, 1000);
+            }, timeoutDuration);
         }
 
         return () => {
@@ -172,7 +182,6 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
     // In addition, measure the size of the element if requested.
     useLayoutEffect(() => {
         const previousPhase = phaseRef.current;
-        const previousDirection = directionRef.current;
 
         // Swap our direction
         if (open)
@@ -184,7 +193,6 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
         setPhase(previousPhase === null ? "finalize" : "init");
 
         if (element && measure) {
-            debugger;
 
             let currentSizeWithTransition = element.getBoundingClientRect(); {
                 const { x, y, width, height } = currentSizeWithTransition;
@@ -196,8 +204,8 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
 
             if (previousPhase === "finalize") {
 
-
-
+                // We're going to be messing with the actual element's class, 
+                // so we'll want an easy way to restore it later.
                 const backup = element.className;
                 element.classList.add(`${classBase}-measure`);
                 element.classList.remove(
@@ -225,9 +233,6 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
     // Any time the phase changes to init, immediately before the screen is painted,
     // change the phase to "transition" and re-render ().
     useLayoutEffect(() => {
-        const previousPhase = phaseRef.current;
-        const previousDirection = directionRef.current;
-
         if (element) {
             classBase ??= "transition";
 
@@ -244,7 +249,9 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
 
     }, [phase, measure, element]);
 
-    const writingModeIsHorizontal = (getInlineDirection() == "ltr" || getInlineDirection() == "rtl");
+    const inlineDirection = logicalDirection?.inlineDirection;
+    const blockDirection = logicalDirection?.blockDirection;
+    const writingModeIsHorizontal = (inlineDirection == "rtl" || inlineDirection == "ltr");
     const surfaceInlineInset = writingModeIsHorizontal ? surfaceX : surfaceY;
     const surfaceBlockInset = writingModeIsHorizontal ? surfaceY : surfaceX;
     const surfaceInlineSize = writingModeIsHorizontal ? surfaceWidth : surfaceHeight;
@@ -283,8 +290,8 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
             phase && getClassName(classBase, direction, phase),
             exitVisibility == "removed" && `${classBase}-removed-on-exit`,
             exitVisibility == "visible" && `${classBase}-visible-on-exit`,
-            `${classBase}-inline-direction-${getInlineDirection() ?? "ltr"}`,
-            `${classBase}-block-direction-${getBlockDirection() ?? "ttb"}`
+            `${classBase}-inline-direction-${inlineDirection ?? "ltr"}`,
+            `${classBase}-block-direction-${blockDirection ?? "ttb"}`
         ),
     });
 

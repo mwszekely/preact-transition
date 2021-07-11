@@ -1,6 +1,6 @@
 # Preact Transitions
 
-Easy management of CSS transition classes and inplace swappable content. Designed to be simple, small, and to prefer plain CSS for the actual animation whenever possible.
+Easy management of CSS transition classes and inplace swappable content. Designed to be simple, small, and to prefer plain CSS for the actual transition animations.
 
 ![Alt text](collapse.gif?raw=true "Title")
 

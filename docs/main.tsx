@@ -64,22 +64,7 @@ function Demo() {
 
             </div>
             <div id="root-body" className={`writing-mode-${writingMode}`} style={{ "--transition-duration": `${duration}ms` }}>
-                <div className="demo-section">
-                    <h2>Fade</h2>
-                    <div className="demo">
-                        <div></div>
-                        <Fade open={open1}>
-                            <Swappable>
-                                <div className="card">
-                                    <Fade open={open3 == 0} exitVisibility={reflow}><div className="card-contents">{halfText(text, 0)}<div><button>Focusable element</button></div></div></Fade>
-                                    <Fade open={open3 == 1} exitVisibility={reflow}><div className="card-contents">{halfText(text, 1)}<div><button>Focusable element</button></div></div></Fade>
-                                    <Fade open={open3 == 2} exitVisibility={reflow}><div className="card-contents">{halfText(text, 2)}<div><button>Focusable element</button></div></div></Fade>
-                                </div>
-                            </Swappable>
-                        </Fade>
-                        <div></div>
-                    </div>
-                </div>
+                <FadeDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
                 <ClipDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
 
                 <ZoomDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
@@ -93,42 +78,59 @@ function Demo() {
     )
 }
 
-function SwapDemo({ exitVisibility, text }: { text: string, exitVisibility: EV }) {
-    const [page, setPage] = useState(0);
 
-    const onPage0Input = useCallback((e: Event) => { setPage(0); e.preventDefault() }, []);
-    const onPage1Input = useCallback((e: Event) => { setPage(1); e.preventDefault() }, []);
-    const onPage2Input = useCallback((e: Event) => { setPage(2); e.preventDefault() }, []);
-    return (
-        <div className="demo-section">
-            <h2>Swap</h2>
-            <div className="demo">
-                <div className="demo-controls">
-                    <label>Page 0 <input name="swap-demo-selected-page" onInput={onPage0Input} checked={page == 0} type="radio" /></label>
-                    <label>Page 1 <input name="swap-demo-selected-page" onInput={onPage1Input} checked={page == 1} type="radio" /></label>
-                    <label>Page 2 <input name="swap-demo-selected-page" onInput={onPage2Input} checked={page == 2} type="radio" /></label>
-                </div>
+function FadeDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+    const [min, setMin] = useState(0);
+    const [max, setMax] = useState(1);
+    const onMinInput = useCallback((e: Event) => { setMin(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+    const onMaxInput = useCallback((e: Event) => { setMax(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+
+
+    const C = Fade;
+    const CS = "Fade";
+
+    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} fadeMin={min} fadeMax={max}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+
+    return <div className="demo-section">
+        <h2>Fade</h2>
+        <div className="demo">
+            <div className="demo-controls">
+                <label>Minimum fade <input onInput={onMinInput} value={min} type="number" min={0} max={1} step={0.0125} /></label>
+                <label>Maximum fade <input onInput={onMaxInput} value={max} type="number" min={0} max={1} step={0.0125} /></label>
+            </div>
+
+            <C open={cardOpen} exitVisibility={exitVisibility} fadeMin={min} fadeMax={max}>
                 <Swappable>
                     <div className="card">
-                        <SlideFade open={page == 0} slideTargetInline={0 - page} exitVisibility={exitVisibility}><div className="card-contents">Page #0:<br />{text}</div></SlideFade>
-                        <SlideFade open={page == 1} slideTargetInline={1 - page} exitVisibility={exitVisibility}><div className="card-contents">Page #1:<br />{text}<br />With an extra line here</div></SlideFade>
-                        <SlideFade open={page == 2} slideTargetInline={2 - page} exitVisibility={exitVisibility}><div className="card-contents">Page #2:<br />{text}</div></SlideFade>
+                        {makeChild(0)}
+                        {makeChild(1)}
+                        {makeChild(2)}
                     </div>
-
                 </Swappable>
-
-                {
-                    <code><pre>{`<Swappable>
+            </C>
+            {<code><pre>{`<${CS} 
+  open={${cardOpen.toString()}}${min != 0 ? ` 
+  fadeMin={${min}}` : ``}${max != 1 ? ` 
+  fadeMax={${max}}` : ``}${exitVisibility != "hidden" ? `
+  exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+  <Swappable>
     <div className="card">
-        <SlideFade open={page == 0} slideTargetInline={0 - page} [...] />
-        <SlideFade open={page == 1} slideTargetInline={1 - page} [...] />
-        <SlideFade open={page == 2} slideTargetInline={2 - page} [...] />
+      <${CS} 
+        open={${contentIndex.toString()} == 0}${min != 0 ? ` 
+        fadeMin={${min}}` : ``}${max != 1 ? ` 
+        fadeMax={${max}}` : ``}${exitVisibility != "hidden" ? `
+        exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+        <div className="card-contents">
+          {text}
+        </div>
+      </${CS}>
+      <${CS} open={${contentIndex.toString()} == 1} [...] />
+      <${CS} open={${contentIndex.toString()} == 2} [...] />
     </div>
-</Swappable>`}</pre></code>
-                }
-            </div >
-        </div >
-    )
+  </Swappable>
+</${CS}>`}</pre></code>}
+        </div>
+    </div>
 }
 
 type EV = CreateTransitionableProps<any>["exitVisibility"];
@@ -145,7 +147,6 @@ function ClipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
     const onMinXInput = useCallback((e: Event) => { setMinX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
     const onMinYInput = useCallback((e: Event) => { setMinY(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
     const onWithFadeInput = useCallback((e: Event) => { setWithFade(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
-    const onEllipseInput = useCallback((e: Event) => { setEllipse(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
 
     const C = withFade ? ClipFade : Clip;
     const CS = withFade ? "ClipFade" : "Clip";
@@ -160,7 +161,6 @@ function ClipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
                 <label>Origin to center the effect around on the block-axis position (Y-axis in English, etc.)  <input onInput={onOriginYInput} value={originY} type="number" step={0.125} min={-2} max={2} /></label>
                 <label>Minimum size on the inline-axis <input onInput={onMinXInput} value={minX} type="number" step={0.125} min={0} max={1} /></label>
                 <label>Minimum size on the block-axis  <input onInput={onMinYInput} value={minY} type="number" step={0.125} min={0} max={1} /></label>
-                {/*<label>Ellipse<input checked={ellipse} onInput={onEllipseInput} type="checkbox" /></label>*/}
                 <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
             </div>
 
@@ -204,7 +204,7 @@ function ClipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
 
 function ZoomSlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
     const [originX, setOriginX] = useState(0.5);
-    const [originY, setOriginY] = useState(0.5);
+    const [originY, setOriginY] = useState(0);
     const [minX, setMinX] = useState(0.75);
     const [minY, setMinY] = useState(0.75);
     const [slideX, setSlideX] = useState(0.25);
@@ -221,7 +221,7 @@ function ZoomSlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardO
     const C = withFade ? SlideZoomFade : SlideZoom;
     const CS = withFade ? "SlideZoomFade" : "SlideZoom";
 
-    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} slideTargetInline={slideX * Math.sign(i - contentIndex)} slideTargetBlock={slideY  * Math.sign(i - contentIndex)} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} slideTargetInline={slideX * Math.sign(i - contentIndex)} slideTargetBlock={slideY * Math.sign(i - contentIndex)} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
     return <div className="demo-section">
         <h2>Zoom &amp; Slide</h2>
@@ -279,7 +279,7 @@ function ZoomSlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardO
 
 function ZoomDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
     const [originX, setOriginX] = useState(0.5);
-    const [originY, setOriginY] = useState(0.5);
+    const [originY, setOriginY] = useState(0);
     const [minX, setMinX] = useState(0.75);
     const [minY, setMinY] = useState(0.75);
     const [withFade, setWithFade] = useState(true);
@@ -465,16 +465,11 @@ function CollapseDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOp
 function FlipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
     const [flipX, setFlipX] = useState(0);
     const [flipY, setFlipY] = useState(180);
-    //const [axis, setAxis] = useState<"block" | "inline">("block");
-    //const [withFade, setWithFade] = useState(true);
     const onFlipXInput = useCallback((e: Event) => { setFlipX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
     const onFlipYInput = useCallback((e: Event) => { setFlipY(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
-    //const onWithFadeInput = useCallback((e: Event) => { setWithFade(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
-    //const [bare, setBare] = useState(false);
-    // const onBare = useCallback((e: Event) => { setBare(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
 
-    const C = /*withFade ? FlipFade :*/ Flip;
-    const CS = /*withFade ? "FlipFade" :*/ "Flip";
+    const C = Flip;
+    const CS = "Flip";
 
     const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} flipAngleInline={flipX * Math.sign(i - contentIndex)} flipAngleBlock={flipY * Math.sign(i - contentIndex)}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
