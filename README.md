@@ -27,9 +27,9 @@ In addition, any `<Transitionable>` or component that uses it, like `<Zoom>`, pr
 |---|---|---|
 |`open`|Controls if the content is visible or not.|`false`|
 |`classBase`|Allows you to change the names of the CSS classes used. Corresponds to the `$transition-class-name` Sass variable|`"transition"`|
-|`measure`|Whether a set of CSS variables corresponding to the current or final size of the content should be provided.|`false`|
+|`measure`|Whether a set of CSS variables corresponding to the current and/or final size of the content should be provided.|`false`|
 |`animateOnMount`|Allows you to change the names of the CSS classes used.|`false`|
-|`exitVisibility`|The behavior of hidden components. Can be either <ul><li>"hidden": `visibility: hidden`</li><li>"removed": `display: none`</li><li>"visible": (nothing set)</li></ul> If you use "visible", __be aware that the content will remain visible to tab order, screen readers, etc.__|`false`|
+|`exitVisibility`|The behavior of hidden components. Can be either <ul><li>"hidden": `visibility: hidden`</li><li>"removed": `display: none`</li><li>"visible": (nothing set)</li></ul> If you use "visible", __be aware that the content will be accessible via tab order, screen readers, etc.__|`false`|
 |`onTransitionUpdate`|A function that will be called any time the direction or phase changes. Does not need to remain constant between renders (you don't need to use `useCallback`).|`false`|
 
 
