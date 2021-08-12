@@ -20,6 +20,7 @@ This library includes a number of components that do this. All they are are a wr
 |`Slide`|<ul><li>`slide{Inline\|Block}`</li></ul>|Slide the element out to the target position. A value of `0` for `slideInline` or `slideBlock` has the special meaning of "transition in from the last non-zero value" so that you don't need to keep track of what that was for each.|
 |`Zoom`|<ul><li>`zoomOrigin{\|Inline\|Block}`</li><li>`zoomMin{\|Inline\|Block}`</li></ul>|Simple `transform: scale`-based transition.|
 |`Collapse`|<ul><li>`minBlockSize`</li></ul>|Animate `height` (in horizontal languages, or `width` in vertial languages, or just `block-size` regardless) between `auto` and `0` (or some custom `minBlockSize`, like `10em`). Be sure to use caution, as animating these sorts of properties is *not* cheap for the browser to do and you may drop below 60fps on lower-powered devices.|
+|`Flip`|<ul><li>`flipAngle{\|Inline\|Block}`</li><li>`perspective`</li></ul>|A 3D card-flipping effect. The back face is not visible so it works well in a `Swappable` with the default `flipAngle` of 180.|
 
 In addition, any `<Transitionable>` or component that uses it, like `<Zoom>`, provides the following options:
 
@@ -118,7 +119,7 @@ The `<Transition>` component adds/removes classes in the following order. In all
     * *If this is the first time rendering*, then unless `animateOnMount` is given we set the phase to "finalize" instead.
 2. If measuring is requested, measure the current size of our content at whatever point in the transition we're at and provide this as a set of CSS variables.
     * In addition, if we're transitioning away from a "finalize" phase, measure the current size of our content at its "auto" size.
-3. The change in phase causes a re-render immediately (before the browser paints).
+3. The change in phase from step 1 causes a re-render immediately (before the browser paints).
 4. Now that the phase is "init", set the phase to "transition".
 5. The change in phase causes a re-render immediately (before the browser paints).
 6. Now that the phase is "transition", wait for a "transitionEnd" event.

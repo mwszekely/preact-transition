@@ -6,17 +6,20 @@
     "jsx": "react",                           /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",
-    "exactOptionalPropertyTypes": false,      /* TODO: Need better DOM types (e.g. need <div className={undefined} />) */
     "declaration": true,                      /* Generates corresponding '.d.ts' file. */
     "declarationMap": true,                   /* Generates a sourcemap for each corresponding '.d.ts' file. */
     "sourceMap": true,                        /* Generates corresponding '.map' file. */
     "baseUrl": "./src",
-    "noEmit": true,
+    "outDir": "./",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "exactOptionalPropertyTypes": false,
     
     "strict": true,                           /* Enable all strict type-checking options. */
     "moduleResolution": "node",            /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
     "skipLibCheck": true,                     /* Skip type checking of declaration files. */
-    "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
+    "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
+    "types": []
   },
-  "include": ["src"]
+  "include": ["./src"],
+  "exclude": ["./node_modules"]
 }

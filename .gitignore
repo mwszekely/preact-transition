@@ -2,6 +2,8 @@
 *.js.map
 *.d.ts
 *.d.ts.map
+index.css
+index.css.map
 package-lock.json
 !rollup.config.js
 !docs/bundle.js
