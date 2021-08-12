@@ -4,10 +4,8 @@
   "version": "0.1.0",
   "description": "Easy management of CSS transition classes and in-place swappable content.",
   "source": "src/index.tsx",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "exports": "./dist/index.modern.js",
+  "module": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "build": "npx npm-run-all --npm-path npm -pc build:*",
     "watch": "npx npm-run-all --npm-path npm -pc watch:*",
