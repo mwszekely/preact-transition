@@ -1,5 +1,5 @@
 import { default as clsx } from "clsx";
-import { forwardElementRef } from "forward-element-ref";
+import { forwardElementRef } from "./forward-element-ref";
 import { cloneElement, h, Ref, VNode } from "preact";
 import { useMergedProps } from "./use-merged-props";
 
