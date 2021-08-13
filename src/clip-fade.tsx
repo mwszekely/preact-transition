@@ -1,9 +1,8 @@
-import { Ref, h } from "preact";
-import { forwardElementRef } from "./forward-element-ref";
-import { useMergedProps } from "./use-merged-props";
-
-import { FadeProps, useCreateFadeProps } from "./fade";
+import { h, Ref } from "preact";
 import { Clip, ClipProps } from "./clip";
+import { FadeProps, useCreateFadeProps } from "./fade";
+import { forwardElementRef } from "./forward-element-ref";
+
 
 
 export interface ClipFadeProps<E extends HTMLElement> extends ClipProps<E>, FadeProps<E> { };

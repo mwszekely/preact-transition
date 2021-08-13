@@ -1,6 +1,6 @@
 import { h, Ref } from "preact";
 import { forwardElementRef } from "./forward-element-ref";
-import { useMergedProps } from "./use-merged-props";
+import { useMergedProps } from "preact-prop-helpers/use-merged-props";
 import { Transitionable, TransitionableProps } from "./transitionable";
 
 /**
@@ -19,7 +19,7 @@ export interface CreateFadeProps {
      */
     fadeMax: number | null | undefined;
 
-    classBase: string | null | undefined;
+    classBase: string | undefined;
 }
 
 /**
@@ -27,8 +27,9 @@ export interface CreateFadeProps {
  * Be sure to merge these returned props with whatever the user passed in.
  */
 export function useCreateFadeProps<P extends {}>({ classBase, fadeMin, fadeMax }: CreateFadeProps, otherProps: P) {
+    type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
     classBase ??= "transition";
-    return useMergedProps({
+    return useMergedProps<E>()({
         className: `${classBase}-fade`,
         classBase,
         style: {
@@ -38,7 +39,7 @@ export function useCreateFadeProps<P extends {}>({ classBase, fadeMin, fadeMax }
     }, otherProps);
 }
 
-export interface FadeProps<E extends HTMLElement> extends Partial<CreateFadeProps>, TransitionableProps<E> { };
+export interface FadeProps<E extends HTMLElement> extends Partial<CreateFadeProps>, TransitionableProps<E> { }; { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Fade effect.

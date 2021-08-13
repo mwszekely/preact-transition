@@ -11,24 +11,24 @@
     "watch": "npx npm-run-all --npm-path npm -pc watch:*",
     "watch:ts": "tsc --watch",
     "build:ts": "tsc",
-    "postinstall": "npm run build",
     "clean": "tsc --build --clean",
     "watch:sass": "sass --watch --load-path=node_modules ./src/index.scss:./index.css",
     "build:sass": "sass --load-path=node_modules ./src/index.scss:./index.css",
     "watchdemo:ts": "tsc --watch",
     "watchdemo:js": "microbundle --no-compress -i docs/main.tsx -o docs/bundle.js",
     "watchdemo:sass": "sass --watch --load-path=node_modules ./docs/main.scss:./docs/main.css",
-    "watchdemo": "concurrently \"npm:watchdemo-*\"",
-    "builddemo": "concurrently \"npm:builddemo-*\"",
+    "watchdemo": "npx npm-run-all --npm-path npm -pc  \"npm:watchdemo:*\"",
+    "builddemo": "npx npm-run-all --npm-path npm -pc  \"npm:builddemo:*\"",
     "prepare": "npm run build || node ./true",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "preact": "^10.5.13"
+    "preact": "^10.5.14"
   },
   "devDependencies": {
+    "cash-true": "^0.0.2",
     "clsx": "^1.1.1",
     "commander": "^6.2.1",
     "concurrently": "^5.3.0",
@@ -38,6 +38,7 @@
     "serve": "^12.0.0"
   },
   "dependencies": {
+    "preact-prop-helpers": "github:mwszekely/preact-prop-helpers",
     "typescript": "^4.4.0-beta"
   }
 }

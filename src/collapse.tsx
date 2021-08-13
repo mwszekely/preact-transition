@@ -1,6 +1,6 @@
 import { h, Ref } from "preact";
 import { forwardElementRef } from "./forward-element-ref";
-import { useMergedProps } from "./use-merged-props";
+import { useMergedProps } from "preact-prop-helpers/use-merged-props";
 import { Transitionable, TransitionableProps } from "./transitionable";
 
 /**
@@ -12,7 +12,7 @@ export interface CreateCollapseProps {
      */
     minBlockSize: string | null | undefined;
 
-    classBase: string | null | undefined;
+    classBase: string | undefined;
 }
 
 /**
@@ -24,8 +24,9 @@ export interface CreateCollapseProps {
  * @example <Transitionable measure {...useCreateCollapseProps(...)} />
  */
 export function useCreateCollapseProps<P extends {}>({ classBase, minBlockSize }: CreateCollapseProps, otherProps: P) {
+    type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
     classBase ??= "transition";
-    return useMergedProps({
+    return useMergedProps<E>()({
         classBase,
         measure: true,
         className: `${classBase}-collapse`,

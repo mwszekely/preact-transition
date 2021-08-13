@@ -1,7 +1,7 @@
 import { default as clsx } from "clsx";
-import { forwardElementRef } from "./forward-element-ref";
 import { cloneElement, h, Ref, VNode } from "preact";
-import { useMergedProps } from "./use-merged-props";
+import { useMergedProps } from "preact-prop-helpers/use-merged-props";
+import { forwardElementRef } from "./forward-element-ref";
 
 export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappableProps>, h.JSX.HTMLAttributes<E> {
     children: VNode<any>;
@@ -27,7 +27,8 @@ export interface CreateSwappableProps {
  * Be sure to merge these returned props with whatever the user passed in.
  */
 export function useCreateSwappableProps<P extends {}>({ inline, classBase }: CreateSwappableProps, otherProps: P) {
-    return useMergedProps({
+    type E = P extends h.JSX.HTMLAttributes<infer E>? E : HTMLElement;
+    return useMergedProps<E>()({
         className: clsx(`${classBase ?? "transition"}-swap-container`, inline && `${classBase ?? "transition"}-swap-container-inline`)
     }, otherProps);
 }
@@ -48,7 +49,7 @@ export const Swappable = forwardElementRef(function Swappable<E extends HTMLElem
     inline ??= typeof children.type === "string" && inlineElements.has(children.type);
 
     const transitionProps = useCreateSwappableProps({ classBase, inline }, { ...p, ref });
-    const mergedWithChildren = useMergedProps(transitionProps, children.props);
+    const mergedWithChildren = useMergedProps<E>()(transitionProps, children.props);
 
     return cloneElement(children, mergedWithChildren as typeof transitionProps);
 })
