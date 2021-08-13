@@ -1,9 +1,8 @@
-import { Ref, h, VNode } from "preact";
-import { forwardElementRef } from "./forward-element-ref";
-import { useMergedProps } from "./use-merged-props";
-
-import { FadeProps, useCreateFadeProps } from "./fade";
+import { h, Ref, VNode } from "preact";
 import { Collapse, CollapseProps } from "./collapse";
+import { FadeProps, useCreateFadeProps } from "./fade";
+import { forwardElementRef } from "./forward-element-ref";
+
 
 
 export interface CollapseFadeProps<E extends HTMLElement> extends Partial<CollapseProps<E>>, FadeProps<E> { children: VNode<any> };

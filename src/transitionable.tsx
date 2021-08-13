@@ -1,11 +1,11 @@
 import { default as clsx } from "clsx";
-import { cloneElement, h, Ref, VNode } from "preact";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
-import { forwardElementRef } from "./forward-element-ref";
-import { useLogicalDirection } from "./use-logical-direction";
-import { useMergedProps } from "./use-merged-props";
+import { cloneElement, ComponentChildren, h, Ref, VNode } from "preact";
+import { useLogicalDirection } from "preact-prop-helpers/use-logical-direction";
+import { MergedProps, useMergedProps } from "preact-prop-helpers/use-merged-props";
 //import { mergeStyles } from "./merge-style";
-import { useRefElement } from "./use-ref-element";
+import { useRefElement } from "preact-prop-helpers/use-ref-element";
+import { useCallback, useLayoutEffect, useRef, useState } from "preact/hooks";
+import { forwardElementRef } from "./forward-element-ref";
 //import mergeProps from "merge-props";
 
 export type TransitionPhase = 'init' | 'transition' | 'finalize';
@@ -17,13 +17,13 @@ export interface CreateTransitionableProps<E extends HTMLElement> {
     /**
      * Whether the content is visible or not. True transitions the content in, otherwise it's transitioned out.
      */
-    open: boolean | null | undefined;
+    open: boolean | undefined;
 
     /**
      * The prefix string for all class names used in this library
      * @default "transition"
      */
-    classBase: string | null | undefined;
+    classBase?: string |  undefined;
 
     /**
      * If true, the following CSS variables are provided on the element:
@@ -47,8 +47,8 @@ export interface CreateTransitionableProps<E extends HTMLElement> {
      * * `--${classBase}-transitioning-inline-size`
      * * `--${classBase}-transitioning-block-size`
      */
-    measure: boolean | null | undefined;
-    ref: Ref<E> | undefined;
+    measure?: boolean | undefined;
+    ref?: Ref<E> | undefined;
 
 
     /**
@@ -56,7 +56,7 @@ export interface CreateTransitionableProps<E extends HTMLElement> {
      * 
      * Otherwise it won't.
      */
-    animateOnMount: boolean | null | undefined;
+    animateOnMount?: boolean | undefined;
 
     /**
      * How long (in ms) the transition should last.
@@ -67,7 +67,7 @@ export interface CreateTransitionableProps<E extends HTMLElement> {
      * Use the CSS variable `--#{$transition-class-name}-duration` 
      * to just control the former.
      */
-    duration: number | null | undefined;
+    duration?: number | undefined;
 
     /**
      * Whether hidden content should be styled as
@@ -75,13 +75,13 @@ export interface CreateTransitionableProps<E extends HTMLElement> {
      * * visibility: hidden
      * * (no change, still visible)
      */
-    exitVisibility: "hidden" | "removed" | "visible" | null | undefined;
+    exitVisibility?: "hidden" | "removed" | "visible" |  undefined;
 
     /**
      * Callback that is called any time any part of the transition state changes.
      * Does not need to be constant between renders.
      */
-    onTransitionUpdate?: ((direction: TransitionDirection, phase: TransitionPhase) => void) | null | undefined;
+    onTransitionUpdate?: ((direction: TransitionDirection, phase: TransitionPhase) => void) |  undefined;
 }
 
 
@@ -295,14 +295,14 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
         ),
     });
 
-    return useMergedProps(almostDone, otherProps);
+    return useMergedProps<E>()(almostDone, otherProps);
 }
 
-export interface TransitionableProps<E extends HTMLElement> extends Omit<h.JSX.HTMLAttributes<E> & Partial<CreateTransitionableProps<E>>, "ref"> {
-    children: VNode<any> | h.JSX.Element;
-    ref?: Ref<E>;
-    className?: string | undefined;
-    "class"?: string | undefined;
+export interface TransitionableProps<E extends HTMLElement> extends MergedProps<E, h.JSX.HTMLAttributes<E>, CreateTransitionableProps<E>> {
+    //children: ComponentChildren; // TODO: This should be VNode<any> | h.JSX.Element;
+    //ref?: Ref<E>;
+    //className?: string | undefined;
+    //"class"?: string | undefined;
 }
 
 function removeEmpty<T>(obj: T): T {
@@ -324,9 +324,25 @@ function removeEmpty<T>(obj: T): T {
  */
 export const Transitionable = forwardElementRef(function Transition<E extends HTMLElement>({ children: child, duration, classBase, measure, exitVisibility, open, onTransitionUpdate, animateOnMount, ...props }: TransitionableProps<E>, r: Ref<E>) {
 
+    if (!childIsVNode(child)) {
+        throw new Error("A Transitionable component must have exactly one component child (e.g. a <div>, but not \"a string\").");
+    }
+
     const transitionProps = useCreateTransitionableProps({ classBase, duration, measure, open, animateOnMount, onTransitionUpdate, ref: r, exitVisibility }, props);
-    const mergedWithChildren = useMergedProps(transitionProps, child.props);
+    const mergedWithChildren = useMergedProps<E>()(transitionProps, { ...child.props, ref: child.ref });
 
     return cloneElement(child, mergedWithChildren as typeof transitionProps);
 });
 
+function childIsVNode(child: ComponentChildren): child is VNode<any> {
+    if (!child)
+        return false;
+
+    if (Array.isArray(child)) {
+        return false;
+    }
+    if (typeof child != "object")
+        return false;
+    
+    return ("props" in child);
+}

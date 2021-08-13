@@ -1,6 +1,6 @@
 import { h, Ref } from "preact";
+import { useMergedProps } from "preact-prop-helpers/use-merged-props";
 import { forwardElementRef } from "./forward-element-ref";
-import { useMergedProps } from "./use-merged-props";
 import { Transitionable, TransitionableProps } from "./transitionable";
 
 /**
@@ -44,15 +44,16 @@ export interface CreateZoomProps {
      */
     zoomMinBlock: number | undefined | null;
 
-    classBase: string | null | undefined;
+    classBase?: string | undefined;
 }
 
 /**
  * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
  */
 export function useCreateZoomProps<P extends {}>({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock }: CreateZoomProps, otherProps: P) {
+    type E = P extends h.JSX.HTMLAttributes<infer E>? E : HTMLElement;
     classBase ??= "transition";
-    return useMergedProps({
+    return (useMergedProps<E>()({
         className: `${classBase}-zoom`,
         classBase,
         style: {
@@ -61,7 +62,7 @@ export function useCreateZoomProps<P extends {}>({ classBase, zoomOrigin, zoomOr
             [`--${classBase}-zoom-min-inline`]: `${(zoomMinInline ?? zoomMin ?? 0)}`,
             [`--${classBase}-zoom-min-block`]: `${(zoomMinBlock ?? zoomMin ?? 0)}`,
         } as h.JSX.CSSProperties,
-    }, otherProps);
+    }, otherProps));
 }
 
 export interface ZoomProps<E extends HTMLElement> extends Partial<CreateZoomProps>, TransitionableProps<E> { };

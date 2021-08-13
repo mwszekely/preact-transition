@@ -1,6 +1,6 @@
 import { h, Ref } from "preact";
 import { forwardElementRef } from "./forward-element-ref";
-import { useMergedProps } from "./use-merged-props";
+import { useMergedProps } from "preact-prop-helpers/use-merged-props";
 import { Transitionable, TransitionableProps } from "./transitionable";
 import { default as clsx } from "clsx";
 
@@ -43,7 +43,7 @@ export interface CreateClipProps {
      */
     clipMinBlock: number | undefined | null;
 
-    classBase: string | null | undefined;
+    classBase: string | undefined;
 }
 
 /**
@@ -51,8 +51,9 @@ export interface CreateClipProps {
  * Be sure to merge these returned props with whatever the user passed in.
  */
 export function useCreateClipProps<P extends {}>({ classBase, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock }: CreateClipProps, otherProps: P) {
+    type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
     classBase ??= "transition";
-    return useMergedProps({
+    return useMergedProps<E>()({
         className: clsx(`${classBase}-clip`),
         classBase,
         style: {

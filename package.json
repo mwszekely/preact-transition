@@ -18,14 +18,14 @@
     "watchdemo:ts": "tsc --watch",
     "watchdemo:js": "microbundle --no-compress -i docs/main.tsx -o docs/bundle.js",
     "watchdemo:sass": "sass --watch --load-path=node_modules ./docs/main.scss:./docs/main.css",
-    "watchdemo": "concurrently \"npm:watchdemo-*\"",
-    "builddemo": "concurrently \"npm:builddemo-*\"",
+    "watchdemo": "npx npm-run-all --npm-path npm -pc  \"npm:watchdemo:*\"",
+    "builddemo": "npx npm-run-all --npm-path npm -pc  \"npm:builddemo:*\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "preact": "^10.5.13"
+    "preact": "^10.5.14"
   },
   "devDependencies": {
     "clsx": "^1.1.1",
@@ -37,6 +37,7 @@
     "serve": "^12.0.0"
   },
   "dependencies": {
+    "preact-prop-helpers": "github:mwszekely/preact-prop-helpers",
     "typescript": "^4.4.0-beta"
   }
 }

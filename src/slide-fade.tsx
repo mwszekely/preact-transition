@@ -1,9 +1,8 @@
-import { Ref, h, VNode } from "preact";
-import { forwardElementRef } from "./forward-element-ref";
-import { useMergedProps } from "./use-merged-props";
-
+import { h, Ref, VNode } from "preact";
 import { FadeProps, useCreateFadeProps } from "./fade";
+import { forwardElementRef } from "./forward-element-ref";
 import { Slide, SlideProps } from "./slide";
+
 
 
 export interface SlideFadeProps<E extends HTMLElement> extends Partial<SlideProps<E>>, FadeProps<E> { children: VNode<any> };

@@ -20,5 +20,3 @@ export { Flip, useCreateFlipProps, FlipProps } from "./flip";
 export { Transitionable, useCreateTransitionableProps, CreateTransitionableProps } from "./transitionable";
 
 export { Swappable, useCreateSwappableProps, CreateSwappableProps } from "./swappable";
-
-export { useMergedProps } from "./use-merged-props";

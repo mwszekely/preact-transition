@@ -1,9 +1,8 @@
-import { Ref, h } from "preact";
-import { forwardElementRef } from "./forward-element-ref";
-import { useMergedProps } from "./use-merged-props";
-
+import { h, Ref } from "preact";
 import { FadeProps, useCreateFadeProps } from "./fade";
+import { forwardElementRef } from "./forward-element-ref";
 import { Zoom, ZoomProps } from "./zoom";
+
 
 
 export interface ZoomFadeProps<E extends HTMLElement> extends ZoomProps<E>, FadeProps<E> { };

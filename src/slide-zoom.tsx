@@ -1,9 +1,8 @@
-import { Ref, h } from "preact";
+import { h, Ref } from "preact";
 import { forwardElementRef } from "./forward-element-ref";
-import { useMergedProps } from "./use-merged-props";
-
-import { ZoomProps, useCreateZoomProps } from "./zoom";
 import { Slide, SlideProps } from "./slide";
+import { useCreateZoomProps, ZoomProps } from "./zoom";
+
 
 
 export interface SlideZoomProps<E extends HTMLElement> extends SlideProps<E>, ZoomProps<E> { };

@@ -1,7 +1,7 @@
 import { h, Ref } from "preact";
+import { useMergedProps } from "preact-prop-helpers/use-merged-props";
 import { useEffect, useRef } from "preact/hooks";
 import { forwardElementRef } from "./forward-element-ref";
-import { useMergedProps } from "./use-merged-props";
 import { Transitionable, TransitionableProps } from "./transitionable";
 
 /**
@@ -23,13 +23,14 @@ export interface CreateSlideProps {
      */
     slideTargetBlock: number | null | undefined;
 
-    classBase: string | null | undefined;
+    classBase: string | undefined;
 }
 
 /**
  * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
  */
 export function useCreateSlideProps<P extends {}>({ classBase, slideTargetInline, slideTargetBlock }: CreateSlideProps, otherProps: P) {
+    type E = P extends h.JSX.HTMLAttributes<infer E>? E : HTMLElement;
     classBase ??= "transition";
     const lastValidTargetInline = useRef(slideTargetInline ?? 1);
     const lastValidTargetBlock = useRef(slideTargetBlock ?? 0);
@@ -42,7 +43,7 @@ export function useCreateSlideProps<P extends {}>({ classBase, slideTargetInline
     if (slideTargetBlock == 0)
         slideTargetBlock = lastValidTargetBlock.current;
 
-    return useMergedProps({
+    return useMergedProps<E>()({
         className: `${classBase}-slide`,
         classBase,
         style: {
