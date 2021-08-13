@@ -11,7 +11,7 @@
     "watch": "npx npm-run-all --npm-path npm -pc watch:*",
     "watch:ts": "tsc --watch",
     "build:ts": "tsc",
-    "postinstall": "npx npm-run-all --npm-path npm -pc build",
+    "postinstall": "npm run build || true",
     "clean": "tsc --build --clean",
     "watch:sass": "sass --watch --load-path=node_modules ./src/index.scss:./index.css",
     "build:sass": "sass --load-path=node_modules ./src/index.scss:./index.css",
@@ -28,6 +28,7 @@
     "preact": "^10.5.14"
   },
   "devDependencies": {
+    "cash-true": "^0.0.2",
     "clsx": "^1.1.1",
     "commander": "^6.2.1",
     "concurrently": "^5.3.0",
