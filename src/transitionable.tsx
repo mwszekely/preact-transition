@@ -1,5 +1,5 @@
 import { default as clsx } from "clsx";
-import { cloneElement, ComponentChildren, h, Ref, VNode } from "preact";
+import { Attributes, cloneElement, ComponentChildren, h, Ref, RenderableProps, VNode } from "preact";
 import { useLogicalDirection } from "preact-prop-helpers/use-logical-direction";
 import { MergedProps, useMergedProps } from "preact-prop-helpers/use-merged-props";
 //import { mergeStyles } from "./merge-style";
@@ -16,8 +16,12 @@ export interface CreateTransitionableProps<E extends HTMLElement> {
 
     /**
      * Whether the content is visible or not. True transitions the content in, otherwise it's transitioned out.
+     * 
+     * If null, (or undefined), indicates that we don't know yet if we should be open, because, e.g., that's dependent on someone else mounting.
+     * 
+     * Effectively, an escape hatch to delay `animateOnMount={false}` is to pass `open={null}` until you're ready.
      */
-    open: boolean | undefined;
+    open: boolean | null | undefined;
 
     /**
      * The prefix string for all class names used in this library
@@ -113,7 +117,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
 
     const { element, useRefElementProps } = useRefElement<E>();
     const [phase, setPhase] = useState<TransitionPhase | null>(animateOnMount ? "init" : null);
-    const [direction, setDirection] = useState<TransitionDirection>(open ? "enter" : "exit");
+    const [direction, setDirection] = useState<TransitionDirection | null>(open == null? null : open ? "enter" : "exit");
 
     const [surfaceWidth, setSurfaceWidth] = useState<string | null>(null);
     const [surfaceHeight, setSurfaceHeight] = useState<string | null>(null);
@@ -130,7 +134,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
 
     const onTransitionUpdateRef = useRef<typeof onTransitionUpdate>(onTransitionUpdate);
     const phaseRef = useRef<TransitionPhase | null>(phase);
-    //const directionRef = useRef<TransitionDirection | null>(direction);
+    const directionRef = useRef<TransitionDirection | null>(direction);
     const durationRef = useRef<number | null | undefined>(duration);
 
     const tooEarlyTimeoutRef = useRef<number | null>(null);
@@ -146,11 +150,11 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
 
     useLayoutEffect(() => { onTransitionUpdateRef.current = onTransitionUpdate; }, [onTransitionUpdate]);
     useLayoutEffect(() => { phaseRef.current = phase; }, [phase]);
-    //useLayoutEffect(() => { directionRef.current = direction; }, [direction]);
+    useLayoutEffect(() => { directionRef.current = direction; }, [direction]);
     useLayoutEffect(() => { durationRef.current = duration; }, [duration]);
 
     useLayoutEffect(() => {
-        if (phase)
+        if (direction && phase)
             onTransitionUpdateRef.current?.(direction, phase);
     }, [direction, phase])
 
@@ -182,7 +186,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
     // In addition, measure the size of the element if requested.
     useLayoutEffect(() => {
 
-        if (element) {
+        if (element && open != null) {
             const previousPhase = phaseRef.current;
 
             // Swap our direction
@@ -236,7 +240,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
     // Any time the phase changes to init, immediately before the screen is painted,
     // change the phase to "transition" and re-render ().
     useLayoutEffect(() => {
-        if (element) {
+        if (element && directionRef.current != null) {
             classBase ??= "transition";
 
             if (phase === "init") {
@@ -289,8 +293,8 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
         onTransitionEnd,
         ...({ "aria-hidden": open ? undefined : "true" }) as {},
         className: clsx(
-            getClassName(classBase, direction),
-            phase && getClassName(classBase, direction, phase),
+            direction && getClassName(classBase, direction),
+            direction && phase && getClassName(classBase, direction, phase),
             exitVisibility == "removed" && `${classBase}-removed-on-exit`,
             exitVisibility == "visible" && `${classBase}-visible-on-exit`,
             `${classBase}-inline-direction-${inlineDirection ?? "ltr"}`,
@@ -301,7 +305,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
     return useMergedProps<E>()(almostDone, otherProps);
 }
 
-export interface TransitionableProps<E extends HTMLElement> extends MergedProps<E, h.JSX.HTMLAttributes<E>, CreateTransitionableProps<E>> {
+export interface TransitionableProps<E extends HTMLElement> extends CreateTransitionableProps<E>, Readonly<Attributes & { children?: ComponentChildren; }> {
     //children: ComponentChildren; // TODO: This should be VNode<any> | h.JSX.Element;
     //ref?: Ref<E>;
     //className?: string | undefined;

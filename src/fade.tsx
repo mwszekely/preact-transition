@@ -39,7 +39,7 @@ export function useCreateFadeProps<P extends {}>({ classBase, fadeMin, fadeMax }
     }, otherProps);
 }
 
-export interface FadeProps<E extends HTMLElement> extends Partial<CreateFadeProps>, TransitionableProps<E> { }; { };
+export interface FadeProps<E extends HTMLElement> extends Omit<Partial<CreateFadeProps>, "open">, TransitionableProps<E> { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Fade effect.

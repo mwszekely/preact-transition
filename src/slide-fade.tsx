@@ -5,7 +5,7 @@ import { Slide, SlideProps } from "./slide";
 
 
 
-export interface SlideFadeProps<E extends HTMLElement> extends Partial<SlideProps<E>>, FadeProps<E> { children: VNode<any> };
+export interface SlideFadeProps<E extends HTMLElement> extends Omit<Partial<SlideProps<E>>, "open">, FadeProps<E> { children: VNode<any> };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with both Slide and Fade effects. 

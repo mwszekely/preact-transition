@@ -5,7 +5,7 @@ import { forwardElementRef } from "./forward-element-ref";
 
 
 
-export interface CollapseFadeProps<E extends HTMLElement> extends Partial<CollapseProps<E>>, FadeProps<E> { children: VNode<any> };
+export interface CollapseFadeProps<E extends HTMLElement> extends Omit<Partial<CollapseProps<E>>, "open">, FadeProps<E> { children: VNode<any> };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with both Collapse and Fade effects.

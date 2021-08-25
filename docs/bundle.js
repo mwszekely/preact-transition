@@ -726,7 +726,7 @@
         classBase ??= "transition";
         const { element, useRefElementProps } = useRefElement();
         const [phase, setPhase] = l(animateOnMount ? "init" : null);
-        const [direction, setDirection] = l(open ? "enter" : "exit");
+        const [direction, setDirection] = l(open == null ? null : open ? "enter" : "exit");
         const [surfaceWidth, setSurfaceWidth] = l(null);
         const [surfaceHeight, setSurfaceHeight] = l(null);
         const [surfaceX, setSurfaceX] = l(null);
@@ -739,7 +739,7 @@
         const logicalDirection = getLogicalDirection();
         const onTransitionUpdateRef = s(onTransitionUpdate);
         const phaseRef = s(phase);
-        //const directionRef = useRef<TransitionDirection | null>(direction);
+        const directionRef = s(direction);
         const durationRef = s(duration);
         const tooEarlyTimeoutRef = s(null);
         const tooEarlyValueRef = s(true);
@@ -751,10 +751,10 @@
         }, [element]);
         h(() => { onTransitionUpdateRef.current = onTransitionUpdate; }, [onTransitionUpdate]);
         h(() => { phaseRef.current = phase; }, [phase]);
-        //useLayoutEffect(() => { directionRef.current = direction; }, [direction]);
+        h(() => { directionRef.current = direction; }, [direction]);
         h(() => { durationRef.current = duration; }, [duration]);
         h(() => {
-            if (phase)
+            if (direction && phase)
                 onTransitionUpdateRef.current?.(direction, phase);
         }, [direction, phase]);
         // Every time the phase changes to "transition", add our transition timeout timeouts
@@ -782,7 +782,7 @@
         // Any time "open" changes, update our direction and phase.
         // In addition, measure the size of the element if requested.
         h(() => {
-            if (element) {
+            if (element && open != null) {
                 const previousPhase = phaseRef.current;
                 // Swap our direction
                 if (open)
@@ -821,7 +821,7 @@
         // Any time the phase changes to init, immediately before the screen is painted,
         // change the phase to "transition" and re-render ().
         h(() => {
-            if (element) {
+            if (element && directionRef.current != null) {
                 classBase ??= "transition";
                 if (phase === "init") {
                     // Preact just finished rendering init
@@ -867,7 +867,7 @@
             }),
             onTransitionEnd,
             ...({ "aria-hidden": open ? undefined : "true" }),
-            className: clsx(getClassName(classBase, direction), phase && getClassName(classBase, direction, phase), exitVisibility == "removed" && `${classBase}-removed-on-exit`, exitVisibility == "visible" && `${classBase}-visible-on-exit`, `${classBase}-inline-direction-${inlineDirection ?? "ltr"}`, `${classBase}-block-direction-${blockDirection ?? "ttb"}`),
+            className: clsx(direction && getClassName(classBase, direction), direction && phase && getClassName(classBase, direction, phase), exitVisibility == "removed" && `${classBase}-removed-on-exit`, exitVisibility == "visible" && `${classBase}-visible-on-exit`, `${classBase}-inline-direction-${inlineDirection ?? "ltr"}`, `${classBase}-block-direction-${blockDirection ?? "ttb"}`),
         });
         return useMergedProps()(almostDone, otherProps);
     }
