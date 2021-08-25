@@ -23,7 +23,7 @@ export interface CreateTransitionableProps<E extends HTMLElement> {
      * The prefix string for all class names used in this library
      * @default "transition"
      */
-    classBase?: string |  undefined;
+    classBase?: string | undefined;
 
     /**
      * If true, the following CSS variables are provided on the element:
@@ -75,13 +75,13 @@ export interface CreateTransitionableProps<E extends HTMLElement> {
      * * visibility: hidden
      * * (no change, still visible)
      */
-    exitVisibility?: "hidden" | "removed" | "visible" |  undefined;
+    exitVisibility?: "hidden" | "removed" | "visible" | undefined;
 
     /**
      * Callback that is called any time any part of the transition state changes.
      * Does not need to be constant between renders.
      */
-    onTransitionUpdate?: ((direction: TransitionDirection, phase: TransitionPhase) => void) |  undefined;
+    onTransitionUpdate?: ((direction: TransitionDirection, phase: TransitionPhase) => void) | undefined;
 }
 
 
@@ -181,50 +181,53 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
     // Any time "open" changes, update our direction and phase.
     // In addition, measure the size of the element if requested.
     useLayoutEffect(() => {
-        const previousPhase = phaseRef.current;
 
-        // Swap our direction
-        if (open)
-            setDirection("enter");
-        else
-            setDirection("exit");
+        if (element) {
+            const previousPhase = phaseRef.current;
 
-
-        setPhase(previousPhase === null ? "finalize" : "init");
-
-        if (element && measure) {
-
-            let currentSizeWithTransition = element.getBoundingClientRect(); {
-                const { x, y, width, height } = currentSizeWithTransition;
-                setTransitioningX(x + "px");
-                setTransitioningY(y + "px");
-                setTransitioningWidth(width + "px");
-                setTransitioningHeight(height + "px");
-            }
-
-            if (previousPhase === "finalize") {
-
-                // We're going to be messing with the actual element's class, 
-                // so we'll want an easy way to restore it later.
-                const backup = element.className;
-                element.classList.add(`${classBase}-measure`);
-                element.classList.remove(
-                    `${classBase}-enter`, `${classBase}-enter-init`, `${classBase}-enter-transition`, `${classBase}-enter-finalize`,
-                    `${classBase}-exit`, `${classBase}-exit-init`, `${classBase}-exit-transition`, `${classBase}-exit-finalize`
-                );
-                forceReflow(element);
-
-                const sizeWithoutTransition = element.getBoundingClientRect();
-                const { x, y, width, height } = sizeWithoutTransition;
-                setSurfaceX(x + "px");
-                setSurfaceY(y + "px");
-                setSurfaceWidth(width + "px");
-                setSurfaceHeight(height + "px");
+            // Swap our direction
+            if (open)
+                setDirection("enter");
+            else
+                setDirection("exit");
 
 
-                element.className = backup;
-                forceReflow(element);
+            setPhase(previousPhase === null ? "finalize" : "init");
 
+            if (measure) {
+
+                let currentSizeWithTransition = element.getBoundingClientRect(); {
+                    const { x, y, width, height } = currentSizeWithTransition;
+                    setTransitioningX(x + "px");
+                    setTransitioningY(y + "px");
+                    setTransitioningWidth(width + "px");
+                    setTransitioningHeight(height + "px");
+                }
+
+                if (previousPhase === "finalize") {
+
+                    // We're going to be messing with the actual element's class, 
+                    // so we'll want an easy way to restore it later.
+                    const backup = element.className;
+                    element.classList.add(`${classBase}-measure`);
+                    element.classList.remove(
+                        `${classBase}-enter`, `${classBase}-enter-init`, `${classBase}-enter-transition`, `${classBase}-enter-finalize`,
+                        `${classBase}-exit`, `${classBase}-exit-init`, `${classBase}-exit-transition`, `${classBase}-exit-finalize`
+                    );
+                    forceReflow(element);
+
+                    const sizeWithoutTransition = element.getBoundingClientRect();
+                    const { x, y, width, height } = sizeWithoutTransition;
+                    setSurfaceX(x + "px");
+                    setSurfaceY(y + "px");
+                    setSurfaceWidth(width + "px");
+                    setSurfaceHeight(height + "px");
+
+
+                    element.className = backup;
+                    forceReflow(element);
+
+                }
             }
         }
 
@@ -343,6 +346,6 @@ function childIsVNode(child: ComponentChildren): child is VNode<any> {
     }
     if (typeof child != "object")
         return false;
-    
+
     return ("props" in child);
 }
