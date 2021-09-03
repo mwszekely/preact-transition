@@ -1,18 +1,25 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from "@rollup/plugin-commonjs";
-import url from '@rollup/plugin-url';
+import typescript from '@rollup/plugin-typescript';
+import { babel } from "@rollup/plugin-babel";
+import path from "path";
 
-const anyUrl = () => url({
-    include: ['**/*.svg', '**/dist/assets/index.css', '**/*.png', '**/*.jp(e)?g', '**/*.gif', '**/*.webp'],
-    limit: Number.MAX_SAFE_INTEGER
-})
 
 export default {
-    input: "main.js",
+    input: "main.tsx",
     output: {
         file: "bundle.js",
         format: "iife",
         name: "bundle",
+        sourcemap: "inline"
     },
-    plugins: [commonjs(), anyUrl(), resolve({ dedupe: ['preact', "preact/compat", "preact/hooks"] })],
+    plugins: [
+        typescript(),
+        commonjs(),
+        resolve({ dedupe: ['preact', "preact/compat", "preact/hooks"] }),
+        babel({
+            configFile: path.resolve(__dirname, ".babelrc"),
+            babelHelpers: "bundled",
+            exclude: "node_modules/core-js/**"
+        })],
 }
