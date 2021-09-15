@@ -53,7 +53,7 @@
   --transition-clip-origin-x: calc(0 + var(--transition-clip-origin-inline));
 }
 .transition-clip.transition-enter-init, .transition-clip.transition-exit-transition, .transition-clip.transition-exit-finalize {
-  clip-path: inset(calc(100% * (0 + var(--transition-clip-origin-y)) * calc(1 - var(--transition-clip-min-y))) calc(100% * (1 - var(--transition-clip-origin-x)) * calc(1 - var(--transition-clip-min-x))) calc(100% * (1 - var(--transition-clip-origin-y)) * calc(1 - var(--transition-clip-min-y))) calc(100% * (0 + var(--transition-clip-origin-x)) * calc(1 - var(--transition-clip-min-x))));
+  clip-path: inset(calc(100% * (0 + var(--transition-clip-origin-y)) * (1 - var(--transition-clip-min-y))) calc(100% * (1 - var(--transition-clip-origin-x)) * (1 - var(--transition-clip-min-x))) calc(100% * (1 - var(--transition-clip-origin-y)) * (1 - var(--transition-clip-min-y))) calc(100% * (0 + var(--transition-clip-origin-x)) * (1 - var(--transition-clip-min-x))));
 }
 @media (prefers-reduced-motion) {
   .transition-clip.transition-enter-init, .transition-clip.transition-exit-transition, .transition-clip.transition-exit-finalize {
