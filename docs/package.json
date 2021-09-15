@@ -4,12 +4,14 @@
   "version": "0.0.1",
   "main": "index.html",
   "scripts": {
-    "build": "npx npm-run-all --npm-path npm -pc build:*",
+    "build": "npx npm-run-all --npm-path npm -sc build:sass build:css build:ts",
     "watch": "npx npm-run-all --npm-path npm -pc watch:*",
-    "watch:js": "rollup --config rollup.config.js --watch",
-    "watch:sass": "sass --watch --load-path=node_modules ./main.scss:./main.css",
-    "build:js": "rollup --config rollup.config.js",
-    "build:sass": "sass --load-path=node_modules ./main.scss:./main.css",
+    "watch:sass": "sass --watch --load-path=../node_modules ./main.scss:./main-unprefixed.css",
+    "watch:css": "postcss main-unprefixed.css -w --use autoprefixer -o main.css",
+    "watch:ts": "tsc --watch",
+    "build:sass": "sass --load-path=../node_modules ./main.scss:./main-unprefixed.css",
+    "build:css": "postcss main-unprefixed.css --use autoprefixer -o main.css",
+    "build:ts": "tsc --build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "npm run build"
   },
@@ -29,12 +31,16 @@
     "@rollup/plugin-url": "^5.0.1",
     "@types/color-name": "^1.1.1",
     "@types/node": "^14.14.10",
+    "autoprefixer": "^10.3.4",
+    "postcss": "^8.3.6",
+    "postcss-cli": "^8.3.1",
     "rollup": "^2.34.0",
     "sass": "^1.29.0",
     "serve": "^11.3.2",
     "typescript": "^4.4.2"
   },
   "dependencies": {
-    "clsx": "^1.1.1"
+    "clsx": "^1.1.1",
+    "core-js": "^3.17.2"
   }
 }

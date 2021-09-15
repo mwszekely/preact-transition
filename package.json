@@ -7,10 +7,12 @@
   "module": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "build": "npx npm-run-all --npm-path npm -pc build:*",
+    "build": "npx npm-run-all --npm-path npm -sc build:sass build:ts",
     "watch": "npx npm-run-all --npm-path npm -pc watch:*",
+    "watch:sass": "sass --watch --load-path=../node_modules ./main.scss:./main-unprefixed.css",
     "watch:ts": "tsc --watch",
-    "build:ts": "tsc",
+    "build:sass": "sass --load-path=../node_modules ./main.scss:./main-unprefixed.css",
+    "build:ts": "tsc --build",
     "test": "jest",
     "prepare": "npm run build || node ./true",
     "clean": "tsc --build --clean"
