@@ -7,6 +7,6 @@ import { forwardElementRef } from "./forward-element-ref";
 
 export interface ClipFadeProps<E extends HTMLElement> extends ClipProps<E>, FadeProps<E> { };
 
-export const ClipFade = forwardElementRef(function ClipFade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, open, ...rest }: ClipFadeProps<E>, ref: Ref<E>) {
-    return <Clip open={open} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
+export const ClipFade = forwardElementRef(function ClipFade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, show, ...rest }: ClipFadeProps<E>, ref: Ref<E>) {
+    return <Clip show={show} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
 });

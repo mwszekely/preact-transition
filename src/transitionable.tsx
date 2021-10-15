@@ -17,11 +17,11 @@ export interface CreateTransitionableProps<E extends HTMLElement> {
     /**
      * Whether the content is visible or not. True transitions the content in, otherwise it's transitioned out.
      * 
-     * If null, (or undefined), indicates that we don't know yet if we should be open, because, e.g., that's dependent on someone else mounting.
+     * If null, (or undefined), indicates that we don't know yet if we should be show, because, e.g., that's dependent on someone else mounting.
      * 
-     * Effectively, an escape hatch to delay `animateOnMount={false}` is to pass `open={null}` until you're ready.
+     * Effectively, an escape hatch to delay `animateOnMount={false}` is to pass `show={null}` until you're ready.
      */
-    open: boolean | null | undefined;
+    show: boolean | null | undefined;
 
     /**
      * The prefix string for all class names used in this library
@@ -56,7 +56,7 @@ export interface CreateTransitionableProps<E extends HTMLElement> {
 
 
     /**
-     * If true, an element that mounts with open=true will animate that opening.
+     * If true, an element that mounts with show=true will animate that showing.
      * 
      * Otherwise it won't.
      */
@@ -89,11 +89,11 @@ export interface CreateTransitionableProps<E extends HTMLElement> {
 }
 
 
-function getClassName<D extends TransitionDirection, P extends TransitionPhase>(classBase: string, open: D, phase?: P): string {
+function getClassName<D extends TransitionDirection, P extends TransitionPhase>(classBase: string, show: D, phase?: P): string {
     if (phase)
-        return `${classBase || "transition"}-${open}-${phase}` as const;
+        return `${classBase || "transition"}-${show}-${phase}` as const;
     else
-        return `${classBase || "transition"}-${open}` as const;
+        return `${classBase || "transition"}-${show}` as const;
 }
 
 let dummy: any;
@@ -111,13 +111,13 @@ function forceReflow<E extends Element>(e: E) {
  * 
  * The second argument contains any other props you might want merged into the final product (these are not read or manipulated or anything -- it's purely shorthand and can be omitted with `{}` and then your own `useMergedProps`).
  */
-export function useCreateTransitionableProps<E extends HTMLElement, P extends {}>({ measure, animateOnMount, classBase, onTransitionUpdate, exitVisibility, duration, open, ref }: CreateTransitionableProps<E>, otherProps: P) {
+export function useCreateTransitionableProps<E extends HTMLElement, P extends {}>({ measure, animateOnMount, classBase, onTransitionUpdate, exitVisibility, duration, show, ref }: CreateTransitionableProps<E>, otherProps: P) {
 
     classBase ??= "transition";
 
     const { element, useRefElementProps } = useRefElement<E>();
     const [phase, setPhase] = useState<TransitionPhase | null>(animateOnMount ? "init" : null);
-    const [direction, setDirection] = useState<TransitionDirection | null>(open == null? null : open ? "enter" : "exit");
+    const [direction, setDirection] = useState<TransitionDirection | null>(show == null? null : show ? "enter" : "exit");
 
     const [surfaceWidth, setSurfaceWidth] = useState<string | null>(null);
     const [surfaceHeight, setSurfaceHeight] = useState<string | null>(null);
@@ -182,15 +182,15 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
         }
     }, [phase]);
 
-    // Any time "open" changes, update our direction and phase.
+    // Any time "show" changes, update our direction and phase.
     // In addition, measure the size of the element if requested.
     useLayoutEffect(() => {
 
-        if (element && open != null) {
+        if (element && show != null) {
             const previousPhase = phaseRef.current;
 
             // Swap our direction
-            if (open)
+            if (show)
                 setDirection("enter");
             else
                 setDirection("exit");
@@ -235,7 +235,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
             }
         }
 
-    }, [open, element, measure, classBase]);
+    }, [show, element, measure, classBase]);
 
     // Any time the phase changes to init, immediately before the screen is painted,
     // change the phase to "transition" and re-render ().
@@ -291,7 +291,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
             [`--${classBase}-transitioning-block-size`]: transitioningBlockSize
         }) as h.JSX.CSSProperties,
         onTransitionEnd,
-        ...({ "aria-hidden": open ? undefined : "true" }) as {},
+        ...({ "aria-hidden": show ? undefined : "true" }) as {},
         className: clsx(
             direction && getClassName(classBase, direction),
             direction && phase && getClassName(classBase, direction, phase),
@@ -326,16 +326,16 @@ function removeEmpty<T>(obj: T): T {
  * 
  * Use this if the other, more specialized Transition components don't fit your needs.
  * 
- * @example `<Transitionable open={open} {...useCreateFadeProps(...)}><div>{children}</div></Transitionable>`
- * @example `<Transitionable open={open}><div {...useCreateFadeProps(...)}>{children}</div></Transitionable>`
+ * @example `<Transitionable show={show} {...useCreateFadeProps(...)}><div>{children}</div></Transitionable>`
+ * @example `<Transitionable show={show}><div {...useCreateFadeProps(...)}>{children}</div></Transitionable>`
  */
-export const Transitionable = forwardElementRef(function Transition<E extends HTMLElement>({ children: child, duration, classBase, measure, exitVisibility, open, onTransitionUpdate, animateOnMount, ...props }: TransitionableProps<E>, r: Ref<E>) {
+export const Transitionable = forwardElementRef(function Transition<E extends HTMLElement>({ children: child, duration, classBase, measure, exitVisibility, show, onTransitionUpdate, animateOnMount, ...props }: TransitionableProps<E>, r: Ref<E>) {
 
     if (!childIsVNode(child)) {
         throw new Error("A Transitionable component must have exactly one component child (e.g. a <div>, but not \"a string\").");
     }
 
-    const transitionProps = useCreateTransitionableProps({ classBase, duration, measure, open, animateOnMount, onTransitionUpdate, ref: r, exitVisibility }, props);
+    const transitionProps = useCreateTransitionableProps({ classBase, duration, measure, show, animateOnMount, onTransitionUpdate, ref: r, exitVisibility }, props);
     const mergedWithChildren = useMergedProps<E>()(transitionProps, { ...child.props, ref: child.ref });
 
     return cloneElement(child, mergedWithChildren as typeof transitionProps);

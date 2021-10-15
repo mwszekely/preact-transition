@@ -15,13 +15,13 @@ function halfText(input: string, times: number): string {
 
 function Demo() {
     const [writingMode, setWritingMode] = useState<"horizontal" | "vertical">("horizontal");
-    const [open1, setOpen1] = useState(true);
-    const [open3, setOpen3] = useState(0);
+    const [show1, setShow1] = useState(true);
+    const [show3, setShow3] = useState(0);
     const [reflow, setReflow] = useState<"visible" | "hidden" | "removed">("hidden");
     const [duration, setDuration] = useState(175);
     const [text, setText] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
 
-    const onInput1 = useCallback((e: Event) => { setOpen1(o => !o); e.preventDefault(); }, []);
+    const onInput1 = useCallback((e: Event) => { setShow1(o => !o); e.preventDefault(); }, []);
     const onInput3 = useCallback((e: Event) => { setText((e.target as HTMLInputElement).value); e.preventDefault(); }, []);
     const onInput4 = useCallback((e: Event) => { setReflow("hidden"); e.preventDefault(); }, []);
     const onInput5 = useCallback((e: Event) => { setReflow("removed"); e.preventDefault(); }, []);
@@ -30,20 +30,20 @@ function Demo() {
     const onInput7 = useCallback((e: Event) => { setWritingMode("vertical"); e.preventDefault(); }, []);
     const onInput8 = useCallback((e: Event) => { setDuration((e.target as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
 
-    const onInputA = useCallback((e: Event) => { setOpen3(0); e.preventDefault(); }, []);
-    const onInputB = useCallback((e: Event) => { setOpen3(1); e.preventDefault(); }, []);
-    const onInputC = useCallback((e: Event) => { setOpen3(2); e.preventDefault(); }, []);
+    const onInputA = useCallback((e: Event) => { setShow3(0); e.preventDefault(); }, []);
+    const onInputB = useCallback((e: Event) => { setShow3(1); e.preventDefault(); }, []);
+    const onInputC = useCallback((e: Event) => { setShow3(2); e.preventDefault(); }, []);
 
     return (
         <>
             <div id="controls">
                 <h1>Preact Transition</h1>
-                <label><input onInput={onInput1} type="checkbox" checked={open1}></input> Card open</label>
+                <label><input onInput={onInput1} type="checkbox" checked={show1}></input> Card show</label>
                 <div className="radiogroup">
                     <div>Visible Swappable child: </div>
-                    <label className="code-mimic"><input type="radio" name="swap-index" onInput={onInputA} checked={open3 == 0} />#0</label>
-                    <label className="code-mimic"><input type="radio" name="swap-index" onInput={onInputB} checked={open3 == 1} />#1</label>
-                    <label className="code-mimic"><input type="radio" name="swap-index" onInput={onInputC} checked={open3 == 2} />#2</label>
+                    <label className="code-mimic"><input type="radio" name="swap-index" onInput={onInputA} checked={show3 == 0} />#0</label>
+                    <label className="code-mimic"><input type="radio" name="swap-index" onInput={onInputB} checked={show3 == 1} />#1</label>
+                    <label className="code-mimic"><input type="radio" name="swap-index" onInput={onInputC} checked={show3 == 2} />#2</label>
                 </div>
 
                 <div className="radiogroup">
@@ -64,14 +64,14 @@ function Demo() {
 
             </div>
             <div id="root-body" className={`writing-mode-${writingMode}`} style={{ "--transition-duration": `${duration}ms` }}>
-                <FadeDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
-                <ClipDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
+                <FadeDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
+                <ClipDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
 
-                <ZoomDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
-                <SlideDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
-                <ZoomSlideDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
-                <CollapseDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
-                <FlipDemo cardOpen={open1} contentIndex={open3} exitVisibility={reflow} text={text} />
+                <ZoomDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
+                <SlideDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
+                <ZoomSlideDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
+                <CollapseDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
+                <FlipDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
 
             </div>
         </>
@@ -79,7 +79,7 @@ function Demo() {
 }
 
 
-function FadeDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+function FadeDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
     const [min, setMin] = useState(0);
     const [max, setMax] = useState(1);
     const onMinInput = useCallback((e: Event) => { setMin(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
@@ -89,7 +89,7 @@ function FadeDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
     const C = Fade;
     const CS = "Fade";
 
-    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} fadeMin={min} fadeMax={max}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+    const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} fadeMin={min} fadeMax={max}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
     return <div className="demo-section">
         <h2>Fade</h2>
@@ -99,7 +99,7 @@ function FadeDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
                 <label>Maximum fade <input onInput={onMaxInput} value={max} type="number" min={0} max={1} step={0.0125} /></label>
             </div>
 
-            <C open={cardOpen} exitVisibility={exitVisibility} fadeMin={min} fadeMax={max}>
+            <C show={cardShow} exitVisibility={exitVisibility} fadeMin={min} fadeMax={max}>
                 <Swappable>
                     <div className="card">
                         {makeChild(0)}
@@ -109,14 +109,14 @@ function FadeDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
                 </Swappable>
             </C>
             {<code><pre>{`<${CS} 
-  open={${cardOpen.toString()}}${min != 0 ? ` 
+  show={${cardShow.toString()}}${min != 0 ? ` 
   fadeMin={${min}}` : ``}${max != 1 ? ` 
   fadeMax={${max}}` : ``}${exitVisibility != "hidden" ? `
   exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
   <Swappable>
     <div className="card">
       <${CS} 
-        open={${contentIndex.toString()} == 0}${min != 0 ? ` 
+        show={${contentIndex.toString()} == 0}${min != 0 ? ` 
         fadeMin={${min}}` : ``}${max != 1 ? ` 
         fadeMax={${max}}` : ``}${exitVisibility != "hidden" ? `
         exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
@@ -124,8 +124,8 @@ function FadeDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
           {text}
         </div>
       </${CS}>
-      <${CS} open={${contentIndex.toString()} == 1} [...] />
-      <${CS} open={${contentIndex.toString()} == 2} [...] />
+      <${CS} show={${contentIndex.toString()} == 1} [...] />
+      <${CS} show={${contentIndex.toString()} == 2} [...] />
     </div>
   </Swappable>
 </${CS}>`}</pre></code>}
@@ -135,7 +135,7 @@ function FadeDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
 
 type EV = CreateTransitionableProps<any>["exitVisibility"];
 
-function ClipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+function ClipDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
     const [originX, setOriginX] = useState(0.5);
     const [originY, setOriginY] = useState(0);
     const [minX, setMinX] = useState(1);
@@ -151,7 +151,7 @@ function ClipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
     const C = withFade ? ClipFade : Clip;
     const CS = withFade ? "ClipFade" : "Clip";
 
-    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} clipOriginInline={originX} clipOriginBlock={originY} clipMinInline={minX} clipMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+    const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} clipOriginInline={originX} clipOriginBlock={originY} clipMinInline={minX} clipMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
     return <div className="demo-section">
         <h2>Clip</h2>
@@ -164,7 +164,7 @@ function ClipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
                 <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
             </div>
 
-            <C open={cardOpen} exitVisibility={exitVisibility} clipMinInline={minX} clipMinBlock={minY} clipOriginInline={originX} clipOriginBlock={originY}>
+            <C show={cardShow} exitVisibility={exitVisibility} clipMinInline={minX} clipMinBlock={minY} clipOriginInline={originX} clipOriginBlock={originY}>
                 <Swappable>
                     <div className="card">
                         {makeChild(0)}
@@ -174,7 +174,7 @@ function ClipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
                 </Swappable>
             </C>
             {<code><pre>{`<${CS} 
-  open={${cardOpen.toString()}}${originX != 0.5 ? ` 
+  show={${cardShow.toString()}}${originX != 0.5 ? ` 
   clipOriginX={${originX}}` : ``}${originY != 0.5 ? ` 
   clipOriginY={${originY}}` : ``}${minX != 0 ? ` 
   clipMinX={${minX}}` : ``}${minY != 0 ? ` 
@@ -183,7 +183,7 @@ function ClipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
   <Swappable>
     <div className="card">
       <${CS} 
-        open={${contentIndex.toString()} == 0}${originX != 0.5 ? ` 
+        show={${contentIndex.toString()} == 0}${originX != 0.5 ? ` 
         clipOriginX={${originX}}` : ``}${originY != 0.5 ? ` 
         clipOriginY={${originY}}` : ``}${minX != 0 ? ` 
         clipMinX={${minX}}` : ``}${minY != 0 ? ` 
@@ -193,8 +193,8 @@ function ClipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
           {text}
         </div>
       </${CS}>
-      <${CS} open={${contentIndex.toString()} == 1} [...] />
-      <${CS} open={${contentIndex.toString()} == 2} [...] />
+      <${CS} show={${contentIndex.toString()} == 1} [...] />
+      <${CS} show={${contentIndex.toString()} == 2} [...] />
     </div>
   </Swappable>
 </${CS}>`}</pre></code>}
@@ -202,7 +202,7 @@ function ClipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
     </div>
 }
 
-function ZoomSlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+function ZoomSlideDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
     const [originX, setOriginX] = useState(0.5);
     const [originY, setOriginY] = useState(0);
     const [minX, setMinX] = useState(0.75);
@@ -221,7 +221,7 @@ function ZoomSlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardO
     const C = withFade ? SlideZoomFade : SlideZoom;
     const CS = withFade ? "SlideZoomFade" : "SlideZoom";
 
-    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} slideTargetInline={slideX * Math.sign(i - contentIndex)} slideTargetBlock={slideY * Math.sign(i - contentIndex)} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+    const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} slideTargetInline={slideX * Math.sign(i - contentIndex)} slideTargetBlock={slideY * Math.sign(i - contentIndex)} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
     return <div className="demo-section">
         <h2>Zoom &amp; Slide</h2>
@@ -235,7 +235,7 @@ function ZoomSlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardO
                 <label>Minimum size on the block-axis  <input onInput={onMinYInput} value={minY} type="number" step={0.125} min={0} max={1} /></label>
                 <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
             </div>
-            <C open={cardOpen} exitVisibility={exitVisibility} slideTargetInline={slideX || null} slideTargetBlock={slideY || null} zoomMinInline={minX} zoomMinBlock={minY} zoomOriginInline={originX} zoomOriginBlock={originY}>
+            <C show={cardShow} exitVisibility={exitVisibility} slideTargetInline={slideX || null} slideTargetBlock={slideY || null} zoomMinInline={minX} zoomMinBlock={minY} zoomOriginInline={originX} zoomOriginBlock={originY}>
                 <Swappable>
                     <div className="card">
                         {makeChild(0)}
@@ -245,7 +245,7 @@ function ZoomSlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardO
                 </Swappable>
             </C>
             {<code><pre>{`<${CS} 
-  open={${cardOpen.toString()}}${originX != 0.5 ? ` 
+  show={${cardShow.toString()}}${originX != 0.5 ? ` 
   originX={${originX}}` : ``}${originY != 0.5 ? ` 
   originY={${originY}}` : ``}${minX != 0 ? ` 
   minX={${minX}}` : ``}${minY != 0 ? ` 
@@ -256,7 +256,7 @@ function ZoomSlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardO
   <Swappable>
     <div className="card">
       <${CS} 
-        open={0 == ${contentIndex.toString()}}${originX != 0.5 ? ` 
+        show={0 == ${contentIndex.toString()}}${originX != 0.5 ? ` 
         originX={${originX} * Math.sign(0 - ${contentIndex}}` : ``}${originY != 0.5 ? ` 
         originY={${originY} * Math.sign(0 - ${contentIndex}}` : ``}${minX != 0 ? ` 
         minX={${minX}}` : ``}${minY != 0 ? ` 
@@ -268,8 +268,8 @@ function ZoomSlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardO
           {text}
         </div>
       </${CS}>
-      <${CS} open={1 == ${contentIndex.toString()}} [...] />
-      <${CS} open={2 == ${contentIndex.toString()}} [...] />
+      <${CS} show={1 == ${contentIndex.toString()}} [...] />
+      <${CS} show={2 == ${contentIndex.toString()}} [...] />
     </div>
   </Swappable>
 </${CS}>`}</pre></code>}
@@ -277,7 +277,7 @@ function ZoomSlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardO
     </div>
 }
 
-function ZoomDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+function ZoomDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
     const [originX, setOriginX] = useState(0.5);
     const [originY, setOriginY] = useState(0);
     const [minX, setMinX] = useState(0.75);
@@ -292,7 +292,7 @@ function ZoomDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
     const C = withFade ? ZoomFade : Zoom;
     const CS = withFade ? "ZoomFade" : "Zoom";
 
-    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+    const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
     return <div className="demo-section">
         <h2>Zoom</h2>
@@ -304,7 +304,7 @@ function ZoomDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
                 <label>Minimum size on the block-axis  <input onInput={onMinYInput} value={minY} type="number" step={0.125} min={0} max={1} /></label>
                 <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
             </div>
-            <C open={cardOpen} exitVisibility={exitVisibility} zoomMinInline={minX} zoomMinBlock={minY} zoomOriginInline={originX} zoomOriginBlock={originY}>
+            <C show={cardShow} exitVisibility={exitVisibility} zoomMinInline={minX} zoomMinBlock={minY} zoomOriginInline={originX} zoomOriginBlock={originY}>
                 <Swappable>
                     <div className="card">
                         {makeChild(0)}
@@ -314,7 +314,7 @@ function ZoomDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
                 </Swappable>
             </C>
             {<code><pre>{`<${CS} 
-  open={${cardOpen.toString()}}${originX != 0.5 ? ` 
+  show={${cardShow.toString()}}${originX != 0.5 ? ` 
   originX={${originX}}` : ``}${originY != 0.5 ? ` 
   originY={${originY}}` : ``}${minX != 0 ? ` 
   minX={${minX}}` : ``}${minY != 0 ? ` 
@@ -323,7 +323,7 @@ function ZoomDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
   <Swappable>
     <div className="card">
       <${CS} 
-        open={${contentIndex.toString()} == 0}${originX != 0.5 ? ` 
+        show={${contentIndex.toString()} == 0}${originX != 0.5 ? ` 
         originX={${originX}}` : ``}${originY != 0.5 ? ` 
         originY={${originY}}` : ``}${minX != 0 ? ` 
         minX={${minX}}` : ``}${minY != 0 ? ` 
@@ -333,8 +333,8 @@ function ZoomDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
           {text}
         </div>
       </${CS}>
-      <${CS} open={${contentIndex.toString()} == 1} [...] />
-      <${CS} open={${contentIndex.toString()} == 2} [...] />
+      <${CS} show={${contentIndex.toString()} == 1} [...] />
+      <${CS} show={${contentIndex.toString()} == 2} [...] />
     </div>
   </Swappable>
 </${CS}>`}</pre></code>}
@@ -342,7 +342,7 @@ function ZoomDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
     </div>
 }
 
-function SlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+function SlideDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
     const [slideX, setSlideX] = useState(0.25);
     const [slideY, setSlideY] = useState(0);
     const [withFade, setWithFade] = useState(true);
@@ -355,7 +355,7 @@ function SlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen:
     const C = withFade ? SlideFade : Slide;
     const CS = withFade ? "SlideFade" : "Slide";
 
-    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} slideTargetInline={(slideX * Math.sign(i - contentIndex))} slideTargetBlock={slideY * Math.sign(i - contentIndex)}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+    const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} slideTargetInline={(slideX * Math.sign(i - contentIndex))} slideTargetBlock={slideY * Math.sign(i - contentIndex)}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
     return <div className="demo-section">
         <h2>Slide</h2>
@@ -366,7 +366,7 @@ function SlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen:
                 <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
                 {/*<label>Using boilerplate<input checked={bare} onInput={onBare} type="checkbox" /></label>*/}
             </div>
-            <C open={cardOpen} exitVisibility={exitVisibility} slideTargetInline={slideX || null} slideTargetBlock={slideY || null}>
+            <C show={cardShow} exitVisibility={exitVisibility} slideTargetInline={slideX || null} slideTargetBlock={slideY || null}>
                 <Swappable>
                     <div className="card">
                         {makeChild(0)}
@@ -376,13 +376,13 @@ function SlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen:
                 </Swappable>
             </C>
             {<code><pre>{`<${CS} 
-  open={${cardOpen.toString()}} 
+  show={${cardShow.toString()}} 
   slideTargetInline={${slideX}}
   slideTargetBlock={${slideY}}
   exitVisibility={${JSON.stringify(exitVisibility)}}>
     <div className="card">
       <${CS} 
-        open={0 == ${contentIndex}}
+        show={0 == ${contentIndex}}
         exitVisibility={${JSON.stringify(exitVisibility)}}
         slideTargetInline={${slideX} * Math.sign(0 - ${contentIndex})}
         slideTargetBlock={${slideY} * Math.sign(0 - ${contentIndex}}>
@@ -390,8 +390,8 @@ function SlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen:
           {text}
         </div>
       </${CS}>
-      <${CS} open={1 == ${contentIndex}} [...] />
-      <${CS} open={2 == ${contentIndex}} [...] />
+      <${CS} show={1 == ${contentIndex}} [...] />
+      <${CS} show={2 == ${contentIndex}} [...] />
     </div>
   </Swappable>
 </${CS}>`}</pre></code>}
@@ -399,7 +399,7 @@ function SlideDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen:
     </div>
 }
 
-function CollapseDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+function CollapseDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
     const [minBlockSize, setMinBlockSize] = useState("0px");
     const onWithFadeInput = useCallback((e: Event) => { setWithFade(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
     const [withFade, setWithFade] = useState(true);
@@ -407,7 +407,7 @@ function CollapseDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOp
     const CS = withFade ? "CollapseFade" : "Collapse";
     const onMinSize = useCallback((e: Event) => { setMinBlockSize(((e.target) as HTMLInputElement).value); e.preventDefault(); }, []);
 
-    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} minBlockSize={minBlockSize}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+    const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} minBlockSize={minBlockSize}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
 
     return (
@@ -420,7 +420,7 @@ function CollapseDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOp
                     <div>Direction cannot be directly controlled. Only the size along the block axis (Y-axis in horizontal languages) can be resized.</div>
                     <div>In general, only use this component if you <em>specifically</em> need its reflow transitioning properties. If you want a "disappear in place without zooming out", consider a Clip effect</div>
                 </div>
-                <C open={cardOpen} exitVisibility={exitVisibility} minBlockSize={minBlockSize}>
+                <C show={cardShow} exitVisibility={exitVisibility} minBlockSize={minBlockSize}>
                     <div>
                         <Swappable>
                             <div className="card">
@@ -432,7 +432,7 @@ function CollapseDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOp
                     </div>
                 </C>
                 <code><pre>
-                    {`<${CS} open={${cardOpen.toString()}}${minBlockSize && minBlockSize != "0px" ? ` minBlockSize={${JSON.stringify(minBlockSize)}}` : ""}${exitVisibility ? ` exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+                    {`<${CS} show={${cardShow.toString()}}${minBlockSize && minBlockSize != "0px" ? ` minBlockSize={${JSON.stringify(minBlockSize)}}` : ""}${exitVisibility ? ` exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
   {/* These cards have padding, 
       and height doesn't include that, 
       but a wrapper's would */}
@@ -440,7 +440,7 @@ function CollapseDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOp
     <Swappable>
       <div className="card">
         <${CS} 
-          open={${contentIndex.toString()} == 0}${minBlockSize && minBlockSize != "0px" ? ` 
+          show={${contentIndex.toString()} == 0}${minBlockSize && minBlockSize != "0px" ? ` 
           minBlockSize={${JSON.stringify(minBlockSize)}}` : ""}${exitVisibility ? ` 
           exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
           <div className="card-contents">
@@ -451,8 +451,8 @@ function CollapseDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOp
     </Swappable>
   </div>
 </${CS}>
-<${CS} open={1 == ${contentIndex.toString()}} [...] />
-<${CS} open={2 == ${contentIndex.toString()}} [...] />`}</pre></code>
+<${CS} show={1 == ${contentIndex.toString()}} [...] />
+<${CS} show={2 == ${contentIndex.toString()}} [...] />`}</pre></code>
 
             </div>
         </div>
@@ -462,7 +462,7 @@ function CollapseDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOp
 
 
 
-function FlipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+function FlipDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
     const [flipX, setFlipX] = useState(0);
     const [flipY, setFlipY] = useState(180);
     const onFlipXInput = useCallback((e: Event) => { setFlipX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
@@ -471,7 +471,7 @@ function FlipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
     const C = Flip;
     const CS = "Flip";
 
-    const makeChild = (i: number) => <C open={contentIndex === i} exitVisibility={exitVisibility} flipAngleInline={flipX * Math.sign(i - contentIndex)} flipAngleBlock={flipY * Math.sign(i - contentIndex)}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+    const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} flipAngleInline={flipX * Math.sign(i - contentIndex)} flipAngleBlock={flipY * Math.sign(i - contentIndex)}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
     return <div className="demo-section">
         <h2>Flip</h2>
@@ -480,7 +480,7 @@ function FlipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
                 <label>Rotate on inline axis <input type="number" onInput={onFlipXInput} value={flipX} /></label>
                 <label>Rotate along block axis <input type="number" onInput={onFlipYInput} value={flipY} /></label>
             </div>
-            <C open={cardOpen} exitVisibility={exitVisibility} flipAngleInline={flipX} flipAngleBlock={flipY}>
+            <C show={cardShow} exitVisibility={exitVisibility} flipAngleInline={flipX} flipAngleBlock={flipY}>
                 <Swappable>
                     <div className="card">
                         {makeChild(0)}
@@ -490,13 +490,13 @@ function FlipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
                 </Swappable>
             </C>
             {<code><pre>{`<${CS} 
-  open={${cardOpen.toString()}} 
+  show={${cardShow.toString()}} 
   flipAngleInline={${JSON.stringify(flipX)}} 
   flipAngleBlock={${JSON.stringify(flipY)}} 
   exitVisibility={${JSON.stringify(exitVisibility)}}}>
     <div className="card">
       <${CS} 
-        open={0 == ${contentIndex.toString()}}
+        show={0 == ${contentIndex.toString()}}
         flipAngleInline={${JSON.stringify(flipX)} * Math.sign(0 - ${contentIndex.toString()})} 
         flipAngleBlock={${JSON.stringify(flipY)} * Math.sign(0 - ${contentIndex.toString()})} 
         exitVisibility={${JSON.stringify(exitVisibility)}}>
@@ -504,8 +504,8 @@ function FlipDemo({ cardOpen, contentIndex, exitVisibility, text }: { cardOpen: 
           {text}
         </div>
       </${CS}>
-      <${CS} open={1 == ${contentIndex.toString()}} [...] />
-      <${CS} open={2 == ${contentIndex.toString()}} [...] />
+      <${CS} show={1 == ${contentIndex.toString()}} [...] />
+      <${CS} show={2 == ${contentIndex.toString()}} [...] />
     </div>
   </Swappable>
 </${CS}>`}</pre></code>}

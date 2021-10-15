@@ -36,7 +36,7 @@ export function useCreateSwappableProps<P extends {}>({ inline, classBase }: Cre
 /**
  * Allows a set of child <Transitionable> components to animate in & out in-place. Very useful for, e.g., tab panels.
  * 
- * You must manage each child `<Transitionable>` component's `open` prop -- this component *does not* manage any sort of state in that regard. 
+ * You must manage each child `<Transitionable>` component's `show` prop -- this component *does not* manage any sort of state in that regard. 
  * 
  * Like `<Transitionable>`, *this wraps an HTMLElement (or other ref-forwarding component)*. This will be your container that holds each `<Transitionable>` (or component that uses it). Strictly speaking it could be anything, not a `<Transitionable>`, but if it doesnt't transition out then it's just going to be hanging around 100% of the time.
  * 

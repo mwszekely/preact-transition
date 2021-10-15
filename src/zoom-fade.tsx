@@ -14,6 +14,6 @@ export interface ZoomFadeProps<E extends HTMLElement> extends ZoomProps<E>, Fade
  * 
  * @see `Transitionable` `Zoom`
  */
-export const ZoomFade = forwardElementRef(function ZoomFade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, open, ...rest }: ZoomFadeProps<E>, ref: Ref<E>) {
-    return <Zoom open={open} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
+export const ZoomFade = forwardElementRef(function ZoomFade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, show, ...rest }: ZoomFadeProps<E>, ref: Ref<E>) {
+    return <Zoom show={show} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
 });

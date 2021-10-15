@@ -68,6 +68,6 @@ export interface SlideProps<E extends HTMLElement> extends Partial<CreateSlidePr
  * 
  * @see `Transitionable`
  */
-export const Slide = forwardElementRef(function Slide<E extends HTMLElement>({ classBase, slideTargetInline, slideTargetBlock, open, ...rest }: SlideProps<E>, ref: Ref<E>) {
-    return <Transitionable<E> open={open} {...useCreateSlideProps({ classBase, slideTargetInline, slideTargetBlock }, { ...rest, ref })} />
+export const Slide = forwardElementRef(function Slide<E extends HTMLElement>({ classBase, slideTargetInline, slideTargetBlock, show, ...rest }: SlideProps<E>, ref: Ref<E>) {
+    return <Transitionable<E> show={show} {...useCreateSlideProps({ classBase, slideTargetInline, slideTargetBlock }, { ...rest, ref })} />
 });

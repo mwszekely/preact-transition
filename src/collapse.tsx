@@ -47,6 +47,6 @@ export interface CollapseProps<E extends HTMLElement> extends Partial<CreateColl
  * 
  * @see `Transitionable`
  */
-export const Collapse = forwardElementRef(function Collapse<E extends HTMLElement>({ classBase, open, minBlockSize, ...rest }: CollapseProps<E>, ref: Ref<E>) {
-    return <Transitionable<E> open={open} {...useCreateCollapseProps({ classBase, minBlockSize }, { ...rest, ref })} />
+export const Collapse = forwardElementRef(function Collapse<E extends HTMLElement>({ classBase, show, minBlockSize, ...rest }: CollapseProps<E>, ref: Ref<E>) {
+    return <Transitionable<E> show={show} {...useCreateCollapseProps({ classBase, minBlockSize }, { ...rest, ref })} />
 });

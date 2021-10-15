@@ -26,10 +26,10 @@ In addition, any `<Transitionable>` or component that uses it, like `<Zoom>`, pr
 
 |Prop name|Description|Default|
 |---|---|---|
-|`open`|Controls if the content is visible or not.|`false`|
+|`show`|Controls if the content is visible or not. Passing `null` is the same as passing `false`, except when `animateOnMount` is `true`.|`false`|
 |`classBase`|Allows you to change the names of the CSS classes used. Corresponds to the `$transition-class-name` Sass variable|`"transition"`|
 |`measure`|Whether a set of CSS variables corresponding to the current and/or final size of the content should be provided.|`false`|
-|`animateOnMount`|Allows you to change the names of the CSS classes used.|`false`|
+|`animateOnMount`|By default, on mount, all components appear pre-transitioned. This prop will allow mounted components to animate themselves appearing on mount instead.  Note that if `show` is `null` instead of `false`, the "first mount" (and subsequent avoiding of that first animation) won't occur until it's actually  `true` or `false`. This lets you "delay" that logic if need be.|`false`|
 |`exitVisibility`|The behavior of hidden components. Can be either <ul><li>"hidden": `visibility: hidden`</li><li>"removed": `display: none`</li><li>"visible": (nothing set)</li></ul> If you use "visible", __be aware that the content will be accessible via tab order, screen readers, etc.__|`false`|
 |`onTransitionUpdate`|A function that will be called any time the direction or phase changes. Does not need to remain constant between renders (you don't need to use `useCallback`).|`false`|
 
@@ -39,10 +39,10 @@ To use a transition, simply pass a single HTML element as its child:
 ```tsx
 // The div will receive a bunch of props from the parent Fade,
 // like CSS classes and an event handler.
-<Fade open={open}><div>Some text content</div></Fade>
+<Fade show={show}><div>Some text content</div></Fade>
 
 // All those props are merged. This is also fine!
-<Fade open={open}><div className="some-class" style={{ ...something }}>Some text content</div></Fade>
+<Fade show={show}><div className="some-class" style={{ ...something }}>Some text content</div></Fade>
 ```
 
 
@@ -67,12 +67,12 @@ These are extremely easy to compose, and are simply provided for convenience. Ev
 
 The `Swappable` component allows you to transition between one of a set of child elements. Extremely useful for tab panels, icons that swap between each other, etc.
 
-All children in the `Swappable` overlap each other, so only one should have `open={true}` at any given time.
+All children in the `Swappable` overlap each other, so only one should have `show={true}` at any given time.
 
 ```tsx
 <Swappable>
   <div>
-    <Transitionable open><div>Content A</div></Transitionable>
+    <Transitionable show><div>Content A</div></Transitionable>
     <Transitionable     ><div>Content B</div></Transitionable>
     <Transitionable     ><div>Content C<br />and Content D</div></Transitionable>
   </div>
@@ -100,7 +100,7 @@ const [selectedIndex, setSelectedIndex] = useState(0);
             // so it animates correctly.
             for (let index = 0; index < 5; ++index)
                 yield (
-                    <Slide open={selectedIndex == index} slideBlock={index - selectedIndex}>
+                    <Slide show={selectedIndex == index} slideBlock={index - selectedIndex}>
                         <div>{randomContent[index]}</div>
                     </Slide>)
         })()))}
@@ -115,7 +115,7 @@ The `<Transition>` component adds/removes classes in the following order. In all
 
 `${classBase}-${direction}-${phase}`.  For example, `transition-enter-init`.
 
-1. When the `open` state is updated, change the direction and set the phase to "init".
+1. When the `show` state is updated, change the direction and set the phase to "init".
     * *If this is the first time rendering*, then unless `animateOnMount` is given we set the phase to "finalize" instead.
 2. If measuring is requested, measure the current size of our content at whatever point in the transition we're at and provide this as a set of CSS variables.
     * In addition, if we're transitioning away from a "finalize" phase, measure the current size of our content at its "auto" size.

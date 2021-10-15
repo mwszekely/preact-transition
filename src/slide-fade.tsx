@@ -5,7 +5,7 @@ import { Slide, SlideProps } from "./slide";
 
 
 
-export interface SlideFadeProps<E extends HTMLElement> extends Omit<Partial<SlideProps<E>>, "open">, FadeProps<E> { children: VNode<any> };
+export interface SlideFadeProps<E extends HTMLElement> extends Omit<Partial<SlideProps<E>>, "show">, FadeProps<E> { children: VNode<any> };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with both Slide and Fade effects. 
@@ -14,6 +14,6 @@ export interface SlideFadeProps<E extends HTMLElement> extends Omit<Partial<Slid
  * 
  * @see `Transitionable` `Zoom`
  */
-export const SlideFade = forwardElementRef(function SlideFade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, open, ...rest }: SlideFadeProps<E>, ref: Ref<E>) {
-    return <Slide open={open} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
+export const SlideFade = forwardElementRef(function SlideFade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, show, ...rest }: SlideFadeProps<E>, ref: Ref<E>) {
+    return <Slide show={show} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
 });

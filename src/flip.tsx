@@ -75,6 +75,6 @@ export interface FlipProps<E extends HTMLElement> extends Partial<CreateFlipProp
  * 
  * @see `Transitionable`
  */
-export const Flip = forwardElementRef(function Flip<E extends HTMLElement>({ classBase, flipAngleInline, flipAngleBlock, perspective, open, ...rest }: FlipProps<E>, ref: Ref<E>) {
-    return <Transitionable<E> open={open} {...useCreateFlipProps({ classBase, flipAngleInline, flipAngleBlock, perspective }, { ...rest, ref })} />
+export const Flip = forwardElementRef(function Flip<E extends HTMLElement>({ classBase, flipAngleInline, flipAngleBlock, perspective, show, ...rest }: FlipProps<E>, ref: Ref<E>) {
+    return <Transitionable<E> show={show} {...useCreateFlipProps({ classBase, flipAngleInline, flipAngleBlock, perspective }, { ...rest, ref })} />
 });

@@ -14,6 +14,6 @@ export interface SlideZoomFadeProps<E extends HTMLElement> extends SlideZoomProp
  * 
  * @see `Transitionable` `Slide` `Zoom` `Fade`
  */
-export const SlideZoomFade = forwardElementRef(function SlideZoomFade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, open, ...rest }: SlideZoomFadeProps<E>, ref: Ref<E>) {
-    return <SlideZoom open={open} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
+export const SlideZoomFade = forwardElementRef(function SlideZoomFade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, show, ...rest }: SlideZoomFadeProps<E>, ref: Ref<E>) {
+    return <SlideZoom show={show} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
 });

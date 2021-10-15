@@ -39,7 +39,7 @@ export function useCreateFadeProps<P extends {}>({ classBase, fadeMin, fadeMax }
     }, otherProps);
 }
 
-export interface FadeProps<E extends HTMLElement> extends Omit<Partial<CreateFadeProps>, "open">, TransitionableProps<E> { };
+export interface FadeProps<E extends HTMLElement> extends Omit<Partial<CreateFadeProps>, "show">, TransitionableProps<E> { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Fade effect.
@@ -51,6 +51,6 @@ export interface FadeProps<E extends HTMLElement> extends Omit<Partial<CreateFad
  * 
  * @see `Transitionable`
  */
-export const Fade = forwardElementRef(function Fade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, open, ...rest }: FadeProps<E>, ref: Ref<E>) {
-    return <Transitionable<E> open={open} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
+export const Fade = forwardElementRef(function Fade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, show, ...rest }: FadeProps<E>, ref: Ref<E>) {
+    return <Transitionable<E> show={show} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
 });

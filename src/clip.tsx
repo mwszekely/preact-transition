@@ -67,6 +67,6 @@ export function useCreateClipProps<P extends {}>({ classBase, clipOrigin, clipOr
 
 export interface ClipProps<E extends HTMLElement> extends Partial<CreateClipProps>, TransitionableProps<E> { };
 
-export const Clip = forwardElementRef(function Clip<E extends HTMLElement>({ classBase, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, open, ...rest }: ClipProps<E>, ref: Ref<E>) {
-    return <Transitionable<E> open={open!} {...useCreateClipProps({ classBase, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock }, { ...rest, ref })} />
+export const Clip = forwardElementRef(function Clip<E extends HTMLElement>({ classBase, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, ...rest }: ClipProps<E>, ref: Ref<E>) {
+    return <Transitionable<E> show={show!} {...useCreateClipProps({ classBase, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock }, { ...rest, ref })} />
 });
