@@ -4,7 +4,7 @@ import { useLogicalDirection } from "preact-prop-helpers/use-logical-direction";
 import { MergedProps, useMergedProps } from "preact-prop-helpers/use-merged-props";
 //import { mergeStyles } from "./merge-style";
 import { useRefElement } from "preact-prop-helpers/use-ref-element";
-import { useCallback, useLayoutEffect, useRef, useState } from "preact/hooks";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { forwardElementRef } from "./forward-element-ref";
 //import mergeProps from "merge-props";
 
@@ -115,7 +115,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
 
     classBase ??= "transition";
 
-    const { element, useRefElementProps } = useRefElement<E>();
+    const { useRefElementProps, getElement } = useRefElement<E>({});
     const [phase, setPhase] = useState<TransitionPhase | null>(animateOnMount ? "init" : null);
     const [direction, setDirection] = useState<TransitionDirection | null>(show == null? null : show ? "enter" : "exit");
 
@@ -129,7 +129,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
     const [transitioningX, setTransitioningX] = useState<string | null>(null);
     const [transitioningY, setTransitioningY] = useState<string | null>(null);
 
-    const { getLogicalDirection } = useLogicalDirection(element);
+    const { getLogicalDirection, useLogicalDirectionProps } = useLogicalDirection();
     const logicalDirection = getLogicalDirection();
 
     const onTransitionUpdateRef = useRef<typeof onTransitionUpdate>(onTransitionUpdate);
@@ -143,10 +143,10 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
 
 
     const onTransitionEnd = useCallback((e: TransitionEvent) => {
-        if (e.target === element && tooEarlyValueRef.current == false) {
+        if (e.target === getElement() && tooEarlyValueRef.current == false) {
             setPhase("finalize");
         }
-    }, [element]);
+    }, []);
 
     useLayoutEffect(() => { onTransitionUpdateRef.current = onTransitionUpdate; }, [onTransitionUpdate]);
     useLayoutEffect(() => { phaseRef.current = phase; }, [phase]);
@@ -185,6 +185,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
     // Any time "show" changes, update our direction and phase.
     // In addition, measure the size of the element if requested.
     useLayoutEffect(() => {
+        const element = getElement();
 
         if (element && show != null) {
             const previousPhase = phaseRef.current;
@@ -235,11 +236,13 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
             }
         }
 
-    }, [show, element, measure, classBase]);
+    }, [show, measure, classBase]);
 
     // Any time the phase changes to init, immediately before the screen is painted,
     // change the phase to "transition" and re-render ().
     useLayoutEffect(() => {
+        const element = getElement();
+        
         if (element && directionRef.current != null) {
             classBase ??= "transition";
 
@@ -254,7 +257,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
             }
         }
 
-    }, [phase, measure, element]);
+    }, [phase, measure]);
 
     const inlineDirection = logicalDirection?.inlineDirection;
     const blockDirection = logicalDirection?.blockDirection;
@@ -268,7 +271,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
     const transitioningInlineSize = writingModeIsHorizontal ? transitioningWidth : transitioningHeight;
     const transitioningBlockSize = writingModeIsHorizontal ? transitioningHeight : transitioningWidth;
 
-    let almostDone = useRefElementProps({
+    let almostDone = useRefElementProps(useLogicalDirectionProps({
         ref,
         style: removeEmpty({
             [`--${classBase}-duration`]: duration,
@@ -300,7 +303,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
             `${classBase}-inline-direction-${inlineDirection ?? "ltr"}`,
             `${classBase}-block-direction-${blockDirection ?? "ttb"}`
         ),
-    });
+    }));
 
     return useMergedProps<E>()(almostDone, otherProps);
 }
@@ -310,6 +313,13 @@ export interface TransitionableProps<E extends HTMLElement> extends CreateTransi
     //ref?: Ref<E>;
     //className?: string | undefined;
     //"class"?: string | undefined;
+
+    /**
+     * Controls how children mount.  If a child isn't mounted, then a `div` with
+     * no children is rendered instead of whatever children you passed in (this
+     * means that props will still be forwarded onto this `div`).
+     */
+    childMountBehavior?: "immediately-mount" | "mount-on-show" | "mount-when-showing";
 }
 
 function removeEmpty<T>(obj: T): T {
@@ -329,7 +339,16 @@ function removeEmpty<T>(obj: T): T {
  * @example `<Transitionable show={show} {...useCreateFadeProps(...)}><div>{children}</div></Transitionable>`
  * @example `<Transitionable show={show}><div {...useCreateFadeProps(...)}>{children}</div></Transitionable>`
  */
-export const Transitionable = forwardElementRef(function Transition<E extends HTMLElement>({ children: child, duration, classBase, measure, exitVisibility, show, onTransitionUpdate, animateOnMount, ...props }: TransitionableProps<E>, r: Ref<E>) {
+export const Transitionable = forwardElementRef(function Transition<E extends HTMLElement>({ children: child, duration, classBase, measure, exitVisibility, show, onTransitionUpdate, animateOnMount, childMountBehavior, ...props }: TransitionableProps<E>, r: Ref<E>) {
+
+    const [hasShownOnce, setHasShownOnce] = useState(false);
+    const shouldSetHasShownOnce = (hasShownOnce === false && childMountBehavior === "mount-on-show" && show === true);
+    useEffect(() => { if (shouldSetHasShownOnce) setHasShownOnce(true); }, [shouldSetHasShownOnce])
+
+    if (childMountBehavior === "mount-when-showing" && !show)
+        child = <div /> as VNode<any>;
+    if (childMountBehavior === "mount-on-show" && !show && hasShownOnce === false)
+        child = <div /> as VNode<any>;
 
     if (!childIsVNode(child)) {
         throw new Error("A Transitionable component must have exactly one component child (e.g. a <div>, but not \"a string\").");

@@ -63,7 +63,7 @@ function Demo() {
                 <textarea cols={30} rows={5} onInput={onInput3} value={text} />
 
             </div>
-            <div id="root-body" className={`writing-mode-${writingMode}`} style={{ "--transition-duration": `${duration}ms` }}>
+            <div id="root-body" className={`writing-mode-${writingMode}`} style={{ "--transition-duration": `${duration}ms` }} key={writingMode}>
                 <FadeDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
                 <ClipDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
 

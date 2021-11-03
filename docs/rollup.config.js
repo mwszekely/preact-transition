@@ -19,7 +19,7 @@ export default {
         babel({
             configFile: path.resolve(__dirname, ".babelrc"),
             babelHelpers: "bundled",
-            exclude: "node_modules/core-js/**"
-        })
+            sourceMaps: true
+        }),
     ],
 }
