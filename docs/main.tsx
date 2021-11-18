@@ -1,6 +1,6 @@
 
-import { Fragment, h, render } from "./node_modules/preact";
-import { useCallback, useState } from "./node_modules/preact/hooks";
+import { Fragment, h, render } from "preact";
+import { useCallback, useState } from "preact/hooks";
 import { Clip, ZoomFade, ClipFade, Collapse, Zoom, Fade, Slide, SlideFade, Transitionable, SlideZoomFade, SlideZoom, Swappable, CollapseFade, CreateTransitionableProps, Flip } from "..";
 
 function halfText(input: string, times: number): string {

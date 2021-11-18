@@ -1,9 +1,6 @@
 import { default as clsx } from "clsx";
 import { Attributes, cloneElement, ComponentChildren, h, Ref, RenderableProps, VNode } from "preact";
-import { useLogicalDirection } from "preact-prop-helpers/use-logical-direction";
-import { MergedProps, useMergedProps } from "preact-prop-helpers/use-merged-props";
-//import { mergeStyles } from "./merge-style";
-import { useRefElement } from "preact-prop-helpers/use-ref-element";
+import { LogicalDirectionInfo, useLogicalDirection, useMergedProps, useRefElement } from "preact-prop-helpers";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
 import { forwardElementRef } from "./forward-element-ref";
 //import mergeProps from "merge-props";
@@ -115,7 +112,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
 
     classBase ??= "transition";
 
-    const { useRefElementProps, getElement } = useRefElement<E>({});
+    const { getElement, useRefElementProps } = useRefElement<E>({  });
     const [phase, setPhase] = useState<TransitionPhase | null>(animateOnMount ? "init" : null);
     const [direction, setDirection] = useState<TransitionDirection | null>(show == null? null : show ? "enter" : "exit");
 
@@ -129,8 +126,8 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
     const [transitioningX, setTransitioningX] = useState<string | null>(null);
     const [transitioningY, setTransitioningY] = useState<string | null>(null);
 
-    const { getLogicalDirection, useLogicalDirectionProps } = useLogicalDirection();
-    const logicalDirection = getLogicalDirection();
+    const [logicalDirectionInfo, setLogicalDirectionInfo] = useState<LogicalDirectionInfo | null>(null);
+    const { getLogicalDirectionInfo, useLogicalDirectionProps } = useLogicalDirection<E>({ onLogicalDirectionChange: setLogicalDirectionInfo });
 
     const onTransitionUpdateRef = useRef<typeof onTransitionUpdate>(onTransitionUpdate);
     const phaseRef = useRef<TransitionPhase | null>(phase);
@@ -259,8 +256,8 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
 
     }, [phase, measure]);
 
-    const inlineDirection = logicalDirection?.inlineDirection;
-    const blockDirection = logicalDirection?.blockDirection;
+    const inlineDirection = logicalDirectionInfo?.inlineDirection;
+    const blockDirection = logicalDirectionInfo?.blockDirection;
     const writingModeIsHorizontal = (inlineDirection == "rtl" || inlineDirection == "ltr");
     const surfaceInlineInset = writingModeIsHorizontal ? surfaceX : surfaceY;
     const surfaceBlockInset = writingModeIsHorizontal ? surfaceY : surfaceX;
