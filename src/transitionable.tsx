@@ -271,7 +271,7 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
     let almostDone = useRefElementProps(useLogicalDirectionProps({
         ref,
         style: removeEmpty({
-            [`--${classBase}-duration`]: duration,
+            [`--${classBase}-duration`]: duration? `${duration}ms` : undefined,
             [`--${classBase}-surface-x`]: surfaceX,
             [`--${classBase}-surface-y`]: surfaceY,
             [`--${classBase}-surface-width`]: surfaceWidth,

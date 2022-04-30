@@ -1,6 +1,6 @@
 import { h, Ref } from "preact";
 import { forwardElementRef } from "./forward-element-ref";
-import { useMergedProps } from "preact-prop-helpers/use-merged-props";
+import { useMergedProps } from "preact-prop-helpers";
 import { Transitionable, TransitionableProps } from "./transitionable";
 
 /**

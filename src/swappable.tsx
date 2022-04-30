@@ -1,6 +1,6 @@
 import { default as clsx } from "clsx";
 import { cloneElement, h, Ref, VNode } from "preact";
-import { useMergedProps } from "preact-prop-helpers/use-merged-props";
+import { useMergedProps } from "preact-prop-helpers";
 import { forwardElementRef } from "./forward-element-ref";
 
 export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappableProps>, h.JSX.HTMLAttributes<E> {
