@@ -2,7 +2,6 @@ import { h, Ref } from "preact";
 import { FadeProps, useCreateFadeProps } from "./fade";
 import { forwardElementRef } from "./forward-element-ref";
 import { SlideZoom, SlideZoomProps } from "./slide-zoom";
-import { useMergedProps } from "preact-prop-helpers/use-merged-props";
 
 
 export interface SlideZoomFadeProps<E extends HTMLElement> extends SlideZoomProps<E>, FadeProps<E> { };

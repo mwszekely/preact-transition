@@ -30,6 +30,6 @@
     "typescript": "^4.4.2"
   },
   "dependencies": {
-    "preact-prop-helpers": "github:mwszekely/preact-prop-helpers"
+    "preact-prop-helpers": "github:mwszekely/preact-prop-helpers#children-changes"
   }
 }

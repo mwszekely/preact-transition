@@ -23,6 +23,10 @@ export interface CreateSlideProps {
      */
     slideTargetBlock: number | null | undefined;
 
+    /**
+     * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
+     * @default "transition"
+     */
     classBase: string | undefined;
 }
 
@@ -30,7 +34,7 @@ export interface CreateSlideProps {
  * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
  */
 export function useCreateSlideProps<P extends {}>({ classBase, slideTargetInline, slideTargetBlock }: CreateSlideProps, otherProps: P) {
-    type E = P extends h.JSX.HTMLAttributes<infer E>? E : HTMLElement;
+    type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
     classBase ??= "transition";
     const lastValidTargetInline = useRef(slideTargetInline ?? 1);
     const lastValidTargetBlock = useRef(slideTargetBlock ?? 0);
@@ -43,14 +47,16 @@ export function useCreateSlideProps<P extends {}>({ classBase, slideTargetInline
     if (slideTargetBlock == 0)
         slideTargetBlock = lastValidTargetBlock.current;
 
-    return useMergedProps<E>()({
-        className: `${classBase}-slide`,
+    return {
         classBase,
-        style: {
-            [`--${classBase}-slide-target-inline`]: `${(slideTargetInline ?? 0)}`,
-            [`--${classBase}-slide-target-block`]: `${(slideTargetBlock ?? 0)}`
-        } as h.JSX.CSSProperties
-    }, otherProps);
+        ...useMergedProps<E>({
+            className: `${classBase}-slide`,
+            style: {
+                [`--${classBase}-slide-target-inline`]: `${(slideTargetInline ?? 0)}`,
+                [`--${classBase}-slide-target-block`]: `${(slideTargetBlock ?? 0)}`
+            } as h.JSX.CSSProperties
+        }, otherProps)
+    };
 }
 
 // Note: CreateSlideProps is *intentionally* not made partial here.

@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "main": "index.html",
   "scripts": {
-    "build": "npx npm-run-all --npm-path npm -sc build:sass build:css build:ts build:js",
+    "build": "npx npm-run-all --npm-path npm -sc build:sass build:css build:js",
     "watch": "npx npm-run-all --npm-path npm -pc watch:*",
     "watch:sass": "sass --watch --load-path=../node_modules ./main.scss:./main-unprefixed.css",
     "watch:css": "postcss main-unprefixed.css -w --use autoprefixer -o main.css",
@@ -17,30 +17,28 @@
   },
   "author": "",
   "license": "ISC",
-  "peerDependencies": {
-    "preact": "^10.5.14"
-  },
   "devDependencies": {
-    "@babel/core": "^7.12.16",
-    "@babel/preset-env": "^7.12.16",
-    "@rollup/plugin-alias": "^3.1.1",
-    "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^16.0.0",
-    "@rollup/plugin-node-resolve": "^10.0.0",
-    "@rollup/plugin-typescript": "^8.2.3",
-    "@rollup/plugin-url": "^5.0.1",
+    "@babel/core": "^7.19.3",
+    "@babel/preset-env": "^7.19.3",
+    "@rollup/plugin-alias": "^3.1.9",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-node-resolve": "^14.1.0",
+    "@rollup/plugin-typescript": "^8.5.0",
+    "@rollup/plugin-url": "^7.0.0",
     "@types/color-name": "^1.1.1",
-    "@types/node": "^14.14.10",
-    "autoprefixer": "^10.3.4",
-    "postcss": "^8.3.6",
+    "@types/node": "^18.8.0",
+    "autoprefixer": "^10.4.12",
+    "postcss": "^8.4.17",
     "postcss-cli": "^8.3.1",
-    "rollup": "^2.34.0",
-    "sass": "^1.29.0",
-    "serve": "^11.3.2",
-    "typescript": "^4.4.2"
+    "rollup": "^2.79.1",
+    "sass": "^1.55.0",
+    "serve": "^14.0.1",
+    "typescript": "^4.8.4"
   },
   "dependencies": {
-    "clsx": "^1.1.1",
-    "core-js": "^3.17.2"
+    "clsx": "^1.2.1",
+    "core-js": "^3.25.5",
+    "preact": "^10.11.0"
   }
 }

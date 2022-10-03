@@ -12,6 +12,10 @@ export interface CreateCollapseProps {
      */
     minBlockSize: string | null | undefined;
 
+    /**
+     * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
+     * @default "transition"
+     */
     classBase: string | undefined;
 }
 
@@ -26,14 +30,16 @@ export interface CreateCollapseProps {
 export function useCreateCollapseProps<P extends {}>({ classBase, minBlockSize }: CreateCollapseProps, otherProps: P) {
     type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
     classBase ??= "transition";
-    return useMergedProps<E>()({
+    return {
         classBase,
         measure: true,
-        className: `${classBase}-collapse`,
-        style: {
-            [`--${classBase}-collapse-min-block`]: minBlockSize ?? 0
-        } as {}
-    }, otherProps);
+        ...useMergedProps<E>({
+            className: `${classBase}-collapse`,
+            style: {
+                [`--${classBase}-collapse-min-block`]: minBlockSize ?? 0
+            } as {}
+        }, otherProps)
+    };
 }
 
 export interface CollapseProps<E extends HTMLElement> extends Partial<CreateCollapseProps>, TransitionableProps<E> { };

@@ -44,6 +44,10 @@ export interface CreateZoomProps {
      */
     zoomMinBlock: number | undefined | null;
 
+    /**
+     * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
+     * @default "transition"
+     */
     classBase?: string | undefined;
 }
 
@@ -51,18 +55,20 @@ export interface CreateZoomProps {
  * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
  */
 export function useCreateZoomProps<P extends {}>({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock }: CreateZoomProps, otherProps: P) {
-    type E = P extends h.JSX.HTMLAttributes<infer E>? E : HTMLElement;
+    type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
     classBase ??= "transition";
-    return (useMergedProps<E>()({
-        className: `${classBase}-zoom`,
+    return ({
         classBase,
-        style: {
-            [`--${classBase}-zoom-origin-inline`]: `${(zoomOriginInline ?? zoomOrigin ?? 0.5)}`,
-            [`--${classBase}-zoom-origin-block`]: `${(zoomOriginBlock ?? zoomOrigin ?? 0.5)}`,
-            [`--${classBase}-zoom-min-inline`]: `${(zoomMinInline ?? zoomMin ?? 0)}`,
-            [`--${classBase}-zoom-min-block`]: `${(zoomMinBlock ?? zoomMin ?? 0)}`,
-        } as h.JSX.CSSProperties,
-    }, otherProps));
+        ...useMergedProps<E>({
+            className: `${classBase}-zoom`,
+            style: {
+                [`--${classBase}-zoom-origin-inline`]: `${(zoomOriginInline ?? zoomOrigin ?? 0.5)}`,
+                [`--${classBase}-zoom-origin-block`]: `${(zoomOriginBlock ?? zoomOrigin ?? 0.5)}`,
+                [`--${classBase}-zoom-min-inline`]: `${(zoomMinInline ?? zoomMin ?? 0)}`,
+                [`--${classBase}-zoom-min-block`]: `${(zoomMinBlock ?? zoomMin ?? 0)}`,
+            } as h.JSX.CSSProperties,
+        }, otherProps)
+    });
 }
 
 export interface ZoomProps<E extends HTMLElement> extends Partial<CreateZoomProps>, TransitionableProps<E> { };

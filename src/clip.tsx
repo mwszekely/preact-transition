@@ -43,6 +43,10 @@ export interface CreateClipProps {
      */
     clipMinBlock: number | undefined | null;
 
+    /**
+     * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
+     * @default "transition"
+     */
     classBase: string | undefined;
 }
 
@@ -53,16 +57,18 @@ export interface CreateClipProps {
 export function useCreateClipProps<P extends {}>({ classBase, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock }: CreateClipProps, otherProps: P) {
     type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
     classBase ??= "transition";
-    return useMergedProps<E>()({
-        className: clsx(`${classBase}-clip`),
+    return {
         classBase,
-        style: {
-            [`--${classBase}-clip-origin-inline`]: (clipOriginInline ?? clipOrigin ?? 0.5),
-            [`--${classBase}-clip-origin-block`]: (clipOriginBlock ?? clipOrigin ?? 0),
-            [`--${classBase}-clip-min-inline`]: (clipMinInline ?? clipMin ?? 1),
-            [`--${classBase}-clip-min-block`]: (clipMinBlock ?? clipMin ?? 0),
-        } as h.JSX.CSSProperties,
-    }, otherProps);
+        ...useMergedProps<E>({
+            className: clsx(`${classBase}-clip`),
+            style: {
+                [`--${classBase}-clip-origin-inline`]: (clipOriginInline ?? clipOrigin ?? 0.5),
+                [`--${classBase}-clip-origin-block`]: (clipOriginBlock ?? clipOrigin ?? 0),
+                [`--${classBase}-clip-min-inline`]: (clipMinInline ?? clipMin ?? 1),
+                [`--${classBase}-clip-min-block`]: (clipMinBlock ?? clipMin ?? 0),
+            } as h.JSX.CSSProperties,
+        }, otherProps)
+    };
 }
 
 export interface ClipProps<E extends HTMLElement> extends Partial<CreateClipProps>, TransitionableProps<E> { };

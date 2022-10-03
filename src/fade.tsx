@@ -19,6 +19,10 @@ export interface CreateFadeProps {
      */
     fadeMax: number | null | undefined;
 
+    /**
+     * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
+     * @default "transition"
+     */
     classBase: string | undefined;
 }
 
@@ -29,14 +33,15 @@ export interface CreateFadeProps {
 export function useCreateFadeProps<P extends {}>({ classBase, fadeMin, fadeMax }: CreateFadeProps, otherProps: P) {
     type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
     classBase ??= "transition";
-    return useMergedProps<E>()({
+    return {
+        classBase, 
+        ...useMergedProps<E>({
         className: `${classBase}-fade`,
-        classBase,
         style: {
             [`--${classBase}-fade-min`]: (fadeMin ?? 0),
             [`--${classBase}-fade-max`]: (fadeMax ?? 1),
         } as h.JSX.CSSProperties
-    }, otherProps);
+    }, otherProps)};
 }
 
 export interface FadeProps<E extends HTMLElement> extends Omit<Partial<CreateFadeProps>, "show">, TransitionableProps<E> { };

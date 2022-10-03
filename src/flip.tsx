@@ -29,6 +29,10 @@ export interface CreateFlipProps {
      */
     perspective: string | number | undefined;
 
+    /**
+     * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
+     * @default "transition"
+     */
     classBase: string | undefined;
 }
 
@@ -49,15 +53,17 @@ export function useCreateFlipProps<P extends {}>({ classBase, flipAngleInline, f
     if (flipAngleBlock == 0)
         flipAngleBlock = lastValidTargetBlock.current;
 
-    return useMergedProps<E>()({
-        className: `${classBase}-flip`,
+    return {
         classBase,
-        style: {
-            [`--${classBase}-flip-angle-inline`]: `${(flipAngleInline ?? 0)}deg`,
-            [`--${classBase}-flip-angle-block`]: `${(flipAngleBlock ?? 0)}deg`,
-            [`--${classBase}-perspective`]: `${(perspective ?? 800)}px`
-        } as h.JSX.CSSProperties
-    }, otherProps);
+        ...useMergedProps<E>({
+            className: `${classBase}-flip`,
+            style: {
+                [`--${classBase}-flip-angle-inline`]: `${(flipAngleInline ?? 0)}deg`,
+                [`--${classBase}-flip-angle-block`]: `${(flipAngleBlock ?? 0)}deg`,
+                [`--${classBase}-perspective`]: `${(perspective ?? 800)}px`
+            } as h.JSX.CSSProperties
+        }, otherProps)
+    };
 }
 
 // Note: CreateFlipProps is *intentionally* not made partial here.

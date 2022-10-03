@@ -9,7 +9,7 @@ export type TransitionPhase = 'init' | 'transition' | 'finalize';
 export type TransitionDirection = 'enter' | 'exit';
 type TransitionState = `${TransitionDirection}-${TransitionPhase}`;
 
-export interface CreateTransitionableProps<E extends HTMLElement> {
+export interface CreateTransitionableProps<E extends Element> {
 
     /**
      * Whether the content is visible or not. True transitions the content in, otherwise it's transitioned out.
@@ -108,9 +108,10 @@ function forceReflow<E extends Element>(e: E) {
  * 
  * The second argument contains any other props you might want merged into the final product (these are not read or manipulated or anything -- it's purely shorthand and can be omitted with `{}` and then your own `useMergedProps`).
  */
-export function useCreateTransitionableProps<E extends HTMLElement, P extends {}>({ measure, animateOnMount, classBase, onTransitionUpdate, exitVisibility, duration, show, ref }: CreateTransitionableProps<E>, otherProps: P) {
+export function useTransitionable<E extends Element>({ measure, animateOnMount, classBase, onTransitionUpdate, exitVisibility, duration, show, ref }: CreateTransitionableProps<E>) {
 
     classBase ??= "transition";
+
 
     const { getElement, useRefElementProps } = useRefElement<E>({  });
     const [phase, setPhase] = useState<TransitionPhase | null>(animateOnMount ? "init" : null);
@@ -268,41 +269,48 @@ export function useCreateTransitionableProps<E extends HTMLElement, P extends {}
     const transitioningInlineSize = writingModeIsHorizontal ? transitioningWidth : transitioningHeight;
     const transitioningBlockSize = writingModeIsHorizontal ? transitioningHeight : transitioningWidth;
 
-    let almostDone = useRefElementProps(useLogicalDirectionProps({
-        ref,
-        style: removeEmpty({
-            [`--${classBase}-duration`]: duration,
-            [`--${classBase}-surface-x`]: surfaceX,
-            [`--${classBase}-surface-y`]: surfaceY,
-            [`--${classBase}-surface-width`]: surfaceWidth,
-            [`--${classBase}-surface-height`]: surfaceHeight,
-            [`--${classBase}-surface-inline-inset`]: surfaceInlineInset,
-            [`--${classBase}-surface-block-inset`]: surfaceBlockInset,
-            [`--${classBase}-surface-inline-size`]: surfaceInlineSize,
-            [`--${classBase}-surface-block-size`]: surfaceBlockSize,
-
-            [`--${classBase}-transitioning-x`]: transitioningX,
-            [`--${classBase}-transitioning-y`]: transitioningY,
-            [`--${classBase}-transitioning-width`]: transitioningWidth,
-            [`--${classBase}-transitioning-height`]: transitioningHeight,
-            [`--${classBase}-transitioning-inline-inset`]: transitioningInlineInset,
-            [`--${classBase}-transitioning-block-inset`]: transitioningBlockInset,
-            [`--${classBase}-transitioning-inline-size`]: transitioningInlineSize,
-            [`--${classBase}-transitioning-block-size`]: transitioningBlockSize
-        }) as h.JSX.CSSProperties,
-        onTransitionEnd,
-        ...({ "aria-hidden": show ? undefined : "true" }) as {},
-        className: clsx(
-            direction && getClassName(classBase, direction),
-            direction && phase && getClassName(classBase, direction, phase),
-            exitVisibility == "removed" && `${classBase}-removed-on-exit`,
-            exitVisibility == "visible" && `${classBase}-visible-on-exit`,
-            `${classBase}-inline-direction-${inlineDirection ?? "ltr"}`,
-            `${classBase}-block-direction-${blockDirection ?? "ttb"}`
-        ),
-    }));
-
-    return useMergedProps<E>()(almostDone, otherProps);
+    return {
+        phase,
+        direction,
+        useTransitionableProps: function useTransitionableProps(otherProps: h.JSX.HTMLAttributes<E>) {
+    
+            let almostDone = useRefElementProps(useLogicalDirectionProps({
+                ref,
+                style: removeEmpty({
+                    [`--${classBase}-duration`]: duration,
+                    [`--${classBase}-surface-x`]: surfaceX,
+                    [`--${classBase}-surface-y`]: surfaceY,
+                    [`--${classBase}-surface-width`]: surfaceWidth,
+                    [`--${classBase}-surface-height`]: surfaceHeight,
+                    [`--${classBase}-surface-inline-inset`]: surfaceInlineInset,
+                    [`--${classBase}-surface-block-inset`]: surfaceBlockInset,
+                    [`--${classBase}-surface-inline-size`]: surfaceInlineSize,
+                    [`--${classBase}-surface-block-size`]: surfaceBlockSize,
+        
+                    [`--${classBase}-transitioning-x`]: transitioningX,
+                    [`--${classBase}-transitioning-y`]: transitioningY,
+                    [`--${classBase}-transitioning-width`]: transitioningWidth,
+                    [`--${classBase}-transitioning-height`]: transitioningHeight,
+                    [`--${classBase}-transitioning-inline-inset`]: transitioningInlineInset,
+                    [`--${classBase}-transitioning-block-inset`]: transitioningBlockInset,
+                    [`--${classBase}-transitioning-inline-size`]: transitioningInlineSize,
+                    [`--${classBase}-transitioning-block-size`]: transitioningBlockSize
+                }) as h.JSX.CSSProperties,
+                onTransitionEnd,
+                ...({ "aria-hidden": show ? undefined : "true" }) as {},
+                className: clsx(
+                    direction && getClassName(classBase!, direction),
+                    direction && phase && getClassName(classBase!, direction, phase),
+                    exitVisibility == "removed" && `${classBase}-removed-on-exit`,
+                    exitVisibility == "visible" && `${classBase}-visible-on-exit`,
+                    `${classBase}-inline-direction-${inlineDirection ?? "ltr"}`,
+                    `${classBase}-block-direction-${blockDirection ?? "ttb"}`
+                ),
+            }));
+        
+            return useMergedProps<E>(almostDone, otherProps);
+        }
+    }
 }
 
 export interface TransitionableProps<E extends HTMLElement> extends CreateTransitionableProps<E>, Readonly<Attributes & { children?: ComponentChildren; }> {
@@ -319,7 +327,7 @@ export interface TransitionableProps<E extends HTMLElement> extends CreateTransi
     childMountBehavior?: "immediately-mount" | "mount-on-show" | "mount-when-showing";
 }
 
-function removeEmpty<T>(obj: T): T {
+function removeEmpty<T extends {}>(obj: T): T {
     return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null)) as T;
 }
 
@@ -348,13 +356,15 @@ export const Transitionable = forwardElementRef(function Transition<E extends HT
         child = <div /> as VNode<any>;
 
     if (!childIsVNode(child)) {
-        throw new Error("A Transitionable component must have exactly one component child (e.g. a <div>, but not \"a string\").");
+        debugger;   // Intentional
+        throw new Error("A Transitionable component must have exactly one component child (e.g. a <div />, but not \"a string\").");
     }
 
-    const transitionProps = useCreateTransitionableProps({ classBase, duration, measure, show, animateOnMount, onTransitionUpdate, ref: r, exitVisibility }, props);
-    const mergedWithChildren = useMergedProps<E>()(transitionProps, { ...child.props, ref: child.ref });
+    const { direction, phase, useTransitionableProps } = useTransitionable({ classBase, duration, measure, show, animateOnMount, onTransitionUpdate, ref: r, exitVisibility });
 
-    return cloneElement(child, mergedWithChildren as typeof transitionProps);
+    const mergedWithChildren = useMergedProps<E>(useTransitionableProps(props), { ...child.props, ref: child.ref });
+
+    return cloneElement(child, mergedWithChildren);
 });
 
 function childIsVNode(child: ComponentChildren): child is VNode<any> {

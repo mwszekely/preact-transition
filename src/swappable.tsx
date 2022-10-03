@@ -28,7 +28,7 @@ export interface CreateSwappableProps {
  */
 export function useCreateSwappableProps<P extends {}>({ inline, classBase }: CreateSwappableProps, otherProps: P) {
     type E = P extends h.JSX.HTMLAttributes<infer E>? E : HTMLElement;
-    return useMergedProps<E>()({
+    return useMergedProps<E>({
         className: clsx(`${classBase ?? "transition"}-swap-container`, inline && `${classBase ?? "transition"}-swap-container-inline`)
     }, otherProps);
 }
@@ -49,7 +49,7 @@ export const Swappable = forwardElementRef(function Swappable<E extends HTMLElem
     inline ??= typeof children.type === "string" && inlineElements.has(children.type);
 
     const transitionProps = useCreateSwappableProps({ classBase, inline }, { ...p, ref });
-    const mergedWithChildren = useMergedProps<E>()(transitionProps, children.props);
+    const mergedWithChildren = useMergedProps<E>(transitionProps, children.props);
 
     return cloneElement(children, mergedWithChildren as typeof transitionProps);
 })
