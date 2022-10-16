@@ -1,10 +1,10 @@
 import { default as clsx } from "clsx";
-import { cloneElement, h, Ref, VNode } from "preact";
+import { cloneElement, ComponentChildren, h, Ref, VNode } from "preact";
 import { useMergedProps } from "preact-prop-helpers/use-merged-props";
 import { forwardElementRef } from "./forward-element-ref";
 
 export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappableProps>, h.JSX.HTMLAttributes<E> {
-    children: VNode<any>;
+    children: ComponentChildren;
 }
 
 export interface CreateSwappableProps {
@@ -44,7 +44,9 @@ export function useCreateSwappableProps<P extends {}>({ inline, classBase }: Cre
  * @param param0 
  * @returns 
  */
-export const Swappable = forwardElementRef(function Swappable<E extends HTMLElement>({ children, classBase, inline, ...p }: SwapProps<E>, ref: Ref<E>) {
+export const Swappable = forwardElementRef(function Swappable<E extends HTMLElement>({ children: c, classBase, inline, ...p }: SwapProps<E>, ref: Ref<E>) {
+    const children = c as VNode;
+    console.assert(!!children.type);
 
     inline ??= typeof children.type === "string" && inlineElements.has(children.type);
 

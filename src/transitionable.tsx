@@ -113,7 +113,7 @@ export function useTransitionable<E extends Element>({ measure, animateOnMount, 
     classBase ??= "transition";
 
 
-    const { getElement, useRefElementProps } = useRefElement<E>({  });
+    const { getElement, refElementProps } = useRefElement<E>({  });
     const [phase, setPhase] = useState<TransitionPhase | null>(animateOnMount ? "init" : null);
     const [direction, setDirection] = useState<TransitionDirection | null>(show == null? null : show ? "enter" : "exit");
 
@@ -274,7 +274,7 @@ export function useTransitionable<E extends Element>({ measure, animateOnMount, 
         direction,
         useTransitionableProps: function useTransitionableProps(otherProps: h.JSX.HTMLAttributes<E>) {
     
-            let almostDone = useRefElementProps(useLogicalDirectionProps({
+            let almostDone = useMergedProps(refElementProps, useLogicalDirectionProps({
                 ref,
                 style: removeEmpty({
                     [`--${classBase}-duration`]: duration,
