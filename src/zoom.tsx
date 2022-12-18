@@ -1,7 +1,7 @@
 import { h, Ref } from "preact";
-import { useMergedProps } from "preact-prop-helpers/use-merged-props";
+import { useMergedProps } from "preact-prop-helpers";
 import { forwardElementRef } from "./forward-element-ref";
-import { Transitionable, TransitionableProps } from "./transitionable";
+import { defaultClassBase, NonIntrusiveElementAttributes, Transitionable, TransitionableProps, UseTransitionProps } from "./transitionable";
 
 /**
  * Properties that allow adjusting the origin, minimum size, and direction of the zoom effect.
@@ -48,36 +48,37 @@ export interface CreateZoomProps {
      * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
      * @default "transition"
      */
-    classBase?: string | undefined;
+    classBase: string | undefined;
 }
 
 /**
  * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
  */
-export function useCreateZoomProps<P extends {}>({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock }: CreateZoomProps, otherProps: P) {
-    type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
-    classBase ??= "transition";
+export function createZoomProps({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock }: Partial<CreateZoomProps>) {
+    classBase = defaultClassBase(classBase);
     return ({
-        classBase,
-        ...useMergedProps<E>({
-            className: `${classBase}-zoom`,
-            style: {
-                [`--${classBase}-zoom-origin-inline`]: `${(zoomOriginInline ?? zoomOrigin ?? 0.5)}`,
-                [`--${classBase}-zoom-origin-block`]: `${(zoomOriginBlock ?? zoomOrigin ?? 0.5)}`,
-                [`--${classBase}-zoom-min-inline`]: `${(zoomMinInline ?? zoomMin ?? 0)}`,
-                [`--${classBase}-zoom-min-block`]: `${(zoomMinBlock ?? zoomMin ?? 0)}`,
-            } as h.JSX.CSSProperties,
-        }, otherProps)
+        className: `${classBase}-zoom`,
+        style: {
+            [`--${classBase}-zoom-origin-inline`]: `${(zoomOriginInline ?? zoomOrigin ?? 0.5)}`,
+            [`--${classBase}-zoom-origin-block`]: `${(zoomOriginBlock ?? zoomOrigin ?? 0.5)}`,
+            [`--${classBase}-zoom-min-inline`]: `${(zoomMinInline ?? zoomMin ?? 0)}`,
+            [`--${classBase}-zoom-min-block`]: `${(zoomMinBlock ?? zoomMin ?? 0)}`,
+        } as h.JSX.CSSProperties,
     });
 }
 
-export interface ZoomProps<E extends HTMLElement> extends Partial<CreateZoomProps>, TransitionableProps<E> { };
+export interface ZoomProps<E extends HTMLElement> extends Partial<CreateZoomProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
  * @see `Transitionable` `ZoomFade`
  */
-export const Zoom = forwardElementRef(function Zoom<E extends HTMLElement>({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, ...rest }: ZoomProps<E>, ref: Ref<E>) {
-    return <Transitionable<E> show={show} {...useCreateZoomProps({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock }, { ...rest, ref })} />
+export const Zoom = forwardElementRef(function Zoom<E extends HTMLElement>({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, ...rest }: ZoomProps<E>, ref: Ref<E>) {
+    return (
+        <Transitionable<E>
+            transition={{ measure: false, show, animateOnMount, classBase, exitVisibility }}
+            props={useMergedProps<E>(createZoomProps({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock }), { ...rest, ref })}
+        />
+    );
 });
 

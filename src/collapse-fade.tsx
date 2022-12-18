@@ -1,17 +1,24 @@
-import { h, Ref, VNode } from "preact";
-import { Collapse, CollapseProps } from "./collapse";
-import { FadeProps, useCreateFadeProps } from "./fade";
+import { h, Ref } from "preact";
 import { forwardElementRef } from "./forward-element-ref";
+import { createCollapseProps, CreateCollapseProps, Collapse, CollapseProps } from "./collapse";
+import { createFadeProps, CreateFadeProps, FadeProps } from "./fade";
+import { useMergedProps } from "preact-prop-helpers";
+import { NonIntrusiveElementAttributes, Transitionable, UseTransitionProps } from "./transitionable";
 
 
+export interface CreateCollapseFadeProps extends CreateFadeProps, CreateCollapseProps { }
+export interface CollapseFadeProps<E extends HTMLElement> extends Partial<CreateCollapseFadeProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
 
-export interface CollapseFadeProps<E extends HTMLElement> extends Omit<Partial<CollapseProps<E>>, "show">, FadeProps<E> { children: VNode<any> };
+export const CollapseFade = forwardElementRef(function CollapseFade<E extends HTMLElement>({ classBase, show, animateOnMount, fadeMin, fadeMax, exitVisibility, minBlockSize, ...rest }: CollapseFadeProps<E>, ref: Ref<E>) {
 
-/**
- * Wraps a div (etc.) and allows it to transition in/out smoothly with both Collapse and Fade effects.
- * 
- * @see `Transitionable` `Collapse` `Fade`
- */
-export const CollapseFade = forwardElementRef(function CollapseFade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, show, ...rest }: CollapseFadeProps<E>, ref: Ref<E>) {
-    return <Collapse show={show} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
+    return (
+        <Transitionable<E>
+            transition={{ measure: true, show, animateOnMount, classBase, exitVisibility }}
+            props={useMergedProps<E>(
+                { ref, ...rest },
+                createFadeProps({ classBase, fadeMin, fadeMax }),
+                createCollapseProps({ classBase, minBlockSize })
+            )}
+        />
+    )
 });

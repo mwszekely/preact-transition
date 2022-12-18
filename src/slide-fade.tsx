@@ -1,19 +1,26 @@
-import { h, Ref, VNode } from "preact";
-import { FadeProps, useCreateFadeProps } from "./fade";
+import { h, Ref } from "preact";
 import { forwardElementRef } from "./forward-element-ref";
-import { Slide, SlideProps } from "./slide";
+import { createSlideProps, CreateSlideProps, Slide, SlideProps } from "./slide";
+import { createFadeProps, CreateFadeProps, FadeProps } from "./fade";
+import { useMergedProps } from "preact-prop-helpers";
+import { NonIntrusiveElementAttributes, Transitionable, UseTransitionProps } from "./transitionable";
 
 
+export interface CreateSlideFadeProps extends CreateFadeProps, CreateSlideProps { }
+export interface SlideFadeProps<E extends HTMLElement> extends Partial<CreateSlideFadeProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
 
-export interface SlideFadeProps<E extends HTMLElement> extends Omit<Partial<SlideProps<E>>, "show">, FadeProps<E> { children: VNode<any> };
+export const SlideFade = forwardElementRef(function SlideFade<E extends HTMLElement>({ classBase, slideTargetBlock, slideTargetInline, show, animateOnMount, fadeMin, fadeMax, exitVisibility, ...rest }: SlideFadeProps<E>, ref: Ref<E>) {
+    
+    //({ targetBlock: slideTargetBlock, targetInline: slideTargetInline } = useSlideThing({ targetBlock: slideTargetBlock, targetInline: slideTargetInline }));
 
-/**
- * Wraps a div (etc.) and allows it to transition in/out smoothly with both Slide and Fade effects. 
- * 
- * `slideInline={(index - selectedIndex) / 10}` would make the element look like it fades out before it travels to its target destination.
- * 
- * @see `Transitionable` `Zoom`
- */
-export const SlideFade = forwardElementRef(function SlideFade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, show, ...rest }: SlideFadeProps<E>, ref: Ref<E>) {
-    return <Slide show={show} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
+    return (
+        <Transitionable<E>
+            transition={{ measure: false, show, animateOnMount, classBase, exitVisibility }}
+            props={useMergedProps<E>(
+                { ref, ...rest },
+                createFadeProps({ classBase, fadeMin, fadeMax }),
+                createSlideProps({ classBase, slideTargetBlock, slideTargetInline })
+            )}
+        />
+    )
 });

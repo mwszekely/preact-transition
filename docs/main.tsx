@@ -1,7 +1,8 @@
 
 import { Fragment, h, render } from "preact";
 import { useCallback, useState } from "preact/hooks";
-import { Clip, ZoomFade, ClipFade, Collapse, Zoom, Fade, Slide, SlideFade, Transitionable, SlideZoomFade, SlideZoom, Swappable, CollapseFade, CreateTransitionableProps, Flip } from "..";
+import { Clip, ZoomFade, ClipFade, Collapse, Zoom, Fade, Slide, SlideFade, Transitionable, SlideZoomFade, SlideZoom, Swappable, CollapseFade, Flip } from "..";
+import { defaultClassBase, UseTransitionProps } from "../transitionable";
 
 function halfText(input: string, times: number): string {
   if (times <= 0)
@@ -18,7 +19,7 @@ function Demo() {
   const [show1, setShow1] = useState(true);
   const [show3, setShow3] = useState(0);
   const [reflow, setReflow] = useState<"visible" | "hidden" | "removed">("hidden");
-  const [duration, setDuration] = useState(175);
+  const [duration, setDuration] = useState(500);
   const [text, setText] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
 
   const onInput1 = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setShow1(o => !o); e.preventDefault(); }, []);
@@ -62,15 +63,15 @@ function Demo() {
         <textarea cols={30} rows={5} onInput={onInput3} value={text} />
 
       </div>
-      <div id="root-body" className={`writing-mode-${writingMode}`} style={{ "--transition-duration": `${duration}ms` }} key={writingMode}>
+      <div id="root-body" className={`writing-mode-${writingMode}`} style={{ [`--${defaultClassBase(null)}-duration`]: `${duration}ms` }} key={writingMode}>
         <FadeDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
-        <ClipDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
-
-        <ZoomDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
         <SlideDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
-        <ZoomSlideDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
+        <ZoomDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
+        <ClipDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
         <CollapseDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
+        <ZoomSlideDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
         <FlipDemo cardShow={show1} contentIndex={show3} exitVisibility={reflow} text={text} />
+  
 
       </div>
     </>
@@ -132,7 +133,7 @@ function FadeDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: 
   </div>
 }
 
-type EV = CreateTransitionableProps<any>["exitVisibility"];
+type EV = UseTransitionProps["exitVisibility"];
 
 function ClipDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
   const [originX, setOriginX] = useState(0.5);
@@ -417,7 +418,7 @@ function CollapseDemo({ cardShow, contentIndex, exitVisibility, text }: { cardSh
           <label>Minimum size: <input type="text" value={minBlockSize} onInput={onMinSize} /></label>
           <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
           <div>Direction cannot be directly controlled. Only the size along the block axis (Y-axis in horizontal languages) can be resized.</div>
-          <div>In general, only use this component if you <em>specifically</em> need its reflow transitioning properties. If you want a "disappear in place without zooming out", consider a Clip effect</div>
+          <div>In general, only use this component if you <em>specifically</em> need its reflow transitioning properties, because it's very taxing on, well, <em>most</em> devices, unless you take other precautions. If you want a "disappear in place without zooming out", consider a Clip effect.</div>
         </div>
         <C show={cardShow} exitVisibility={exitVisibility} minBlockSize={minBlockSize}>
           <div>

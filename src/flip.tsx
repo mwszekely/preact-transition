@@ -1,8 +1,8 @@
 import { h, Ref } from "preact";
 import { useEffect, useRef } from "preact/hooks";
 import { forwardElementRef } from "./forward-element-ref";
-import { useMergedProps } from "preact-prop-helpers/use-merged-props";
-import { Transitionable, TransitionableProps } from "./transitionable";
+import { useMergedProps } from "preact-prop-helpers";
+import { defaultClassBase, NonIntrusiveElementAttributes, Transitionable, TransitionableProps, UseTransitionProps } from "./transitionable";
 
 /**
  * Properties that allow adjusting the direction and extent of the flip effect. 
@@ -39,35 +39,21 @@ export interface CreateFlipProps {
 /**
  * Creates a set of props that implement a Flip transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
  */
-export function useCreateFlipProps<P extends {}>({ classBase, flipAngleInline, flipAngleBlock, perspective }: CreateFlipProps, otherProps: P) {
-    type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
-    classBase ??= "transition";
-    const lastValidTargetInline = useRef(flipAngleInline ?? 180);
-    const lastValidTargetBlock = useRef(flipAngleBlock ?? 0);
-
-    useEffect(() => { if (flipAngleInline) lastValidTargetInline.current = flipAngleInline; }, [flipAngleInline]);
-    useEffect(() => { if (flipAngleBlock) lastValidTargetBlock.current = flipAngleBlock; }, [flipAngleBlock]);
-
-    if (flipAngleInline == 0)
-        flipAngleInline = lastValidTargetInline.current;
-    if (flipAngleBlock == 0)
-        flipAngleBlock = lastValidTargetBlock.current;
-
+export function createFlipProps<E extends Element>({ classBase, flipAngleInline, flipAngleBlock, perspective }: Partial<CreateFlipProps>): h.JSX.HTMLAttributes<E> {
+    classBase = defaultClassBase(classBase);
     return {
-        classBase,
-        ...useMergedProps<E>({
-            className: `${classBase}-flip`,
-            style: {
-                [`--${classBase}-flip-angle-inline`]: `${(flipAngleInline ?? 0)}deg`,
-                [`--${classBase}-flip-angle-block`]: `${(flipAngleBlock ?? 0)}deg`,
-                [`--${classBase}-perspective`]: `${(perspective ?? 800)}px`
-            } as h.JSX.CSSProperties
-        }, otherProps)
-    };
+        className: `${classBase}-flip`,
+        style: {
+            [`--${classBase}-flip-angle-inline`]: `${(flipAngleInline ?? 0)}deg`,
+            [`--${classBase}-flip-angle-block`]: `${(flipAngleBlock ?? 0)}deg`,
+            [`--${classBase}-perspective`]: `${(perspective ?? 800)}px`
+        } as h.JSX.CSSProperties
+    }
 }
 
+
 // Note: CreateFlipProps is *intentionally* not made partial here.
-export interface FlipProps<E extends HTMLElement> extends Partial<CreateFlipProps>, TransitionableProps<E> { };
+export interface FlipProps<E extends HTMLElement> extends Partial<CreateFlipProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Flip effect.
@@ -81,6 +67,22 @@ export interface FlipProps<E extends HTMLElement> extends Partial<CreateFlipProp
  * 
  * @see `Transitionable`
  */
-export const Flip = forwardElementRef(function Flip<E extends HTMLElement>({ classBase, flipAngleInline, flipAngleBlock, perspective, show, ...rest }: FlipProps<E>, ref: Ref<E>) {
-    return <Transitionable<E> show={show} {...useCreateFlipProps({ classBase, flipAngleInline, flipAngleBlock, perspective }, { ...rest, ref })} />
+export const Flip = forwardElementRef(function Flip<E extends HTMLElement>({ classBase, flipAngleInline, flipAngleBlock, perspective, show, animateOnMount, exitVisibility, ...rest }: FlipProps<E>, ref: Ref<E>) {
+    const lastValidTargetInline = useRef(flipAngleInline ?? 90);
+    const lastValidTargetBlock = useRef(flipAngleBlock ?? 0);
+
+    useEffect(() => { if (flipAngleInline) lastValidTargetInline.current = flipAngleInline; }, [flipAngleInline]);
+    useEffect(() => { if (flipAngleBlock) lastValidTargetBlock.current = flipAngleBlock; }, [flipAngleBlock]);
+
+    if (flipAngleInline == 0)
+        flipAngleInline = lastValidTargetInline.current;
+    if (flipAngleBlock == 0)
+        flipAngleBlock = lastValidTargetBlock.current;
+
+    return (
+        <Transitionable<E>
+            transition={{ show, measure: false, animateOnMount, classBase, exitVisibility }}
+            props={useMergedProps<E>(createFlipProps<E>({ classBase, flipAngleInline, flipAngleBlock, perspective }), { ...rest, ref })}
+        />
+    );
 });

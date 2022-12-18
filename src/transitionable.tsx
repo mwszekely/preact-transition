@@ -1,381 +1,348 @@
-import { default as clsx } from "clsx";
-import { Attributes, cloneElement, ComponentChildren, h, Ref, RenderableProps, VNode } from "preact";
-import { LogicalDirectionInfo, useLogicalDirection, useMergedProps, useRefElement } from "preact-prop-helpers";
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "preact/hooks";
-import { forwardElementRef } from "./forward-element-ref";
-//import mergeProps from "merge-props";
+import { cloneElement, ComponentChildren, h, Ref, VNode } from "preact";
+import { OnPassiveStateChange, returnNull, useEnsureStability, useLogicalDirection, useMergedProps, usePassiveState, useRefElement, useStableGetter } from "preact-prop-helpers";
+import { forwardRef } from "preact/compat";
+import { useCallback, useEffect, useLayoutEffect, useRef } from "preact/hooks";
 
 export type TransitionPhase = 'init' | 'transition' | 'finalize';
 export type TransitionDirection = 'enter' | 'exit';
-type TransitionState = `${TransitionDirection}-${TransitionPhase}`;
-
-export interface CreateTransitionableProps<E extends Element> {
-
-    /**
-     * Whether the content is visible or not. True transitions the content in, otherwise it's transitioned out.
-     * 
-     * If null, (or undefined), indicates that we don't know yet if we should be show, because, e.g., that's dependent on someone else mounting.
-     * 
-     * Effectively, an escape hatch to delay `animateOnMount={false}` is to pass `show={null}` until you're ready.
-     */
-    show: boolean | null | undefined;
-
-    /**
-     * The prefix string for all class names used in this library
-     * @default "transition"
-     */
-    classBase?: string | undefined;
-
-    /**
-     * If true, the following CSS variables are provided on the element:
-     * 
-     * (assuming `classBase == "transition"`)
-     * 
-     * * `--${classBase}-surface-x`
-     * * `--${classBase}-surface-y`
-     * * `--${classBase}-surface-width`
-     * * `--${classBase}-surface-height`
-     * * `--${classBase}-surface-inline-inset`
-     * * `--${classBase}-surface-block-inset`
-     * * `--${classBase}-surface-inline-size`
-     * * `--${classBase}-surface-block-size`
-     * * `--${classBase}-transitioning-x`
-     * * `--${classBase}-transitioning-y`
-     * * `--${classBase}-transitioning-width`
-     * * `--${classBase}-transitioning-height`
-     * * `--${classBase}-transitioning-inline-inset`
-     * * `--${classBase}-transitioning-block-inset`
-     * * `--${classBase}-transitioning-inline-size`
-     * * `--${classBase}-transitioning-block-size`
-     */
-    measure?: boolean | undefined;
-    ref?: Ref<E> | undefined;
+export type TransitionState = `${TransitionDirection}-${TransitionPhase}`;
 
 
-    /**
-     * If true, an element that mounts with show=true will animate that showing.
-     * 
-     * Otherwise it won't.
-     */
-    animateOnMount?: boolean | undefined;
-
-    /**
-     * How long (in ms) the transition should last.
-     * Default is whatever is provided via CSS.
-     * 
-     * This also controls the "emergency default timeout" just in case
-     * onTransitionEnd never fires, in which case the default is 1000.
-     * Use the CSS variable `--#{$transition-class-name}-duration` 
-     * to just control the former.
-     */
-    duration?: number | undefined;
-
-    /**
-     * Whether hidden content should be styled as
-     * * display: none
-     * * visibility: hidden
-     * * (no change, still visible)
-     */
-    exitVisibility?: "hidden" | "removed" | "visible" | undefined;
-
-    /**
-     * Callback that is called any time any part of the transition state changes.
-     * Does not need to be constant between renders.
-     */
-    onTransitionUpdate?: ((direction: TransitionDirection, phase: TransitionPhase) => void) | undefined;
+export function defaultClassBase(given: string | null | undefined) {
+    return given ?? "ptl";
 }
 
 
-function getClassName<D extends TransitionDirection, P extends TransitionPhase>(classBase: string, show: D, phase?: P): string {
-    if (phase)
-        return `${classBase || "transition"}-${show}-${phase}` as const;
-    else
-        return `${classBase || "transition"}-${show}` as const;
+export interface UseTransitionProps {
+    /**
+     * If true, this element should make itself visible.
+     */
+    show: boolean | null;
+    /**
+     * Controls whether or not the element mounts in an already-transitioned appearance or not.
+     */
+    animateOnMount?: boolean;
+
+    /**
+     * Certain types of transitions require measuring the size of the element (namely collapse).
+     * 
+     * It incurs a reflow-based performance penalty every time `visible` changes when used.
+     * 
+     * Cannot change while the element is mounted; it **MUST** remain stable throughout the component's lifetime.
+     */
+    measure: boolean;
+
+    /**
+     * The base of all CSS classes used. 
+     * 
+     * Cannot change while the element is mounted; it **MUST** remain stable throughout the component's lifetime.
+     */
+    classBase?: string;
+
+    /**
+     * After the element has finished its exit animation, what happens to it?
+     * 
+     * * `"removed"`: `display: none` is applied.
+     * * `"hidden"`: `visibility: none` is applied.
+     * * `"visible"`: No additional styling is applied.
+     * * `"inert"`: No additional styling is applied, but the `inert` attribute is applied. You will likely need a polyfill to make this work on older browsers.
+     */
+    exitVisibility?: "inert" | "removed" | "hidden" | "visible";
 }
 
-let dummy: any;
-function forceReflow<E extends Element>(e: E) {
-    // Try really hard to make sure this isn't optimized out by anything.
-    // We need it for its document reflow side effect.
-    dummy = e.getBoundingClientRect();
-    return e;
+function getTimeoutDuration<E extends HTMLElement>(element: E | null) {
+    return Math.max(...(window.getComputedStyle(element || document.body).getPropertyValue(`transition-duration`)).split(",").map(str => {
+        if (str.endsWith("ms"))
+            return +str.substring(0, str.length - 2);
+        if (str.endsWith("s"))
+            return (+str.substring(0, str.length - 1)) * 1000;
+        return 1000;
+    }));
+}
+
+function parseState(nextState: TransitionState) {
+    return nextState.split("-") as [TransitionDirection, TransitionPhase];
 }
 
 /**
- * A hook that adds & removes class names in a way that facilitates proper transitions.
+ * Provide props that can be used to animate a transition.
  * 
- * The first argument contains the props related directly to the transition.
- * 
- * The second argument contains any other props you might want merged into the final product (these are not read or manipulated or anything -- it's purely shorthand and can be omitted with `{}` and then your own `useMergedProps`).
+ * @param param0 
+ * @returns 
  */
-export function useTransitionable<E extends Element>({ measure, animateOnMount, classBase, onTransitionUpdate, exitVisibility, duration, show, ref }: CreateTransitionableProps<E>) {
+export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: a, measure: m, classBase, exitVisibility: e }: UseTransitionProps) {
+    classBase ||= defaultClassBase(classBase);
+    e ||= "hidden"
+    a ??= false;
+    m ??= false;
+    const getMeasure = useStableGetter(m);
+    useEnsureStability("useTransition", classBase);
+    const getExitVisibility = useStableGetter(e);
 
-    classBase ??= "transition";
+    const { refElementReturn: { getElement, propsStable } } = useRefElement<E>({ refElementParameters: {} })
+    const cssProperties = useRef<h.JSX.CSSProperties>({});
+    const classNames = useRef(new Set<string>());
+    const handleTransitionFinished = useCallback(() => {
+        const state = getState();
+        console.assert(!!state);
+        if (state) {
+            const [direction, phase] = parseState(state);
+            if (phase == "transition") {
+                setState(`${direction}-finalize`);
+                if (timeoutHandle.current > 0) {
+                    clearTimeout(timeoutHandle.current);
+                    timeoutHandle.current = -1;
+                }
+            }
+        }
+    }, [])
+    const otherProps = useRef<h.JSX.HTMLAttributes<E>>({
+        onTransitionEnd: (e) => {
+            if (e.target == getElement() && e.elapsedTime) {
+                handleTransitionFinished();
+            }
+        }
+    })
 
+    // The very first time 
+    const hasMounted = useRef(false);
 
-    const { getElement, refElementProps } = useRefElement<E>({  });
-    const [phase, setPhase] = useState<TransitionPhase | null>(animateOnMount ? "init" : null);
-    const [direction, setDirection] = useState<TransitionDirection | null>(show == null? null : show ? "enter" : "exit");
+    /**
+     * Sets the element's CSS class to match the given direction and phase.
+     */
+    const updateClasses = useCallback((element: E | null, direction: TransitionDirection, phase: TransitionPhase) => {
+        if (element == null)
+            return;
 
-    const [surfaceWidth, setSurfaceWidth] = useState<string | null>(null);
-    const [surfaceHeight, setSurfaceHeight] = useState<string | null>(null);
-    const [surfaceX, setSurfaceX] = useState<string | null>(null);
-    const [surfaceY, setSurfaceY] = useState<string | null>(null);
+        console.log("updating classes to " + direction + " " + phase);
 
-    const [transitioningWidth, setTransitioningWidth] = useState<string | null>(null);
-    const [transitioningHeight, setTransitioningHeight] = useState<string | null>(null);
-    const [transitioningX, setTransitioningX] = useState<string | null>(null);
-    const [transitioningY, setTransitioningY] = useState<string | null>(null);
+        const exitVisibility = getExitVisibility();
 
-    const [logicalDirectionInfo, setLogicalDirectionInfo] = useState<LogicalDirectionInfo | null>(null);
-    const { getLogicalDirectionInfo, useLogicalDirectionProps } = useLogicalDirection<E>({ onLogicalDirectionChange: setLogicalDirectionInfo });
+        const allClassesToRemove = [
+            `${classBase}-enter`, `${classBase}-exit`,
+            `${classBase}-enter-init`, `${classBase}-enter-transition`, `${classBase}-enter-finalize`,
+            `${classBase}-exit-init`, `${classBase}-exit-transition`, `${classBase}-exit-finalize`,
+            `${classBase}-ev-${"inert"}`,
+            `${classBase}-ev-${"removed"}`,
+            `${classBase}-ev-${"hidden"}`,
+            `${classBase}-ev-${"visible"}`
+        ];
+        const allClassesToAdd = [
+            `${classBase}`,
+            `${classBase}-${direction}`,
+            `${classBase}-${direction}-${phase}`,
+            `${classBase}-ev-${exitVisibility}`
+        ];
 
-    const onTransitionUpdateRef = useRef<typeof onTransitionUpdate>(onTransitionUpdate);
-    const phaseRef = useRef<TransitionPhase | null>(phase);
-    const directionRef = useRef<TransitionDirection | null>(direction);
-    const durationRef = useRef<number | null | undefined>(duration);
+        //(measure ? allClassesToAdd : allClassesToRemove).push(`${classBase}-measure`);
 
-    const tooEarlyTimeoutRef = useRef<number | null>(null);
-    const tooEarlyValueRef = useRef<boolean>(true);
-    const tooLateTimeoutRef = useRef<number | null>(null);
+        element.classList.remove(...allClassesToRemove);
+        allClassesToRemove.map(v => classNames.current.delete(v));
 
+        element.classList.add(...allClassesToAdd);
+        allClassesToAdd.map(v => classNames.current.add(v));
 
-    const onTransitionEnd = useCallback((e: TransitionEvent) => {
-        if (e.target === getElement() && tooEarlyValueRef.current == false) {
-            setPhase("finalize");
+    }, []);
+
+    /**
+     * Updates a single "measure" variable (or removes it)
+     */
+    const updateSizeProperty = useCallback((element: E, varName: (keyof h.JSX.CSSProperties) & string, value: string | number | null | undefined) => {
+        if (value != null) {
+            value = `${value}px`;
+            element.style.setProperty(varName, value);
+            cssProperties.current[varName] = value;
+        }
+        else {
+            element.style.removeProperty(varName);
+            delete cssProperties.current[varName];
         }
     }, []);
 
-    useLayoutEffect(() => { onTransitionUpdateRef.current = onTransitionUpdate; }, [onTransitionUpdate]);
-    useLayoutEffect(() => { phaseRef.current = phase; }, [phase]);
-    useLayoutEffect(() => { directionRef.current = direction; }, [direction]);
-    useLayoutEffect(() => { durationRef.current = duration; }, [duration]);
-
-    useLayoutEffect(() => {
-        if (direction && phase)
-            onTransitionUpdateRef.current?.(direction, phase);
-    }, [direction, phase])
-
-
-    // Every time the phase changes to "transition", add our transition timeout timeouts
-    // to catch any time onTransitionEnd fails to report for whatever reason to be safe
-    useLayoutEffect(() => {
-        if (phase == "transition") {
-            const timeoutDuration = durationRef.current ?? 1000;
-
-            tooEarlyTimeoutRef.current = window.setTimeout(() => {
-                tooEarlyValueRef.current = false;
-                tooEarlyTimeoutRef.current = null;
-            }, 50);
-            tooLateTimeoutRef.current = window.setTimeout(() => {
-                tooEarlyValueRef.current = true;
-                tooLateTimeoutRef.current = null;
-                setPhase("finalize");
-            }, timeoutDuration);
-        }
-
-        return () => {
-            if (tooEarlyTimeoutRef.current) clearTimeout(tooEarlyTimeoutRef.current);
-            if (tooLateTimeoutRef.current) clearTimeout(tooLateTimeoutRef.current);
-        }
-    }, [phase]);
-
-    // Any time "show" changes, update our direction and phase.
-    // In addition, measure the size of the element if requested.
-    useLayoutEffect(() => {
-        const element = getElement();
-
-        if (element && show != null) {
-            const previousPhase = phaseRef.current;
-
-            // Swap our direction
-            if (show)
-                setDirection("enter");
-            else
-                setDirection("exit");
-
-
-            setPhase(previousPhase === null ? "finalize" : "init");
-
-            if (measure) {
-
-                let currentSizeWithTransition = element.getBoundingClientRect(); {
-                    const { x, y, width, height } = currentSizeWithTransition;
-                    setTransitioningX(x + "px");
-                    setTransitioningY(y + "px");
-                    setTransitioningWidth(width + "px");
-                    setTransitioningHeight(height + "px");
-                }
-
-                if (previousPhase === "finalize") {
-
-                    // We're going to be messing with the actual element's class, 
-                    // so we'll want an easy way to restore it later.
-                    const backup = element.className;
-                    element.classList.add(`${classBase}-measure`);
-                    element.classList.remove(
-                        `${classBase}-enter`, `${classBase}-enter-init`, `${classBase}-enter-transition`, `${classBase}-enter-finalize`,
-                        `${classBase}-exit`, `${classBase}-exit-init`, `${classBase}-exit-transition`, `${classBase}-exit-finalize`
-                    );
-                    forceReflow(element);
-
-                    const sizeWithoutTransition = element.getBoundingClientRect();
-                    const { x, y, width, height } = sizeWithoutTransition;
-                    setSurfaceX(x + "px");
-                    setSurfaceY(y + "px");
-                    setSurfaceWidth(width + "px");
-                    setSurfaceHeight(height + "px");
-
-
-                    element.className = backup;
-                    forceReflow(element);
-
-                }
-            }
-        }
-
-    }, [show, measure, classBase]);
-
-    // Any time the phase changes to init, immediately before the screen is painted,
-    // change the phase to "transition" and re-render ().
-    useLayoutEffect(() => {
-        const element = getElement();
-        
-        if (element && directionRef.current != null) {
-            classBase ??= "transition";
-
-            if (phase === "init") {
-                // Preact just finished rendering init
-                // Now set our transition style.
-                setPhase("transition");
-
-                if (measure) {
-                    forceReflow(element);
-                }
-            }
-        }
-
-    }, [phase, measure]);
-
-    const inlineDirection = logicalDirectionInfo?.inlineDirection;
-    const blockDirection = logicalDirectionInfo?.blockDirection;
-    const writingModeIsHorizontal = (inlineDirection == "rtl" || inlineDirection == "ltr");
-    const surfaceInlineInset = writingModeIsHorizontal ? surfaceX : surfaceY;
-    const surfaceBlockInset = writingModeIsHorizontal ? surfaceY : surfaceX;
-    const surfaceInlineSize = writingModeIsHorizontal ? surfaceWidth : surfaceHeight;
-    const surfaceBlockSize = writingModeIsHorizontal ? surfaceHeight : surfaceWidth;
-    const transitioningInlineInset = writingModeIsHorizontal ? transitioningX : transitioningY;
-    const transitioningBlockInset = writingModeIsHorizontal ? transitioningY : transitioningX;
-    const transitioningInlineSize = writingModeIsHorizontal ? transitioningWidth : transitioningHeight;
-    const transitioningBlockSize = writingModeIsHorizontal ? transitioningHeight : transitioningWidth;
-
-    return {
-        phase,
-        direction,
-        useTransitionableProps: function useTransitionableProps(otherProps: h.JSX.HTMLAttributes<E>) {
-    
-            let almostDone = useMergedProps(refElementProps, useLogicalDirectionProps({
-                ref,
-                style: removeEmpty({
-                    [`--${classBase}-duration`]: duration,
-                    [`--${classBase}-surface-x`]: surfaceX,
-                    [`--${classBase}-surface-y`]: surfaceY,
-                    [`--${classBase}-surface-width`]: surfaceWidth,
-                    [`--${classBase}-surface-height`]: surfaceHeight,
-                    [`--${classBase}-surface-inline-inset`]: surfaceInlineInset,
-                    [`--${classBase}-surface-block-inset`]: surfaceBlockInset,
-                    [`--${classBase}-surface-inline-size`]: surfaceInlineSize,
-                    [`--${classBase}-surface-block-size`]: surfaceBlockSize,
-        
-                    [`--${classBase}-transitioning-x`]: transitioningX,
-                    [`--${classBase}-transitioning-y`]: transitioningY,
-                    [`--${classBase}-transitioning-width`]: transitioningWidth,
-                    [`--${classBase}-transitioning-height`]: transitioningHeight,
-                    [`--${classBase}-transitioning-inline-inset`]: transitioningInlineInset,
-                    [`--${classBase}-transitioning-block-inset`]: transitioningBlockInset,
-                    [`--${classBase}-transitioning-inline-size`]: transitioningInlineSize,
-                    [`--${classBase}-transitioning-block-size`]: transitioningBlockSize
-                }) as h.JSX.CSSProperties,
-                onTransitionEnd,
-                ...({ "aria-hidden": show ? undefined : "true" }) as {},
-                className: clsx(
-                    direction && getClassName(classBase!, direction),
-                    direction && phase && getClassName(classBase!, direction, phase),
-                    exitVisibility == "removed" && `${classBase}-removed-on-exit`,
-                    exitVisibility == "visible" && `${classBase}-visible-on-exit`,
-                    `${classBase}-inline-direction-${inlineDirection ?? "ltr"}`,
-                    `${classBase}-block-direction-${blockDirection ?? "ttb"}`
-                ),
-            }));
-        
-            return useMergedProps<E>(almostDone, otherProps);
-        }
-    }
-}
-
-export interface TransitionableProps<E extends HTMLElement> extends CreateTransitionableProps<E>, Readonly<Attributes & { children?: ComponentChildren; }> {
-    //children: ComponentChildren; // TODO: This should be VNode<any> | h.JSX.Element;
-    //ref?: Ref<E>;
-    //className?: string | undefined;
-    //"class"?: string | undefined;
+    /**
+     * Updates all "measure" variables (or removes them)
+     */
+    const updateSizeProperties = useCallback((element: E, nextSize: DOMRectReadOnly | null) => {
+        console.log(`Updating measure properties (width: ${nextSize?.width ?? "null"})`)
+        updateSizeProperty(element, `--${classBase}-measure-top`, nextSize?.top);
+        updateSizeProperty(element, `--${classBase}-measure-left`, nextSize?.left);
+        updateSizeProperty(element, `--${classBase}-measure-width`, nextSize?.width);
+        updateSizeProperty(element, `--${classBase}-measure-height`, nextSize?.height);
+    }, []);
 
     /**
-     * Controls how children mount.  If a child isn't mounted, then a `div` with
-     * no children is rendered instead of whatever children you passed in (this
-     * means that props will still be forwarded onto this `div`).
+     * Adds the "measure" variables to the element if requested.
      */
-    childMountBehavior?: "immediately-mount" | "mount-on-show" | "mount-when-showing";
-}
+    const measureElementAndUpdateProperties = useCallback((element: E | null, measure: boolean) => {
+        if (element) {
+            let size: DOMRectReadOnly | null = null;
+            if (measure) {
+                size = element.getBoundingClientRect();
+            }
 
-function removeEmpty<T extends {}>(obj: T): T {
-    return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null)) as T;
+            updateSizeProperties(element, size);
+        }
+    }, []);
+
+    // When a transition starts, we read the transition-duration and use it as an emergency timeout in case onTransitionEnd doesn't work.
+    // So we need a way to cancel that timeout if needed.
+    const timeoutHandle = useRef<number>(-1);
+
+    /**
+     * Any time the state changes, there's some logic we need to run:
+     * 
+     * * If we're changing to an `init` phase, wait a moment and then change to the `transition` phase.
+     * * If we're changing to a `transition` phase, wait until the transition completes, then change to the `finalize` phase.
+     * 
+     * In addition, any change results in the classes/styles updating as necessary without implicitly causing a re-render.
+     */
+    const onStateChange = useCallback<OnPassiveStateChange<TransitionState | null, undefined>>((nextState, prevState, reason) => {
+        if (nextState == null)
+            return;
+
+        console.log(`onStateChage from ${prevState ?? "null"} to ${nextState}`)
+
+        const [nextDirection, nextPhase] = parseState(nextState);
+        const element = getElement();
+        const measure = getMeasure();
+        if (measure && element && nextPhase == "init") {
+            // We actually need all these reflows, either to make things like block-size work, or to make things like opacity work.
+            console.log("Adding measure")
+            element.classList.add(`${classBase}-measure`);
+            updateClasses(element, nextDirection, "finalize");
+            forceReflow(element);   // By measuring the element below we implicitly reflow, but this is a reminder that it happens.
+            measureElementAndUpdateProperties(element, measure);
+            updateClasses(element, nextDirection, nextPhase);
+            forceReflow(element);
+            console.log("Removing measure")
+            element.classList.remove(`${classBase}-measure`);
+            forceReflow(element);
+        }
+        else {
+            updateClasses(element, nextDirection, nextPhase);
+        }
+
+        const exitVisibility = getExitVisibility();
+        if (exitVisibility) {
+            const inert = (exitVisibility == "inert" && nextDirection == "exit" ? true : false);
+            (otherProps.current as {} as { inert?: boolean }).inert = inert;
+            if (element)
+                element.inert = inert;
+        }
+        switch (nextPhase) {
+            case "init": {
+                requestAnimationFrame(() => { setState(`${nextDirection}-transition`); });
+                break;
+            }
+            case "transition": {
+                if (timeoutHandle.current >= 0)
+                    clearTimeout(timeoutHandle.current);
+                timeoutHandle.current = setTimeout(() =>  { handleTransitionFinished(); }, getTimeoutDuration(element) * 1.5);
+                break;
+            }
+            case "finalize": {
+                // Nothing to do or schedule or anything -- we just update our classes and we're done.
+
+                break;
+            }
+            default: {
+                debugger; // Intentional
+                console.log(`Invalid state used in transition: ${nextState}. Previous state was ${prevState ?? "null"}`);
+                break;
+            }
+        }
+    }, []);
+
+    const [getState, setState] = usePassiveState<TransitionState | null, undefined>(onStateChange, returnNull);
+
+
+    useLayoutEffect(() => {
+        if (v === null)
+            return;
+
+        const currentState = getState();
+        let nextPhase: TransitionPhase = "init";
+        if (currentState) {
+            const [currentDirection, currentPhase] = parseState(currentState);
+            if (currentPhase != "finalize")
+                nextPhase = "transition";
+        }
+
+        if (v) {
+            if (hasMounted.current || a)
+                setState(`enter-${nextPhase}`);
+
+            else
+                setState("enter-finalize");
+
+        }
+        else {
+            if (hasMounted.current || a)
+                setState(`exit-${nextPhase}`);
+            else
+                setState("exit-finalize");
+        }
+
+        hasMounted.current = true;
+    }, [v]);
+
+    // TODO
+    const inlineDirection = null;
+    const blockDirection = null;
+
+    return {
+        props: useMergedProps<E>(propsStable, {
+            className: [
+                ...classNames.current,
+
+                `${classBase}-inline-direction-${inlineDirection ?? "ltr"}`,
+                `${classBase}-block-direction-${blockDirection ?? "ttb"}`
+            ].join(" "),
+            style: cssProperties.current,
+            ...otherProps.current
+        })
+    }
 }
 
 /**
- * A component that *wraps an HTMLElement or other ref-forwarding component* and allows it to use CSS to transition in/out.
- * Combines the props passed to it, the props its child has, and the props needed for the CSS transition, and passes them
- * all to the child element you provide.
+ * All attributes are merged, but autocomplete becomes really noisy trying to find the props that are relevant to the `Transitionable` itself. 
+ * To avoid wading through a sea of event handlers and attributes no one ever uses, only the most common ones are shown.
  * 
- * This is the most general component that others use as a base. By default, this component by itself doesn't actually add any CSS classes that animate anything (like opacity, for example).
- * It adds classes like `transition-enter-finalize`, but you need to provide the additional e.g. `fade` class that reacts to it. 
- * 
- * Use this if the other, more specialized Transition components don't fit your needs.
- * 
- * @example `<Transitionable show={show} {...useCreateFadeProps(...)}><div>{children}</div></Transitionable>`
- * @example `<Transitionable show={show}><div {...useCreateFadeProps(...)}>{children}</div></Transitionable>`
+ * Again, though, **all props are merged and forwarded, not just these ones!** You can use any/all of the usual attributes, including `onTransitionEnd`.
  */
-export const Transitionable = forwardElementRef(function Transition<E extends HTMLElement>({ children: child, duration, classBase, measure, exitVisibility, show, onTransitionUpdate, animateOnMount, childMountBehavior, ...props }: TransitionableProps<E>, r: Ref<E>) {
+export interface NonIntrusiveElementAttributes<E extends Element> extends Pick<h.JSX.HTMLAttributes<E>, "children" | "ref" | "style" | "class" | "className"> { }
 
-    const [hasShownOnce, setHasShownOnce] = useState(false);
-    const shouldSetHasShownOnce = (hasShownOnce === false && childMountBehavior === "mount-on-show" && show === true);
-    useEffect(() => { if (shouldSetHasShownOnce) setHasShownOnce(true); }, [shouldSetHasShownOnce])
+export interface TransitionableProps<E extends Element> {
+    transition: UseTransitionProps;
+    props: h.JSX.HTMLAttributes<E>;
+}
 
-    if (childMountBehavior === "mount-when-showing" && !show)
-        child = <div /> as VNode<any>;
-    if (childMountBehavior === "mount-on-show" && !show && hasShownOnce === false)
-        child = <div /> as VNode<any>;
+export function Transitionable<E extends HTMLElement>({ transition: { animateOnMount, classBase, exitVisibility, measure, show }, props: { children, ...props } }: TransitionableProps<E>) {
+    const { props: transitionProps } = useTransition<E>({
+        animateOnMount,
+        classBase,
+        exitVisibility,
+        measure,
+        show
+    });
 
-    if (!childIsVNode(child)) {
-        debugger;   // Intentional
-        throw new Error("A Transitionable component must have exactly one component child (e.g. a <div />, but not \"a string\").");
+    const childrenIsVnode = (children && (children as VNode).type && (children as VNode).props);
+    const finalProps = useMergedProps<E>(props, transitionProps, childrenIsVnode ? { ref: (children as VNode).ref, ...(children as VNode).props } : {});
+    if (childrenIsVnode) {
+        return cloneElement(children as VNode, finalProps)
     }
-
-    const { direction, phase, useTransitionableProps } = useTransitionable({ classBase, duration, measure, show, animateOnMount, onTransitionUpdate, ref: r, exitVisibility });
-
-    const mergedWithChildren = useMergedProps<E>(useTransitionableProps(props), { ...child.props, ref: child.ref });
-
-    return cloneElement(child, mergedWithChildren);
-});
-
-function childIsVNode(child: ComponentChildren): child is VNode<any> {
-    if (!child)
-        return false;
-
-    if (Array.isArray(child)) {
-        return false;
+    else {
+        return <span {...finalProps as h.JSX.HTMLAttributes<any>}>{children}</span>
     }
-    if (typeof child != "object")
-        return false;
+}
 
-    return ("props" in child);
+let dummy: any;
+function forceReflow<E extends HTMLElement>(e: E) {
+    console.log("Forcing reflow")
+    // Try really hard to make sure this isn't optimized out by anything.
+    // We need it for its document reflow side effect.
+    dummy = e.getBoundingClientRect();
+    dummy = e.style.opacity;
+    dummy = e.style.transform;
+    return e;
 }

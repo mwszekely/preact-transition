@@ -1,9 +1,10 @@
 import { default as clsx } from "clsx";
 import { cloneElement, ComponentChildren, h, Ref, VNode } from "preact";
-import { useMergedProps } from "preact-prop-helpers/use-merged-props";
+import { useMergedProps } from "preact-prop-helpers";
+import { defaultClassBase, NonIntrusiveElementAttributes } from "./transitionable";
 import { forwardElementRef } from "./forward-element-ref";
 
-export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappableProps>, h.JSX.HTMLAttributes<E> {
+export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappableProps>, NonIntrusiveElementAttributes<E> {
     children: ComponentChildren;
 }
 
@@ -28,8 +29,9 @@ export interface CreateSwappableProps {
  */
 export function useCreateSwappableProps<P extends {}>({ inline, classBase }: CreateSwappableProps, otherProps: P) {
     type E = P extends h.JSX.HTMLAttributes<infer E>? E : HTMLElement;
+    classBase = defaultClassBase(classBase);
     return useMergedProps<E>({
-        className: clsx(`${classBase ?? "transition"}-swap-container`, inline && `${classBase ?? "transition"}-swap-container-inline`)
+        className: clsx(`${classBase}-swap-container`, inline && `${classBase}-swap-container-inline`)
     }, otherProps);
 }
 

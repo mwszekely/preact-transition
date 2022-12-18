@@ -1,9 +1,8 @@
 import { h, Ref } from "preact";
 import { forwardElementRef } from "./forward-element-ref";
-import { useMergedProps } from "preact-prop-helpers/use-merged-props";
-import { Transitionable, TransitionableProps } from "./transitionable";
+import { useMergedProps } from "preact-prop-helpers";
+import { defaultClassBase, NonIntrusiveElementAttributes, Transitionable, TransitionableProps, UseTransitionProps } from "./transitionable";
 import { default as clsx } from "clsx";
-
 
 export interface CreateClipProps {
 
@@ -44,22 +43,18 @@ export interface CreateClipProps {
     clipMinBlock: number | undefined | null;
 
     /**
-     * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
+     * Allows customizing the class name used (in the format of `${classBase}-clip`)
      * @default "transition"
      */
     classBase: string | undefined;
 }
 
-/**
- * Creates a set of props that implement a Clip transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
- * Be sure to merge these returned props with whatever the user passed in.
- */
-export function useCreateClipProps<P extends {}>({ classBase, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock }: CreateClipProps, otherProps: P) {
-    type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
-    classBase ??= "transition";
-    return {
-        classBase,
-        ...useMergedProps<E>({
+export interface ClipProps<E extends HTMLElement> extends Partial<CreateClipProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
+
+export function createClipProps({ classBase, clipMin, clipMinBlock, clipMinInline, clipOrigin, clipOriginBlock, clipOriginInline }: Partial<CreateClipProps>) {
+    classBase = defaultClassBase(classBase);
+    return (
+        {
             className: clsx(`${classBase}-clip`),
             style: {
                 [`--${classBase}-clip-origin-inline`]: (clipOriginInline ?? clipOrigin ?? 0.5),
@@ -67,12 +62,15 @@ export function useCreateClipProps<P extends {}>({ classBase, clipOrigin, clipOr
                 [`--${classBase}-clip-min-inline`]: (clipMinInline ?? clipMin ?? 1),
                 [`--${classBase}-clip-min-block`]: (clipMinBlock ?? clipMin ?? 0),
             } as h.JSX.CSSProperties,
-        }, otherProps)
-    };
+        }
+    )
 }
 
-export interface ClipProps<E extends HTMLElement> extends Partial<CreateClipProps>, TransitionableProps<E> { };
-
-export const Clip = forwardElementRef(function Clip<E extends HTMLElement>({ classBase, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, ...rest }: ClipProps<E>, ref: Ref<E>) {
-    return <Transitionable<E> show={show!} {...useCreateClipProps({ classBase, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock }, { ...rest, ref })} />
+export const Clip = forwardElementRef(function Clip<E extends HTMLElement>({ classBase, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, animateOnMount, exitVisibility, ...rest }: ClipProps<E>, ref: Ref<E>) {
+    return (
+        <Transitionable<E>
+            transition={{ measure: false, show, animateOnMount, classBase, exitVisibility }}
+            props={useMergedProps<E>({ ref, ...rest }, createClipProps({ classBase, clipMin, clipMinBlock, clipMinInline, clipOrigin, clipOriginBlock, clipOriginInline }))}
+        />
+    )
 });

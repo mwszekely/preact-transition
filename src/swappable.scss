@@ -1,8 +1,9 @@
-@use "./base.scss" as *;
-// TODO: Technically it's only necessary for the variable,
-// but it'll be implicitly required anyway by any Transitionable
+@use "./_variables" as *;
 
 .#{$transition-class-name}-swap-container {
+    isolation: isolate;
+
+
     display: grid;
     // Required instead of just 1fr to allow width/height: 100% 
     // to work on parent/child elements
@@ -15,7 +16,20 @@
         display: inline-grid;
     }
 
-    & > * {
+    &>.#{$transition-class-name} {
+        --#{$transition-class-name}-enter-timing-function: #{$transition-default-timing-function-swap};
+        --#{$transition-class-name}-exit-timing-function: #{$transition-default-timing-function-swap};
+    }
+
+    &>.#{$transition-class-name}-enter {
+        z-index: var(--#{$transition-class-name}-enter-z-index, 10);
+    }
+
+    &>.#{$transition-class-name}-exit {
+        z-index: var(--#{$transition-class-name}-exit-z-index, 0);
+    }
+
+    &>* {
         position: relative;
         grid-area: 1 / 1 / 1 / 1;
         align-self: flex-start;

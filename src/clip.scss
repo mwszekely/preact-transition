@@ -1,6 +1,9 @@
 @use "./base.scss" as *;
+@use "./_variables" as *;
 
 .#{$transition-class-name}-clip {
+  --#{$transition-class-name}-properties: clip-path;
+
   overflow: hidden;  
     
   &.#{$transition-class-name}-enter-init, &.#{$transition-class-name}-exit-transition, &.#{$transition-class-name}-exit-finalize { 
