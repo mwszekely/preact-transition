@@ -213,8 +213,8 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         const measure = getMeasure();
         const durationOverride = getDurationOverride();
         if (durationOverride != null) {
-            cssProperties.current[`--${classBase}-duration`] = durationOverride;
-            element?.style.setProperty(`--${classBase}-duration`, `${durationOverride}`);
+            cssProperties.current[`--${classBase}-duration`] = durationOverride + "ms";
+            element?.style.setProperty(`--${classBase}-duration`, `${durationOverride}ms`);
         }
         if (measure && element && nextPhase == "init") {
             // We actually need all these reflows, either to make things like block-size work, or to make things like opacity work.
