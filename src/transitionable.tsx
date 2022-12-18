@@ -328,10 +328,11 @@ export interface TransitionableProps<E extends Element> {
     props: h.JSX.HTMLAttributes<E>;
 }
 
-export function Transitionable<E extends HTMLElement>({ transition: { animateOnMount, classBase, exitVisibility, measure, show }, props: { children, ...props } }: TransitionableProps<E>) {
+export function Transitionable<E extends HTMLElement>({ transition: { animateOnMount, duration, classBase, exitVisibility, measure, show }, props: { children, ...props } }: TransitionableProps<E>) {
     const { props: transitionProps } = useTransition<E>({
         animateOnMount,
         classBase,
+        duration,
         exitVisibility,
         measure,
         show
