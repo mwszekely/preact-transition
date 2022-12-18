@@ -40,6 +40,11 @@ export interface UseTransitionProps {
     classBase?: string;
 
     /**
+     * Can also be provided via CSS properties, but this handles `classBase` properly
+     */
+    duration?: number;
+
+    /**
      * After the element has finished its exit animation, what happens to it?
      * 
      * * `"removed"`: `display: none` is applied.
@@ -70,12 +75,13 @@ function parseState(nextState: TransitionState) {
  * @param param0 
  * @returns 
  */
-export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: a, measure: m, classBase, exitVisibility: e }: UseTransitionProps) {
+export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: a, measure: m, classBase, exitVisibility: e, duration: d }: UseTransitionProps) {
     classBase ||= defaultClassBase(classBase);
     e ||= "hidden"
     a ??= false;
     m ??= false;
     const getMeasure = useStableGetter(m);
+    const getDurationOverride = useStableGetter(d);
     useEnsureStability("useTransition", classBase);
     const getExitVisibility = useStableGetter(e);
 
@@ -205,6 +211,11 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         const [nextDirection, nextPhase] = parseState(nextState);
         const element = getElement();
         const measure = getMeasure();
+        const durationOverride = getDurationOverride();
+        if (durationOverride != null) {
+            cssProperties.current[`--${classBase}-duration`] = durationOverride;
+            element?.style.setProperty(`--${classBase}-duration`, `${durationOverride}`);
+        }
         if (measure && element && nextPhase == "init") {
             // We actually need all these reflows, either to make things like block-size work, or to make things like opacity work.
             console.log("Adding measure")

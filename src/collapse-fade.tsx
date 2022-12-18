@@ -9,11 +9,11 @@ import { NonIntrusiveElementAttributes, Transitionable, UseTransitionProps } fro
 export interface CreateCollapseFadeProps extends CreateFadeProps, CreateCollapseProps { }
 export interface CollapseFadeProps<E extends HTMLElement> extends Partial<CreateCollapseFadeProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
 
-export const CollapseFade = forwardElementRef(function CollapseFade<E extends HTMLElement>({ classBase, show, animateOnMount, fadeMin, fadeMax, exitVisibility, minBlockSize, ...rest }: CollapseFadeProps<E>, ref: Ref<E>) {
+export const CollapseFade = forwardElementRef(function CollapseFade<E extends HTMLElement>({ classBase, show, duration, animateOnMount, fadeMin, fadeMax, exitVisibility, minBlockSize, ...rest }: CollapseFadeProps<E>, ref: Ref<E>) {
 
     return (
         <Transitionable<E>
-            transition={{ measure: true, show, animateOnMount, classBase, exitVisibility }}
+            transition={{ measure: true, show, duration, animateOnMount, classBase, exitVisibility }}
             props={useMergedProps<E>(
                 { ref, ...rest },
                 createFadeProps({ classBase, fadeMin, fadeMax }),

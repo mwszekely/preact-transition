@@ -59,12 +59,12 @@ export interface SlideProps<E extends HTMLElement> extends Partial<CreateSlidePr
  * 
  * @see `Transitionable`
  */
-export const Slide = forwardElementRef(function Slide<E extends HTMLElement>({ classBase, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, ...rest }: SlideProps<E>, ref: Ref<E>) {
+export const Slide = forwardElementRef(function Slide<E extends HTMLElement>({ classBase, duration, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, ...rest }: SlideProps<E>, ref: Ref<E>) {
 
     //({ targetBlock: slideTargetBlock, targetInline: slideTargetInline } = useSlideThing({ targetBlock: slideTargetBlock, targetInline: slideTargetInline }));
 
     return <Transitionable<E>
-        transition={{ measure: false, show, animateOnMount, classBase, exitVisibility }}
+        transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility }}
         props={useMergedProps<E>({ ref, ...rest }, createSlideProps({ classBase, slideTargetBlock, slideTargetInline }))}
     />
 });

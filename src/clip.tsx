@@ -66,10 +66,10 @@ export function createClipProps({ classBase, clipMin, clipMinBlock, clipMinInlin
     )
 }
 
-export const Clip = forwardElementRef(function Clip<E extends HTMLElement>({ classBase, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, animateOnMount, exitVisibility, ...rest }: ClipProps<E>, ref: Ref<E>) {
+export const Clip = forwardElementRef(function Clip<E extends HTMLElement>({ classBase,duration, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, animateOnMount, exitVisibility, ...rest }: ClipProps<E>, ref: Ref<E>) {
     return (
         <Transitionable<E>
-            transition={{ measure: false, show, animateOnMount, classBase, exitVisibility }}
+            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility }}
             props={useMergedProps<E>({ ref, ...rest }, createClipProps({ classBase, clipMin, clipMinBlock, clipMinInline, clipOrigin, clipOriginBlock, clipOriginInline }))}
         />
     )
