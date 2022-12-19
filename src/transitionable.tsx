@@ -121,8 +121,6 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         if (element == null)
             return;
 
-        console.log("updating classes to " + direction + " " + phase);
-
         const exitVisibility = getExitVisibility();
 
         const allClassesToRemove = [
@@ -170,7 +168,6 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
      * Updates all "measure" variables (or removes them)
      */
     const updateSizeProperties = useCallback((element: E, nextSize: DOMRectReadOnly | null) => {
-        console.log(`Updating measure properties (width: ${nextSize?.width ?? "null"})`)
         updateSizeProperty(element, `--${classBase}-measure-top`, nextSize?.top);
         updateSizeProperty(element, `--${classBase}-measure-left`, nextSize?.left);
         updateSizeProperty(element, `--${classBase}-measure-width`, nextSize?.width);
@@ -207,8 +204,6 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         if (nextState == null)
             return;
 
-        console.log(`onStateChage from ${prevState ?? "null"} to ${nextState}`)
-
         const [nextDirection, nextPhase] = parseState(nextState);
         const element = getElement();
         const measure = getMeasure();
@@ -219,14 +214,12 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         }
         if (measure && element && nextPhase == "init") {
             // We actually need all these reflows, either to make things like block-size work, or to make things like opacity work.
-            console.log("Adding measure")
             element.classList.add(`${classBase}-measure`);
             updateClasses(element, nextDirection, "finalize");
             forceReflow(element);   // By measuring the element below we implicitly reflow, but this is a reminder that it happens.
             measureElementAndUpdateProperties(element, measure);
             updateClasses(element, nextDirection, nextPhase);
             forceReflow(element);
-            console.log("Removing measure")
             element.classList.remove(`${classBase}-measure`);
             forceReflow(element);
         }
@@ -355,7 +348,6 @@ export function Transitionable<E extends HTMLElement>({ transition: { animateOnM
 
 let dummy: any;
 function forceReflow<E extends HTMLElement>(e: E) {
-    console.log("Forcing reflow")
     // Try really hard to make sure this isn't optimized out by anything.
     // We need it for its document reflow side effect.
     dummy = e.getBoundingClientRect();
