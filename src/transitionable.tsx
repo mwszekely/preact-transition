@@ -79,7 +79,7 @@ function parseState(nextState: TransitionState) {
 export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: a, measure: m, classBase, exitVisibility: e, duration: d }: UseTransitionProps) {
     classBase ||= defaultClassBase(classBase);
     e ||= "hidden"
-    a ??= true;
+    a ??= false;
     m ??= false;
     const getMeasure = useStableGetter(m);
     const getDurationOverride = useStableGetter(d);

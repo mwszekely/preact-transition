@@ -16,7 +16,7 @@ function halfText(input: string, times: number): string {
 
 function Demo() {
   const [writingMode, setWritingMode] = useState<"horizontal" | "vertical">("horizontal");
-  const [show1, setShow1] = useState(null as boolean | null);
+  const [show1, setShow1] = useState(true as boolean | null);
   const [show3, setShow3] = useState(0);
   const [reflow, setReflow] = useState<"visible" | "hidden" | "removed">("hidden");
   const [duration, setDuration] = useState(500);
