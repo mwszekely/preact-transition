@@ -273,7 +273,7 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
 
 
     useLayoutEffect(() => {
-        if (v === null)
+        if (v == null)
             return;
 
         const currentState = getState();
