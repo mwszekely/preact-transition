@@ -1,5 +1,6 @@
 import { cloneElement, ComponentChildren, h, Ref, VNode } from "preact";
 import { OnPassiveStateChange, returnNull, useEnsureStability, useLogicalDirection, useMergedProps, usePassiveState, useRefElement, useStableGetter } from "preact-prop-helpers";
+import { runImmediately } from "preact-prop-helpers/preact-extensions/use-passive-state";
 import { forwardRef } from "preact/compat";
 import { useCallback, useEffect, useLayoutEffect, useRef } from "preact/hooks";
 
@@ -268,7 +269,7 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         }
     }, []);
 
-    const [getState, setState] = usePassiveState<TransitionState | null, undefined>(onStateChange, returnNull);
+    const [getState, setState] = usePassiveState<TransitionState | null, undefined>(onStateChange, returnNull, runImmediately);
 
 
     useLayoutEffect(() => {
