@@ -1,7 +1,8 @@
 import { cloneElement, h, VNode } from "preact";
 import { OnPassiveStateChange, returnNull, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableGetter } from "preact-prop-helpers";
 import { runImmediately } from "preact-prop-helpers/preact-extensions/use-passive-state";
-import { useCallback, useLayoutEffect, useRef } from "preact/hooks";
+import { useCallback, useContext, useLayoutEffect, useRef } from "preact/hooks";
+import { SwappableContext } from "./context";
 
 export type TransitionPhase = 'init' | 'transition' | 'finalize';
 export type TransitionDirection = 'enter' | 'exit';
@@ -74,9 +75,10 @@ function parseState(nextState: TransitionState) {
  * @returns 
  */
 export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: a, measure: m, classBase, exitVisibility: e, duration: d }: UseTransitionProps) {
+    const {getAnimateOnMount} = useContext(SwappableContext);
     classBase ||= defaultClassBase(classBase);
     e ||= "hidden"
-    a ??= false;
+    a ??= getAnimateOnMount();
     m ??= false;
     const getMeasure = useStableGetter(m);
     //const getDurationOverride = useStableGetter(d);

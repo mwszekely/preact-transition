@@ -1,8 +1,10 @@
 import { default as clsx } from "clsx";
-import { cloneElement, ComponentChildren, h, Ref, VNode } from "preact";
+import { cloneElement, ComponentChildren, createContext, h, Ref, VNode } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
 import { defaultClassBase, NonIntrusiveElementAttributes } from "./transitionable";
 import { forwardElementRef } from "./forward-element-ref";
+import { useEffect, useRef } from "preact/hooks";
+import { SwappableContext } from "./context";
 
 export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappableProps>, NonIntrusiveElementAttributes<E> {
     children: ComponentChildren;
@@ -28,7 +30,7 @@ export interface CreateSwappableProps {
  * Be sure to merge these returned props with whatever the user passed in.
  */
 export function useCreateSwappableProps<P extends {}>({ inline, classBase }: CreateSwappableProps, otherProps: P) {
-    type E = P extends h.JSX.HTMLAttributes<infer E>? E : HTMLElement;
+    type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
     classBase = defaultClassBase(classBase);
     return useMergedProps<E>({
         className: clsx(`${classBase}-swap-container`, inline && `${classBase}-swap-container-inline`)
@@ -55,7 +57,16 @@ export const Swappable = forwardElementRef(function Swappable<E extends HTMLElem
     const transitionProps = useCreateSwappableProps({ classBase, inline }, { ...p, ref });
     const mergedWithChildren = useMergedProps<E>(transitionProps, children.props);
 
-    return cloneElement(children, mergedWithChildren as typeof transitionProps);
+    const animateOnMount = useRef(false);
+    useEffect(() => {
+        animateOnMount.current = true;
+    }, [])
+    const contextValue = useRef({ getAnimateOnMount: () => { return animateOnMount.current; } });
+    return (
+        <SwappableContext.Provider value={contextValue.current}>
+            {cloneElement(children, mergedWithChildren as typeof transitionProps)}
+        </SwappableContext.Provider>
+    );
 })
 
 // If "inline" isn't explicitly provided, we try to implicitly do it based on the child's tag.
