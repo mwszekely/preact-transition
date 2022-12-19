@@ -79,7 +79,7 @@ function parseState(nextState: TransitionState) {
 export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: a, measure: m, classBase, exitVisibility: e, duration: d }: UseTransitionProps) {
     classBase ||= defaultClassBase(classBase);
     e ||= "hidden"
-    a ??= false;
+    a ??= true;
     m ??= false;
     const getMeasure = useStableGetter(m);
     const getDurationOverride = useStableGetter(d);
@@ -88,7 +88,9 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
 
     const { refElementReturn: { getElement, propsStable } } = useRefElement<E>({ refElementParameters: {} })
     const cssProperties = useRef<h.JSX.CSSProperties>({});
-    const classNames = useRef(new Set<string>());
+    const classNames = useRef(new Set<string>([
+        `${classBase}-pending`,
+    ]));
     const handleTransitionFinished = useCallback(() => {
         const state = getState();
         console.assert(!!state);
@@ -130,7 +132,8 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
             `${classBase}-ev-${"inert"}`,
             `${classBase}-ev-${"removed"}`,
             `${classBase}-ev-${"hidden"}`,
-            `${classBase}-ev-${"visible"}`
+            `${classBase}-ev-${"visible"}`,
+            `${classBase}-pending`,
         ];
         const allClassesToAdd = [
             `${classBase}`,
@@ -175,7 +178,7 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
     }, []);
 
     /**
-     * Adds the "measure" variables to the element if requested.
+     * Adds the "measure" variupdateClassesables to the element if requested.
      */
     const measureElementAndUpdateProperties = useCallback((element: E | null, measure: boolean) => {
         if (element) {
@@ -225,6 +228,8 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         }
         else {
             updateClasses(element, nextDirection, nextPhase);
+            //if (element)
+            //    forceReflow(element);
         }
 
         const exitVisibility = getExitVisibility();
@@ -269,6 +274,15 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         if (v == null)
             return;
 
+        if (!hasMounted.current) {
+            classNames.current.delete(`${classBase}-pending`);
+            const element = getElement();
+            if (element) {
+                element.classList.remove(`${classBase}-pending`);
+                forceReflow(element);
+            }
+        }
+
         const currentState = getState();
         let nextPhase: TransitionPhase = "init";
         if (currentState) {
@@ -303,7 +317,7 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         props: useMergedProps<E>(propsStable, {
             className: [
                 ...classNames.current,
-
+                `${classBase}-ev-${e}`,
                 `${classBase}-inline-direction-${inlineDirection ?? "ltr"}`,
                 `${classBase}-block-direction-${blockDirection ?? "ttb"}`
             ].join(" "),

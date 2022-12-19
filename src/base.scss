@@ -34,27 +34,38 @@
     transition-timing-function: var(--#{$transition-class-name}-exit-timing-function, #{$transition-default-timing-function-out});
 }
 
-.#{$transition-class-name}-exit.#{$transition-class-name}-exit-finalize.#{$transition-class-name}-ev-hidden {
-    visibility: hidden;
+.#{$transition-class-name}-ev-hidden {
+
+    &.#{$transition-class-name}-exit.#{$transition-class-name}-exit-finalize,
+    &.#{$transition-class-name}-pending {
+        visibility: hidden;
+    }
 }
 
-.#{$transition-class-name}-exit.#{$transition-class-name}-exit-finalize.#{$transition-class-name}-ev-removed {
-    display: none;
+.#{$transition-class-name}-ev-removed {
+
+    &.#{$transition-class-name}-exit.#{$transition-class-name}-exit-finalize,
+    &.#{$transition-class-name}-pending {
+        display: none;
+    }
 }
 
 .#{$transition-class-name}-enter-transition,
 .#{$transition-class-name}-exit-transition {}
 
-.#{$transition-class-name}-enter.#{$transition-class-name}-enter-finalize {
-    //transition: none;
+.#{$transition-class-name}-enter {
+    &.#{$transition-class-name}-enter-finalize,
+    &.#{$transition-class-name}-enter-init {
+        transition: none;
+    }
 }
 
-.#{$transition-class-name}-exit.#{$transition-class-name}-exit-finalize {
-    //transition: none;
-}
 
-.#{$transition-class-name}-enter.#{$transition-class-name}-enter-finalize {
-    //transition: none;
+.#{$transition-class-name}-exit {
+    &.#{$transition-class-name}-exit-finalize,
+    &.#{$transition-class-name}-exit-init {
+        transition: none;
+    }
 }
 
 @media (prefers-reduced-motion) {

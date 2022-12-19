@@ -16,7 +16,7 @@ function halfText(input: string, times: number): string {
 
 function Demo() {
   const [writingMode, setWritingMode] = useState<"horizontal" | "vertical">("horizontal");
-  const [show1, setShow1] = useState(true);
+  const [show1, setShow1] = useState(null as boolean | null);
   const [show3, setShow3] = useState(0);
   const [reflow, setReflow] = useState<"visible" | "hidden" | "removed">("hidden");
   const [duration, setDuration] = useState(500);
@@ -38,7 +38,8 @@ function Demo() {
     <>
       <div id="controls">
         <h1>Preact Transition</h1>
-        <label><input onInput={onInput1} type="checkbox" checked={show1}></input> Card show</label>
+        <button onClick={() => setShow1(false)}>Debug (set to false)</button>
+        <label><input onInput={onInput1} type="checkbox" checked={show1 || false}></input> Card show</label>
         <div className="radiogroup">
           <div>Visible Swappable child: </div>
           <label className="code-mimic"><input type="radio" name="swap-index" onInput={onInputA} checked={show3 == 0} />#0</label>
@@ -79,7 +80,7 @@ function Demo() {
 }
 
 
-function FadeDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+function FadeDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean | null, contentIndex: number, exitVisibility: EV, text: string }) {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(1);
   const onMinInput = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setMin(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
@@ -109,7 +110,7 @@ function FadeDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: 
         </Swappable>
       </C>
       {<code><pre>{`<${CS} 
-  show={${cardShow.toString()}}${min != 0 ? ` 
+  show={${(cardShow ?? "null").toString()}}${min != 0 ? ` 
   fadeMin={${min}}` : ``}${max != 1 ? ` 
   fadeMax={${max}}` : ``}${exitVisibility != "hidden" ? `
   exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
@@ -135,7 +136,7 @@ function FadeDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: 
 
 type EV = UseTransitionProps["exitVisibility"];
 
-function ClipDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+function ClipDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean | null, contentIndex: number, exitVisibility: EV, text: string }) {
   const [originX, setOriginX] = useState(0.5);
   const [originY, setOriginY] = useState(0);
   const [minX, setMinX] = useState(1);
@@ -174,7 +175,7 @@ function ClipDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: 
         </Swappable>
       </C>
       {<code><pre>{`<${CS} 
-  show={${cardShow.toString()}}${originX != 0.5 ? ` 
+  show={${(cardShow ?? "null").toString()}}${originX != 0.5 ? ` 
   clipOriginX={${originX}}` : ``}${originY != 0.5 ? ` 
   clipOriginY={${originY}}` : ``}${minX != 0 ? ` 
   clipMinX={${minX}}` : ``}${minY != 0 ? ` 
@@ -202,7 +203,7 @@ function ClipDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: 
   </div>
 }
 
-function ZoomSlideDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+function ZoomSlideDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean | null, contentIndex: number, exitVisibility: EV, text: string }) {
   const [originX, setOriginX] = useState(0.5);
   const [originY, setOriginY] = useState(0);
   const [minX, setMinX] = useState(0.75);
@@ -245,7 +246,7 @@ function ZoomSlideDemo({ cardShow, contentIndex, exitVisibility, text }: { cardS
         </Swappable>
       </C>
       {<code><pre>{`<${CS} 
-  show={${cardShow.toString()}}${originX != 0.5 ? ` 
+  show={${(cardShow ?? "null").toString()}}${originX != 0.5 ? ` 
   originX={${originX}}` : ``}${originY != 0.5 ? ` 
   originY={${originY}}` : ``}${minX != 0 ? ` 
   minX={${minX}}` : ``}${minY != 0 ? ` 
@@ -277,7 +278,7 @@ function ZoomSlideDemo({ cardShow, contentIndex, exitVisibility, text }: { cardS
   </div>
 }
 
-function ZoomDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+function ZoomDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean | null, contentIndex: number, exitVisibility: EV, text: string }) {
   const [originX, setOriginX] = useState(0.5);
   const [originY, setOriginY] = useState(0);
   const [minX, setMinX] = useState(0.75);
@@ -314,7 +315,7 @@ function ZoomDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: 
         </Swappable>
       </C>
       {<code><pre>{`<${CS} 
-  show={${cardShow.toString()}}${originX != 0.5 ? ` 
+  show={${(cardShow ?? "null").toString()}}${originX != 0.5 ? ` 
   originX={${originX}}` : ``}${originY != 0.5 ? ` 
   originY={${originY}}` : ``}${minX != 0 ? ` 
   minX={${minX}}` : ``}${minY != 0 ? ` 
@@ -342,7 +343,7 @@ function ZoomDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: 
   </div>
 }
 
-function SlideDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+function SlideDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean | null, contentIndex: number, exitVisibility: EV, text: string }) {
   const [slideX, setSlideX] = useState(0.25);
   const [slideY, setSlideY] = useState(0);
   const [withFade, setWithFade] = useState(true);
@@ -376,7 +377,7 @@ function SlideDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow:
         </Swappable>
       </C>
       {<code><pre>{`<${CS} 
-  show={${cardShow.toString()}} 
+  show={${(cardShow ?? "null").toString()}} 
   slideTargetInline={${slideX}}
   slideTargetBlock={${slideY}}
   exitVisibility={${JSON.stringify(exitVisibility)}}>
@@ -399,7 +400,7 @@ function SlideDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow:
   </div>
 }
 
-function CollapseDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+function CollapseDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean | null, contentIndex: number, exitVisibility: EV, text: string }) {
   const [minBlockSize, setMinBlockSize] = useState("0px");
   const onWithFadeInput = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setWithFade(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
   const [withFade, setWithFade] = useState(true);
@@ -432,7 +433,7 @@ function CollapseDemo({ cardShow, contentIndex, exitVisibility, text }: { cardSh
           </div>
         </C>
         <code><pre>
-          {`<${CS} show={${cardShow.toString()}}${minBlockSize && minBlockSize != "0px" ? ` minBlockSize={${JSON.stringify(minBlockSize)}}` : ""}${exitVisibility ? ` exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+          {`<${CS} show={${(cardShow ?? "null").toString()}}${minBlockSize && minBlockSize != "0px" ? ` minBlockSize={${JSON.stringify(minBlockSize)}}` : ""}${exitVisibility ? ` exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
   {/* These cards have padding, 
       and height doesn't include that, 
       but a wrapper's would */}
@@ -462,7 +463,7 @@ function CollapseDemo({ cardShow, contentIndex, exitVisibility, text }: { cardSh
 
 
 
-function FlipDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean, contentIndex: number, exitVisibility: EV, text: string }) {
+function FlipDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: boolean | null, contentIndex: number, exitVisibility: EV, text: string }) {
   const [flipX, setFlipX] = useState(0);
   const [flipY, setFlipY] = useState(180);
   const onFlipXInput = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setFlipX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
@@ -490,7 +491,7 @@ function FlipDemo({ cardShow, contentIndex, exitVisibility, text }: { cardShow: 
         </Swappable>
       </C>
       {<code><pre>{`<${CS} 
-  show={${cardShow.toString()}} 
+  show={${(cardShow ?? "null").toString()}} 
   flipAngleInline={${JSON.stringify(flipX)}} 
   flipAngleBlock={${JSON.stringify(flipY)}} 
   exitVisibility={${JSON.stringify(exitVisibility)}}}>
