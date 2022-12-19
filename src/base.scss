@@ -19,7 +19,6 @@
 .#{$transition-class-name}-enter,
 .#{$transition-class-name}-exit {
     transition-duration: var(--#{$transition-class-name}-duration, #{$transition-default-duration});
-    position: relative;
     // We're going to be animating opacity a lot, 
     // so let's just be proactive about weird graphical glitches during transitions
     // because a new layer was suddenly created. This stops the "was suddenly created" problem.
