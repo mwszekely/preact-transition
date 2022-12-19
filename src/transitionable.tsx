@@ -235,10 +235,14 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
 
         const exitVisibility = getExitVisibility();
         if (exitVisibility) {
-            const inert = (exitVisibility == "inert" && nextDirection == "exit" ? true : false);
-            (otherProps.current as {} as { inert?: boolean }).inert = inert;
+            const inert = (exitVisibility == "inert" && nextDirection == "exit" ? true : undefined);
+            if (inert)
+                (otherProps.current as any).inert = true;
+            else
+                delete otherProps.current["inert" as never];
+
             if (element)
-                element.inert = inert;
+                element.inert = (inert || false);
         }
         switch (nextPhase) {
             case "init": {
@@ -248,7 +252,7 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
             case "transition": {
                 if (timeoutHandle.current >= 0)
                     clearTimeout(timeoutHandle.current);
-                timeoutHandle.current = setTimeout(() =>  { handleTransitionFinished(); }, getTimeoutDuration(element) * 1.5);
+                timeoutHandle.current = setTimeout(() => { handleTransitionFinished(); }, getTimeoutDuration(element) * 1.5);
                 break;
             }
             case "finalize": {
