@@ -1,8 +1,7 @@
-import { cloneElement, ComponentChildren, h, Ref, VNode } from "preact";
-import { OnPassiveStateChange, returnNull, useEnsureStability, useLogicalDirection, useMergedProps, usePassiveState, useRefElement, useStableGetter } from "preact-prop-helpers";
+import { cloneElement, h, VNode } from "preact";
+import { OnPassiveStateChange, returnNull, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableGetter } from "preact-prop-helpers";
 import { runImmediately } from "preact-prop-helpers/preact-extensions/use-passive-state";
-import { forwardRef } from "preact/compat";
-import { useCallback, useEffect, useLayoutEffect, useRef } from "preact/hooks";
+import { useCallback, useLayoutEffect, useRef } from "preact/hooks";
 
 export type TransitionPhase = 'init' | 'transition' | 'finalize';
 export type TransitionDirection = 'enter' | 'exit';
@@ -28,8 +27,6 @@ export interface UseTransitionProps {
      * Certain types of transitions require measuring the size of the element (namely collapse).
      * 
      * It incurs a reflow-based performance penalty every time `visible` changes when used.
-     * 
-     * Cannot change while the element is mounted; it **MUST** remain stable throughout the component's lifetime.
      */
     measure: boolean;
 
@@ -41,7 +38,7 @@ export interface UseTransitionProps {
     classBase?: string;
 
     /**
-     * Can also be provided via CSS properties, but this handles `classBase` properly
+     * Can also be provided via CSS properties (but this will match whatever `classBase` you use for you)
      */
     duration?: number;
 
@@ -82,13 +79,15 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
     a ??= false;
     m ??= false;
     const getMeasure = useStableGetter(m);
-    const getDurationOverride = useStableGetter(d);
+    //const getDurationOverride = useStableGetter(d);
     useEnsureStability("useTransition", classBase);
     const getExitVisibility = useStableGetter(e);
 
     const { refElementReturn: { getElement, propsStable } } = useRefElement<E>({ refElementParameters: {} })
     const cssProperties = useRef<h.JSX.CSSProperties>({});
     const classNames = useRef(new Set<string>([
+        // This is removed during useLayoutEffect on the first render
+        // (at least once `show` is non-null)
         `${classBase}-pending`,
     ]));
     const handleTransitionFinished = useCallback(() => {
@@ -198,10 +197,10 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
     /**
      * Any time the state changes, there's some logic we need to run:
      * 
-     * * If we're changing to an `init` phase, wait a moment and then change to the `transition` phase.
-     * * If we're changing to a `transition` phase, wait until the transition completes, then change to the `finalize` phase.
+     * * If we're changing to an `init` phase, update the classes, then wait a moment and then change to the `transition` phase.
+     * * If we're changing to a `transition` phase, update the classes, then wait until the transition completes, then change to the `finalize` phase.
      * 
-     * In addition, any change results in the classes/styles updating as necessary without implicitly causing a re-render.
+     * Any change in state or classes/styles does not implicitly cause a re-render.
      */
     const onStateChange = useCallback<OnPassiveStateChange<TransitionState | null, undefined>>((nextState, prevState, reason) => {
         if (nextState == null)
@@ -210,11 +209,11 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         const [nextDirection, nextPhase] = parseState(nextState);
         const element = getElement();
         const measure = getMeasure();
-        const durationOverride = getDurationOverride();
-        if (durationOverride != null) {
+        //const durationOverride = getDurationOverride();
+        /*if (durationOverride != null) {
             cssProperties.current[`--${classBase}-duration`] = durationOverride + "ms";
             element?.style.setProperty(`--${classBase}-duration`, `${durationOverride}ms`);
-        }
+        }*/
         if (measure && element && nextPhase == "init") {
             // We actually need all these reflows, either to make things like block-size work, or to make things like opacity work.
             element.classList.add(`${classBase}-measure`);
@@ -228,8 +227,10 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         }
         else {
             updateClasses(element, nextDirection, nextPhase);
-            //if (element)
-            //    forceReflow(element);
+            // TODO: Unnecessary reflow?
+            // It might only be necessary when changing from -init to -transition
+            if (element)
+                forceReflow(element);
         }
 
         const exitVisibility = getExitVisibility();
@@ -245,13 +246,17 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         }
         switch (nextPhase) {
             case "init": {
-                requestAnimationFrame(() => { setState(`${nextDirection}-transition`); });
+                requestAnimationFrame(() => {
+                    setState(`${nextDirection}-transition`);
+                });
                 break;
             }
             case "transition": {
                 if (timeoutHandle.current >= 0)
                     clearTimeout(timeoutHandle.current);
-                timeoutHandle.current = setTimeout(() => { handleTransitionFinished(); }, getTimeoutDuration(element) * 1.5);
+                timeoutHandle.current = setTimeout(() => {
+                    handleTransitionFinished();
+                }, getTimeoutDuration(element) * 1.5);
                 break;
             }
             case "finalize": {
@@ -270,15 +275,25 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
     const [getState, setState] = usePassiveState<TransitionState | null, undefined>(onStateChange, returnNull, runImmediately);
 
 
+    // When we mount, and every time thereafter that `show` changes,
+    // change our current state according to that `show` value.
     useLayoutEffect(() => {
+
+        // If `show` is null, then we don't change anything.
         if (v == null)
             return;
 
+        // `show` is true or false (as opposed to null).
+        // If this is our first time seeing a non-null value, 
+        // then remove the class that indicates the no transition logic has started.
+        // (Because this is useLayoutEffect, it will take effect before the class's effects are painted)
         if (!hasMounted.current) {
             classNames.current.delete(`${classBase}-pending`);
             const element = getElement();
             if (element) {
                 element.classList.remove(`${classBase}-pending`);
+                // Because the pending class often makes this hidden or d-none, 
+                // force a reflow juuust to be safe.
                 forceReflow(element);
             }
         }
@@ -291,6 +306,7 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
                 nextPhase = "transition";
         }
 
+        // Note: the setState change handler runs immediately with no debounce.
         if (v) {
             if (hasMounted.current || a)
                 setState(`enter-${nextPhase}`);
@@ -308,6 +324,12 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
 
         hasMounted.current = true;
     }, [v]);
+
+
+    if (d != null)
+        cssProperties.current[`--${classBase}-duration`] = d + "ms";
+    else
+        delete cssProperties.current[`--${classBase}-duration`];
 
     // TODO
     const inlineDirection = null;
