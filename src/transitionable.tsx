@@ -75,7 +75,6 @@ function parseState(nextState: TransitionState) {
  * @returns 
  */
 export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: a, measure: m, classBase, exitVisibility: e, duration: d }: UseTransitionProps) {
-    console.log(`useTransition: ${v ?? "null"}`)
     const { getAnimateOnMount } = useContext(SwappableContext);
     classBase ||= defaultClassBase(classBase);
     e ||= "hidden"
@@ -214,7 +213,6 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
      * Any change in state or classes/styles does not implicitly cause a re-render.
      */
     const onStateChange = useCallback<OnPassiveStateChange<TransitionState | null, undefined>>((nextState, prevState, reason) => {
-        console.log(`onStateChange: ${nextState ?? "null"}`);
         if (nextState == null)
             return;
 
@@ -258,13 +256,11 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         }
         switch (nextPhase) {
             case "init": {
-                debugger;
                 if (timeoutHandle.current >= 0)
                     timeoutClearFunction.current?.(timeoutHandle.current);
 
                 timeoutHandle.current = requestAnimationFrame(() => { setState(`${nextDirection}-transition`); });
                 timeoutClearFunction.current = (f: number) => cancelAnimationFrame(f);
-                //});
                 break;
             }
             case "transition": {
@@ -296,7 +292,6 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
     // When we mount, and every time thereafter that `show` changes,
     // change our current state according to that `show` value.
     useLayoutEffect(() => {
-        console.log(`useLayoutEffect: ${v ?? "null"}`)
 
         // If `show` is null, then we don't change anything.
         if (v == null)
