@@ -399,16 +399,18 @@ export function Transitionable<E extends HTMLElement>({ transition: { delayMount
     useEffect(() => {
         if (renderChildren)
             hasRenderedChildren.current ||= true;
-    }, [hasRenderedChildren.current? false :renderChildren])
+    }, [hasRenderedChildren.current ? false : renderChildren])
 
     if (!renderChildren && !hasRenderedChildren.current)
         return null;
 
+    const context = useRef({ getAnimateOnMount: () => false }).current;
+
     if (childrenIsVnode) {
-        return cloneElement(children as VNode, finalProps)
+        return <SwappableContext.Provider value={context}>{cloneElement(children as VNode, finalProps)}</SwappableContext.Provider>
     }
     else {
-        return <span {...finalProps as h.JSX.HTMLAttributes<any>}>{children}</span>
+        return <SwappableContext.Provider value={context}><span {...finalProps as h.JSX.HTMLAttributes<any>}>{children}</span></SwappableContext.Provider>
     }
 }
 
