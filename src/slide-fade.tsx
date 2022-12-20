@@ -9,13 +9,13 @@ import { NonIntrusiveElementAttributes, Transitionable, UseTransitionProps } fro
 export interface CreateSlideFadeProps extends CreateFadeProps, CreateSlideProps { }
 export interface SlideFadeProps<E extends HTMLElement> extends Partial<CreateSlideFadeProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
 
-export const SlideFade = forwardElementRef(function SlideFade<E extends HTMLElement>({ classBase, duration, slideTargetBlock, slideTargetInline, show, animateOnMount, fadeMin, fadeMax, exitVisibility, ...rest }: SlideFadeProps<E>, ref: Ref<E>) {
+export const SlideFade = forwardElementRef(function SlideFade<E extends HTMLElement>({ classBase, delayMountUntilShown, duration, slideTargetBlock, slideTargetInline, show, animateOnMount, fadeMin, fadeMax, exitVisibility, ...rest }: SlideFadeProps<E>, ref: Ref<E>) {
     
     //({ targetBlock: slideTargetBlock, targetInline: slideTargetInline } = useSlideThing({ targetBlock: slideTargetBlock, targetInline: slideTargetInline }));
 
     return (
         <Transitionable<E>
-            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility }}
+            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
             props={useMergedProps<E>(
                 { ref, ...rest },
                 createFadeProps({ classBase, fadeMin, fadeMax }),

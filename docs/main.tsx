@@ -30,7 +30,7 @@ function Demo() {
 
   useLayoutEffect(() => {
     if (flicker > 0) {
-      setShow1(s => s == "showing"? "hiding" : "showing");
+      setShow1(s => s == "showing" ? "hiding" : "showing");
       setFlicker(f => f - 1);
     }
   }, [flicker])
@@ -97,14 +97,12 @@ function Demo() {
       </div>
       <div id="root-body" className={`writing-mode-${writingMode}`} style={{ [`--${defaultClassBase(null)}-duration`]: `${duration}ms` }} key={writingMode}>
         <FadeDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
-     {/*   <SlideDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
+        <SlideDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ZoomDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ClipDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
         <CollapseDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ZoomSlideDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
-      <FlipDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />*/}
-
-
+        <FlipDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
       </div>
     </>
   )

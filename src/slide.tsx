@@ -28,6 +28,8 @@ export interface CreateSlideProps {
      * @default "transition"
      */
     classBase: string | undefined;
+
+    delayMountUntilShown?: boolean;
 }
 
 /**
@@ -59,12 +61,12 @@ export interface SlideProps<E extends HTMLElement> extends Partial<CreateSlidePr
  * 
  * @see `Transitionable`
  */
-export const Slide = forwardElementRef(function Slide<E extends HTMLElement>({ classBase, duration, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, ...rest }: SlideProps<E>, ref: Ref<E>) {
+export const Slide = forwardElementRef(function Slide<E extends HTMLElement>({ classBase, duration, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, ...rest }: SlideProps<E>, ref: Ref<E>) {
 
     //({ targetBlock: slideTargetBlock, targetInline: slideTargetInline } = useSlideThing({ targetBlock: slideTargetBlock, targetInline: slideTargetInline }));
 
     return <Transitionable<E>
-        transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility }}
+        transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
         props={useMergedProps<E>({ ref, ...rest }, createSlideProps({ classBase, slideTargetBlock, slideTargetInline }))}
     />
 });

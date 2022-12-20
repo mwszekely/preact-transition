@@ -372,11 +372,11 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
 export interface NonIntrusiveElementAttributes<E extends Element> extends Pick<h.JSX.HTMLAttributes<E>, "children" | "ref" | "style" | "class" | "className"> { }
 
 export interface TransitionableProps<E extends Element> {
-    transition: UseTransitionProps;
+    transition: UseTransitionProps & { delayMountUntilShown: boolean | undefined; };
     props: h.JSX.HTMLAttributes<E>;
 }
 
-export function Transitionable<E extends HTMLElement>({ transition: { animateOnMount, duration, classBase, exitVisibility, measure, show }, props: { children, ...props } }: TransitionableProps<E>) {
+export function Transitionable<E extends HTMLElement>({ transition: { delayMountUntilShown, animateOnMount, duration, classBase, exitVisibility, measure, show }, props: { children, ...props } }: TransitionableProps<E>) {
     const { props: transitionProps } = useTransition<E>({
         animateOnMount,
         classBase,
@@ -388,6 +388,9 @@ export function Transitionable<E extends HTMLElement>({ transition: { animateOnM
 
     const childrenIsVnode = (children && (children as VNode).type && (children as VNode).props);
     const finalProps = useMergedProps<E>(props, transitionProps, childrenIsVnode ? { ref: (children as VNode).ref, ...(children as VNode).props } : {});
+    if (!show && delayMountUntilShown)
+        return null;
+
     if (childrenIsVnode) {
         return cloneElement(children as VNode, finalProps)
     }

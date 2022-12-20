@@ -24,6 +24,8 @@ export interface CreateFadeProps {
      * @default "transition"
      */
     classBase: string | undefined;
+
+    delayMountUntilShown?: boolean;
 }
 
 /**
@@ -53,10 +55,10 @@ export interface FadeProps<E extends HTMLElement> extends Omit<Partial<CreateFad
  * 
  * @see `Transitionable`
  */
-export const Fade = forwardElementRef(function Fade<E extends HTMLElement>({ classBase, duration, fadeMin, fadeMax, show, animateOnMount, exitVisibility, ...rest }: FadeProps<E>, ref: Ref<E>) {
+export const Fade = forwardElementRef(function Fade<E extends HTMLElement>({ classBase, duration, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, ...rest }: FadeProps<E>, ref: Ref<E>) {
     return (
         <Transitionable<E>
-            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility }}
+            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
             props={useMergedProps<E>({ ref, ...rest }, createFadeProps({ classBase, fadeMax, fadeMin }))}
         />
     )

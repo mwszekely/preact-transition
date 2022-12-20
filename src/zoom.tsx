@@ -49,6 +49,8 @@ export interface CreateZoomProps {
      * @default "transition"
      */
     classBase: string | undefined;
+
+    delayMountUntilShown?: boolean;
 }
 
 /**
@@ -73,10 +75,10 @@ export interface ZoomProps<E extends HTMLElement> extends Partial<CreateZoomProp
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
  * @see `Transitionable` `ZoomFade`
  */
-export const Zoom = forwardElementRef(function Zoom<E extends HTMLElement>({ classBase, duration, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, ...rest }: ZoomProps<E>, ref: Ref<E>) {
+export const Zoom = forwardElementRef(function Zoom<E extends HTMLElement>({ classBase, duration, delayMountUntilShown, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, ...rest }: ZoomProps<E>, ref: Ref<E>) {
     return (
         <Transitionable<E>
-            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility }}
+            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
             props={useMergedProps<E>(createZoomProps({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock }), { ...rest, ref })}
         />
     );

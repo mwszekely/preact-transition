@@ -17,6 +17,8 @@ export interface CreateCollapseProps {
      * @default "transition"
      */
     classBase: string | undefined;
+
+    delayMountUntilShown?: boolean;
 }
 
 /**
@@ -48,10 +50,10 @@ export interface CollapseProps<E extends HTMLElement> extends Partial<CreateColl
  * 
  * @see `Transitionable`
  */
-export const Collapse = forwardElementRef(function Collapse<E extends HTMLElement>({ classBase, show, duration, minBlockSize, animateOnMount, exitVisibility, ...rest }: CollapseProps<E>, ref: Ref<E>) {
+export const Collapse = forwardElementRef(function Collapse<E extends HTMLElement>({ classBase, show, duration, delayMountUntilShown, minBlockSize, animateOnMount, exitVisibility, ...rest }: CollapseProps<E>, ref: Ref<E>) {
     return (
         <Transitionable<E>
-            transition={{ measure: true, show, duration, animateOnMount, classBase, exitVisibility }}
+            transition={{ measure: true, show, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
             props={useMergedProps<E>({ ref, ...rest }, createCollapseProps({ classBase, minBlockSize }))}
         />
     )

@@ -47,6 +47,8 @@ export interface CreateClipProps {
      * @default "transition"
      */
     classBase: string | undefined;
+
+    delayMountUntilShown?: boolean;
 }
 
 export interface ClipProps<E extends HTMLElement> extends Partial<CreateClipProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
@@ -66,10 +68,10 @@ export function createClipProps({ classBase, clipMin, clipMinBlock, clipMinInlin
     )
 }
 
-export const Clip = forwardElementRef(function Clip<E extends HTMLElement>({ classBase,duration, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, animateOnMount, exitVisibility, ...rest }: ClipProps<E>, ref: Ref<E>) {
+export const Clip = forwardElementRef(function Clip<E extends HTMLElement>({ classBase,duration, delayMountUntilShown, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, animateOnMount, exitVisibility, ...rest }: ClipProps<E>, ref: Ref<E>) {
     return (
         <Transitionable<E>
-            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility }}
+            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
             props={useMergedProps<E>({ ref, ...rest }, createClipProps({ classBase, clipMin, clipMinBlock, clipMinInline, clipOrigin, clipOriginBlock, clipOriginInline }))}
         />
     )

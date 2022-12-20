@@ -10,13 +10,13 @@ import { NonIntrusiveElementAttributes, Transitionable, UseTransitionProps } fro
 export interface CreateSlideZoomFadeProps extends CreateZoomProps, CreateSlideProps, CreateFadeProps { }
 export interface SlideZoomFadeProps<E extends HTMLElement> extends Partial<CreateSlideZoomFadeProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
 
-export const SlideZoomFade = forwardElementRef(function SlideZoomFade<E extends HTMLElement>({ classBase, duration, slideTargetBlock, slideTargetInline, show, animateOnMount, fadeMax, fadeMin, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, exitVisibility, ...rest }: SlideZoomFadeProps<E>, ref: Ref<E>) {
+export const SlideZoomFade = forwardElementRef(function SlideZoomFade<E extends HTMLElement>({ classBase, duration, slideTargetBlock, slideTargetInline, show, animateOnMount, delayMountUntilShown, fadeMax, fadeMin, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, exitVisibility, ...rest }: SlideZoomFadeProps<E>, ref: Ref<E>) {
     
   //  ({ targetBlock: slideTargetBlock, targetInline: slideTargetInline } = useSlideThing({ targetBlock: slideTargetBlock, targetInline: slideTargetInline }));
 
     return (
         <Transitionable<E>
-            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility }}
+            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
             props={useMergedProps<E>(
                 { ref, ...rest },
                 createZoomProps({ classBase, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline }),

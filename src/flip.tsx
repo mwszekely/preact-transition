@@ -34,6 +34,8 @@ export interface CreateFlipProps {
      * @default "transition"
      */
     classBase: string | undefined;
+
+    delayMountUntilShown?: boolean;
 }
 
 /**
@@ -67,7 +69,7 @@ export interface FlipProps<E extends HTMLElement> extends Partial<CreateFlipProp
  * 
  * @see `Transitionable`
  */
-export const Flip = forwardElementRef(function Flip<E extends HTMLElement>({ classBase, duration, flipAngleInline, flipAngleBlock, perspective, show, animateOnMount, exitVisibility, ...rest }: FlipProps<E>, ref: Ref<E>) {
+export const Flip = forwardElementRef(function Flip<E extends HTMLElement>({ classBase, duration, delayMountUntilShown, flipAngleInline, flipAngleBlock, perspective, show, animateOnMount, exitVisibility, ...rest }: FlipProps<E>, ref: Ref<E>) {
     const lastValidTargetInline = useRef(flipAngleInline ?? 90);
     const lastValidTargetBlock = useRef(flipAngleBlock ?? 0);
 
@@ -81,7 +83,7 @@ export const Flip = forwardElementRef(function Flip<E extends HTMLElement>({ cla
 
     return (
         <Transitionable<E>
-            transition={{ show, measure: false, duration, animateOnMount, classBase, exitVisibility }}
+            transition={{ show, measure: false, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
             props={useMergedProps<E>(createFlipProps<E>({ classBase, flipAngleInline, flipAngleBlock, perspective }), { ...rest, ref })}
         />
     );
