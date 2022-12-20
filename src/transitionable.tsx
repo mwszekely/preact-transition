@@ -1,7 +1,7 @@
 import { cloneElement, h, VNode } from "preact";
 import { OnPassiveStateChange, returnNull, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableGetter } from "preact-prop-helpers";
 import { runImmediately } from "preact-prop-helpers/preact-extensions/use-passive-state";
-import { useCallback, useContext, useLayoutEffect, useRef } from "preact/hooks";
+import { useCallback, useContext, useEffect, useLayoutEffect, useRef } from "preact/hooks";
 import { SwappableContext } from "./context";
 
 export type TransitionPhase = 'init' | 'transition' | 'finalize';
@@ -386,9 +386,22 @@ export function Transitionable<E extends HTMLElement>({ transition: { delayMount
         show
     });
 
+
     const childrenIsVnode = (children && (children as VNode).type && (children as VNode).props);
     const finalProps = useMergedProps<E>(props, transitionProps, childrenIsVnode ? { ref: (children as VNode).ref, ...(children as VNode).props } : {});
-    if (!show && delayMountUntilShown)
+
+    // No matter what delayMountUntilShown is,
+    // once we've rendered our children once, 
+    // ensure that we don't unmount them again and waste all that work.
+    // (If you really need this you can just unmount the entire transition itself)
+    const renderChildren = (show || !delayMountUntilShown);
+    const hasRenderedChildren = useRef(false);
+    useEffect(() => {
+        if (renderChildren)
+            hasRenderedChildren.current ||= true;
+    }, [hasRenderedChildren.current? false :renderChildren])
+
+    if (!renderChildren && !hasRenderedChildren.current)
         return null;
 
     if (childrenIsVnode) {
