@@ -1,6 +1,6 @@
 
 import { Fragment, h, render } from "preact";
-import { useCallback, useState } from "preact/hooks";
+import { useCallback, useLayoutEffect, useState } from "preact/hooks";
 import { Clip, ZoomFade, ClipFade, Collapse, Zoom, Fade, Slide, SlideFade, Transitionable, SlideZoomFade, SlideZoom, Swappable, CollapseFade, Flip } from "..";
 import { defaultClassBase, UseTransitionProps } from "../transitionable";
 
@@ -26,6 +26,15 @@ function Demo() {
   const [duration, setDuration] = useState(500);
   const [text, setText] = useState("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
 
+  const [flicker, setFlicker] = useState(0);
+
+  useLayoutEffect(() => {
+    if (flicker > 0) {
+      setShow1(s => s == "showing"? "hiding" : "showing");
+      setFlicker(f => f - 1);
+    }
+  }, [flicker])
+
   //const onInput1 = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setShow1(o => !o); e.preventDefault(); }, []);
   const onInput3 = useCallback((e: h.JSX.TargetedEvent<HTMLTextAreaElement>) => { setText((e.target as HTMLTextAreaElement).value); e.preventDefault(); }, []);
   const onInput4 = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setReflow("hidden"); e.preventDefault(); }, []);
@@ -42,6 +51,12 @@ function Demo() {
     <>
       <div id="controls">
         <h1>Preact Transition</h1>
+        <div className="radiogroup">
+          <button onClick={() => setFlicker(1)}>Flicker 1</button>
+          <button onClick={() => setFlicker(2)}>Flicker 2</button>
+          <button onClick={() => setFlicker(3)}>Flicker 3</button>
+          <button onClick={() => setFlicker(4)}>Flicker 4</button>
+        </div>
         <div className="radiogroup">
           <div>Outer card visible state: </div>
           <label className=""><input type="radio" name="outer-card-show" onInput={e => { e.preventDefault(); setShow1("unmounted") }} checked={show1 == "unmounted"} />Unmounted</label>
@@ -82,12 +97,12 @@ function Demo() {
       </div>
       <div id="root-body" className={`writing-mode-${writingMode}`} style={{ [`--${defaultClassBase(null)}-duration`]: `${duration}ms` }} key={writingMode}>
         <FadeDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
-        <SlideDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
+     {/*   <SlideDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ZoomDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ClipDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
         <CollapseDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ZoomSlideDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
-        <FlipDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
+      <FlipDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />*/}
 
 
       </div>

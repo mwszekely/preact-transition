@@ -75,7 +75,8 @@ function parseState(nextState: TransitionState) {
  * @returns 
  */
 export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: a, measure: m, classBase, exitVisibility: e, duration: d }: UseTransitionProps) {
-    const {getAnimateOnMount} = useContext(SwappableContext);
+    console.log(`useTransition: ${v ?? "null"}`)
+    const { getAnimateOnMount } = useContext(SwappableContext);
     classBase ||= defaultClassBase(classBase);
     e ||= "hidden"
     a ??= getAnimateOnMount();
@@ -100,7 +101,7 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
             if (phase == "transition") {
                 setState(`${direction}-finalize`);
                 if (timeoutHandle.current > 0) {
-                    clearTimeout(timeoutHandle.current);
+                    timeoutClearFunction.current?.(timeoutHandle.current);
                     timeoutHandle.current = -1;
                 }
             }
@@ -192,9 +193,17 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         }
     }, []);
 
-    // When a transition starts, we read the transition-duration and use it as an emergency timeout in case onTransitionEnd doesn't work.
-    // So we need a way to cancel that timeout if needed.
+    // We use both useTimeout and requestAnimationFrame for timing certain things --
+    // raf is used for changing from init to transition (would use queueMicrotask but it can't be cancelled)
+    // setTimeout is used for changing from transition to finalize (as a backup in case transitionend doesn't fire)
+    //
+    // In order to avoid stale callbacks running (i.e. when we rapidly switch between visible and not)
+    // we need to make sure we accurately cancel anything that can change our state on a delay.
+    //
+    // Also of note, we store "(f) => window.clearTimeout(f)" instead of just "window.clearTimeout" because
+    // of the implicit window object -- problems with a missing `this` object and all that nonsense.
     const timeoutHandle = useRef<number>(-1);
+    const timeoutClearFunction = useRef<(typeof cancelAnimationFrame) | (typeof clearTimeout) | null>(null);
 
     /**
      * Any time the state changes, there's some logic we need to run:
@@ -205,6 +214,7 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
      * Any change in state or classes/styles does not implicitly cause a re-render.
      */
     const onStateChange = useCallback<OnPassiveStateChange<TransitionState | null, undefined>>((nextState, prevState, reason) => {
+        console.log(`onStateChange: ${nextState ?? "null"}`);
         if (nextState == null)
             return;
 
@@ -248,17 +258,23 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         }
         switch (nextPhase) {
             case "init": {
-                requestAnimationFrame(() => {
-                    setState(`${nextDirection}-transition`);
-                });
+                debugger;
+                if (timeoutHandle.current >= 0)
+                    timeoutClearFunction.current?.(timeoutHandle.current);
+
+                timeoutHandle.current = requestAnimationFrame(() => { setState(`${nextDirection}-transition`); });
+                timeoutClearFunction.current = (f: number) => cancelAnimationFrame(f);
+                //});
                 break;
             }
             case "transition": {
                 if (timeoutHandle.current >= 0)
-                    clearTimeout(timeoutHandle.current);
+                    timeoutClearFunction.current?.(timeoutHandle.current);
+
                 timeoutHandle.current = setTimeout(() => {
                     handleTransitionFinished();
                 }, getTimeoutDuration(element) * 1.5);
+                timeoutClearFunction.current = (f: number) => clearTimeout(f);
                 break;
             }
             case "finalize": {
@@ -280,6 +296,7 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
     // When we mount, and every time thereafter that `show` changes,
     // change our current state according to that `show` value.
     useLayoutEffect(() => {
+        console.log(`useLayoutEffect: ${v ?? "null"}`)
 
         // If `show` is null, then we don't change anything.
         if (v == null)
