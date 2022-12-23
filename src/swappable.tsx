@@ -5,6 +5,7 @@ import { defaultClassBase, NonIntrusiveElementAttributes } from "./transitionabl
 import { forwardElementRef } from "./forward-element-ref";
 import { useEffect, useRef } from "preact/hooks";
 import { SwappableContext } from "./context";
+import { memo } from "preact/compat";
 
 export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappableProps>, NonIntrusiveElementAttributes<E> {
     children: ComponentChildren;
@@ -48,7 +49,7 @@ export function useCreateSwappableProps<P extends {}>({ inline, classBase }: Cre
  * @param param0 
  * @returns 
  */
-export const Swappable = forwardElementRef(function Swappable<E extends HTMLElement>({ children: c, classBase, inline, ...p }: SwapProps<E>, ref: Ref<E>) {
+export const Swappable = memo(forwardElementRef(function Swappable<E extends HTMLElement>({ children: c, classBase, inline, ...p }: SwapProps<E>, ref: Ref<E>) {
     const children = c as VNode;
     console.assert(!!children.type);
 
@@ -67,7 +68,7 @@ export const Swappable = forwardElementRef(function Swappable<E extends HTMLElem
             {cloneElement(children, mergedWithChildren as typeof transitionProps)}
         </SwappableContext.Provider>
     );
-})
+}))
 
 // If "inline" isn't explicitly provided, we try to implicitly do it based on the child's tag.
 // Not perfect, but it's not supposed to be. `inline` is for perfect.

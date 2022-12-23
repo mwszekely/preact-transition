@@ -1,6 +1,8 @@
-import { cloneElement, h, VNode } from "preact";
+import { forwardElementRef } from "./forward-element-ref";
+import { cloneElement, h, VNode, Ref } from "preact";
 import { OnPassiveStateChange, returnNull, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableGetter } from "preact-prop-helpers";
 import { runImmediately } from "preact-prop-helpers/preact-extensions/use-passive-state";
+import { memo } from "preact/compat";
 import { useCallback, useContext, useEffect, useLayoutEffect, useRef } from "preact/hooks";
 import { SwappableContext } from "./context";
 
@@ -371,12 +373,11 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
  */
 export interface NonIntrusiveElementAttributes<E extends Element> extends Pick<h.JSX.HTMLAttributes<E>, "children" | "ref" | "style" | "class" | "className"> { }
 
-export interface TransitionableProps<E extends Element> {
-    transition: UseTransitionProps & { delayMountUntilShown: boolean | undefined; };
-    props: h.JSX.HTMLAttributes<E>;
+export interface TransitionableProps<E extends Element> extends UseTransitionProps, h.JSX.HTMLAttributes<E> {
+    delayMountUntilShown: boolean | undefined;
 }
 
-export function Transitionable<E extends HTMLElement>({ transition: { delayMountUntilShown, animateOnMount, duration, classBase, exitVisibility, measure, show }, props: { children, ...props } }: TransitionableProps<E>) {
+export const Transitionable = memo(forwardElementRef(function Transitionable<E extends HTMLElement>({ delayMountUntilShown, animateOnMount, duration, classBase, exitVisibility, measure, show, children, ...props }: TransitionableProps<E>, ref?: Ref<E>) {
     const { props: transitionProps } = useTransition<E>({
         animateOnMount,
         classBase,
@@ -388,7 +389,7 @@ export function Transitionable<E extends HTMLElement>({ transition: { delayMount
 
 
     const childrenIsVnode = (children && (children as VNode).type && (children as VNode).props);
-    const finalProps = useMergedProps<E>(props, transitionProps, childrenIsVnode ? { ref: (children as VNode).ref, ...(children as VNode).props } : {});
+    const finalProps = useMergedProps<E>(props, transitionProps, { ...props, ref }, childrenIsVnode ? { ref: (children as VNode).ref, ...(children as VNode).props } : {});
 
     // No matter what delayMountUntilShown is,
     // once we've rendered our children once, 
@@ -412,7 +413,7 @@ export function Transitionable<E extends HTMLElement>({ transition: { delayMount
     else {
         return <SwappableContext.Provider value={context}><span {...finalProps as h.JSX.HTMLAttributes<any>}>{children}</span></SwappableContext.Provider>
     }
-}
+}));
 
 let dummy: any;
 function forceReflow<E extends HTMLElement>(e: E) {

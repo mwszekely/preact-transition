@@ -1,5 +1,6 @@
 import { h, Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
+import { memo } from "preact/compat";
 import { forwardElementRef } from "./forward-element-ref";
 import { defaultClassBase, NonIntrusiveElementAttributes, Transitionable, TransitionableProps, UseTransitionProps } from "./transitionable";
 
@@ -75,12 +76,18 @@ export interface ZoomProps<E extends HTMLElement> extends Partial<CreateZoomProp
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
  * @see `Transitionable` `ZoomFade`
  */
-export const Zoom = forwardElementRef(function Zoom<E extends HTMLElement>({ classBase, duration, delayMountUntilShown, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, ...rest }: ZoomProps<E>, ref: Ref<E>) {
+export const Zoom = memo(forwardElementRef(function Zoom<E extends HTMLElement>({ classBase, duration, delayMountUntilShown, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, ...rest }: ZoomProps<E>, ref: Ref<E>) {
     return (
         <Transitionable<E>
-            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
-            props={useMergedProps<E>(createZoomProps({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock }), { ...rest, ref })}
+        measure={false}
+        show={show}
+        duration={duration}
+        animateOnMount={animateOnMount}
+        classBase={classBase}
+        exitVisibility={exitVisibility}
+        delayMountUntilShown={delayMountUntilShown}
+        {...useMergedProps<E>(createZoomProps({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock }), { ...rest, ref })}
         />
     );
-});
+}));
 

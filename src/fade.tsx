@@ -2,6 +2,7 @@ import { h, Ref } from "preact";
 import { forwardElementRef } from "./forward-element-ref";
 import { useMergedProps } from "preact-prop-helpers";
 import { defaultClassBase, NonIntrusiveElementAttributes, Transitionable, TransitionableProps, UseTransitionProps } from "./transitionable";
+import { memo } from "preact/compat";
 
 /**
  * Properties that allow adjusting the minimum or maximum opacity values to use for the fade effect.
@@ -55,11 +56,17 @@ export interface FadeProps<E extends HTMLElement> extends Omit<Partial<CreateFad
  * 
  * @see `Transitionable`
  */
-export const Fade = forwardElementRef(function Fade<E extends HTMLElement>({ classBase, duration, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, ...rest }: FadeProps<E>, ref: Ref<E>) {
+export const Fade = memo(forwardElementRef(function Fade<E extends HTMLElement>({ classBase, duration, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, ...rest }: FadeProps<E>, ref: Ref<E>) {
     return (
         <Transitionable<E>
-            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
-            props={useMergedProps<E>({ ref, ...rest }, createFadeProps({ classBase, fadeMax, fadeMin }))}
+            measure={false}
+            show={show}
+            duration={duration}
+            animateOnMount={animateOnMount}
+            classBase={classBase}
+            exitVisibility={exitVisibility}
+            delayMountUntilShown={delayMountUntilShown}
+            {...useMergedProps<E>({ ref, ...rest }, createFadeProps({ classBase, fadeMax, fadeMin }))}
         />
     )
-});
+}));

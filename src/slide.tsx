@@ -1,5 +1,6 @@
 import { h, Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
+import { memo } from "preact/compat";
 import { useEffect, useRef } from "preact/hooks";
 import { forwardElementRef } from "./forward-element-ref";
 import { defaultClassBase, NonIntrusiveElementAttributes, Transitionable, TransitionableProps, UseTransitionProps } from "./transitionable";
@@ -61,15 +62,21 @@ export interface SlideProps<E extends HTMLElement> extends Partial<CreateSlidePr
  * 
  * @see `Transitionable`
  */
-export const Slide = forwardElementRef(function Slide<E extends HTMLElement>({ classBase, duration, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, ...rest }: SlideProps<E>, ref: Ref<E>) {
+export const Slide = memo(forwardElementRef(function Slide<E extends HTMLElement>({ classBase, duration, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, ...rest }: SlideProps<E>, ref: Ref<E>) {
 
     //({ targetBlock: slideTargetBlock, targetInline: slideTargetInline } = useSlideThing({ targetBlock: slideTargetBlock, targetInline: slideTargetInline }));
 
     return <Transitionable<E>
-        transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
-        props={useMergedProps<E>({ ref, ...rest }, createSlideProps({ classBase, slideTargetBlock, slideTargetInline }))}
+    measure={false}
+    show={show}
+    duration={duration}
+    animateOnMount={animateOnMount}
+    classBase={classBase}
+    exitVisibility={exitVisibility}
+    delayMountUntilShown={delayMountUntilShown}
+    {...useMergedProps<E>({ ref, ...rest }, createSlideProps({ classBase, slideTargetBlock, slideTargetInline }))}
     />
-});
+}));
 
 
 // TODO: This logic was required for slides at one point to ensure that slideTargetInline={index - currentIndex} works right,

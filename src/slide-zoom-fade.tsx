@@ -5,19 +5,26 @@ import { createSlideProps, CreateSlideProps, Slide, SlideProps } from "./slide";
 import { createZoomProps, CreateZoomProps, ZoomProps } from "./zoom";
 import { useMergedProps } from "preact-prop-helpers";
 import { NonIntrusiveElementAttributes, Transitionable, UseTransitionProps } from "./transitionable";
+import { memo } from "preact/compat";
 
 
 export interface CreateSlideZoomFadeProps extends CreateZoomProps, CreateSlideProps, CreateFadeProps { }
 export interface SlideZoomFadeProps<E extends HTMLElement> extends Partial<CreateSlideZoomFadeProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
 
-export const SlideZoomFade = forwardElementRef(function SlideZoomFade<E extends HTMLElement>({ classBase, duration, slideTargetBlock, slideTargetInline, show, animateOnMount, delayMountUntilShown, fadeMax, fadeMin, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, exitVisibility, ...rest }: SlideZoomFadeProps<E>, ref: Ref<E>) {
+export const SlideZoomFade = memo(forwardElementRef(function SlideZoomFade<E extends HTMLElement>({ classBase, duration, slideTargetBlock, slideTargetInline, show, animateOnMount, delayMountUntilShown, fadeMax, fadeMin, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, exitVisibility, ...rest }: SlideZoomFadeProps<E>, ref: Ref<E>) {
     
   //  ({ targetBlock: slideTargetBlock, targetInline: slideTargetInline } = useSlideThing({ targetBlock: slideTargetBlock, targetInline: slideTargetInline }));
 
     return (
         <Transitionable<E>
-            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
-            props={useMergedProps<E>(
+        measure={false}
+        show={show}
+        duration={duration}
+        animateOnMount={animateOnMount}
+        classBase={classBase}
+        exitVisibility={exitVisibility}
+        delayMountUntilShown={delayMountUntilShown}
+        {...useMergedProps<E>(
                 { ref, ...rest },
                 createZoomProps({ classBase, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline }),
                 createSlideProps({ classBase, slideTargetBlock, slideTargetInline }),
@@ -25,4 +32,4 @@ export const SlideZoomFade = forwardElementRef(function SlideZoomFade<E extends 
             )}
         />
     )
-});
+}));

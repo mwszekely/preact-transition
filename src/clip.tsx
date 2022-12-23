@@ -3,6 +3,7 @@ import { forwardElementRef } from "./forward-element-ref";
 import { useMergedProps } from "preact-prop-helpers";
 import { defaultClassBase, NonIntrusiveElementAttributes, Transitionable, TransitionableProps, UseTransitionProps } from "./transitionable";
 import { default as clsx } from "clsx";
+import { memo } from "preact/compat";
 
 export interface CreateClipProps {
 
@@ -68,11 +69,17 @@ export function createClipProps({ classBase, clipMin, clipMinBlock, clipMinInlin
     )
 }
 
-export const Clip = forwardElementRef(function Clip<E extends HTMLElement>({ classBase,duration, delayMountUntilShown, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, animateOnMount, exitVisibility, ...rest }: ClipProps<E>, ref: Ref<E>) {
+export const Clip = memo(forwardElementRef(function Clip<E extends HTMLElement>({ classBase, duration, delayMountUntilShown, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, animateOnMount, exitVisibility, ...rest }: ClipProps<E>, ref: Ref<E>) {
     return (
         <Transitionable<E>
-            transition={{ measure: false, show, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
-            props={useMergedProps<E>({ ref, ...rest }, createClipProps({ classBase, clipMin, clipMinBlock, clipMinInline, clipOrigin, clipOriginBlock, clipOriginInline }))}
+            measure={false}
+            show={show}
+            duration={duration}
+            animateOnMount={animateOnMount}
+            classBase={classBase}
+            exitVisibility={exitVisibility}
+            delayMountUntilShown={delayMountUntilShown}
+            {...useMergedProps<E>({ ref, ...rest }, createClipProps({ classBase, clipMin, clipMinBlock, clipMinInline, clipOrigin, clipOriginBlock, clipOriginInline }))}
         />
     )
-});
+}));

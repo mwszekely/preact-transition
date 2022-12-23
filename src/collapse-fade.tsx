@@ -4,21 +4,28 @@ import { createCollapseProps, CreateCollapseProps, Collapse, CollapseProps } fro
 import { createFadeProps, CreateFadeProps, FadeProps } from "./fade";
 import { useMergedProps } from "preact-prop-helpers";
 import { NonIntrusiveElementAttributes, Transitionable, UseTransitionProps } from "./transitionable";
+import { memo } from "preact/compat";
 
 
 export interface CreateCollapseFadeProps extends CreateFadeProps, CreateCollapseProps { }
 export interface CollapseFadeProps<E extends HTMLElement> extends Partial<CreateCollapseFadeProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
 
-export const CollapseFade = forwardElementRef(function CollapseFade<E extends HTMLElement>({ classBase, show, duration, animateOnMount, delayMountUntilShown, fadeMin, fadeMax, exitVisibility, minBlockSize, ...rest }: CollapseFadeProps<E>, ref: Ref<E>) {
+export const CollapseFade = memo(forwardElementRef(function CollapseFade<E extends HTMLElement>({ classBase, show, duration, animateOnMount, delayMountUntilShown, fadeMin, fadeMax, exitVisibility, minBlockSize, ...rest }: CollapseFadeProps<E>, ref: Ref<E>) {
 
     return (
         <Transitionable<E>
-            transition={{ measure: true, show, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
-            props={useMergedProps<E>(
+            measure={true}
+            show={show}
+            duration={duration}
+            animateOnMount={animateOnMount}
+            classBase={classBase}
+            exitVisibility={exitVisibility}
+            delayMountUntilShown={delayMountUntilShown}
+            {...useMergedProps<E>(
                 { ref, ...rest },
                 createFadeProps({ classBase, fadeMin, fadeMax }),
                 createCollapseProps({ classBase, minBlockSize })
             )}
         />
     )
-});
+}));

@@ -2,6 +2,7 @@ import { h, Ref } from "preact";
 import { forwardElementRef } from "./forward-element-ref";
 import { useMergedProps } from "preact-prop-helpers";
 import { defaultClassBase, NonIntrusiveElementAttributes, Transitionable, TransitionableProps, UseTransitionProps } from "./transitionable";
+import { memo } from "preact/compat";
 
 /**
  * Properties that allow adjusting the direction of the collapse effect.
@@ -50,11 +51,17 @@ export interface CollapseProps<E extends HTMLElement> extends Partial<CreateColl
  * 
  * @see `Transitionable`
  */
-export const Collapse = forwardElementRef(function Collapse<E extends HTMLElement>({ classBase, show, duration, delayMountUntilShown, minBlockSize, animateOnMount, exitVisibility, ...rest }: CollapseProps<E>, ref: Ref<E>) {
+export const Collapse = memo(forwardElementRef(function Collapse<E extends HTMLElement>({ classBase, show, duration, delayMountUntilShown, minBlockSize, animateOnMount, exitVisibility, ...rest }: CollapseProps<E>, ref: Ref<E>) {
     return (
         <Transitionable<E>
-            transition={{ measure: true, show, duration, animateOnMount, classBase, exitVisibility, delayMountUntilShown }}
-            props={useMergedProps<E>({ ref, ...rest }, createCollapseProps({ classBase, minBlockSize }))}
+            measure={true}
+            show={show}
+            duration={duration}
+            animateOnMount={animateOnMount}
+            classBase={classBase}
+            exitVisibility={exitVisibility}
+            delayMountUntilShown={delayMountUntilShown}
+            {...useMergedProps<E>({ ref, ...rest }, createCollapseProps({ classBase, minBlockSize }))}
         />
     )
-});
+}));
