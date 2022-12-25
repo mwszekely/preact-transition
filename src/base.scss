@@ -33,6 +33,13 @@
     transition-timing-function: var(--#{$transition-class-name}-exit-timing-function, #{$transition-default-timing-function-out});
 }
 
+.#{$transition-class-name}-exit-finalize {
+    // Make sure that the mouse is never blocked by a hidden transition.
+    // (TODO: Too opinionated to have globally?
+    //  It's meant to cover the case of "keep this visible for ATs without display: none")
+    pointer-events: none;
+}
+
 .#{$transition-class-name}-ev-hidden {
 
     &.#{$transition-class-name}-exit.#{$transition-class-name}-exit-finalize,
