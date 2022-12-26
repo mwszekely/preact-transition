@@ -382,7 +382,7 @@ export interface TransitionableProps<E extends Element> extends UseTransitionPro
 
 const IsVisibleContext = createContext(false);
 
-export function isTransitionVisible() {
+export function useIsTransitionVisible() {
     return useContext(IsVisibleContext);
 }
 
