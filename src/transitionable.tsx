@@ -1,6 +1,6 @@
 import { forwardElementRef } from "./forward-element-ref";
-import { cloneElement, h, VNode, Ref } from "preact";
-import { OnPassiveStateChange, returnNull, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableGetter } from "preact-prop-helpers";
+import { cloneElement, h, VNode, Ref, createContext } from "preact";
+import { OnPassiveStateChange, returnNull, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableGetter, useState } from "preact-prop-helpers";
 import { runImmediately } from "preact-prop-helpers/preact-extensions/use-passive-state";
 import { memo } from "preact/compat";
 import { useCallback, useContext, useEffect, useLayoutEffect, useRef } from "preact/hooks";
@@ -77,6 +77,7 @@ function parseState(nextState: TransitionState) {
  * @returns 
  */
 export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: a, measure: m, classBase, exitVisibility: e, duration: d }: UseTransitionProps) {
+    const [isVisible, setIsVisible] = useState(false);
     const { getAnimateOnMount } = useContext(SwappableContext);
     classBase ||= defaultClassBase(classBase);
     e ||= "hidden"
@@ -219,6 +220,7 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
             return;
 
         const [nextDirection, nextPhase] = parseState(nextState);
+        setIsVisible(nextDirection == "enter" || (nextDirection == "exit" && nextPhase != "finalize"));
         const element = getElement();
         const measure = getMeasure();
         //const durationOverride = getDurationOverride();
@@ -352,6 +354,7 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
     const blockDirection = null;
 
     return {
+        isVisible,
         props: useMergedProps<E>(propsStable, {
             className: [
                 ...classNames.current,
@@ -377,8 +380,10 @@ export interface TransitionableProps<E extends Element> extends UseTransitionPro
     delayMountUntilShown: boolean | undefined;
 }
 
+export const IsVisibleContext = createContext(false);
+
 export const Transitionable = memo(forwardElementRef(function Transitionable<E extends HTMLElement>({ delayMountUntilShown, animateOnMount, duration, classBase, exitVisibility, measure, show, children, ...props }: TransitionableProps<E>, ref?: Ref<E>) {
-    const { props: transitionProps } = useTransition<E>({
+    const { props: transitionProps, isVisible } = useTransition<E>({
         animateOnMount,
         classBase,
         duration,
@@ -407,20 +412,28 @@ export const Transitionable = memo(forwardElementRef(function Transitionable<E e
 
     const context = useRef({ getAnimateOnMount: () => false }).current;
 
+    let ret: VNode;
+
     if (childrenIsVnode) {
-        return <SwappableContext.Provider value={context}>{cloneElement(children as VNode, finalProps)}</SwappableContext.Provider>
+        ret = <SwappableContext.Provider value={context}>{cloneElement(children as VNode, finalProps)}</SwappableContext.Provider>
     }
     else {
-        return <SwappableContext.Provider value={context}><span {...finalProps as h.JSX.HTMLAttributes<any>}>{children}</span></SwappableContext.Provider>
+        ret = <SwappableContext.Provider value={context}><span {...finalProps as h.JSX.HTMLAttributes<any>}>{children}</span></SwappableContext.Provider>
     }
+
+    return (
+        <IsVisibleContext.Provider value={isVisible}>{ret}</IsVisibleContext.Provider>
+    )
 }));
 
-let dummy: any;
+// This isn't actually publicly exported. It's just to try to make sure it's not optimized out.
+// (TODO: Unneeded?)
+export let _dummy: any;
 function forceReflow<E extends HTMLElement>(e: E) {
     // Try really hard to make sure this isn't optimized out by anything.
     // We need it for its document reflow side effect.
-    dummy = e.getBoundingClientRect();
-    dummy = e.style.opacity;
-    dummy = e.style.transform;
+    _dummy = e.getBoundingClientRect();
+    _dummy = e.style.opacity;
+    _dummy = e.style.transform;
     return e;
 }
