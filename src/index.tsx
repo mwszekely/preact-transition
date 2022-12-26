@@ -17,6 +17,6 @@ export { SlideZoomFade, SlideZoomFadeProps } from "./slide-zoom-fade";
 
 export { Flip, createFlipProps, FlipProps } from "./flip";
 
-export { Transitionable, useTransition } from "./transitionable";
+export { Transitionable, useTransition, isTransitionVisible } from "./transitionable";
 
 export { Swappable, useCreateSwappableProps, CreateSwappableProps } from "./swappable";

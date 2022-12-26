@@ -380,7 +380,11 @@ export interface TransitionableProps<E extends Element> extends UseTransitionPro
     delayMountUntilShown: boolean | undefined;
 }
 
-export const IsVisibleContext = createContext(false);
+const IsVisibleContext = createContext(false);
+
+export function isTransitionVisible() {
+    return useContext(IsVisibleContext);
+}
 
 export const Transitionable = memo(forwardElementRef(function Transitionable<E extends HTMLElement>({ delayMountUntilShown, animateOnMount, duration, classBase, exitVisibility, measure, show, children, ...props }: TransitionableProps<E>, ref?: Ref<E>) {
     const { props: transitionProps, isVisible } = useTransition<E>({
