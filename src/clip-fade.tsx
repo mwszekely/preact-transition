@@ -1,12 +1,31 @@
 import { h, Ref } from "preact";
-import { Clip, ClipProps } from "./clip";
-import { FadeProps, useCreateFadeProps } from "./fade";
+import { NonIntrusiveElementAttributes, Transitionable, UseTransitionProps } from "./transitionable";
+import { Clip, ClipProps, createClipProps, CreateClipProps } from "./clip";
+import { FadeProps, createFadeProps, CreateFadeProps } from "./fade";
 import { forwardElementRef } from "./forward-element-ref";
+import { useMergedProps } from "preact-prop-helpers"
+import { memo } from "preact/compat";
 
 
 
-export interface ClipFadeProps<E extends HTMLElement> extends ClipProps<E>, FadeProps<E> { };
+export interface CreateClipFadeProps extends CreateClipProps, CreateFadeProps { }
+export interface ClipFadeProps<E extends HTMLElement> extends Partial<CreateClipFadeProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
 
-export const ClipFade = forwardElementRef(function ClipFade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, show, ...rest }: ClipFadeProps<E>, ref: Ref<E>) {
-    return <Clip show={show} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
-});
+export const ClipFade = memo(forwardElementRef(function ClipFade<E extends HTMLElement>({ delayMountUntilShown, classBase, duration, fadeMin, fadeMax, show, animateOnMount, clipMin, clipMinBlock, clipMinInline, clipOrigin, clipOriginBlock, clipOriginInline, exitVisibility, ...rest }: ClipFadeProps<E>, ref: Ref<E>) {
+    return (
+        <Transitionable<E>
+            measure={false}
+            show={show}
+            duration={duration}
+            animateOnMount={animateOnMount}
+            classBase={classBase}
+            exitVisibility={exitVisibility}
+            delayMountUntilShown={delayMountUntilShown}
+            {...useMergedProps<E>(
+                { ref, ...rest },
+                createClipProps({ classBase, clipMin, clipMinBlock, clipMinInline, clipOrigin, clipOriginBlock, clipOriginInline }),
+                createFadeProps({ classBase, fadeMax, fadeMin })
+            )}
+        />
+    )
+}));

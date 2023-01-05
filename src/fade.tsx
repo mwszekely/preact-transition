@@ -1,7 +1,8 @@
 import { h, Ref } from "preact";
 import { forwardElementRef } from "./forward-element-ref";
 import { useMergedProps } from "preact-prop-helpers";
-import { Transitionable, TransitionableProps } from "./transitionable";
+import { defaultClassBase, NonIntrusiveElementAttributes, Transitionable, TransitionableProps, UseTransitionProps } from "./transitionable";
+import { memo } from "preact/compat";
 
 /**
  * Properties that allow adjusting the minimum or maximum opacity values to use for the fade effect.
@@ -19,27 +20,31 @@ export interface CreateFadeProps {
      */
     fadeMax: number | null | undefined;
 
+    /**
+     * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
+     * @default "transition"
+     */
     classBase: string | undefined;
+
+    delayMountUntilShown?: boolean;
 }
 
 /**
  * Creates a set of props that implement a Fade transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
  * Be sure to merge these returned props with whatever the user passed in.
  */
-export function useCreateFadeProps<P extends {}>({ classBase, fadeMin, fadeMax }: CreateFadeProps, otherProps: P) {
-    type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
-    classBase ??= "transition";
-    return useMergedProps<E>()({
+export function createFadeProps({ classBase, fadeMin, fadeMax }: Partial<CreateFadeProps>) {
+    classBase = defaultClassBase(classBase);
+    return {
         className: `${classBase}-fade`,
-        classBase,
         style: {
             [`--${classBase}-fade-min`]: (fadeMin ?? 0),
             [`--${classBase}-fade-max`]: (fadeMax ?? 1),
         } as h.JSX.CSSProperties
-    }, otherProps);
+    };
 }
 
-export interface FadeProps<E extends HTMLElement> extends Omit<Partial<CreateFadeProps>, "show">, TransitionableProps<E> { };
+export interface FadeProps<E extends HTMLElement> extends Omit<Partial<CreateFadeProps>, "show">, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Fade effect.
@@ -51,6 +56,17 @@ export interface FadeProps<E extends HTMLElement> extends Omit<Partial<CreateFad
  * 
  * @see `Transitionable`
  */
-export const Fade = forwardElementRef(function Fade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, show, ...rest }: FadeProps<E>, ref: Ref<E>) {
-    return <Transitionable<E> show={show} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
-});
+export const Fade = memo(forwardElementRef(function Fade<E extends HTMLElement>({ classBase, duration, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, ...rest }: FadeProps<E>, ref: Ref<E>) {
+    return (
+        <Transitionable<E>
+            measure={false}
+            show={show}
+            duration={duration}
+            animateOnMount={animateOnMount}
+            classBase={classBase}
+            exitVisibility={exitVisibility}
+            delayMountUntilShown={delayMountUntilShown}
+            {...useMergedProps<E>({ ref, ...rest }, createFadeProps({ classBase, fadeMax, fadeMin }))}
+        />
+    )
+}));

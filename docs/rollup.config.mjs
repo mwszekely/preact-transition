@@ -1,7 +1,7 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from '@rollup/plugin-typescript';
-import babel from "@rollup/plugin-babel";
+import { getBabelOutputPlugin } from '@rollup/plugin-babel';
 import path from "path";
 
 export default {
@@ -16,10 +16,10 @@ export default {
         typescript(),
         commonjs(),
         resolve({ dedupe: ['preact', "preact/compat", "preact/hooks"] }),
-        babel({
-            configFile: path.resolve(__dirname, ".babelrc"),
-            babelHelpers: "bundled",
-            sourceMaps: true
+        getBabelOutputPlugin({
+            configFile: path.resolve(".babelrc"),
+            sourceMaps: true,
+            allowAllFormats: true
         }),
     ],
 }

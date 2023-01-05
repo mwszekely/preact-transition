@@ -1,0 +1,12 @@
+
+// Corresponds to classBase in any given Transitionable
+$transition-class-name: ptl !default;
+
+$transition-default-duration: 175ms !default;
+
+// The timing function for enter transitions, appearing quickly.
+$transition-default-timing-function-in: cubic-bezier(0.05, 0.7, 0.1, 1.0) !default;
+// The timing function for exit transitions, leaving with some gravity.
+$transition-default-timing-function-out: cubic-bezier(0.3, 0.0, 0.8, 0.15) !default;
+// The timing function for swap transitions is intentionally symmetrical and it's best to keep it that way for slide (and related) transitions to look good.
+$transition-default-timing-function-swap: cubic-bezier(0.15, 1.0, 0.15, 1.0) !default;

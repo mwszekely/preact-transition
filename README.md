@@ -20,17 +20,17 @@ This library includes a number of components that do this. All they are are a wr
 |`Slide`|<ul><li>`slide{Inline\|Block}`</li></ul>|Slide the element out to the target position. A value of `0` for `slideInline` or `slideBlock` has the special meaning of "transition in from the last non-zero value" so that you don't need to keep track of what that was for each.|
 |`Zoom`|<ul><li>`zoomOrigin{\|Inline\|Block}`</li><li>`zoomMin{\|Inline\|Block}`</li></ul>|Simple `transform: scale`-based transition.|
 |`Collapse`|<ul><li>`minBlockSize`</li></ul>|Animate `height` (in horizontal languages, or `width` in vertial languages, or just `block-size` regardless) between `auto` and `0` (or some custom `minBlockSize`, like `10em`). Be sure to use caution, as animating these sorts of properties is *not* cheap for the browser to do and you may drop below 60fps on lower-powered devices.|
-|`Flip`|<ul><li>`flipAngle{\|Inline\|Block}`</li><li>`perspective`</li></ul>|A 3D card-flipping effect. The back face is not visible so it works well in a `Swappable` with the default `flipAngle` of 180.|
+|`Flip`|<ul><li>`flipAngle{\|Inline\|Block}`</li><li>`perspective`</li></ul>|A 3D card-flipping effect. If you make the timing function linear (or symmetrical), then by taking advantage of the fact that the back face is not visible, it can work well in a `Swappable` with a `flipAngle` of 180.|
 
 In addition, any `<Transitionable>` or component that uses it, like `<Zoom>`, provides the following options:
 
 |Prop name|Description|Default|
 |---|---|---|
-|`show`|Controls if the content is visible or not. Passing `null` is the same as passing `false`, except when `animateOnMount` is `true`.|`false`|
-|`classBase`|Allows you to change the names of the CSS classes used. Corresponds to the `$transition-class-name` Sass variable|`"transition"`|
-|`measure`|Whether a set of CSS variables corresponding to the current and/or final size of the content should be provided.|`false`|
+|`show`|Controls if the content is visible or not. Passing `null` is the same as passing `false`, except when `animateOnMount` is `true`; in that case, `null` tells `animateOnMount` to wait for a non-`null` value to actually do that animation.|`false`|
 |`animateOnMount`|By default, on mount, all components appear pre-transitioned. This prop will allow mounted components to animate themselves appearing on mount instead.  Note that if `show` is `null` instead of `false`, the "first mount" (and subsequent avoiding of that first animation) won't occur until it's actually  `true` or `false`. This lets you "delay" that logic if need be.|`false`|
-|`exitVisibility`|The behavior of hidden components. Can be either <ul><li>"hidden": `visibility: hidden`</li><li>"removed": `display: none`</li><li>"visible": (nothing set)</li></ul> If you use "visible", __be aware that the content will be accessible via tab order, screen readers, etc.__|`false`|
+|`measure`|Whether a set of CSS variables corresponding to the current and/or final size of the content should be provided. May cause jank when the animation starts, be sure to test on older hardware. Only used by `Collapse` and its ilk here.|`false`|
+|`exitVisibility`|Controls how components are hidden when their exit transition completes: <ul><li>"hidden": `visibility: hidden`</li><li>"removed": `display: none`</li><li>"inert": No additional styling is applied, but the [`inert`](https://caniuse.com/mdn-api_htmlelement_inert) attribute is applied to the element.</li><li>"visible": No changes are made. __You are responsible for making sure this content is hidden from the tab order, assistive technologies, etc.__</li></ul>|`hidden`|
+|`classBase`|Allows you to change the names of the CSS classes used. Corresponds to the `$transition-class-name` Sass variable.|`"transition"`|
 |`onTransitionUpdate`|A function that will be called any time the direction or phase changes. Does not need to remain constant between renders (you don't need to use `useCallback`).|`false`|
 
 
@@ -59,7 +59,7 @@ These are extremely easy to compose, and are simply provided for convenience. Ev
 `<ZoomFade minBlockSize={0.8} minInlineSize={0.8}>{children}</ZoomFade>` is an easy way to create a Zoom effect that's much more subtle and arguably less distracting for large components, as there's less net movement on-screen.
 
 
-(Prefer using, e.g., `<SlideZoom />` or `<Transitionable {...bothProps} />` over `<Slide><Zoom /></Slide>`. In `<Slide><Zoom /></Slide>`, the two components are *unaware* of each other, and each independently create their own `<Transitionable>` that modify the same child. Not *wrong*, but a touch wasteful.)
+(Prefer using, e.g., `<SlideZoom />` or `<Transitionable props={...bothProps} />` over `<Slide><Zoom /></Slide>`. When wrapped like the latter, the two components are *unaware* of each other, and each independently create their own `<Transitionable>` that modify the same child. Not *wrong*, but a touch wasteful.)
 
 
 
@@ -72,9 +72,9 @@ All children in the `Swappable` overlap each other, so only one should have `sho
 ```tsx
 <Swappable>
   <div>
-    <Transitionable show><div>Content A</div></Transitionable>
-    <Transitionable     ><div>Content B</div></Transitionable>
-    <Transitionable     ><div>Content C<br />and Content D</div></Transitionable>
+    <Fade show><div>Content A</div></Fade>
+    <Fade     ><div>Content B</div></Fade>
+    <Fade     ><div>Content C<br />and Content D</div></Fade>
   </div>
 </Swappable>
 ```
@@ -183,6 +183,8 @@ By default, approx. the following styles are provided: (simplified, see base.scs
 ````
 
 ## Custom Transitions and useCreateTransitionableProps
+
+TODO: This is all outdated and overly complicated
 
 You generally won't need to care about `useCreateTransitionableProps` or the other `useCreate*Props` hooks -- to build a custom Transition, the following is usually enough:
 

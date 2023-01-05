@@ -1,294 +1,378 @@
-.transition-enter {
-  transition: all var(--transition-duration, 175ms) cubic-bezier(0.4, 0, 0.2, 1), visibility 0ms linear, transform-origin 0ms linear;
+.ptl {
+  transition-property: var(--ptl-properties, none);
+}
+.ptl.ptl-measure {
+  transition: none !important;
 }
 
-.transition-exit {
-  transition: all var(--transition-duration, 175ms) cubic-bezier(0.4, 0, 0.2, 1), visibility 0ms linear, transform-origin 0ms linear;
+.ptl-enter,
+.ptl-exit {
+  transition-duration: var(--ptl-duration, 175ms);
+  isolation: isolate;
 }
 
-.transition-exit-finalize:not(.transition-visible-on-exit) {
+.ptl-enter {
+  transition-timing-function: var(--ptl-enter-timing-function, cubic-bezier(0.05, 0.7, 0.1, 1));
+}
+
+.ptl-exit {
+  transition-timing-function: var(--ptl-exit-timing-function, cubic-bezier(0.3, 0, 0.8, 0.15));
+}
+
+.ptl-exit-finalize {
+  pointer-events: none;
+}
+
+.ptl-ev-hidden.ptl-exit.ptl-exit-finalize, .ptl-ev-hidden.ptl-pending {
   visibility: hidden;
 }
 
-.transition-exit-finalize.transition-removed-on-exit {
+.ptl-ev-removed.ptl-exit.ptl-exit-finalize, .ptl-ev-removed.ptl-pending {
   display: none;
 }
 
-.transition-exit-finalize {
+.ptl-enter.ptl-enter-finalize, .ptl-enter.ptl-enter-init {
   transition: none;
 }
 
-.transition-enter-finalize {
+.ptl-exit.ptl-exit-finalize, .ptl-exit.ptl-exit-init {
   transition: none;
 }
 
 @media (prefers-reduced-motion) {
-  .transition-enter {
-    transition: opacity 175ms ease-in-out;
+  .ptl {
+    ptl-properties: none !important;
+  }
+  /*.ptl-enter {
+      transition: opacity 175ms ease-in-out;
   }
 
-  .transition-exit {
-    transition: opacity 175ms ease-in-out;
+  .ptl-exit {
+      transition: opacity 175ms ease-in-out;
   }
 
-  .transition-enter-init, .transition-exit-transition, .transition-exit-finalize {
-    opacity: 0;
+
+  .ptl-enter-init,
+  .ptl-exit-transition,
+  .ptl-exit-finalize {
+      opacity: 0;
   }
 
-  .transition-exit-init, .transition-enter-transition, .transition-enter-finalize {
-    opacity: 1;
-  }
+  .ptl-exit-init,
+  .ptl-enter-transition,
+  .ptl-enter-finalize {
+      opacity: 1;
+  }*/
 }
-.transition-fade.transition-enter-init, .transition-fade.transition-exit-transition, .transition-fade.transition-exit-finalize {
-  opacity: var(--transition-fade-min, 0);
+.ptl-fade {
+  --ptl-properties: opacity;
 }
-.transition-fade.transition-exit-init, .transition-fade.transition-enter-transition, .transition-fade.transition-enter-finalize {
-  opacity: var(--transition-fade-max, 1);
+.ptl-fade.ptl-enter-init, .ptl-fade.ptl-exit-transition, .ptl-fade.ptl-exit-finalize {
+  opacity: var(--ptl-fade-min, 0);
+}
+.ptl-fade.ptl-exit-init, .ptl-fade.ptl-enter-transition, .ptl-fade.ptl-enter-finalize {
+  opacity: var(--ptl-fade-max, 1);
 }
 
-.transition-clip {
+.ptl-clip {
+  --ptl-properties: clip-path;
   overflow: hidden;
-  --transition-clip-min-x: calc(0 + var(--transition-clip-min-inline));
-  --transition-clip-min-y: calc(0 + var(--transition-clip-min-block));
-  --transition-clip-origin-x: calc(0 + var(--transition-clip-origin-inline));
+  --ptl-clip-min-x: calc(0 + var(--ptl-clip-min-inline));
+  --ptl-clip-min-y: calc(0 + var(--ptl-clip-min-block));
+  --ptl-clip-origin-x: calc(0 + var(--ptl-clip-origin-inline));
 }
-.transition-clip.transition-enter-init, .transition-clip.transition-exit-transition, .transition-clip.transition-exit-finalize {
-  -webkit-clip-path: inset(calc(100% * (0 + var(--transition-clip-origin-y)) * (1 - var(--transition-clip-min-y))) calc(100% * (1 - var(--transition-clip-origin-x)) * (1 - var(--transition-clip-min-x))) calc(100% * (1 - var(--transition-clip-origin-y)) * (1 - var(--transition-clip-min-y))) calc(100% * (0 + var(--transition-clip-origin-x)) * (1 - var(--transition-clip-min-x))));
-          clip-path: inset(calc(100% * (0 + var(--transition-clip-origin-y)) * (1 - var(--transition-clip-min-y))) calc(100% * (1 - var(--transition-clip-origin-x)) * (1 - var(--transition-clip-min-x))) calc(100% * (1 - var(--transition-clip-origin-y)) * (1 - var(--transition-clip-min-y))) calc(100% * (0 + var(--transition-clip-origin-x)) * (1 - var(--transition-clip-min-x))));
+.ptl-clip.ptl-enter-init, .ptl-clip.ptl-exit-transition, .ptl-clip.ptl-exit-finalize {
+  -webkit-clip-path: inset(calc(100% * (0 + var(--ptl-clip-origin-y)) * (1 - var(--ptl-clip-min-y))) calc(100% * (1 - var(--ptl-clip-origin-x)) * (1 - var(--ptl-clip-min-x))) calc(100% * (1 - var(--ptl-clip-origin-y)) * (1 - var(--ptl-clip-min-y))) calc(100% * (0 + var(--ptl-clip-origin-x)) * (1 - var(--ptl-clip-min-x))));
+          clip-path: inset(calc(100% * (0 + var(--ptl-clip-origin-y)) * (1 - var(--ptl-clip-min-y))) calc(100% * (1 - var(--ptl-clip-origin-x)) * (1 - var(--ptl-clip-min-x))) calc(100% * (1 - var(--ptl-clip-origin-y)) * (1 - var(--ptl-clip-min-y))) calc(100% * (0 + var(--ptl-clip-origin-x)) * (1 - var(--ptl-clip-min-x))));
 }
 @media (prefers-reduced-motion) {
-  .transition-clip.transition-enter-init, .transition-clip.transition-exit-transition, .transition-clip.transition-exit-finalize {
+  .ptl-clip.ptl-enter-init, .ptl-clip.ptl-exit-transition, .ptl-clip.ptl-exit-finalize {
     -webkit-clip-path: none;
             clip-path: none;
   }
 }
-.transition-clip.transition-enter-init.transition-clip-ellipse, .transition-clip.transition-exit-transition.transition-clip-ellipse, .transition-clip.transition-exit-finalize.transition-clip-ellipse {
-  -webkit-clip-path: ellipse(calc(100% * var(--transition-clip-min-x)) calc(100% * var(--transition-clip-min-y)) at calc(100% * var(--transition-clip-origin-x)) calc(100% * var(--transition-clip-origin-y)));
-          clip-path: ellipse(calc(100% * var(--transition-clip-min-x)) calc(100% * var(--transition-clip-min-y)) at calc(100% * var(--transition-clip-origin-x)) calc(100% * var(--transition-clip-origin-y)));
+.ptl-clip.ptl-enter-init.ptl-clip-ellipse, .ptl-clip.ptl-exit-transition.ptl-clip-ellipse, .ptl-clip.ptl-exit-finalize.ptl-clip-ellipse {
+  -webkit-clip-path: ellipse(calc(100% * var(--ptl-clip-min-x)) calc(100% * var(--ptl-clip-min-y)) at calc(100% * var(--ptl-clip-origin-x)) calc(100% * var(--ptl-clip-origin-y)));
+          clip-path: ellipse(calc(100% * var(--ptl-clip-min-x)) calc(100% * var(--ptl-clip-min-y)) at calc(100% * var(--ptl-clip-origin-x)) calc(100% * var(--ptl-clip-origin-y)));
 }
 @media (prefers-reduced-motion) {
-  .transition-clip.transition-enter-init.transition-clip-ellipse, .transition-clip.transition-exit-transition.transition-clip-ellipse, .transition-clip.transition-exit-finalize.transition-clip-ellipse {
+  .ptl-clip.ptl-enter-init.ptl-clip-ellipse, .ptl-clip.ptl-exit-transition.ptl-clip-ellipse, .ptl-clip.ptl-exit-finalize.ptl-clip-ellipse {
     -webkit-clip-path: none;
             clip-path: none;
   }
 }
-.transition-clip.transition-exit-init, .transition-clip.transition-enter-transition, .transition-clip.transition-enter-finalize {
+.ptl-clip.ptl-exit-init, .ptl-clip.ptl-enter-transition, .ptl-clip.ptl-enter-finalize {
   -webkit-clip-path: inset(0 0 0 0);
           clip-path: inset(0 0 0 0);
 }
-.transition-clip.transition-exit-init.clip-ellipse, .transition-clip.transition-enter-transition.clip-ellipse, .transition-clip.transition-enter-finalize.clip-ellipse {
-  -webkit-clip-path: ellipse(71% 71% at calc(100% * var(--transition-clip-origin-x)) calc(100% * var(--transition-clip-origin-y)));
-          clip-path: ellipse(71% 71% at calc(100% * var(--transition-clip-origin-x)) calc(100% * var(--transition-clip-origin-y)));
+.ptl-clip.ptl-exit-init.clip-ellipse, .ptl-clip.ptl-enter-transition.clip-ellipse, .ptl-clip.ptl-enter-finalize.clip-ellipse {
+  -webkit-clip-path: ellipse(71% 71% at calc(100% * var(--ptl-clip-origin-x)) calc(100% * var(--ptl-clip-origin-y)));
+          clip-path: ellipse(71% 71% at calc(100% * var(--ptl-clip-origin-x)) calc(100% * var(--ptl-clip-origin-y)));
 }
-.transition-clip.transition-inline-direction-ltr, .transition-clip.transition-inline-direction-rtl, .transition-clip.transition-block-direction-ttb, .transition-clip.transition-block-direction-btt {
-  --transition-clip-min-x: calc(0 + var(--transition-clip-min-inline));
-  --transition-clip-min-y: calc(0 + var(--transition-clip-min-block));
+.ptl-clip.ptl-inline-direction-ltr, .ptl-clip.ptl-inline-direction-rtl, .ptl-clip.ptl-block-direction-ttb, .ptl-clip.ptl-block-direction-btt {
+  --ptl-clip-min-x: calc(0 + var(--ptl-clip-min-inline));
+  --ptl-clip-min-y: calc(0 + var(--ptl-clip-min-block));
 }
-.transition-clip.transition-inline-direction-ltr {
-  --transition-clip-origin-x: calc(0 + var(--transition-clip-origin-inline));
+.ptl-clip.ptl-inline-direction-ltr {
+  --ptl-clip-origin-x: calc(0 + var(--ptl-clip-origin-inline));
 }
-.transition-clip.transition-inline-direction-rtl {
-  --transition-clip-origin-x: calc(1 - var(--transition-clip-origin-inline));
+.ptl-clip.ptl-inline-direction-rtl {
+  --ptl-clip-origin-x: calc(1 - var(--ptl-clip-origin-inline));
 }
-.transition-clip.transition-block-direction-ttb {
-  --transition-clip-origin-y: calc(0 + var(--transition-clip-origin-block));
+.ptl-clip.ptl-block-direction-ttb {
+  --ptl-clip-origin-y: calc(0 + var(--ptl-clip-origin-block));
 }
-.transition-clip.transition-block-direction-btt {
-  --transition-clip-origin-y: calc(1 - var(--transition-clip-origin-block));
+.ptl-clip.ptl-block-direction-btt {
+  --ptl-clip-origin-y: calc(1 - var(--ptl-clip-origin-block));
 }
-.transition-clip.transition-block-direction-ltr, .transition-clip.transition-block-direction-rtl, .transition-clip.transition-inline-direction-ttb, .transition-clip.transition-inline-direction-btt {
-  --transition-clip-min-x: calc(0 + var(--transition-clip-min-block));
-  --transition-clip-min-y: calc(0 + var(--transition-clip-min-inline));
+.ptl-clip.ptl-block-direction-ltr, .ptl-clip.ptl-block-direction-rtl, .ptl-clip.ptl-inline-direction-ttb, .ptl-clip.ptl-inline-direction-btt {
+  --ptl-clip-min-x: calc(0 + var(--ptl-clip-min-block));
+  --ptl-clip-min-y: calc(0 + var(--ptl-clip-min-inline));
 }
-.transition-clip.transition-block-direction-ltr {
-  --transition-clip-origin-x: calc(0 + var(--transition-clip-origin-block));
+.ptl-clip.ptl-block-direction-ltr {
+  --ptl-clip-origin-x: calc(0 + var(--ptl-clip-origin-block));
 }
-.transition-clip.transition-block-direction-rtl {
-  --transition-clip-origin-x: calc(1 - var(--transition-clip-origin-block));
+.ptl-clip.ptl-block-direction-rtl {
+  --ptl-clip-origin-x: calc(1 - var(--ptl-clip-origin-block));
 }
-.transition-clip.transition-inline-direction-ttb {
-  --transition-clip-origin-y: calc(0 + var(--transition-clip-origin-inline));
+.ptl-clip.ptl-inline-direction-ttb {
+  --ptl-clip-origin-y: calc(0 + var(--ptl-clip-origin-inline));
 }
-.transition-clip.transition-inline-direction-btt {
-  --transition-clip-origin-y: calc(1 - var(--transition-clip-origin-inline));
+.ptl-clip.ptl-inline-direction-btt {
+  --ptl-clip-origin-y: calc(1 - var(--ptl-clip-origin-inline));
 }
 
-.transition-zoom {
-  transform-origin: calc(var(--transition-zoom-origin-x) * 100%) calc(var(--transition-zoom-origin-y) * 100%);
-  --transition-zoom-min-x: calc(0 + var(--transition-zoom-min-inline));
-  --transition-zoom-min-y: calc(0 + var(--transition-zoom-min-block));
-  --transition-zoom-origin-x: calc(0 + var(--transition-zoom-origin-inline));
-  --transition-zoom-origin-y: calc(0 + var(--transition-zoom-origin-block));
+.ptl-fade.ptl-clip {
+  --ptl-properties: clip-path, opacity;
 }
-.transition-zoom.transition-enter-init, .transition-zoom.transition-exit-transition, .transition-zoom.transition-exit-finalize {
-  transform: scale(calc(var(--transition-zoom-min-x) * 100%), calc(var(--transition-zoom-min-y) * 100%));
+
+.ptl-zoom {
+  --ptl-properties: transform;
+  transform-origin: calc(var(--ptl-zoom-origin-x) * 100%) calc(var(--ptl-zoom-origin-y) * 100%);
+  --ptl-zoom-min-x: calc(0 + var(--ptl-zoom-min-inline));
+  --ptl-zoom-min-y: calc(0 + var(--ptl-zoom-min-block));
+  --ptl-zoom-origin-x: calc(0 + var(--ptl-zoom-origin-inline));
+  --ptl-zoom-origin-y: calc(0 + var(--ptl-zoom-origin-block));
+}
+.ptl-zoom.ptl-enter-init, .ptl-zoom.ptl-exit-transition, .ptl-zoom.ptl-exit-finalize {
+  transform: scale(calc(var(--ptl-zoom-min-x) * 1), calc(var(--ptl-zoom-min-y) * 1));
 }
 @media (prefers-reduced-motion) {
-  .transition-zoom.transition-enter-init, .transition-zoom.transition-exit-transition, .transition-zoom.transition-exit-finalize {
+  .ptl-zoom.ptl-enter-init, .ptl-zoom.ptl-exit-transition, .ptl-zoom.ptl-exit-finalize {
     transform: none;
   }
 }
-.transition-zoom.transition-enter-init, .transition-zoom.transition-enter-transition, .transition-zoom.transition-enter-finalize {
+.ptl-zoom.ptl-exit-init, .ptl-zoom.ptl-enter-transition, .ptl-zoom.ptl-enter-finalize {
   transform: scale(1, 1);
 }
-.transition-zoom.transition-inline-direction-ltr, .transition-zoom.transition-inline-direction-rtl, .transition-zoom.transition-block-direction-ttb, .transition-zoom.transition-block-direction-btt {
-  --transition-zoom-min-x: calc(0 + var(--transition-zoom-min-inline));
-  --transition-zoom-min-y: calc(0 + var(--transition-zoom-min-block));
-}
-.transition-zoom.transition-block-direction-ltr, .transition-zoom.transition-block-direction-rtl, .transition-zoom.transition-inline-direction-ttb, .transition-zoom.transition-inline-direction-btt {
-  --transition-zoom-min-x: calc(0 + var(--transition-zoom-min-block));
-  --transition-zoom-min-y: calc(0 + var(--transition-zoom-min-inline));
-}
-.transition-zoom.transition-inline-direction-ltr {
-  --transition-zoom-origin-x: calc(0 + var(--transition-zoom-origin-inline));
-}
-.transition-zoom.transition-inline-direction-rtl {
-  --transition-zoom-origin-x: calc(1 - var(--transition-zoom-origin-inline));
-}
-.transition-zoom.transition-block-direction-ttb {
-  --transition-zoom-origin-y: calc(0 + var(--transition-zoom-origin-block));
-}
-.transition-zoom.transition-block-direction-btt {
-  --transition-zoom-origin-y: calc(1 - var(--transition-zoom-origin-block));
-}
-.transition-zoom.transition-block-direction-ltr {
-  --transition-zoom-origin-x: calc(0 + var(--transition-zoom-origin-block));
-}
-.transition-zoom.transition-block-direction-rtl {
-  --transition-zoom-origin-x: calc(1 - var(--transition-zoom-origin-block));
-}
-.transition-zoom.transition-inline-direction-ttb {
-  --transition-zoom-origin-y: calc(0 + var(--transition-zoom-origin-inline));
-}
-.transition-zoom.transition-inline-direction-btt {
-  --transition-zoom-origin-y: calc(1 - var(--transition-zoom-origin-inline));
-}
-
-.transition-slide {
-  --transition-origin-x: calc(0 + var(--transition-origin-inline));
-  --transition-origin-y: calc(0 + var(--transition-origin-block));
-}
-.transition-slide.transition-enter {
-  z-index: 1000;
-}
-.transition-slide.transition-enter-init, .transition-slide.transition-exit-transition, .transition-slide.transition-exit-finalize {
-  transform: translate(calc(100% * var(--transition-slide-target-x, 0)), calc(100% * var(--transition-slide-target-y, 0)));
-}
 @media (prefers-reduced-motion) {
-  .transition-slide.transition-enter-init, .transition-slide.transition-exit-transition, .transition-slide.transition-exit-finalize {
+  .ptl-zoom.ptl-exit-init, .ptl-zoom.ptl-enter-transition, .ptl-zoom.ptl-enter-finalize {
     transform: none;
   }
 }
-.transition-slide.transition-exit-init, .transition-slide.transition-enter-transition, .transition-slide.transition-enter-finalize {
+.ptl-zoom.ptl-inline-direction-ltr, .ptl-zoom.ptl-inline-direction-rtl, .ptl-zoom.ptl-block-direction-ttb, .ptl-zoom.ptl-block-direction-btt {
+  --ptl-zoom-min-x: calc(0 + var(--ptl-zoom-min-inline));
+  --ptl-zoom-min-y: calc(0 + var(--ptl-zoom-min-block));
+}
+.ptl-zoom.ptl-block-direction-ltr, .ptl-zoom.ptl-block-direction-rtl, .ptl-zoom.ptl-inline-direction-ttb, .ptl-zoom.ptl-inline-direction-btt {
+  --ptl-zoom-min-x: calc(0 + var(--ptl-zoom-min-block));
+  --ptl-zoom-min-y: calc(0 + var(--ptl-zoom-min-inline));
+}
+.ptl-zoom.ptl-inline-direction-ltr {
+  --ptl-zoom-origin-x: calc(0 + var(--ptl-zoom-origin-inline));
+}
+.ptl-zoom.ptl-inline-direction-rtl {
+  --ptl-zoom-origin-x: calc(1 - var(--ptl-zoom-origin-inline));
+}
+.ptl-zoom.ptl-block-direction-ttb {
+  --ptl-zoom-origin-y: calc(0 + var(--ptl-zoom-origin-block));
+}
+.ptl-zoom.ptl-block-direction-btt {
+  --ptl-zoom-origin-y: calc(1 - var(--ptl-zoom-origin-block));
+}
+.ptl-zoom.ptl-block-direction-ltr {
+  --ptl-zoom-origin-x: calc(0 + var(--ptl-zoom-origin-block));
+}
+.ptl-zoom.ptl-block-direction-rtl {
+  --ptl-zoom-origin-x: calc(1 - var(--ptl-zoom-origin-block));
+}
+.ptl-zoom.ptl-inline-direction-ttb {
+  --ptl-zoom-origin-y: calc(0 + var(--ptl-zoom-origin-inline));
+}
+.ptl-zoom.ptl-inline-direction-btt {
+  --ptl-zoom-origin-y: calc(1 - var(--ptl-zoom-origin-inline));
+}
+
+.ptl-zoom.ptl-fade {
+  --ptl-properties: transform, opacity;
+}
+
+.ptl-slide {
+  --ptl-properties: transform;
+  --ptl-origin-x: calc(0 + var(--ptl-origin-inline));
+  --ptl-origin-y: calc(0 + var(--ptl-origin-block));
+}
+.ptl-slide.ptl-enter-init, .ptl-slide.ptl-exit-transition, .ptl-slide.ptl-exit-finalize {
+  transform: translate(calc(100% * var(--ptl-slide-target-x, 0)), calc(100% * var(--ptl-slide-target-y, 0)));
+}
+@media (prefers-reduced-motion) {
+  .ptl-slide.ptl-enter-init, .ptl-slide.ptl-exit-transition, .ptl-slide.ptl-exit-finalize {
+    transform: none;
+  }
+}
+.ptl-slide.ptl-exit-init, .ptl-slide.ptl-enter-transition, .ptl-slide.ptl-enter-finalize {
   transform: translate(0, 0);
 }
-.transition-slide.transition-inline-direction-ltr {
-  --transition-slide-target-x: calc(1 * var(--transition-slide-target-inline));
+.ptl-slide.ptl-inline-direction-ltr {
+  --ptl-slide-target-x: calc(1 * var(--ptl-slide-target-inline));
 }
-.transition-slide.transition-inline-direction-rtl {
-  --transition-slide-target-x: calc(-1 * var(--transition-slide-target-inline));
+.ptl-slide.ptl-inline-direction-rtl {
+  --ptl-slide-target-x: calc(-1 * var(--ptl-slide-target-inline));
 }
-.transition-slide.transition-block-direction-ttb {
-  --transition-slide-target-y: calc(1 * var(--transition-slide-target-block));
+.ptl-slide.ptl-block-direction-ttb {
+  --ptl-slide-target-y: calc(1 * var(--ptl-slide-target-block));
 }
-.transition-slide.transition-block-direction-btt {
-  --transition-slide-target-y: calc(-1 * var(--transition-slide-target-block));
+.ptl-slide.ptl-block-direction-btt {
+  --ptl-slide-target-y: calc(-1 * var(--ptl-slide-target-block));
 }
-.transition-slide.transition-block-direction-ltr {
-  --transition-slide-target-x: calc(1 * var(--transition-slide-target-block));
+.ptl-slide.ptl-block-direction-ltr {
+  --ptl-slide-target-x: calc(1 * var(--ptl-slide-target-block));
 }
-.transition-slide.transition-block-direction-rtl {
-  --transition-slide-target-x: calc(-1 * var(--transition-slide-target-block));
+.ptl-slide.ptl-block-direction-rtl {
+  --ptl-slide-target-x: calc(-1 * var(--ptl-slide-target-block));
 }
-.transition-slide.transition-inline-direction-ttb {
-  --transition-slide-target-y: calc(1 * var(--transition-slide-target-inline));
+.ptl-slide.ptl-inline-direction-ttb {
+  --ptl-slide-target-y: calc(1 * var(--ptl-slide-target-inline));
 }
-.transition-slide.transition-inline-direction-btt {
-  --transition-slide-target-y: calc(-1 * var(--transition-slide-target-inline));
-}
-
-.transition-slide.transition-zoom.transition-enter-init, .transition-slide.transition-zoom.transition-exit-transition, .transition-slide.transition-zoom.transition-exit-finalize {
-  transform: translate(calc(100% * var(--transition-slide-target-x, 0)), calc(100% * var(--transition-slide-target-y, 0))) scale(calc(var(--transition-zoom-min-x) * 100%), calc(var(--transition-zoom-min-y) * 100%));
-}
-.transition-slide.transition-zoom.transition-exit-init, .transition-slide.transition-zoom.transition-enter-transition, .transition-slide.transition-zoom.transition-enter-finalize {
-  transform: translate(0% 0%) scale(1, 1);
+.ptl-slide.ptl-inline-direction-btt {
+  --ptl-slide-target-y: calc(-1 * var(--ptl-slide-target-inline));
 }
 
-.transition-flip {
+.ptl-slide.ptl-fade {
+  --ptl-properties: transform, opacity;
+}
+
+.ptl-slide.ptl-zoom {
+  --ptl-properties: transform;
+}
+.ptl-slide.ptl-zoom.ptl-enter-init, .ptl-slide.ptl-zoom.ptl-exit-transition, .ptl-slide.ptl-zoom.ptl-exit-finalize {
+  transform: translate(calc(100% * var(--ptl-slide-target-x, 0)), calc(100% * var(--ptl-slide-target-y, 0))) scale(calc(1 * var(--ptl-zoom-min-x, 0)), calc(1 * var(--ptl-zoom-min-y, 0)));
+}
+.ptl-slide.ptl-zoom.ptl-exit-init, .ptl-slide.ptl-zoom.ptl-enter-transition, .ptl-slide.ptl-zoom.ptl-enter-finalize {
+  transform: translate(0%, 0%) scale(1, 1);
+}
+
+.ptl-slide.ptl-zoom.ptl-fade {
+  --ptl-properties: transform, opacity;
+}
+
+.ptl-flip {
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
-  --transition-origin-x: calc(0 + var(--transition-origin-inline));
-  --transition-origin-y: calc(0 + var(--transition-origin-block));
+  --ptl-properties: transform;
+  --ptl-origin-x: calc(0 + var(--ptl-origin-inline));
+  --ptl-origin-y: calc(0 + var(--ptl-origin-block));
 }
-.transition-flip.transition-enter {
-  z-index: 1000;
-}
-.transition-flip.transition-enter-init, .transition-flip.transition-exit-transition, .transition-flip.transition-exit-finalize {
-  transform: perspective(var(--transition-perspective, 800px)) rotate3d(1, 0, 0, calc(var(--transition-flip-angle-x, 0))) rotate3d(0, 1, 0, calc(var(--transition-flip-angle-y, 0)));
+.ptl-flip.ptl-enter-init, .ptl-flip.ptl-exit-transition, .ptl-flip.ptl-exit-finalize {
+  transform: perspective(var(--ptl-perspective, 800px)) rotate3d(1, 0, 0, calc(var(--ptl-flip-angle-x, 0))) rotate3d(0, 1, 0, calc(var(--ptl-flip-angle-y, 0)));
 }
 @media (prefers-reduced-motion) {
-  .transition-flip.transition-enter-init, .transition-flip.transition-exit-transition, .transition-flip.transition-exit-finalize {
+  .ptl-flip.ptl-enter-init, .ptl-flip.ptl-exit-transition, .ptl-flip.ptl-exit-finalize {
     transform: none;
   }
 }
-.transition-flip.transition-exit-init, .transition-flip.transition-enter-transition, .transition-flip.transition-enter-finalize {
-  transform: perspective(var(--transition-perspective, 800px)) rotate3d(1, 0, 0, 0deg) rotate3d(0, 1, 0, 0deg);
+.ptl-flip.ptl-exit-init, .ptl-flip.ptl-enter-transition, .ptl-flip.ptl-enter-finalize {
+  transform: perspective(var(--ptl-perspective, 800px)) rotate3d(1, 0, 0, 0deg) rotate3d(0, 1, 0, 0deg);
 }
-.transition-flip.transition-inline-direction-ltr {
-  --transition-flip-angle-x: calc(1 * var(--transition-flip-angle-inline));
+.ptl-flip.ptl-inline-direction-ltr {
+  --ptl-flip-angle-x: calc(1 * var(--ptl-flip-angle-inline));
 }
-.transition-flip.transition-inline-direction-rtl {
-  --transition-flip-angle-x: calc(-1 * var(--transition-flip-angle-inline));
+.ptl-flip.ptl-inline-direction-rtl {
+  --ptl-flip-angle-x: calc(-1 * var(--ptl-flip-angle-inline));
 }
-.transition-flip.transition-block-direction-ttb {
-  --transition-flip-angle-y: calc(1 * var(--transition-flip-angle-block));
+.ptl-flip.ptl-block-direction-ttb {
+  --ptl-flip-angle-y: calc(1 * var(--ptl-flip-angle-block));
 }
-.transition-flip.transition-block-direction-btt {
-  --transition-flip-angle-y: calc(-1 * var(--transition-flip-angle-block));
+.ptl-flip.ptl-block-direction-btt {
+  --ptl-flip-angle-y: calc(-1 * var(--ptl-flip-angle-block));
 }
-.transition-flip.transition-block-direction-ltr {
-  --transition-flip-angle-x: calc(1 * var(--transition-flip-angle-block));
+.ptl-flip.ptl-block-direction-ltr {
+  --ptl-flip-angle-x: calc(1 * var(--ptl-flip-angle-block));
 }
-.transition-flip.transition-block-direction-rtl {
-  --transition-flip-angle-x: calc(-1 * var(--transition-flip-angle-block));
+.ptl-flip.ptl-block-direction-rtl {
+  --ptl-flip-angle-x: calc(-1 * var(--ptl-flip-angle-block));
 }
-.transition-flip.transition-inline-direction-ttb {
-  --transition-flip-angle-y: calc(1 * var(--transition-flip-angle-inline));
+.ptl-flip.ptl-inline-direction-ttb {
+  --ptl-flip-angle-y: calc(1 * var(--ptl-flip-angle-inline));
 }
-.transition-flip.transition-inline-direction-btt {
-  --transition-flip-angle-y: calc(-1 * var(--transition-flip-angle-inline));
+.ptl-flip.ptl-inline-direction-btt {
+  --ptl-flip-angle-y: calc(-1 * var(--ptl-flip-angle-inline));
 }
 
-.transition-collapse {
+.ptl-collapse {
   overflow: hidden;
+  --ptl-properties: block-size;
+  /*
+      // Initialize the height to the current transitioning size
+      // (the size we're caught in mid-transition, and/or also at the end)
+      &.ptl-enter-init, &.ptl-exit-init {
+          block-size: var(--ptl-transitioning-block-size); 
+      }
+
+      // On exit, transition towards the specified minimum height.
+      &.ptl-exit-transition, &.ptl-exit-finalize { 
+          block-size: var(--ptl-collapse-min-block, 0); 
+          padding-block: 0 !important;
+      }
+
+      // While entering, transition towards the height that was measured when the transition started
+      &.ptl-enter-transition { 
+          block-size: var(--ptl-surface-block-size); 
+      }
+
+      // When entering has finished, defer to the normal browser height behavior.
+      // TODO: Register a resize observer when it's auto
+      &.ptl-enter-finalize { block-size: auto; }*/
 }
-.transition-collapse.transition-measure {
-  block-size: auto;
+.ptl-collapse.ptl-measure {
+  block-size: auto !important;
 }
-.transition-collapse.transition-enter-init, .transition-collapse.transition-exit-init {
-  block-size: var(--transition-transitioning-block-size);
+.ptl-collapse.ptl-enter-init, .ptl-collapse.ptl-exit-transition, .ptl-collapse.ptl-exit-finalize {
+  block-size: var(--ptl-collapse-min-block);
 }
-.transition-collapse.transition-exit-transition, .transition-collapse.transition-exit-finalize {
-  block-size: var(--transition-collapse-min-block, 0);
+.ptl-collapse.ptl-exit-init, .ptl-collapse.ptl-enter-transition {
+  block-size: var(--ptl-measure-height);
 }
-.transition-collapse.transition-enter-transition {
-  block-size: var(--transition-surface-block-size);
-}
-.transition-collapse.transition-enter-finalize {
+.ptl-collapse.ptl-enter-finalize {
   block-size: auto;
 }
 
-.transition-swap-container {
+.ptl-collapse.ptl-fade {
+  --ptl-properties: block-size, opacity;
+}
+
+.ptl-swap-container {
+  isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
   position: relative;
   overflow: hidden;
 }
-.transition-swap-container-inline {
+.ptl-swap-container-inline {
   display: inline-grid;
 }
-.transition-swap-container > * {
+.ptl-swap-container > .ptl {
+  --ptl-enter-timing-function: cubic-bezier(0.15, 1, 0.15, 1);
+  --ptl-exit-timing-function: cubic-bezier(0.15, 1, 0.15, 1);
+}
+.ptl-swap-container > .ptl-enter {
+  z-index: var(--ptl-enter-z-index, 10);
+}
+.ptl-swap-container > .ptl-exit {
+  z-index: var(--ptl-exit-z-index, 0);
+}
+.ptl-swap-container > * {
   position: relative;
   grid-area: 1/1/1/1;
   align-self: flex-start;
@@ -314,15 +398,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .writing-mode-horizontal {
-  -ms-writing-mode: lr-tb;
-      writing-mode: horizontal-tb;
+  writing-mode: horizontal-tb;
 }
 
 .writing-mode-vertical {
-  -ms-writing-mode: tb-rl;
-      writing-mode: vertical-rl;
-  -ms-writing-mode: sideways-lr;
-      writing-mode: sideways-lr;
+  writing-mode: vertical-rl;
+  writing-mode: sideways-lr;
 }
 
 #controls {
@@ -343,7 +424,6 @@ h1, h2, h3, h4, h5, h6 {
 .card {
   border: 1px solid #222;
   border-radius: 6px;
-  background-color: #333;
   max-inline-size: 20em;
   padding: 1.5em;
   -webkit-margin-start: auto;
@@ -351,6 +431,9 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-margin-end: auto;
           margin-inline-end: auto;
   overflow: hidden;
+}
+.card {
+  background-color: #333;
 }
 
 input[type=number] {
@@ -378,4 +461,4 @@ input[type=number] {
   align-items: flex-start;
 }
 
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9iYXNlLnNjc3MiLCJtYWluLXVucHJlZml4ZWQuY3NzIiwiLi4vc3JjL2ZhZGUuc2NzcyIsIi4uL3NyYy9jbGlwLnNjc3MiLCIuLi9zcmMvem9vbS5zY3NzIiwiLi4vc3JjL3NsaWRlLnNjc3MiLCIuLi9zcmMvc2xpZGUtem9vbS5zY3NzIiwiLi4vc3JjL2ZsaXAuc2NzcyIsIi4uL3NyYy9jb2xsYXBzZS5zY3NzIiwiLi4vc3JjL3N3YXBwYWJsZS5zY3NzIiwibWFpbi5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQVdBO0VBQW1DLGtJQUFBO0FDVG5DOztBRFVBO0VBQW1DLGtJQUFBO0FDTm5DOztBRFFBO0VBQTRGLGtCQUFBO0FDSjVGOztBREtBO0VBQXNGLGFBQUE7QUNEdEY7O0FER0E7RUFBMkMsZ0JBQUE7QUNDM0M7O0FEQUE7RUFBNEMsZ0JBQUE7QUNJNUM7O0FERkE7RUFLSTtJQUFtQyxxQ0FBQTtFQ0VyQzs7RURERTtJQUFtQyxxQ0FBQTtFQ0tyQzs7RURGRTtJQUE4SCxVQUFBO0VDTWhJOztFRExFO0lBQStILFVBQUE7RUNTakk7QUFDRjtBQ3JDSTtFQUFpSSxzQ0FBQTtBRHdDckk7QUN2Q0k7RUFBa0ksc0NBQUE7QUQwQ3RJOztBRTVDQTtFQUNFLGdCQUFBO0VBb0RBLG9FQUFBO0VBQ0EsbUVBQUE7RUFDQSwwRUFBQTtBRkpGO0FFaERFO0VBS0UseVhBQUE7VUFBQSxpWEFBQTtBRjhDSjtBRWxDSTtFQWpCRjtJQWtCSSx1QkFBQTtZQUFBLGVBQUE7RUZxQ0o7QUFDRjtBRW5DSTtFQUNFLDRNQUFBO1VBQUEsb01BQUE7QUZxQ047QUVuQ007RUFIRjtJQUlJLHVCQUFBO1lBQUEsZUFBQTtFRnNDTjtBQUNGO0FFakNFO0VBQ0UsaUNBQUE7VUFBQSx5QkFBQTtBRm1DSjtBRWpDSTtFQUdFLGdJQUFBO1VBQUEsd0hBQUE7QUZpQ047QUVoQkU7RUFDRSxvRUFBQTtFQUNBLG1FQUFBO0FGa0JKO0FFZkU7RUFDRSwwRUFBQTtBRmlC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 */
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uL3NyYy9iYXNlLnNjc3MiLCJtYWluLXVucHJlZml4ZWQuY3NzIiwiLi4vc3JjL2ZhZGUuc2NzcyIsIi4uL3NyYy9jbGlwLnNjc3MiLCIuLi9zcmMvY2xpcC1mYWRlLnNjc3MiLCIuLi9zcmMvem9vbS5zY3NzIiwiLi4vc3JjL3pvb20tZmFkZS5zY3NzIiwiLi4vc3JjL3NsaWRlLnNjc3MiLCIuLi9zcmMvc2xpZGUtZmFkZS5zY3NzIiwiLi4vc3JjL3NsaWRlLXpvb20uc2NzcyIsIi4uL3NyYy9zbGlkZS16b29tLWZhZGUuc2NzcyIsIi4uL3NyYy9mbGlwLnNjc3MiLCIuLi9zcmMvY29sbGFwc2Uuc2NzcyIsIi4uL3NyYy9jb2xsYXBzZS1mYWRlLnNjc3MiLCIuLi9zcmMvc3dhcHBhYmxlLnNjc3MiLCJtYWluLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBR0E7RUFRSSxnREFBQTtBQ1RKO0FEV0k7RUFDSSwyQkFBQTtBQ1RSOztBRGFBOztFQUVJLCtDQUFBO0VBSUEsa0JBQUE7QUNiSjs7QURnQkE7RUFDSSw2RkFBQTtBQ2JKOztBRGdCQTtFQUNJLDRGQUFBO0FDYko7O0FEZ0JBO0VBSUksb0JBQUE7QUNoQko7O0FEcUJJO0VBRUksa0JBQUE7QUNuQlI7O0FEeUJJO0VBRUksYUFBQTtBQ3ZCUjs7QUQrQkk7RUFFSSxnQkFBQTtBQzdCUjs7QURtQ0k7RUFFSSxnQkFBQTtBQ2pDUjs7QURxQ0E7RUFNSTtJQUNJLCtCQUFBO0VDdkNOO0VEMENFOzs7Ozs7Ozs7Ozs7Ozs7Ozs7O0lBQUE7QUNyQko7QUM5REE7RUFDSSx5QkFBQTtBRGdFSjtBQzlESTtFQUFpSSwrQkFBQTtBRGlFckk7QUNoRUk7RUFBa0ksK0JBQUE7QURtRXRJOztBRXZFQTtFQUNFLDJCQUFBO0VBRUEsZ0JBQUE7RUFvREEsc0RBQUE7RUFDQSxxREFBQTtFQUNBLDREQUFBO0FGc0JGO0FFMUVFO0VBS0UsaVVBQUE7VUFBQSx5VEFBQTtBRndFSjtBRTVESTtFQWpCRjtJQWtCSSx1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 */

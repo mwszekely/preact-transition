@@ -1,32 +1,107 @@
+@use "sass:list";
+@use "./_variables" as *;
 
-// Corresponds to classBase in any given Transitionable
-$transition-class-name: transition !default;
+.#{$transition-class-name} {
+    // Fun fact: the initial value of transition-property is `all`, not `none`.
+    // Which, uh, that's annoying. It means all sorts of other things like z-index and visiblity and display
+    // will just suddenly start animating themselves.
+    // Also IMPORTANT TO NOTE!
+    // If the variable doesn't resolve to a proper, comma separated list of properties
+    // (i.e. it would make the `transition-property` have an invalid value)
+    // It will, once again, default to `all`, which is pretty bad! Use caution!
+    transition-property: var(--#{$transition-class-name}-properties, none);
 
-$transition-default-duration: 175ms !default;
-$transition-default-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !default;
+    &.#{$transition-class-name}-measure {
+        transition: none !important;
+    }
+}
 
-// Because transitions don't inherit well at all, we just set everything to transition by default
-// We also force visibility not to transition, so that it acts like changing to display: none
-// (in terms of not being animated and just snapping to its target value).
-// You can override these.
-.#{$transition-class-name}-enter { transition: all var(--#{$transition-class-name}-duration, $transition-default-duration) $transition-default-timing-function, visibility 0ms linear, transform-origin 0ms linear; }
-.#{$transition-class-name}-exit  { transition: all var(--#{$transition-class-name}-duration, $transition-default-duration) $transition-default-timing-function, visibility 0ms linear, transform-origin 0ms linear; }
+.#{$transition-class-name}-enter,
+.#{$transition-class-name}-exit {
+    transition-duration: var(--#{$transition-class-name}-duration, #{$transition-default-duration});
+    // We're going to be animating opacity a lot, 
+    // so let's just be proactive about weird graphical glitches during transitions
+    // because a new layer was suddenly created. This stops the "was suddenly created" problem.
+    isolation: isolate;
+}
 
-.#{$transition-class-name}-exit-finalize:not(.#{$transition-class-name}-visible-on-exit)  { visibility: hidden; }
-.#{$transition-class-name}-exit-finalize.#{$transition-class-name}-removed-on-exit  { display: none; }
+.#{$transition-class-name}-enter {
+    transition-timing-function: var(--#{$transition-class-name}-enter-timing-function, #{$transition-default-timing-function-in});
+}
 
-.#{$transition-class-name}-exit-finalize { transition: none; }
-.#{$transition-class-name}-enter-finalize { transition: none; }
+.#{$transition-class-name}-exit {
+    transition-timing-function: var(--#{$transition-class-name}-exit-timing-function, #{$transition-default-timing-function-out});
+}
 
-@media (prefers-reduced-motion) { 
-    
+.#{$transition-class-name}-exit-finalize {
+    // Make sure that the mouse is never blocked by a hidden transition.
+    // (TODO: Too opinionated to have globally?
+    //  It's meant to cover the case of "keep this visible for ATs without display: none")
+    pointer-events: none;
+}
+
+.#{$transition-class-name}-ev-hidden {
+
+    &.#{$transition-class-name}-exit.#{$transition-class-name}-exit-finalize,
+    &.#{$transition-class-name}-pending {
+        visibility: hidden;
+    }
+}
+
+.#{$transition-class-name}-ev-removed {
+
+    &.#{$transition-class-name}-exit.#{$transition-class-name}-exit-finalize,
+    &.#{$transition-class-name}-pending {
+        display: none;
+    }
+}
+
+.#{$transition-class-name}-enter-transition,
+.#{$transition-class-name}-exit-transition {}
+
+.#{$transition-class-name}-enter {
+    &.#{$transition-class-name}-enter-finalize,
+    &.#{$transition-class-name}-enter-init {
+        transition: none;
+    }
+}
+
+
+.#{$transition-class-name}-exit {
+    &.#{$transition-class-name}-exit-finalize,
+    &.#{$transition-class-name}-exit-init {
+        transition: none;
+    }
+}
+
+@media (prefers-reduced-motion) {
+
     // When this media query is active, 
     // override all other transitions with just a simple opacity transition.
     // (I suppose it's actually beneficial that transitions don't inherit well in this case)
-    .#{$transition-class-name}-enter { transition: opacity 175ms ease-in-out; }
-    .#{$transition-class-name}-exit  { transition: opacity 175ms ease-in-out; }
 
-    
-    .#{$transition-class-name}-enter-init, .#{$transition-class-name}-exit-transition, .#{$transition-class-name}-exit-finalize { opacity: 0; }
-    .#{$transition-class-name}-exit-init, .#{$transition-class-name}-enter-transition, .#{$transition-class-name}-enter-finalize { opacity: 1; }
+    .#{$transition-class-name} {
+        #{$transition-class-name}-properties: none !important;
+    }
+
+    /*.#{$transition-class-name}-enter {
+        transition: opacity 175ms ease-in-out;
+    }
+
+    .#{$transition-class-name}-exit {
+        transition: opacity 175ms ease-in-out;
+    }
+
+
+    .#{$transition-class-name}-enter-init,
+    .#{$transition-class-name}-exit-transition,
+    .#{$transition-class-name}-exit-finalize {
+        opacity: 0;
+    }
+
+    .#{$transition-class-name}-exit-init,
+    .#{$transition-class-name}-enter-transition,
+    .#{$transition-class-name}-enter-finalize {
+        opacity: 1;
+    }*/
 }

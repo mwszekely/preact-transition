@@ -1,10 +1,14 @@
 import { default as clsx } from "clsx";
-import { cloneElement, h, Ref, VNode } from "preact";
+import { cloneElement, ComponentChildren, createContext, h, Ref, VNode } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
+import { defaultClassBase, NonIntrusiveElementAttributes } from "./transitionable";
 import { forwardElementRef } from "./forward-element-ref";
+import { useEffect, useRef } from "preact/hooks";
+import { SwappableContext } from "./context";
+import { memo } from "preact/compat";
 
-export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappableProps>, h.JSX.HTMLAttributes<E> {
-    children: VNode<any>;
+export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappableProps>, NonIntrusiveElementAttributes<E> {
+    children: ComponentChildren;
 }
 
 export interface CreateSwappableProps {
@@ -27,9 +31,10 @@ export interface CreateSwappableProps {
  * Be sure to merge these returned props with whatever the user passed in.
  */
 export function useCreateSwappableProps<P extends {}>({ inline, classBase }: CreateSwappableProps, otherProps: P) {
-    type E = P extends h.JSX.HTMLAttributes<infer E>? E : HTMLElement;
-    return useMergedProps<E>()({
-        className: clsx(`${classBase ?? "transition"}-swap-container`, inline && `${classBase ?? "transition"}-swap-container-inline`)
+    type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
+    classBase = defaultClassBase(classBase);
+    return useMergedProps<E>({
+        className: clsx(`${classBase}-swap-container`, inline && `${classBase}-swap-container-inline`)
     }, otherProps);
 }
 
@@ -44,15 +49,26 @@ export function useCreateSwappableProps<P extends {}>({ inline, classBase }: Cre
  * @param param0 
  * @returns 
  */
-export const Swappable = forwardElementRef(function Swappable<E extends HTMLElement>({ children, classBase, inline, ...p }: SwapProps<E>, ref: Ref<E>) {
+export const Swappable = memo(forwardElementRef(function Swappable<E extends HTMLElement>({ children: c, classBase, inline, ...p }: SwapProps<E>, ref: Ref<E>) {
+    const children = c as VNode;
+    console.assert(!!children.type);
 
     inline ??= typeof children.type === "string" && inlineElements.has(children.type);
 
     const transitionProps = useCreateSwappableProps({ classBase, inline }, { ...p, ref });
-    const mergedWithChildren = useMergedProps<E>()(transitionProps, children.props);
+    const mergedWithChildren = useMergedProps<E>(transitionProps, children.props);
 
-    return cloneElement(children, mergedWithChildren as typeof transitionProps);
-})
+    const animateOnMount = useRef(false);
+    useEffect(() => {
+        animateOnMount.current = true;
+    }, [])
+    const contextValue = useRef({ getAnimateOnMount: () => { return animateOnMount.current; } });
+    return (
+        <SwappableContext.Provider value={contextValue.current}>
+            {cloneElement(children, mergedWithChildren as typeof transitionProps)}
+        </SwappableContext.Provider>
+    );
+}))
 
 // If "inline" isn't explicitly provided, we try to implicitly do it based on the child's tag.
 // Not perfect, but it's not supposed to be. `inline` is for perfect.

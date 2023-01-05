@@ -1,8 +1,10 @@
 @use "./base.scss" as *;
+@use "./_variables" as *;
+
 
 
 .#{$transition-class-name}-slide {
-    &.#{$transition-class-name}-enter {  z-index: 1000; }
+    --#{$transition-class-name}-properties: transform;
   
   
     &.#{$transition-class-name}-enter-init, &.#{$transition-class-name}-exit-transition, &.#{$transition-class-name}-exit-finalize { 
