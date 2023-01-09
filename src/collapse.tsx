@@ -1,7 +1,8 @@
 import { h, Ref } from "preact";
 import { forwardElementRef } from "./forward-element-ref";
-import { useMergedProps } from "preact-prop-helpers/use-merged-props";
-import { Transitionable, TransitionableProps } from "./transitionable";
+import { useMergedProps } from "preact-prop-helpers";
+import { defaultClassBase, NonIntrusiveElementAttributes, Transitionable, TransitionableProps, UseTransitionProps } from "./transitionable";
+import { memo } from "preact/compat";
 
 /**
  * Properties that allow adjusting the direction of the collapse effect.
@@ -12,7 +13,13 @@ export interface CreateCollapseProps {
      */
     minBlockSize: string | null | undefined;
 
+    /**
+     * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
+     * @default "transition"
+     */
     classBase: string | undefined;
+
+    delayMountUntilShown?: boolean;
 }
 
 /**
@@ -23,20 +30,17 @@ export interface CreateCollapseProps {
  * 
  * @example <Transitionable measure {...useCreateCollapseProps(...)} />
  */
-export function useCreateCollapseProps<P extends {}>({ classBase, minBlockSize }: CreateCollapseProps, otherProps: P) {
-    type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
-    classBase ??= "transition";
-    return useMergedProps<E>()({
-        classBase,
-        measure: true,
+export function createCollapseProps({ classBase, minBlockSize }: CreateCollapseProps) {
+    classBase = defaultClassBase(classBase);
+    return {
         className: `${classBase}-collapse`,
         style: {
             [`--${classBase}-collapse-min-block`]: minBlockSize ?? 0
-        } as {}
-    }, otherProps);
+        }
+    };
 }
 
-export interface CollapseProps<E extends HTMLElement> extends Partial<CreateCollapseProps>, TransitionableProps<E> { };
+export interface CollapseProps<E extends HTMLElement> extends Partial<CreateCollapseProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Collapse effect.
@@ -47,6 +51,17 @@ export interface CollapseProps<E extends HTMLElement> extends Partial<CreateColl
  * 
  * @see `Transitionable`
  */
-export const Collapse = forwardElementRef(function Collapse<E extends HTMLElement>({ classBase, show, minBlockSize, ...rest }: CollapseProps<E>, ref: Ref<E>) {
-    return <Transitionable<E> show={show} {...useCreateCollapseProps({ classBase, minBlockSize }, { ...rest, ref })} />
-});
+export const Collapse = memo(forwardElementRef(function Collapse<E extends HTMLElement>({ classBase, show, duration, delayMountUntilShown, minBlockSize, animateOnMount, exitVisibility, ...rest }: CollapseProps<E>, ref: Ref<E>) {
+    return (
+        <Transitionable<E>
+            measure={true}
+            show={show}
+            duration={duration}
+            animateOnMount={animateOnMount}
+            classBase={classBase}
+            exitVisibility={exitVisibility}
+            delayMountUntilShown={delayMountUntilShown}
+            {...useMergedProps<E>({ ref, ...rest }, createCollapseProps({ classBase, minBlockSize }))}
+        />
+    )
+}));

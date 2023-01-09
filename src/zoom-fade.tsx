@@ -1,19 +1,30 @@
 import { h, Ref } from "preact";
-import { FadeProps, useCreateFadeProps } from "./fade";
+import { useMergedProps } from "preact-prop-helpers";
+import { UseTransitionProps, NonIntrusiveElementAttributes, Transitionable } from "./transitionable";
+import { CreateFadeProps, createFadeProps, FadeProps } from "./fade";
 import { forwardElementRef } from "./forward-element-ref";
-import { Zoom, ZoomProps } from "./zoom";
+import { CreateZoomProps, createZoomProps, Zoom, ZoomProps } from "./zoom";
+import { memo } from "preact/compat";
 
 
+export interface CreateZoomFadeProps extends CreateZoomProps, CreateFadeProps { }
+export interface ZoomFadeProps<E extends HTMLElement> extends Partial<CreateZoomFadeProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
 
-export interface ZoomFadeProps<E extends HTMLElement> extends ZoomProps<E>, FadeProps<E> { };
-
-/**
- * Wraps a div (etc.) and allows it to transition in/out smoothly with both Zoom and Fade effects. 
- * 
- * This is an ideal time to use the minimum size Zoom properties.
- * 
- * @see `Transitionable` `Zoom`
- */
-export const ZoomFade = forwardElementRef(function ZoomFade<E extends HTMLElement>({ classBase, fadeMin, fadeMax, show, ...rest }: ZoomFadeProps<E>, ref: Ref<E>) {
-    return <Zoom show={show} {...useCreateFadeProps({ classBase, fadeMin, fadeMax }, { ...rest, ref })} />
-});
+export const ZoomFade = memo(forwardElementRef(function ZoomFade<E extends HTMLElement>({ classBase, duration, fadeMin, fadeMax, show, animateOnMount, delayMountUntilShown, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, exitVisibility, ...rest }: ZoomFadeProps<E>, ref: Ref<E>) {
+    return (
+        <Transitionable<E>
+        measure={false}
+        show={show}
+        duration={duration}
+        animateOnMount={animateOnMount}
+        classBase={classBase}
+        exitVisibility={exitVisibility}
+        delayMountUntilShown={delayMountUntilShown}
+        {...useMergedProps<E>(
+                { ref, ...rest },
+                createZoomProps({ classBase, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline }),
+                createFadeProps({ classBase, fadeMax, fadeMin })
+            )}
+        />
+    )
+}));

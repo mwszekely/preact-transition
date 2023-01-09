@@ -1,2 +1,7 @@
 @use "./zoom.scss";
 @use "./fade.scss";
+@use "./_variables" as *;
+
+.#{$transition-class-name}-zoom.#{$transition-class-name}-fade {
+    --#{$transition-class-name}-properties: transform, opacity;
+}
