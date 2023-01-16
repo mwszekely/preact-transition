@@ -11,18 +11,15 @@
     // It will, once again, default to `all`, which is pretty bad! Use caution!
     transition-property: var(--#{$transition-class-name}-properties, none);
 
-    &.#{$transition-class-name}-measure {
-        transition: none !important;
-    }
-}
-
-.#{$transition-class-name}-enter,
-.#{$transition-class-name}-exit {
     transition-duration: var(--#{$transition-class-name}-duration, #{$transition-default-duration});
     // We're going to be animating opacity a lot, 
     // so let's just be proactive about weird graphical glitches during transitions
     // because a new layer was suddenly created. This stops the "was suddenly created" problem.
     isolation: isolate;
+
+    &.#{$transition-class-name}-measure {
+        transition: none !important;
+    }
 }
 
 .#{$transition-class-name}-enter {
