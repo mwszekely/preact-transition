@@ -4,20 +4,24 @@
 // Everything is wrapped in an extra selector in an attempt to improve specificty slightly
 // over anything with just a single-selector transition (e.g. a lot of Bootstrap transitions)
 .#{$transition-class-name} {
-    // Fun fact: the initial value of transition-property is `all`, not `none`.
-    // Which, uh, that's annoying. It means all sorts of other things like z-index and visiblity and display
-    // will just suddenly start animating themselves.
-    // Also IMPORTANT TO NOTE!
-    // If the variable doesn't resolve to a proper, comma separated list of properties
-    // (i.e. it would make the `transition-property` have an invalid value)
-    // It will, once again, default to `all`, which is pretty bad! Use caution!
-    transition-property: var(--#{$transition-class-name}-properties, none);
 
-    transition-duration: var(--#{$transition-class-name}-duration, #{$transition-default-duration});
-    // We're going to be animating opacity a lot, 
-    // so let's just be proactive about weird graphical glitches during transitions
-    // because a new layer was suddenly created. This stops the "was suddenly created" problem.
-    isolation: isolate;
+    &.#{$transition-class-name}-enter,
+    &.#{$transition-class-name}-exit {
+
+        // Fun fact: the initial value of transition-property is `all`, not `none`.
+        // Which, uh, that's annoying. It means all sorts of other things like z-index and visiblity and display
+        // will just suddenly start animating themselves.
+        // Also IMPORTANT TO NOTE!
+        // If the variable doesn't resolve to a proper, comma separated list of properties
+        // (i.e. it would make the `transition-property` have an invalid value)
+        // It will, once again, default to `all`, which is pretty bad! Use caution!
+        transition-property: var(--#{$transition-class-name}-properties, none);
+        transition-duration: var(--#{$transition-class-name}-duration, #{$transition-default-duration});
+        // We're going to be animating opacity a lot, 
+        // so let's just be proactive about weird graphical glitches during transitions
+        // because a new layer was suddenly created. This stops the "was suddenly created" problem.
+        isolation: isolate;
+    }
 
     &.#{$transition-class-name}-measure {
         transition: none !important;
