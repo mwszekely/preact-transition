@@ -2,26 +2,32 @@
 @use "./_variables" as *;
 
 
-.#{$transition-class-name}-collapse {
-    overflow: hidden;
-    --#{$transition-class-name}-properties: block-size;
+.#{$transition-class-name} {
+    &.#{$transition-class-name}-collapse {
+        overflow: hidden;
+        --#{$transition-class-name}-properties: block-size;
 
-    &.#{$transition-class-name}-measure { block-size: auto !important; }
+        &.#{$transition-class-name}-measure {
+            block-size: auto !important;
+        }
 
-    &.#{$transition-class-name}-enter-init, &.#{$transition-class-name}-exit-transition, &.#{$transition-class-name}-exit-finalize {
-        block-size: var(--#{$transition-class-name}-collapse-min-block); 
-    }
+        &.#{$transition-class-name}-enter-init,
+        &.#{$transition-class-name}-exit-transition,
+        &.#{$transition-class-name}-exit-finalize {
+            block-size: var(--#{$transition-class-name}-collapse-min-block);
+        }
 
-    &.#{$transition-class-name}-exit-init, &.#{$transition-class-name}-enter-transition {
-        block-size: var(--#{$transition-class-name}-measure-height); 
-    }
+        &.#{$transition-class-name}-exit-init,
+        &.#{$transition-class-name}-enter-transition {
+            block-size: var(--#{$transition-class-name}-measure-height);
+        }
 
-    &.#{$transition-class-name}-enter-finalize {
-        block-size: auto;
-    }
-    
+        &.#{$transition-class-name}-enter-finalize {
+            block-size: auto;
+        }
 
-/*
+
+        /*
     // Initialize the height to the current transitioning size
     // (the size we're caught in mid-transition, and/or also at the end)
     &.#{$transition-class-name}-enter-init, &.#{$transition-class-name}-exit-init {
@@ -42,5 +48,5 @@
     // When entering has finished, defer to the normal browser height behavior.
     // TODO: Register a resize observer when it's auto
     &.#{$transition-class-name}-enter-finalize { block-size: auto; }*/
+    }
 }
-

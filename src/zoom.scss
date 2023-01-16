@@ -2,96 +2,95 @@
 @use "./_variables" as *;
 
 
-.#{$transition-class-name}-zoom {
-  --#{$transition-class-name}-properties: transform;
+.#{$transition-class-name} {
+  &.#{$transition-class-name}-zoom {
+    --#{$transition-class-name}-properties: transform;
 
-  // Set the transform origin regardless of what phase we're in
-  transform-origin: calc(var(--#{$transition-class-name}-zoom-origin-x) * 100%) calc(var(--#{$transition-class-name}-zoom-origin-y) * 100%);
+    // Set the transform origin regardless of what phase we're in
+    transform-origin: calc(var(--#{$transition-class-name}-zoom-origin-x) * 100%) calc(var(--#{$transition-class-name}-zoom-origin-y) * 100%);
 
 
-  &.#{$transition-class-name}-enter-init,
-  &.#{$transition-class-name}-exit-transition,
-  &.#{$transition-class-name}-exit-finalize {
-    // Note to self: older versions of iOS (tested on 12) don't support percentages in the scale() function (?!?)
-    transform: scale(calc(var(--#{$transition-class-name}-zoom-min-x) * 1), calc(var(--#{$transition-class-name}-zoom-min-y) * 1));
+    &.#{$transition-class-name}-enter-init,
+    &.#{$transition-class-name}-exit-transition,
+    &.#{$transition-class-name}-exit-finalize {
+      // Note to self: older versions of iOS (tested on 12) don't support percentages in the scale() function (?!?)
+      transform: scale(calc(var(--#{$transition-class-name}-zoom-min-x) * 1), calc(var(--#{$transition-class-name}-zoom-min-y) * 1));
 
-    @media (prefers-reduced-motion) {
-      transform: none;
+      @media (prefers-reduced-motion) {
+        transform: none;
+      }
     }
-  }
 
 
-  &.#{$transition-class-name}-exit-init,
-  &.#{$transition-class-name}-enter-transition,
-  &.#{$transition-class-name}-enter-finalize {
-    transform: scale(1, 1);
+    &.#{$transition-class-name}-exit-init,
+    &.#{$transition-class-name}-enter-transition,
+    &.#{$transition-class-name}-enter-finalize {
+      transform: scale(1, 1);
 
-    @media (prefers-reduced-motion) {
-      transform: none;
+      @media (prefers-reduced-motion) {
+        transform: none;
+      }
     }
-  }
 
 
 
 
 
-  // Handle converting all our inline and block values to the X and Y coordinates most other CSS expects
-  --#{$transition-class-name}-zoom-min-x: calc(0 + var(--#{$transition-class-name}-zoom-min-inline));
-  --#{$transition-class-name}-zoom-min-y: calc(0 + var(--#{$transition-class-name}-zoom-min-block));
-  --#{$transition-class-name}-zoom-origin-x: calc(0 + var(--#{$transition-class-name}-zoom-origin-inline));
-  --#{$transition-class-name}-zoom-origin-y: calc(0 + var(--#{$transition-class-name}-zoom-origin-block));
-
-  &.#{$transition-class-name}-inline-direction-ltr,
-  &.#{$transition-class-name}-inline-direction-rtl,
-  &.#{$transition-class-name}-block-direction-ttb,
-  &.#{$transition-class-name}-block-direction-btt {
+    // Handle converting all our inline and block values to the X and Y coordinates most other CSS expects
     --#{$transition-class-name}-zoom-min-x: calc(0 + var(--#{$transition-class-name}-zoom-min-inline));
     --#{$transition-class-name}-zoom-min-y: calc(0 + var(--#{$transition-class-name}-zoom-min-block));
-  }
-
-  &.#{$transition-class-name}-block-direction-ltr,
-  &.#{$transition-class-name}-block-direction-rtl,
-  &.#{$transition-class-name}-inline-direction-ttb,
-  &.#{$transition-class-name}-inline-direction-btt {
-    --#{$transition-class-name}-zoom-min-x: calc(0 + var(--#{$transition-class-name}-zoom-min-block));
-    --#{$transition-class-name}-zoom-min-y: calc(0 + var(--#{$transition-class-name}-zoom-min-inline));
-  }
-
-
-  &.#{$transition-class-name}-inline-direction-ltr {
     --#{$transition-class-name}-zoom-origin-x: calc(0 + var(--#{$transition-class-name}-zoom-origin-inline));
-  }
-
-  &.#{$transition-class-name}-inline-direction-rtl {
-    --#{$transition-class-name}-zoom-origin-x: calc(1 - var(--#{$transition-class-name}-zoom-origin-inline));
-  }
-
-  &.#{$transition-class-name}-block-direction-ttb {
     --#{$transition-class-name}-zoom-origin-y: calc(0 + var(--#{$transition-class-name}-zoom-origin-block));
+
+    &.#{$transition-class-name}-inline-direction-ltr,
+    &.#{$transition-class-name}-inline-direction-rtl,
+    &.#{$transition-class-name}-block-direction-ttb,
+    &.#{$transition-class-name}-block-direction-btt {
+      --#{$transition-class-name}-zoom-min-x: calc(0 + var(--#{$transition-class-name}-zoom-min-inline));
+      --#{$transition-class-name}-zoom-min-y: calc(0 + var(--#{$transition-class-name}-zoom-min-block));
+    }
+
+    &.#{$transition-class-name}-block-direction-ltr,
+    &.#{$transition-class-name}-block-direction-rtl,
+    &.#{$transition-class-name}-inline-direction-ttb,
+    &.#{$transition-class-name}-inline-direction-btt {
+      --#{$transition-class-name}-zoom-min-x: calc(0 + var(--#{$transition-class-name}-zoom-min-block));
+      --#{$transition-class-name}-zoom-min-y: calc(0 + var(--#{$transition-class-name}-zoom-min-inline));
+    }
+
+
+    &.#{$transition-class-name}-inline-direction-ltr {
+      --#{$transition-class-name}-zoom-origin-x: calc(0 + var(--#{$transition-class-name}-zoom-origin-inline));
+    }
+
+    &.#{$transition-class-name}-inline-direction-rtl {
+      --#{$transition-class-name}-zoom-origin-x: calc(1 - var(--#{$transition-class-name}-zoom-origin-inline));
+    }
+
+    &.#{$transition-class-name}-block-direction-ttb {
+      --#{$transition-class-name}-zoom-origin-y: calc(0 + var(--#{$transition-class-name}-zoom-origin-block));
+    }
+
+    &.#{$transition-class-name}-block-direction-btt {
+      --#{$transition-class-name}-zoom-origin-y: calc(1 - var(--#{$transition-class-name}-zoom-origin-block));
+    }
+
+
+
+    &.#{$transition-class-name}-block-direction-ltr {
+      --#{$transition-class-name}-zoom-origin-x: calc(0 + var(--#{$transition-class-name}-zoom-origin-block));
+    }
+
+    &.#{$transition-class-name}-block-direction-rtl {
+      --#{$transition-class-name}-zoom-origin-x: calc(1 - var(--#{$transition-class-name}-zoom-origin-block));
+    }
+
+    &.#{$transition-class-name}-inline-direction-ttb {
+      --#{$transition-class-name}-zoom-origin-y: calc(0 + var(--#{$transition-class-name}-zoom-origin-inline));
+    }
+
+    &.#{$transition-class-name}-inline-direction-btt {
+      --#{$transition-class-name}-zoom-origin-y: calc(1 - var(--#{$transition-class-name}-zoom-origin-inline));
+    }
   }
-
-  &.#{$transition-class-name}-block-direction-btt {
-    --#{$transition-class-name}-zoom-origin-y: calc(1 - var(--#{$transition-class-name}-zoom-origin-block));
-  }
-
-
-
-  &.#{$transition-class-name}-block-direction-ltr {
-    --#{$transition-class-name}-zoom-origin-x: calc(0 + var(--#{$transition-class-name}-zoom-origin-block));
-  }
-
-  &.#{$transition-class-name}-block-direction-rtl {
-    --#{$transition-class-name}-zoom-origin-x: calc(1 - var(--#{$transition-class-name}-zoom-origin-block));
-  }
-
-  &.#{$transition-class-name}-inline-direction-ttb {
-    --#{$transition-class-name}-zoom-origin-y: calc(0 + var(--#{$transition-class-name}-zoom-origin-inline));
-  }
-
-  &.#{$transition-class-name}-inline-direction-btt {
-    --#{$transition-class-name}-zoom-origin-y: calc(1 - var(--#{$transition-class-name}-zoom-origin-inline));
-  }
-
-
-
 }

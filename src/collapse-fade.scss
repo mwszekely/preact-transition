@@ -2,6 +2,8 @@
 @use "./fade.scss";
 @use "./_variables" as *;
 
-.#{$transition-class-name}-collapse.#{$transition-class-name}-fade {
-    --#{$transition-class-name}-properties: block-size, opacity;
+.#{$transition-class-name} {
+    &.#{$transition-class-name}-collapse.#{$transition-class-name}-fade {
+        --#{$transition-class-name}-properties: block-size, opacity;
+    }
 }

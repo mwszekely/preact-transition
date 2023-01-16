@@ -5,18 +5,22 @@
 
 // This one specifically needs its own CSS
 // because transforms don't inherit
-.#{$transition-class-name}-slide.#{$transition-class-name}-zoom {
+.#{$transition-class-name} {
+  &.#{$transition-class-name}-slide.#{$transition-class-name}-zoom {
 
-  --#{$transition-class-name}-properties: transform;
+    --#{$transition-class-name}-properties: transform;
 
-  &.#{$transition-class-name}-enter-init, &.#{$transition-class-name}-exit-transition, &.#{$transition-class-name}-exit-finalize {
-    transform: 
-      translate(calc(100% * var(--#{$transition-class-name}-slide-target-x, 0)), calc(100% * var(--#{$transition-class-name}-slide-target-y, 0)))
-          scale(calc(1    * var(--#{$transition-class-name}-zoom-min-x,     0)), calc(1    * var(--#{$transition-class-name}-zoom-min-y, 0    )));
+    &.#{$transition-class-name}-enter-init,
+    &.#{$transition-class-name}-exit-transition,
+    &.#{$transition-class-name}-exit-finalize {
+      transform: translate(calc(100% * var(--#{$transition-class-name}-slide-target-x, 0)), calc(100% * var(--#{$transition-class-name}-slide-target-y, 0))) scale(calc(1 * var(--#{$transition-class-name}-zoom-min-x, 0)), calc(1 * var(--#{$transition-class-name}-zoom-min-y, 0)));
+    }
+
+    &.#{$transition-class-name}-exit-init,
+    &.#{$transition-class-name}-enter-transition,
+    &.#{$transition-class-name}-enter-finalize {
+      transform: translate(0%, 0%) scale(1, 1);
+    }
+
   }
-
-  &.#{$transition-class-name}-exit-init, &.#{$transition-class-name}-enter-transition, &.#{$transition-class-name}-enter-finalize {
-    transform: translate(0%, 0%) scale(1, 1);
-  }
-
 }

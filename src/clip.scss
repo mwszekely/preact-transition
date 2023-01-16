@@ -1,108 +1,120 @@
 @use "./base.scss" as *;
 @use "./_variables" as *;
 
-.#{$transition-class-name}-clip {
-  --#{$transition-class-name}-properties: clip-path;
+.#{$transition-class-name} {
+  &.#{$transition-class-name}-clip {
+    --#{$transition-class-name}-properties: clip-path;
 
-  overflow: hidden;  
-    
-  &.#{$transition-class-name}-enter-init, &.#{$transition-class-name}-exit-transition, &.#{$transition-class-name}-exit-finalize { 
-      
+    overflow: hidden;
 
-    // This is the actual clip property.
-    // We need all the above boilerplate to convert inline & block values to clip-path's non-logical-style offsets.
-    clip-path: inset(
-      /* Position from the top = (originY * (1 - minY) */
-      calc(100% * (0 + var(--#{$transition-class-name}-clip-origin-y)) * calc(1 - var(--#{$transition-class-name}-clip-min-y))) 
-      /* Position from the right = ((1 - originX) * (1 - minX)) */
-      calc(100% * (1 - var(--#{$transition-class-name}-clip-origin-x)) * calc(1 - var(--#{$transition-class-name}-clip-min-x)))
-      /* Position from the bottom = ((1 - originY) * (1 - minY)) */
-      calc(100% * (1 - var(--#{$transition-class-name}-clip-origin-y)) * calc(1 - var(--#{$transition-class-name}-clip-min-y))) 
-      /* Position from the left = (originX * (1 - minX)) */
-      calc(100% * (0 + var(--#{$transition-class-name}-clip-origin-x)) * calc(1 - var(--#{$transition-class-name}-clip-min-x)))
-    );
-    
-    
-    @media (prefers-reduced-motion) { 
-      clip-path: none;
-    }
+    &.#{$transition-class-name}-enter-init,
+    &.#{$transition-class-name}-exit-transition,
+    &.#{$transition-class-name}-exit-finalize {
 
-    &.#{$transition-class-name}-clip-ellipse {
-      clip-path: ellipse(calc(100% * var(--#{$transition-class-name}-clip-min-x)) calc(100% * var(--#{$transition-class-name}-clip-min-y)) at calc(100% * var(--#{$transition-class-name}-clip-origin-x)) calc(100% * var(--#{$transition-class-name}-clip-origin-y)));
-    
-      @media (prefers-reduced-motion) { 
+
+      // This is the actual clip property.
+      // We need all the above boilerplate to convert inline & block values to clip-path's non-logical-style offsets.
+      clip-path: inset(
+        /* Position from the top = (originY * (1 - minY) */
+        calc(100% * (0 + var(--#{$transition-class-name}-clip-origin-y)) * calc(1 - var(--#{$transition-class-name}-clip-min-y)))
+        /* Position from the right = ((1 - originX) * (1 - minX)) */
+        calc(100% * (1 - var(--#{$transition-class-name}-clip-origin-x)) * calc(1 - var(--#{$transition-class-name}-clip-min-x)))
+        /* Position from the bottom = ((1 - originY) * (1 - minY)) */
+        calc(100% * (1 - var(--#{$transition-class-name}-clip-origin-y)) * calc(1 - var(--#{$transition-class-name}-clip-min-y)))
+        /* Position from the left = (originX * (1 - minX)) */
+        calc(100% * (0 + var(--#{$transition-class-name}-clip-origin-x)) * calc(1 - var(--#{$transition-class-name}-clip-min-x))));
+
+
+      @media (prefers-reduced-motion) {
         clip-path: none;
       }
+
+      &.#{$transition-class-name}-clip-ellipse {
+        clip-path: ellipse(calc(100% * var(--#{$transition-class-name}-clip-min-x)) calc(100% * var(--#{$transition-class-name}-clip-min-y)) at calc(100% * var(--#{$transition-class-name}-clip-origin-x)) calc(100% * var(--#{$transition-class-name}-clip-origin-y)));
+
+        @media (prefers-reduced-motion) {
+          clip-path: none;
+        }
+      }
+
     }
 
-  }
+    &.#{$transition-class-name}-exit-init,
+    &.#{$transition-class-name}-enter-transition,
+    &.#{$transition-class-name}-enter-finalize {
+      clip-path: inset(0 0 0 0);
 
-  &.#{$transition-class-name}-exit-init, &.#{$transition-class-name}-enter-transition, &.#{$transition-class-name}-enter-finalize {
-    clip-path: inset(0 0 0 0);
+      &.clip-ellipse {
+        // TODO: Better math to estimate an ideal size, 
+        // or a new ClipEllipse component that doesn't accept an origin.
+        clip-path: ellipse(71% 71% at calc(100% * var(--#{$transition-class-name}-clip-origin-x)) calc(100% * var(--#{$transition-class-name}-clip-origin-y)))
+      }
 
-    &.clip-ellipse {
-      // TODO: Better math to estimate an ideal size, 
-      // or a new ClipEllipse component that doesn't accept an origin.
-      clip-path: ellipse(71% 71% at calc(100% * var(--#{$transition-class-name}-clip-origin-x)) calc(100% * var(--#{$transition-class-name}-clip-origin-y)))
     }
 
-  }
 
 
 
-  
 
 
-  
 
-  // Handle converting all our inline and block values to the X and Y coordinates most other CSS expects
-  --#{$transition-class-name}-clip-min-x: calc(0 + var(--#{$transition-class-name}-clip-min-inline));
-  --#{$transition-class-name}-clip-min-y: calc(0 + var(--#{$transition-class-name}-clip-min-block));
-  --#{$transition-class-name}-clip-origin-x: calc(0 + var(--#{$transition-class-name}-clip-origin-inline));
 
-  &.#{$transition-class-name}-inline-direction-ltr, &.#{$transition-class-name}-inline-direction-rtl, &.#{$transition-class-name}-block-direction-ttb, &.#{$transition-class-name}-block-direction-btt {
+    // Handle converting all our inline and block values to the X and Y coordinates most other CSS expects
     --#{$transition-class-name}-clip-min-x: calc(0 + var(--#{$transition-class-name}-clip-min-inline));
     --#{$transition-class-name}-clip-min-y: calc(0 + var(--#{$transition-class-name}-clip-min-block));
-  }
-
-  &.#{$transition-class-name}-inline-direction-ltr {
     --#{$transition-class-name}-clip-origin-x: calc(0 + var(--#{$transition-class-name}-clip-origin-inline));
+
+    &.#{$transition-class-name}-inline-direction-ltr,
+    &.#{$transition-class-name}-inline-direction-rtl,
+    &.#{$transition-class-name}-block-direction-ttb,
+    &.#{$transition-class-name}-block-direction-btt {
+      --#{$transition-class-name}-clip-min-x: calc(0 + var(--#{$transition-class-name}-clip-min-inline));
+      --#{$transition-class-name}-clip-min-y: calc(0 + var(--#{$transition-class-name}-clip-min-block));
+    }
+
+    &.#{$transition-class-name}-inline-direction-ltr {
+      --#{$transition-class-name}-clip-origin-x: calc(0 + var(--#{$transition-class-name}-clip-origin-inline));
+    }
+
+    &.#{$transition-class-name}-inline-direction-rtl {
+      --#{$transition-class-name}-clip-origin-x: calc(1 - var(--#{$transition-class-name}-clip-origin-inline));
+    }
+
+    &.#{$transition-class-name}-block-direction-ttb {
+      --#{$transition-class-name}-clip-origin-y: calc(0 + var(--#{$transition-class-name}-clip-origin-block));
+    }
+
+    &.#{$transition-class-name}-block-direction-btt {
+      --#{$transition-class-name}-clip-origin-y: calc(1 - var(--#{$transition-class-name}-clip-origin-block));
+    }
+
+
+
+    &.#{$transition-class-name}-block-direction-ltr,
+    &.#{$transition-class-name}-block-direction-rtl,
+    &.#{$transition-class-name}-inline-direction-ttb,
+    &.#{$transition-class-name}-inline-direction-btt {
+      --#{$transition-class-name}-clip-min-x: calc(0 + var(--#{$transition-class-name}-clip-min-block));
+      --#{$transition-class-name}-clip-min-y: calc(0 + var(--#{$transition-class-name}-clip-min-inline));
+    }
+
+
+
+    &.#{$transition-class-name}-block-direction-ltr {
+      --#{$transition-class-name}-clip-origin-x: calc(0 + var(--#{$transition-class-name}-clip-origin-block));
+    }
+
+    &.#{$transition-class-name}-block-direction-rtl {
+      --#{$transition-class-name}-clip-origin-x: calc(1 - var(--#{$transition-class-name}-clip-origin-block));
+    }
+
+    &.#{$transition-class-name}-inline-direction-ttb {
+      --#{$transition-class-name}-clip-origin-y: calc(0 + var(--#{$transition-class-name}-clip-origin-inline));
+    }
+
+    &.#{$transition-class-name}-inline-direction-btt {
+      --#{$transition-class-name}-clip-origin-y: calc(1 - var(--#{$transition-class-name}-clip-origin-inline));
+    }
+
   }
-
-  &.#{$transition-class-name}-inline-direction-rtl {
-    --#{$transition-class-name}-clip-origin-x: calc(1 - var(--#{$transition-class-name}-clip-origin-inline));
-  }
-
-  &.#{$transition-class-name}-block-direction-ttb {
-    --#{$transition-class-name}-clip-origin-y: calc(0 + var(--#{$transition-class-name}-clip-origin-block));
-  }
-
-  &.#{$transition-class-name}-block-direction-btt {
-    --#{$transition-class-name}-clip-origin-y: calc(1 - var(--#{$transition-class-name}-clip-origin-block));
-  }
-
-
-
-  &.#{$transition-class-name}-block-direction-ltr, &.#{$transition-class-name}-block-direction-rtl, &.#{$transition-class-name}-inline-direction-ttb, &.#{$transition-class-name}-inline-direction-btt {
-    --#{$transition-class-name}-clip-min-x: calc(0 + var(--#{$transition-class-name}-clip-min-block));
-    --#{$transition-class-name}-clip-min-y: calc(0 + var(--#{$transition-class-name}-clip-min-inline));
-  }
-
-
-
-  &.#{$transition-class-name}-block-direction-ltr {
-    --#{$transition-class-name}-clip-origin-x: calc(0 + var(--#{$transition-class-name}-clip-origin-block));
-  }
-  &.#{$transition-class-name}-block-direction-rtl {
-    --#{$transition-class-name}-clip-origin-x: calc(1 - var(--#{$transition-class-name}-clip-origin-block));
-  }
-
-  &.#{$transition-class-name}-inline-direction-ttb {
-    --#{$transition-class-name}-clip-origin-y: calc(0 + var(--#{$transition-class-name}-clip-origin-inline));
-  }
-
-  &.#{$transition-class-name}-inline-direction-btt {
-    --#{$transition-class-name}-clip-origin-y: calc(1 - var(--#{$transition-class-name}-clip-origin-inline));
-  }
-
 }

@@ -1,11 +1,20 @@
 @use "./base.scss" as *;
 @use "./_variables" as *;
 
-.#{$transition-class-name}-fade {
-    --#{$transition-class-name}-properties: opacity;
+.#{$transition-class-name} {
+    &.#{$transition-class-name}-fade {
+        --#{$transition-class-name}-properties: opacity;
 
-    &.#{$transition-class-name}-enter-init, &.#{$transition-class-name}-exit-transition, &.#{$transition-class-name}-exit-finalize { opacity: var(--#{$transition-class-name}-fade-min, 0); }
-    &.#{$transition-class-name}-exit-init, &.#{$transition-class-name}-enter-transition, &.#{$transition-class-name}-enter-finalize { opacity: var(--#{$transition-class-name}-fade-max, 1); }
+        &.#{$transition-class-name}-enter-init,
+        &.#{$transition-class-name}-exit-transition,
+        &.#{$transition-class-name}-exit-finalize {
+            opacity: var(--#{$transition-class-name}-fade-min, 0);
+        }
+
+        &.#{$transition-class-name}-exit-init,
+        &.#{$transition-class-name}-enter-transition,
+        &.#{$transition-class-name}-enter-finalize {
+            opacity: var(--#{$transition-class-name}-fade-max, 1);
+        }
+    }
 }
-
-

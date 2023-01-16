@@ -2,7 +2,8 @@
 @use "./clip.scss";
 @use "./fade.scss";
 
-
-.#{$transition-class-name}-fade.#{$transition-class-name}-clip {
-    --#{$transition-class-name}-properties: clip-path, opacity;
+.#{$transition-class-name} {
+    &.#{$transition-class-name}-fade.#{$transition-class-name}-clip {
+        --#{$transition-class-name}-properties: clip-path, opacity;
+    }
 }
