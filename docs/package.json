@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "main": "index.html",
+  "packageManager": "pnpm@7.26.2",
   "scripts": {
     "build": "npx npm-run-all --npm-path npm -sc build:sass build:css build:js",
     "watch": "npx npm-run-all --npm-path npm -pc watch:*",
@@ -25,13 +26,11 @@
     "@rollup/plugin-commonjs": "^23.0.5",
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^10.0.1",
-    "@rollup/plugin-url": "^8.0.1",
-    "@types/color-name": "^1.1.1",
-    "@types/node": "^18.11.16",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.20",
     "postcss-cli": "^10.1.0",
     "rollup": "^3.7.4",
+    "rollup-plugin-sourcemaps": "^0.6.3",
     "sass": "^1.57.0",
     "serve": "^14.1.2",
     "typescript": "^4.9.4"

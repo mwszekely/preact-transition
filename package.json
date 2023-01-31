@@ -6,6 +6,7 @@
   "source": "src/index.tsx",
   "module": "index.js",
   "types": "index.d.ts",
+  "packageManager": "pnpm@7.26.2",
   "scripts": {
     "build": "npx npm-run-all --npm-path npm -sc build:sass build:ts",
     "watch": "npx npm-run-all --npm-path npm -pc watch:*",
@@ -25,8 +26,6 @@
   "devDependencies": {
     "clsx": "^1.2.1",
     "npm-run-all": "^4.1.5",
-    "sass": "^1.57.0",
-    "serve": "^14.1.2",
     "typescript": "^4.9.4"
   },
   "dependencies": {
