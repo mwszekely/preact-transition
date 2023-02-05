@@ -1,6 +1,6 @@
 @use "./_variables" as *;
 
-.#{$transition-class-name}-swap-container {
+.#{$transition-class-base}-swap-container {
     isolation: isolate;
 
 
@@ -16,17 +16,17 @@
         display: inline-grid;
     }
 
-    &>.#{$transition-class-name} {
-        --#{$transition-class-name}-enter-timing-function: #{$transition-default-timing-function-swap};
-        --#{$transition-class-name}-exit-timing-function: #{$transition-default-timing-function-swap};
+    &>.#{$transition-class-base} {
+        --#{$transition-class-base}-#{$transition-class-enter}-timing-function: #{$transition-default-timing-function-swap};
+        --#{$transition-class-base}-#{$transition-class-exit}-timing-function: #{$transition-default-timing-function-swap};
     }
 
-    &>.#{$transition-class-name}-enter {
-        z-index: var(--#{$transition-class-name}-enter-z-index, 10);
+    &>.#{$transition-class-base}-#{$transition-class-enter} {
+        z-index: var(--#{$transition-class-base}-#{$transition-class-enter}-z-index, 10);
     }
 
-    &>.#{$transition-class-name}-exit {
-        z-index: var(--#{$transition-class-name}-exit-z-index, 0);
+    &>.#{$transition-class-base}-#{$transition-class-exit} {
+        z-index: var(--#{$transition-class-base}-#{$transition-class-exit}-z-index, 0);
     }
 
     &>* {

@@ -1,35 +1,32 @@
-import { CreateFadeProps, createFadeProps } from "./fade";
-import { h, Ref } from "preact";
-import { forwardElementRef } from "./forward-element-ref";
-import { createSlideProps, CreateSlideProps, Slide, SlideProps } from "./slide";
-import { createZoomProps, CreateZoomProps, ZoomProps } from "./zoom";
+import { Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
-import { NonIntrusiveElementAttributes, Transitionable, UseTransitionProps } from "./transitionable";
 import { memo } from "preact/compat";
+import { useBasePropsFade, UseBasePropsFadeParameters } from "./fade";
+import { useBasePropsSlide, UseBasePropsSlideParameters } from "./slide";
+import { useTransition } from "./transitionable";
+import { Get, TransitionParametersBase } from "./util/types";
+import { forwardElementRef } from "./util/util";
+import { useBasePropsZoom, UseBasePropsZoomParameters } from "./zoom";
 
+export interface SlideZoomFadeProps<E extends Element> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsZoomParameters<E>, "zoomParameters">>, Partial<Get<UseBasePropsSlideParameters<E>, "slideParameters">>, Partial<Get<UseBasePropsFadeParameters<E>, "fadeParameters">> { };
 
-export interface CreateSlideZoomFadeProps extends CreateZoomProps, CreateSlideProps, CreateFadeProps { }
-export interface SlideZoomFadeProps<E extends HTMLElement> extends Partial<CreateSlideZoomFadeProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
-
-export const SlideZoomFade = memo(forwardElementRef(function SlideZoomFade<E extends HTMLElement>({ classBase, duration, slideTargetBlock, slideTargetInline, show, animateOnMount, delayMountUntilShown, fadeMax, fadeMin, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, exitVisibility, ...rest }: SlideZoomFadeProps<E>, ref: Ref<E>) {
-    
-  //  ({ targetBlock: slideTargetBlock, targetInline: slideTargetInline } = useSlideThing({ targetBlock: slideTargetBlock, targetInline: slideTargetInline }));
-
-    return (
-        <Transitionable<E>
-        measure={false}
-        show={show}
-        duration={duration}
-        animateOnMount={animateOnMount}
-        classBase={classBase}
-        exitVisibility={exitVisibility}
-        delayMountUntilShown={delayMountUntilShown}
-        {...useMergedProps<E>(
-                { ref, ...rest },
-                createZoomProps({ classBase, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline }),
-                createSlideProps({ classBase, slideTargetBlock, slideTargetInline }),
-                createFadeProps({ classBase, fadeMax, fadeMin })
-            )}
-        />
-    )
+export const SlideZoomFade = memo(forwardElementRef(function SlideZoomFade<E extends HTMLElement>({ duration, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, show, animateOnMount, delayMountUntilShown, slideTargetBlock, slideTargetInline, fadeMax, fadeMin, exitVisibility, onVisibilityChange, ...rest }: SlideZoomFadeProps<E>, ref: Ref<E>) {
+    return useTransition({
+        transitionParameters: {
+            measure: false,
+            show,
+            duration,
+            animateOnMount,
+            exitVisibility,
+            delayMountUntilShown,
+            onVisibilityChange,
+            propsIncoming: useMergedProps<E>(
+                useBasePropsZoom({ zoomParameters: { zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline } }),
+                useBasePropsSlide({ slideParameters: { slideTargetBlock, slideTargetInline } }),
+                useBasePropsFade({ fadeParameters: { fadeMax, fadeMin } }),
+                { ref, ...rest }
+            )
+        },
+        refElementParameters: {}
+    });
 }));

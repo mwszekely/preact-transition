@@ -1,34 +1,30 @@
-import { createFadeProps } from "./fade";
-import { h, Ref } from "preact";
-import { forwardElementRef } from "./forward-element-ref";
-import { createSlideProps, CreateSlideProps, Slide, SlideProps } from "./slide";
-import { createZoomProps, CreateZoomProps, ZoomProps } from "./zoom";
+import { Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
-import { NonIntrusiveElementAttributes, Transitionable, UseTransitionProps } from "./transitionable";
 import { memo } from "preact/compat";
+import { useBasePropsSlide, UseBasePropsSlideParameters } from "./slide";
+import { useTransition } from "./transitionable";
+import { Get, TransitionParametersBase } from "./util/types";
+import { forwardElementRef } from "./util/util";
+import { useBasePropsZoom, UseBasePropsZoomParameters } from "./zoom";
 
+export interface SlideZoomProps<E extends Element> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsZoomParameters<E>, "zoomParameters">>, Partial<Get<UseBasePropsSlideParameters<E>, "slideParameters">> { };
 
-export interface CreateSlideZoomProps extends CreateZoomProps, CreateSlideProps { }
-export interface SlideZoomProps<E extends HTMLElement> extends Partial<CreateSlideZoomProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
-
-export const SlideZoom = memo(forwardElementRef(function SlideZoom<E extends HTMLElement>({ classBase, duration, delayMountUntilShown, slideTargetBlock, slideTargetInline, show, animateOnMount, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, exitVisibility, ...rest }: SlideZoomProps<E>, ref: Ref<E>) {
-
-    //({ targetBlock: slideTargetBlock, targetInline: slideTargetInline } = useSlideThing({ targetBlock: slideTargetBlock, targetInline: slideTargetInline }));
-
-    return (
-        <Transitionable<E>
-        measure={false}
-        show={show}
-        duration={duration}
-        animateOnMount={animateOnMount}
-        classBase={classBase}
-        exitVisibility={exitVisibility}
-        delayMountUntilShown={delayMountUntilShown}
-        {...useMergedProps<E>(
+export const SlideZoom = memo(forwardElementRef(function SlideZoom<E extends HTMLElement>({ duration, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, show, animateOnMount, delayMountUntilShown, slideTargetBlock, slideTargetInline, exitVisibility, onVisibilityChange, ...rest }: SlideZoomProps<E>, ref: Ref<E>) {
+    return useTransition({
+        transitionParameters: {
+            measure: false,
+            show,
+            duration,
+            animateOnMount,
+            exitVisibility,
+            delayMountUntilShown,
+            onVisibilityChange,
+            propsIncoming: useMergedProps<E>(
                 { ref, ...rest },
-                createZoomProps({ classBase, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline }),
-                createSlideProps({ classBase, slideTargetBlock, slideTargetInline })
-            )}
-        />
-    )
+                useBasePropsZoom({ zoomParameters: { zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline } }),
+                useBasePropsSlide({ slideParameters: { slideTargetBlock, slideTargetInline } }),
+            )
+        },
+        refElementParameters: {}
+    });
 }));

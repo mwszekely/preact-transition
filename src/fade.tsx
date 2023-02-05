@@ -1,50 +1,46 @@
 import { h, Ref } from "preact";
-import { forwardElementRef } from "./forward-element-ref";
 import { useMergedProps } from "preact-prop-helpers";
-import { defaultClassBase, NonIntrusiveElementAttributes, Transitionable, TransitionableProps, UseTransitionProps } from "./transitionable";
 import { memo } from "preact/compat";
+import { useCssClasses } from "./util/context";
+import { useTransition } from "./transitionable";
+import { Get, PseudoPartial, TransitionParametersBase, UseBasePropsBaseParameters, UseTransitionParameters } from "./util/types";
+import { forwardElementRef } from "./util/util";
 
 /**
  * Properties that allow adjusting the minimum or maximum opacity values to use for the fade effect.
  */
-export interface CreateFadeProps {
-    /**
-     * The opacity to use when faded out.
-     * @default 0
-     */
-    fadeMin: number | null | undefined;
+export interface UseBasePropsFadeParameters<E extends Element> extends UseBasePropsBaseParameters<E> {
+    fadeParameters: {
+        /**
+         * The opacity to use when faded out.
+         * @default 0
+         */
+        fadeMin: number | null | undefined;
 
-    /**
-     * The opacity to use when faded in.
-     * @default 1
-     */
-    fadeMax: number | null | undefined;
-
-    /**
-     * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
-     * @default "transition"
-     */
-    classBase: string | undefined;
-
-    delayMountUntilShown?: boolean;
+        /**
+         * The opacity to use when faded in.
+         * @default 1
+         */
+        fadeMax: number | null | undefined;
+    }
 }
 
 /**
  * Creates a set of props that implement a Fade transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
  * Be sure to merge these returned props with whatever the user passed in.
  */
-export function createFadeProps({ classBase, fadeMin, fadeMax }: Partial<CreateFadeProps>) {
-    classBase = defaultClassBase(classBase);
+export function useBasePropsFade<E extends Element>({ fadeParameters: { fadeMin, fadeMax } }: UseBasePropsFadeParameters<E>) {
+    const { GetBaseClass } = useCssClasses();
     return {
-        className: `${classBase}-fade`,
+        className: `${GetBaseClass()}-fade`,
         style: {
-            [`--${classBase}-fade-min`]: (fadeMin ?? 0),
-            [`--${classBase}-fade-max`]: (fadeMax ?? 1),
+            [`--${GetBaseClass()}-fade-min`]: (fadeMin ?? 0),
+            [`--${GetBaseClass()}-fade-max`]: (fadeMax ?? 1),
         } as h.JSX.CSSProperties
     };
 }
 
-export interface FadeProps<E extends HTMLElement> extends Omit<Partial<CreateFadeProps>, "show">, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
+export interface FadeProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFadeParameters<E>, "fadeParameters">> { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Fade effect.
@@ -56,17 +52,15 @@ export interface FadeProps<E extends HTMLElement> extends Omit<Partial<CreateFad
  * 
  * @see `Transitionable`
  */
-export const Fade = memo(forwardElementRef(function Fade<E extends HTMLElement>({ classBase, duration, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, ...rest }: FadeProps<E>, ref: Ref<E>) {
-    return (
-        <Transitionable<E>
-            measure={false}
-            show={show}
-            duration={duration}
-            animateOnMount={animateOnMount}
-            classBase={classBase}
-            exitVisibility={exitVisibility}
-            delayMountUntilShown={delayMountUntilShown}
-            {...useMergedProps<E>({ ref, ...rest }, createFadeProps({ classBase, fadeMax, fadeMin }))}
-        />
-    )
+export const Fade = memo(forwardElementRef(function Fade<E extends HTMLElement>({ duration, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: FadeProps<E>, ref: Ref<E>) {
+    return useTransition({ transitionParameters: {
+        measure: false,
+        show,
+        duration,
+        animateOnMount,
+        exitVisibility,
+        delayMountUntilShown,
+        onVisibilityChange,
+        propsIncoming: useMergedProps<E>({ ref, ...rest }, useBasePropsFade({ fadeParameters: { fadeMax, fadeMin } }))
+    }, refElementParameters: {} });
 }));

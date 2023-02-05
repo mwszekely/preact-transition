@@ -1,22 +1,25 @@
-export { Clip, createClipProps, CreateClipProps, ClipProps } from "./clip";
+export type { ExitVisibility, NonIntrusiveElementAttributes, TransitionParametersBase, TransitionDirection, TransitionPhase, TransitionState, UseBasePropsBaseParameters, UseTransitionParameters } from "./util/types";
+
+export { CreateSwappableProps, Swappable, useCreateSwappableProps } from "./swappable";
+
+export { useTransition } from "./transitionable";
+
+export { Fade, FadeProps, useBasePropsFade, UseBasePropsFadeParameters } from "./fade";
+
+export { Clip, ClipProps, useBasePropsClip, UseBasePropsClipParameters } from "./clip";
 export { ClipFade, ClipFadeProps } from "./clip-fade";
 
-export { Collapse, createCollapseProps, CreateCollapseProps, CollapseProps } from "./collapse";
+export { Collapse, CollapseProps, useBasePropsCollapse, UseBasePropsCollapseParameters } from "./collapse";
 export { CollapseFade, CollapseFadeProps } from "./collapse-fade";
 
-export { Fade, createFadeProps, CreateFadeProps, FadeProps } from "./fade";
+export { Flip, FlipProps } from "./flip";
 
-export { Slide, createSlideProps, CreateSlideProps, SlideProps } from "./slide";
+export { Slide, SlideProps, useBasePropsSlide, UseBasePropsSlideParameters } from "./slide";
 export { SlideFade, SlideFadeProps } from "./slide-fade";
-
-export { Zoom, createZoomProps, CreateZoomProps, ZoomProps } from "./zoom";
-export { ZoomFade, ZoomFadeProps } from "./zoom-fade";
-
 export { SlideZoom, SlideZoomProps } from "./slide-zoom";
 export { SlideZoomFade, SlideZoomFadeProps } from "./slide-zoom-fade";
 
-export { Flip, createFlipProps, FlipProps } from "./flip";
+export { useBasePropsZoom, UseBasePropsZoomParameters, Zoom, ZoomProps } from "./zoom";
+export { ZoomFade, ZoomFadeProps } from "./zoom-fade";
 
-export { Transitionable, useTransition, useIsTransitionVisible } from "./transitionable";
-
-export { Swappable, useCreateSwappableProps, CreateSwappableProps } from "./swappable";
+export { useCssClasses } from "./util/context";

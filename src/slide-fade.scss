@@ -3,8 +3,8 @@
 
 @use "./_variables" as *;
 
-.#{$transition-class-name} {
-    &.#{$transition-class-name}-slide.#{$transition-class-name}-fade {
-        --#{$transition-class-name}-properties: transform, opacity;
+.#{$transition-class-base} {
+    &.#{$transition-class-base}-slide.#{$transition-class-base}-fade {
+        --#{$transition-class-base}-properties: transform, opacity;
     }
 }

@@ -1,6 +1,7 @@
 
 import { FunctionalComponent, h, Ref, VNode } from "preact";
 import { forwardRef } from "preact/compat";
+import { useEffect, useRef } from "preact/hooks";
 
 type ForwardedFunctionalComponentProps<P, E> = Omit<P, "ref"> & { ref?: Ref<E> }
 type ForwardedFunctionalComponent<P, E> = (p: ForwardedFunctionalComponentProps<P, E>) => VNode<ForwardedFunctionalComponentProps<P, E>>
@@ -20,3 +21,13 @@ export function forwardElementRef<C extends <E extends HTMLElement>(p: any, ref:
     return ForwardedComponent as C;
 }
 
+
+export function useLastNonNullValue<T>(value: T | null | undefined): T | null {
+    const lastNonNullValue = useRef<T | null>(null);
+    useEffect(() => {
+        if (value != null)
+            lastNonNullValue.current = value;
+    }, [value]);
+
+    return value ?? lastNonNullValue.current;
+}

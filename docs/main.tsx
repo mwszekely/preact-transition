@@ -1,8 +1,8 @@
 
 import { Fragment, h, render } from "preact";
 import { useCallback, useLayoutEffect, useState } from "preact/hooks";
-import { Clip, ZoomFade, ClipFade, Collapse, Zoom, Fade, Slide, SlideFade, Transitionable, SlideZoomFade, SlideZoom, Swappable, CollapseFade, Flip } from "..";
-import { defaultClassBase, UseTransitionProps } from "../transitionable";
+import { Clip, ZoomFade, ClipFade, Collapse, Zoom, Fade, Slide, SlideFade, SlideZoomFade, SlideZoom, Swappable, CollapseFade, Flip, ExitVisibility as EV, useCssClasses } from "..";
+import { UseTransitionParameters } from "../util/types";
 
 function halfText(input: string, times: number): string {
   if (times <= 0)
@@ -95,14 +95,14 @@ function Demo() {
         <textarea cols={30} rows={5} onInput={onInput3} value={text} />
 
       </div>
-      <div id="root-body" className={`writing-mode-${writingMode}`} style={{ [`--${defaultClassBase(null)}-duration`]: `${duration}ms` }} key={writingMode}>
+      <div id="root-body" className={`writing-mode-${writingMode}`} style={{ [`--${useCssClasses().GetBaseClass()}-duration`]: `${duration}ms` }} key={writingMode}>        
         <FadeDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
         <SlideDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ZoomDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ClipDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
-        <CollapseDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
-        <ZoomSlideDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
         <FlipDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
+        <ZoomSlideDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
+        <CollapseDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
       </div>
     </>
   )
@@ -162,8 +162,6 @@ function FadeDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
     </div>
   </div>
 }
-
-type EV = UseTransitionProps["exitVisibility"];
 
 function ClipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount }: { animateOnMount: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
   const [originX, setOriginX] = useState(0.5);
@@ -251,7 +249,7 @@ function ZoomSlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOn
   const C = withFade ? SlideZoomFade : SlideZoom;
   const CS = withFade ? "SlideZoomFade" : "SlideZoom";
 
-  const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} slideTargetInline={slideX * Math.sign(i - contentIndex)} slideTargetBlock={slideY * Math.sign(i - contentIndex)} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+  const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} slideTargetInline={(slideX * Math.sign(i - contentIndex)) || null} slideTargetBlock={(slideY * Math.sign(i - contentIndex)) || null} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
   return <div className="demo-section">
     <h2>Zoom &amp; Slide</h2>
@@ -385,7 +383,7 @@ function SlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMoun
   const C = withFade ? SlideFade : Slide;
   const CS = withFade ? "SlideFade" : "Slide";
 
-  const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} slideTargetInline={(slideX * Math.sign(i - contentIndex))} slideTargetBlock={slideY * Math.sign(i - contentIndex)}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+  const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} slideTargetInline={(slideX * Math.sign(i - contentIndex)) || null} slideTargetBlock={slideY * Math.sign(i - contentIndex)}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
   return <div className="demo-section">
     <h2>Slide</h2>
@@ -450,17 +448,19 @@ function CollapseDemo({ cardShow, contentIndex, exitVisibility, text, animateOnM
           <div>Direction cannot be directly controlled. Only the size along the block axis (Y-axis in horizontal languages) can be resized.</div>
           <div>In general, only use this component if you <em>specifically</em> need its reflow transitioning properties, because it's very taxing on, well, <em>most</em> devices, unless you take other precautions. If you want a "disappear in place without zooming out", consider a Clip effect.</div>
         </div>
-        {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} minBlockSize={minBlockSize}>
-          <div>
-            <Swappable>
-              <div className="card">
-                {makeChild(0)}
-                {makeChild(1)}
-                {makeChild(2)}
-              </div>
-            </Swappable>
-          </div>
-        </C>}
+        <div>
+          {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} minBlockSize={minBlockSize}>
+            <div>
+              <Swappable>
+                <div className="card">
+                  {makeChild(0)}
+                  {makeChild(1)}
+                  {makeChild(2)}
+                </div>
+              </Swappable>
+            </div>
+          </C>}
+        </div>
         <code><pre>
           {`<${CS} show={${(cardShow ?? "null").toString()}}${minBlockSize && minBlockSize != "0px" ? ` minBlockSize={${JSON.stringify(minBlockSize)}}` : ""}${exitVisibility ? ` exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
   {/* These cards have padding, 
@@ -501,7 +501,7 @@ function FlipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
   const C = Flip;
   const CS = "Flip";
 
-  const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} flipAngleInline={flipX * Math.sign(i - contentIndex)} flipAngleBlock={flipY * Math.sign(i - contentIndex)}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+  const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} flipAngleInline={(flipX * Math.sign(i - contentIndex)) || null} flipAngleBlock={(flipY * Math.sign(i - contentIndex)) || null}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
   return <div className="demo-section">
     <h2>Flip</h2>

@@ -1,60 +1,10 @@
-import { forwardElementRef } from "./forward-element-ref";
-import { cloneElement, h, VNode, Ref, createContext } from "preact";
-import { OnPassiveStateChange, returnNull, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableGetter, useState } from "preact-prop-helpers";
-import { runImmediately } from "preact-prop-helpers/preact-extensions/use-passive-state";
-import { memo } from "preact/compat";
+import { cloneElement, h, VNode } from "preact";
+import { OnPassiveStateChange, returnNull, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableGetter } from "preact-prop-helpers";
+import { returnFalse, runImmediately } from "preact-prop-helpers/preact-extensions/use-passive-state";
 import { useCallback, useContext, useEffect, useLayoutEffect, useRef } from "preact/hooks";
-import { SwappableContext } from "./context";
+import { SwappableContext, useCssClasses } from "./util/context";
+import { TransitionDirection, TransitionPhase, TransitionState, UseTransitionParameters } from "./util/types";
 
-export type TransitionPhase = 'init' | 'transition' | 'finalize';
-export type TransitionDirection = 'enter' | 'exit';
-export type TransitionState = `${TransitionDirection}-${TransitionPhase}`;
-
-
-export function defaultClassBase(given: string | null | undefined) {
-    return given ?? "ptl";
-}
-
-
-export interface UseTransitionProps {
-    /**
-     * If true, this element should make itself visible.
-     */
-    show: boolean | null;
-    /**
-     * Controls whether or not the element mounts in an already-transitioned appearance or not.
-     */
-    animateOnMount?: boolean;
-
-    /**
-     * Certain types of transitions require measuring the size of the element (namely collapse).
-     * 
-     * It incurs a reflow-based performance penalty every time `visible` changes when used.
-     */
-    measure: boolean;
-
-    /**
-     * The base of all CSS classes used. 
-     * 
-     * Cannot change while the element is mounted; it **MUST** remain stable throughout the component's lifetime.
-     */
-    classBase?: string;
-
-    /**
-     * Can also be provided via CSS properties (but this will match whatever `classBase` you use for you)
-     */
-    duration?: number;
-
-    /**
-     * After the element has finished its exit animation, what happens to it?
-     * 
-     * * `"removed"`: `display: none` is applied.
-     * * `"hidden"`: `visibility: none` is applied.
-     * * `"visible"`: No additional styling is applied.
-     * * `"inert"`: No additional styling is applied, but the `inert` attribute is applied. You will likely need a polyfill to make this work on older browsers.
-     */
-    exitVisibility?: "inert" | "removed" | "hidden" | "visible";
-}
 
 function getTimeoutDuration<E extends HTMLElement>(element: E | null) {
     return Math.max(...(window.getComputedStyle(element || document.body).getPropertyValue(`transition-duration`)).split(",").map(str => {
@@ -76,24 +26,23 @@ function parseState(nextState: TransitionState) {
  * @param param0 
  * @returns 
  */
-export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: a, measure: m, classBase, exitVisibility: e, duration: d }: UseTransitionProps) {
-    const [isVisible, setIsVisible] = useState(false);
+export function useTransition<E extends HTMLElement>({ transitionParameters: { propsIncoming: { children, ...p }, show, animateOnMount, measure, exitVisibility, duration, delayMountUntilShown, onVisibilityChange }, refElementParameters }: UseTransitionParameters<E>): VNode<h.JSX.HTMLAttributes<E>> | null {
+    //const [isVisible, setIsVisible] = useState(false);
     const { getAnimateOnMount } = useContext(SwappableContext);
-    classBase ||= defaultClassBase(classBase);
-    e ||= "hidden"
-    a ??= getAnimateOnMount();
-    m ??= false;
-    const getMeasure = useStableGetter(m);
+    exitVisibility ||= "hidden"
+    animateOnMount ??= getAnimateOnMount();
+    measure ??= false;
     //const getDurationOverride = useStableGetter(d);
-    useEnsureStability("useTransition", classBase);
-    const getExitVisibility = useStableGetter(e);
+    useEnsureStability("useTransition", onVisibilityChange);
+    const getExitVisibility = useStableGetter(exitVisibility);
+    const { GetBaseClass, GetEnterClass, GetExitClass, GetMeasureClass, GetInitClass, GetTransitionClass, GetFinalizeClass, GetDirectionClass, GetPhaseClass } = useCssClasses();
 
-    const { refElementReturn: { getElement, propsStable } } = useRefElement<E>({ refElementParameters: {} })
+    const { refElementReturn, refElementReturn: { getElement, propsStable } } = useRefElement<E>({ refElementParameters })
     const cssProperties = useRef<h.JSX.CSSProperties>({});
     const classNames = useRef(new Set<string>([
         // This is removed during useLayoutEffect on the first render
         // (at least once `show` is non-null)
-        `${classBase}-pending`,
+        `${GetBaseClass()}-pending`,
     ]));
     const handleTransitionFinished = useCallback(() => {
         const state = getState();
@@ -117,36 +66,35 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         }
     })
 
-    // The very first time 
     const hasMounted = useRef(false);
 
     /**
      * Sets the element's CSS class to match the given direction and phase.
      */
-    const updateClasses = useCallback((element: E | null, direction: TransitionDirection, phase: TransitionPhase) => {
+    const updateClasses = useCallback((element: E | null, direction: TransitionDirection, phase?: TransitionPhase) => {
         if (element == null)
             return;
+
 
         const exitVisibility = getExitVisibility();
 
         const allClassesToRemove = [
-            `${classBase}-enter`, `${classBase}-exit`,
-            `${classBase}-enter-init`, `${classBase}-enter-transition`, `${classBase}-enter-finalize`,
-            `${classBase}-exit-init`, `${classBase}-exit-transition`, `${classBase}-exit-finalize`,
-            `${classBase}-ev-${"inert"}`,
-            `${classBase}-ev-${"removed"}`,
-            `${classBase}-ev-${"hidden"}`,
-            `${classBase}-ev-${"visible"}`,
-            `${classBase}-pending`,
-        ];
-        const allClassesToAdd = [
-            `${classBase}`,
-            `${classBase}-${direction}`,
-            `${classBase}-${direction}-${phase}`,
-            `${classBase}-ev-${exitVisibility}`
+            `${GetBaseClass()}-${GetEnterClass()}`, `${GetBaseClass()}-${GetExitClass()}`,
+            `${GetBaseClass()}-${GetEnterClass()}-${GetMeasureClass()}`, `${GetBaseClass()}-${GetEnterClass()}-${GetInitClass()}`, `${GetBaseClass()}-${GetEnterClass()}-${GetTransitionClass()}`, `${GetBaseClass()}-${GetEnterClass()}-${GetFinalizeClass()}`,
+            `${GetBaseClass()}-${GetExitClass()}-${GetMeasureClass()}`, `${GetBaseClass()}-${GetExitClass()}-${GetInitClass()}`, `${GetBaseClass()}-${GetExitClass()}-${GetTransitionClass()}`, `${GetBaseClass()}-${GetExitClass()}-${GetFinalizeClass()}`,
+            `${GetBaseClass()}-ev-${"inert"}`,
+            `${GetBaseClass()}-ev-${"removed"}`,
+            `${GetBaseClass()}-ev-${"hidden"}`,
+            `${GetBaseClass()}-ev-${"visible"}`,
+            `${GetBaseClass()}-pending`,
         ];
 
-        //(measure ? allClassesToAdd : allClassesToRemove).push(`${classBase}-measure`);
+        const allClassesToAdd = [
+            `${GetBaseClass()}`,
+            `${GetBaseClass()}-${GetDirectionClass(direction)}`,
+            phase ? `${GetBaseClass()}-${GetDirectionClass(direction)}-${GetPhaseClass(phase)}` : "",
+            `${GetBaseClass()}-ev-${exitVisibility}`
+        ];
 
         element.classList.remove(...allClassesToRemove);
         allClassesToRemove.map(v => classNames.current.delete(v));
@@ -172,16 +120,6 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
     }, []);
 
     /**
-     * Updates all "measure" variables (or removes them)
-     */
-    const updateSizeProperties = useCallback((element: E, nextSize: DOMRectReadOnly | null) => {
-        updateSizeProperty(element, `--${classBase}-measure-top`, nextSize?.top);
-        updateSizeProperty(element, `--${classBase}-measure-left`, nextSize?.left);
-        updateSizeProperty(element, `--${classBase}-measure-width`, nextSize?.width);
-        updateSizeProperty(element, `--${classBase}-measure-height`, nextSize?.height);
-    }, []);
-
-    /**
      * Adds the "measure" variupdateClassesables to the element if requested.
      */
     const measureElementAndUpdateProperties = useCallback((element: E | null, measure: boolean) => {
@@ -191,7 +129,10 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
                 size = element.getBoundingClientRect();
             }
 
-            updateSizeProperties(element, size);
+            updateSizeProperty(element, `--${GetBaseClass()}-measure-top`, size?.top);
+            updateSizeProperty(element, `--${GetBaseClass()}-measure-left`, size?.left);
+            updateSizeProperty(element, `--${GetBaseClass()}-measure-width`, size?.width);
+            updateSizeProperty(element, `--${GetBaseClass()}-measure-height`, size?.height);
         }
     }, []);
 
@@ -219,37 +160,21 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         if (nextState == null)
             return;
 
-        const [nextDirection, nextPhase] = parseState(nextState);
-        setIsVisible(nextDirection == "enter" || (nextDirection == "exit" && nextPhase != "finalize"));
-        const element = getElement();
-        const measure = getMeasure();
-        //const durationOverride = getDurationOverride();
-        /*if (durationOverride != null) {
-            cssProperties.current[`--${classBase}-duration`] = durationOverride + "ms";
-            element?.style.setProperty(`--${classBase}-duration`, `${durationOverride}ms`);
-        }*/
-        if (measure && element && nextPhase == "init") {
-            // We actually need all these reflows, either to make things like block-size work, or to make things like opacity work.
-            element.classList.add(`${classBase}-measure`);
-            updateClasses(element, nextDirection, "finalize");
-            forceReflow(element);   // By measuring the element below we implicitly reflow, but this is a reminder that it happens.
-            measureElementAndUpdateProperties(element, measure);
-            updateClasses(element, nextDirection, nextPhase);
-            forceReflow(element);
-            element.classList.remove(`${classBase}-measure`);
-            forceReflow(element);
-        }
-        else {
-            updateClasses(element, nextDirection, nextPhase);
-            // TODO: Unnecessary reflow?
-            // It might only be necessary when changing from -init to -transition
-            if (element)
-                forceReflow(element);
-        }
+        debugger;
 
+
+        const [nextDirection, nextPhase] = parseState(nextState);
+        const element = getElement();
+
+
+        // Make sure no stale change code ever runs
+        if (timeoutHandle.current >= 0 && timeoutClearFunction.current)
+            timeoutClearFunction.current(timeoutHandle.current);
+
+        // Handle inert props/property
         const exitVisibility = getExitVisibility();
         if (exitVisibility) {
-            const inert = (exitVisibility == "inert" && nextDirection == "exit" ? true : undefined);
+            const inert = (exitVisibility == "inert" && (nextDirection == "exit" && nextPhase == "finalize") ? true : undefined);
             if (inert)
                 (otherProps.current as any).inert = true;
             else
@@ -258,27 +183,41 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
             if (element)
                 element.inert = (inert || false);
         }
-        switch (nextPhase) {
-            case "init": {
-                if (timeoutHandle.current >= 0)
-                    timeoutClearFunction.current?.(timeoutHandle.current);
 
+        onVisibilityChange?.(nextDirection == "enter" || (nextDirection == "exit" && nextPhase != "finalize"));
+
+        updateClasses(element, nextDirection, nextPhase);
+        if (element && (nextPhase == "init" || nextPhase == "transition"))
+            forceReflow(element);
+
+
+
+        switch (nextPhase) {
+            case "measure": {
+                if (element)
+                    measureElementAndUpdateProperties(element, true);
+                //setState(`${nextDirection}-init`);
+                updateClasses(element, nextDirection, "init");
+                if (element)
+                    forceReflow(element);
+
+                // !!Intentional fall-through!!
+            }
+            case "init": {
                 timeoutHandle.current = requestAnimationFrame(() => { setState(`${nextDirection}-transition`); });
-                timeoutClearFunction.current = (f: number) => cancelAnimationFrame(f);
+                timeoutClearFunction.current = (f: number) => cancelAnimationFrame(f)
                 break;
             }
             case "transition": {
-                if (timeoutHandle.current >= 0)
-                    timeoutClearFunction.current?.(timeoutHandle.current);
-
                 timeoutHandle.current = setTimeout(() => {
                     handleTransitionFinished();
                 }, getTimeoutDuration(element) * 1.5);
-                timeoutClearFunction.current = (f: number) => clearTimeout(f);
+                timeoutClearFunction.current = (f: number) => clearTimeout(f)
                 break;
             }
             case "finalize": {
                 // Nothing to do or schedule or anything -- we just update our classes and we're done.
+                timeoutClearFunction.current = null;    // Does this make it more or less clear?
 
                 break;
             }
@@ -298,7 +237,7 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
     useLayoutEffect(() => {
 
         // If `show` is null, then we don't change anything.
-        if (v == null)
+        if (show == null)
             return;
 
         // `show` is true or false (as opposed to null).
@@ -306,10 +245,10 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         // then remove the class that indicates the no transition logic has started.
         // (Because this is useLayoutEffect, it will take effect before the class's effects are painted)
         if (!hasMounted.current) {
-            classNames.current.delete(`${classBase}-pending`);
+            classNames.current.delete(`${GetBaseClass()}-pending`);
             const element = getElement();
             if (element) {
-                element.classList.remove(`${classBase}-pending`);
+                element.classList.remove(`${GetBaseClass()}-pending`);
                 // Because the pending class often makes this hidden or d-none, 
                 // force a reflow juuust to be safe.
                 forceReflow(element);
@@ -317,7 +256,7 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         }
 
         const currentState = getState();
-        let nextPhase: TransitionPhase = "init";
+        let nextPhase: TransitionPhase = measure ? "measure" : "init";
         if (currentState) {
             const [currentDirection, currentPhase] = parseState(currentState);
             if (currentPhase != "finalize")
@@ -325,8 +264,8 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
         }
 
         // Note: the setState change handler runs immediately with no debounce.
-        if (v) {
-            if (hasMounted.current || a)
+        if (show) {
+            if (hasMounted.current || animateOnMount)
                 setState(`enter-${nextPhase}`);
 
             else
@@ -334,110 +273,81 @@ export function useTransition<E extends HTMLElement>({ show: v, animateOnMount: 
 
         }
         else {
-            if (hasMounted.current || a)
+            if (hasMounted.current || animateOnMount)
                 setState(`exit-${nextPhase}`);
             else
                 setState("exit-finalize");
         }
 
         hasMounted.current = true;
-    }, [v]);
+    }, [measure, show]);
 
 
-    if (d != null)
-        cssProperties.current[`--${classBase}-duration`] = d + "ms";
+    if (duration != null)
+        cssProperties.current[`--${GetBaseClass()}-duration`] = duration + "ms";
     else
-        delete cssProperties.current[`--${classBase}-duration`];
+        delete cssProperties.current[`--${GetBaseClass()}-duration`];
+
+
 
     // TODO
     const inlineDirection = null;
     const blockDirection = null;
 
-    return {
-        isVisible,
-        props: useMergedProps<E>(propsStable, {
-            className: [
-                ...classNames.current,
-                `${classBase}-ev-${e}`,
-                `${classBase}-inline-direction-${inlineDirection ?? "ltr"}`,
-                `${classBase}-block-direction-${blockDirection ?? "ttb"}`
-            ].join(" "),
-            style: cssProperties.current,
-            ...otherProps.current
-        })
-    }
-}
 
-/**
- * All attributes are merged, but autocomplete becomes really noisy trying to find the props that are relevant to the `Transitionable` itself. 
- * To avoid wading through a sea of event handlers and attributes no one ever uses, only the most common ones are shown.
- * 
- * Again, though, **all props are merged and forwarded, not just these ones!** You can use any/all of the usual attributes, including `onTransitionEnd`.
- */
-export interface NonIntrusiveElementAttributes<E extends Element> extends Pick<h.JSX.HTMLAttributes<E>, "children" | "ref" | "style" | "class" | "className"> { }
-
-export interface TransitionableProps<E extends Element> extends UseTransitionProps, h.JSX.HTMLAttributes<E> {
-    delayMountUntilShown: boolean | undefined;
-}
-
-const IsVisibleContext = createContext(false);
-
-export function useIsTransitionVisible() {
-    return useContext(IsVisibleContext);
-}
-
-export const Transitionable = memo(forwardElementRef(function Transitionable<E extends HTMLElement>({ delayMountUntilShown, animateOnMount, duration, classBase, exitVisibility, measure, show, children, ...props }: TransitionableProps<E>, ref?: Ref<E>) {
-    const { props: transitionProps, isVisible } = useTransition<E>({
-        animateOnMount,
-        classBase,
-        duration,
-        exitVisibility,
-        measure,
-        show
-    });
-
-
-    const childrenIsVnode = (children && (children as VNode).type && (children as VNode).props);
-    const finalProps = useMergedProps<E>(props, transitionProps, { ...props, ref }, childrenIsVnode ? { ref: (children as VNode).ref, ...(children as VNode).props } : {});
 
     // No matter what delayMountUntilShown is,
     // once we've rendered our children once, 
     // ensure that we don't unmount them again and waste all that work.
     // (If you really need this you can just unmount the entire transition itself)
-    const renderChildren = (show || !delayMountUntilShown);
+    const definitelyShouldMountChildren = (show || !delayMountUntilShown);
     const hasRenderedChildren = useRef(false);
+    const renderChildren = definitelyShouldMountChildren || hasRenderedChildren.current;
     useEffect(() => {
-        if (renderChildren)
+        if (definitelyShouldMountChildren)
             hasRenderedChildren.current ||= true;
-    }, [hasRenderedChildren.current ? false : renderChildren])
+    }, [hasRenderedChildren.current ? false : definitelyShouldMountChildren]);
 
-    if (!renderChildren && !hasRenderedChildren.current)
-        return null;
 
-    const context = useRef({ getAnimateOnMount: () => false }).current;
+    const childrenIsVnode = (children && (children as VNode).type && (children as VNode).props);
+    const finalProps = useMergedProps<E>(p, propsStable, otherProps.current, {
+        className: [
+            ...classNames.current,
+            `${GetBaseClass()}-ev-${exitVisibility}`,
+            `${GetBaseClass()}-inline-direction-${inlineDirection ?? "ltr"}`,
+            `${GetBaseClass()}-block-direction-${blockDirection ?? "ttb"}`
+        ].join(" "),
+        style: cssProperties.current
+    }, childrenIsVnode ? { ref: (children as VNode).ref, ...(children as VNode).props } : {});
 
-    let ret: VNode;
+
+
+    const context = useRef({ getAnimateOnMount: returnFalse }).current;
+
+    let modifiedChildren: VNode;
 
     if (childrenIsVnode) {
-        ret = <SwappableContext.Provider value={context}>{cloneElement(children as VNode, finalProps)}</SwappableContext.Provider>
+        modifiedChildren = <SwappableContext.Provider value={context}>{cloneElement(children as VNode, finalProps)}</SwappableContext.Provider>
     }
     else {
-        ret = <SwappableContext.Provider value={context}><span {...finalProps as h.JSX.HTMLAttributes<any>}>{children}</span></SwappableContext.Provider>
+        modifiedChildren = <SwappableContext.Provider value={context}><span {...finalProps as h.JSX.HTMLAttributes<any>}>{children}</span></SwappableContext.Provider>
     }
 
-    return (
-        <IsVisibleContext.Provider value={isVisible}>{ret}</IsVisibleContext.Provider>
-    )
-}));
 
-// This isn't actually publicly exported. It's just to try to make sure it's not optimized out.
-// (TODO: Unneeded?)
-export let _dummy: any;
+
+    return renderChildren ? modifiedChildren : null;
+}
+
+
+
 function forceReflow<E extends HTMLElement>(e: E) {
+
     // Try really hard to make sure this isn't optimized out by anything.
     // We need it for its document reflow side effect.
-    _dummy = e.getBoundingClientRect();
-    _dummy = e.style.opacity;
-    _dummy = e.style.transform;
+    const p = (globalThis as any)._dummy;
+    (globalThis as any)._dummy = e.getBoundingClientRect();
+    (globalThis as any)._dummy = e.style.opacity;
+    (globalThis as any)._dummy = e.style.transform;
+    (globalThis as any)._dummy = p;
     return e;
 }

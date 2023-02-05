@@ -1,54 +1,50 @@
 import { h, Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
-import { useEffect, useRef } from "preact/hooks";
-import { forwardElementRef } from "./forward-element-ref";
-import { defaultClassBase, NonIntrusiveElementAttributes, Transitionable, TransitionableProps, UseTransitionProps } from "./transitionable";
+import { useCssClasses } from "./util/context";
+import { useTransition } from "./transitionable";
+import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types";
+import { forwardElementRef, useLastNonNullValue } from "./util/util";
 
 /**
  * Properties that allow adjusting the direction and extent of the slide effect. 
  * Values are relative, with 1 or -1 being the size of the component in that direction.
  * `0.5`, for example, would slide to the right by 50% of the element's width.
  */
-export interface CreateSlideProps {
+export interface UseBasePropsSlideParameters<E extends Element> extends UseBasePropsBaseParameters<E> {
+    slideParameters: {
+        /**
+         * The target point to slide to/from (X component in horizontal writing modes).
+         * When 0, the last non-zero value will be used. Pass null/undefined to actually use 0.
+         */
+        slideTargetInline: number | null | undefined;
 
-    /**
-     * The target point to slide to/from (X component in horizontal writing modes).
-     * When 0, the last non-zero value will be used. Pass null/undefined to actually use 0.
-     */
-    slideTargetInline: number | null | undefined;
-
-    /**
-     * The target point to slide to/from (Y component in horizontal writing modes).
-     * When 0, the last non-zero value will be used. Pass null/undefined to actually use 0.
-     */
-    slideTargetBlock: number | null | undefined;
-
-    /**
-     * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
-     * @default "transition"
-     */
-    classBase: string | undefined;
-
-    delayMountUntilShown?: boolean;
+        /**
+         * The target point to slide to/from (Y component in horizontal writing modes).
+         * When 0, the last non-zero value will be used. Pass null/undefined to actually use 0.
+         */
+        slideTargetBlock: number | null | undefined;
+    }
 }
 
 /**
  * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
  */
-export function createSlideProps({ classBase, slideTargetInline, slideTargetBlock }: Partial<CreateSlideProps>) {
-    classBase = defaultClassBase(classBase);
+export function useBasePropsSlide<E extends Element>({ slideParameters: { slideTargetInline, slideTargetBlock } }: UseBasePropsSlideParameters<E>) {
+    slideTargetInline = useLastNonNullValue(slideTargetInline);
+    slideTargetBlock = useLastNonNullValue(slideTargetBlock);
+
+    const { GetBaseClass } = useCssClasses();
     return {
-        className: `${classBase}-slide`,
+        className: `${GetBaseClass()}-slide`,
         style: {
-            [`--${classBase}-slide-target-inline`]: `${(slideTargetInline ?? 0)}`,
-            [`--${classBase}-slide-target-block`]: `${(slideTargetBlock ?? 0)}`
+            [`--${GetBaseClass()}-slide-target-inline`]: `${(slideTargetInline ?? 0)}`,
+            [`--${GetBaseClass()}-slide-target-block`]: `${(slideTargetBlock ?? 0)}`
         } as h.JSX.CSSProperties
     };
 }
 
-// Note: CreateSlideProps is *intentionally* not made partial here.
-export interface SlideProps<E extends HTMLElement> extends Partial<CreateSlideProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
+export interface SlideProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsSlideParameters<E>, "slideParameters">> { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Slide effect.
@@ -62,41 +58,20 @@ export interface SlideProps<E extends HTMLElement> extends Partial<CreateSlidePr
  * 
  * @see `Transitionable`
  */
-export const Slide = memo(forwardElementRef(function Slide<E extends HTMLElement>({ classBase, duration, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, ...rest }: SlideProps<E>, ref: Ref<E>) {
-
-    //({ targetBlock: slideTargetBlock, targetInline: slideTargetInline } = useSlideThing({ targetBlock: slideTargetBlock, targetInline: slideTargetInline }));
-
-    return <Transitionable<E>
-    measure={false}
-    show={show}
-    duration={duration}
-    animateOnMount={animateOnMount}
-    classBase={classBase}
-    exitVisibility={exitVisibility}
-    delayMountUntilShown={delayMountUntilShown}
-    {...useMergedProps<E>({ ref, ...rest }, createSlideProps({ classBase, slideTargetBlock, slideTargetInline }))}
-    />
+export const Slide = memo(forwardElementRef(function Slide<E extends HTMLElement>({ duration, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, ...rest }: SlideProps<E>, ref: Ref<E>) {
+    return useTransition({
+        transitionParameters: {
+            measure: false,
+            show,
+            duration,
+            animateOnMount,
+            exitVisibility,
+            delayMountUntilShown,
+            propsIncoming: useMergedProps<E>(
+                useBasePropsSlide({ slideParameters: { slideTargetBlock, slideTargetInline } }),
+                { ref, ...rest },
+            )
+        },
+        refElementParameters: {}
+    });
 }));
-
-
-// TODO: This logic was required for slides at one point to ensure that slideTargetInline={index - currentIndex} works right,
-// but it works without it now, so, like, we're good then? Which I'm okay with because I can't explain the logic here honestly.
-
-/*export function useSlideThing({ targetBlock, targetInline }: { targetInline?: number | null, targetBlock?: number | null }): { targetInline: number | undefined, targetBlock: number | undefined } {
-
-    const lastValidTargetInline = useRef(targetInline ?? 1);
-    const lastValidTargetBlock = useRef(targetBlock ?? 0);
-
-    
-    useEffect(() => { if (targetInline) lastValidTargetInline.current = targetInline; }, [targetInline]);
-    useEffect(() => { if (targetBlock) lastValidTargetBlock.current = targetBlock; }, [targetBlock]);
-
-    if (targetInline == 0)
-        targetInline = lastValidTargetInline.current;
-    if (targetBlock == 0)
-        targetBlock = lastValidTargetBlock.current;
-
-    targetInline ??= undefined;
-    targetBlock ??= undefined;
-    return { targetInline, targetBlock };
-}*/

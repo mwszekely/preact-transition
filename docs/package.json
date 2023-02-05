@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "main": "index.html",
   "packageManager": "pnpm@7.26.2",
+  "browsers": "iOS 10",
   "scripts": {
     "build": "npx npm-run-all --npm-path npm -sc build:sass build:css build:js",
     "watch": "npx npm-run-all --npm-path npm -pc watch:*",

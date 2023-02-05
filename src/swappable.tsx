@@ -1,11 +1,11 @@
 import { default as clsx } from "clsx";
-import { cloneElement, ComponentChildren, createContext, h, Ref, VNode } from "preact";
+import { cloneElement, ComponentChildren, h, Ref, VNode } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
-import { defaultClassBase, NonIntrusiveElementAttributes } from "./transitionable";
-import { forwardElementRef } from "./forward-element-ref";
-import { useEffect, useRef } from "preact/hooks";
-import { SwappableContext } from "./context";
 import { memo } from "preact/compat";
+import { useEffect, useRef } from "preact/hooks";
+import { SwappableContext, useCssClasses } from "./util/context";
+import { forwardElementRef } from "./util/util";
+import { NonIntrusiveElementAttributes } from "./util/types";
 
 export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappableProps>, NonIntrusiveElementAttributes<E> {
     children: ComponentChildren;
@@ -20,45 +20,42 @@ export interface CreateSwappableProps {
     inline: boolean | null | undefined;
 
     /**
-     * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
-     * @default "transition"
+     * Provides default values to `useTransition`'s `animateOnMount`. If null, the default value provided will be `false` initially, then `true` after the `Swappable` itself has mounted.
      */
-    classBase: string | null | undefined;
+    childrenAnimateOnMount?: boolean | null | undefined;
 }
 
 /**
  * Creates a set of props that implement a swap container.
  * Be sure to merge these returned props with whatever the user passed in.
  */
-export function useCreateSwappableProps<P extends {}>({ inline, classBase }: CreateSwappableProps, otherProps: P) {
+export function useCreateSwappableProps<P extends {}>({ inline }: CreateSwappableProps, otherProps: P) {
     type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
-    classBase = defaultClassBase(classBase);
+    const { GetBaseClass } = useCssClasses();
     return useMergedProps<E>({
-        className: clsx(`${classBase}-swap-container`, inline && `${classBase}-swap-container-inline`)
+        className: clsx(`${GetBaseClass()}-swap-container`, inline && `${GetBaseClass()}-swap-container-inline`)
     }, otherProps);
 }
 
 /**
  * Allows a set of child <Transitionable> components to animate in & out in-place. Very useful for, e.g., tab panels.
  * 
- * You must manage each child `<Transitionable>` component's `show` prop -- this component *does not* manage any sort of state in that regard. 
+ * You must manage each child `<Transitionable>` component's `show` prop -- this component *does not* manage any sort of state in that regard.
  * 
- * Like `<Transitionable>`, *this wraps an HTMLElement (or other ref-forwarding component)*. This will be your container that holds each `<Transitionable>` (or component that uses it). Strictly speaking it could be anything, not a `<Transitionable>`, but if it doesnt't transition out then it's just going to be hanging around 100% of the time.
- * 
- * Long way of saying, if you get a cryptic error with this component, make sure it has a single `<div>` child or something.
+ * If you pass a regular element (like a div) or other single component, then thee props and ref will be forwarded onto that element. Otherwise, all the children will be wrapped in a div or span depending on the `inline` prop.
  * @param param0 
  * @returns 
  */
-export const Swappable = memo(forwardElementRef(function Swappable<E extends HTMLElement>({ children: c, classBase, inline, ...p }: SwapProps<E>, ref: Ref<E>) {
-    const children = c as VNode;
-    console.assert(!!children.type);
-
+export const Swappable = memo(forwardElementRef(function Swappable<E extends HTMLElement>({ children: c, inline, childrenAnimateOnMount, ...p }: SwapProps<E>, ref: Ref<E>) {
+    let children = c as VNode;
+    if (!(children as VNode).type)
+        children = (!inline? <div>{children}</div> : <span>{children}</span>)
     inline ??= typeof children.type === "string" && inlineElements.has(children.type);
 
-    const transitionProps = useCreateSwappableProps({ classBase, inline }, { ...p, ref });
+    const transitionProps = useCreateSwappableProps({ inline }, { ...p, ref });
     const mergedWithChildren = useMergedProps<E>(transitionProps, children.props);
 
-    const animateOnMount = useRef(false);
+    const animateOnMount = useRef(childrenAnimateOnMount?? false);
     useEffect(() => {
         animateOnMount.current = true;
     }, [])

@@ -2,65 +2,63 @@
 
 Easy management of CSS transition classes and inplace swappable content. Designed to be simple, small, and to prefer plain CSS for the actual transition animations.
 
-![An animated image showing examples of a card and its contents transitioning in and out in place](collapse.gif?raw=true "Collapse demo image")
+This project is unlicensed into the public domain -- just take anything you see that's useful. It's also not any sort of an "official" Preact library -- it's just not a particularly creative name.
 
-## Basics
-
-The `Transitionable` component (or `Zoom`, `Fade`, etc.) manages everything--you just tell it when it should show or hide its content, and give it a single HTML element as a child (or a component that properly forwards a ref to one).
-
-
-By default, the base CSS classes, things like `transition-enter-init`, don't do anything by themselves, but you can use them in combination with other classes to easily implement CSS-based transitions.
-
-This library includes a number of components that do this. All they are are a wrapper around `<Transitionable>` that pass in some extra classes or styles.
-
-|Component|Props|Description|
-|---|---|---|
-|`Fade`|<ul><li>`fadeMin`</li><li>`fadeMax`</li></ul>|Simple opacity-based transition. `fadeMin` and `fadeMax` are, like the rest of all these props, are simply forwarded on as CSS variables.|
-|`Clip`|<ul><li>`clipOrigin{\|Inline\|Block}`</li><li>`clipMin{\|Inline\|Block}`</li></ul>|Use `clip-path` to animate in/out. Note that `Inline` and `Block` are used instead of `X` and `Y` so the effect is consistent regardless of `writing-mode`. In some cases, this can be a more performant alternative to `<Collapse />` if you're not picky about border styles.|
-|`Slide`|<ul><li>`slide{Inline\|Block}`</li></ul>|Slide the element out to the target position. A value of `0` for `slideInline` or `slideBlock` has the special meaning of "transition in from the last non-zero value" so that you don't need to keep track of what that was for each.|
-|`Zoom`|<ul><li>`zoomOrigin{\|Inline\|Block}`</li><li>`zoomMin{\|Inline\|Block}`</li></ul>|Simple `transform: scale`-based transition.|
-|`Collapse`|<ul><li>`minBlockSize`</li></ul>|Animate `height` (in horizontal languages, or `width` in vertial languages, or just `block-size` regardless) between `auto` and `0` (or some custom `minBlockSize`, like `10em`). Be sure to use caution, as animating these sorts of properties is *not* cheap for the browser to do and you may drop below 60fps on lower-powered devices.|
-|`Flip`|<ul><li>`flipAngle{\|Inline\|Block}`</li><li>`perspective`</li></ul>|A 3D card-flipping effect. If you make the timing function linear (or symmetrical), then by taking advantage of the fact that the back face is not visible, it can work well in a `Swappable` with a `flipAngle` of 180.|
-
-In addition, any `<Transitionable>` or component that uses it, like `<Zoom>`, provides the following options:
-
-|Prop name|Description|Default|
-|---|---|---|
-|`show`|Controls if the content is visible or not. Passing `null` is the same as passing `false`, except when `animateOnMount` is `true`; in that case, `null` tells `animateOnMount` to wait for a non-`null` value to actually do that animation.|`false`|
-|`animateOnMount`|By default, on mount, all components appear pre-transitioned. This prop will allow mounted components to animate themselves appearing on mount instead.  Note that if `show` is `null` instead of `false`, the "first mount" (and subsequent avoiding of that first animation) won't occur until it's actually  `true` or `false`. This lets you "delay" that logic if need be.|`false`|
-|`measure`|Whether a set of CSS variables corresponding to the current and/or final size of the content should be provided. May cause jank when the animation starts, be sure to test on older hardware. Only used by `Collapse` and its ilk here.|`false`|
-|`exitVisibility`|Controls how components are hidden when their exit transition completes: <ul><li>"hidden": `visibility: hidden`</li><li>"removed": `display: none`</li><li>"inert": No additional styling is applied, but the [`inert`](https://caniuse.com/mdn-api_htmlelement_inert) attribute is applied to the element.</li><li>"visible": No changes are made. __You are responsible for making sure this content is hidden from the tab order, assistive technologies, etc.__</li></ul>|`hidden`|
-|`classBase`|Allows you to change the names of the CSS classes used. Corresponds to the `$transition-class-name` Sass variable.|`"transition"`|
-|`onTransitionUpdate`|A function that will be called any time the direction or phase changes. Does not need to remain constant between renders (you don't need to use `useCallback`).|`false`|
-
-
-To use a transition, simply pass a single HTML element as its child:
+To use a transition, simply wrap the content you want to transition in/out:
 
 ```tsx
 // The div will receive a bunch of props from the parent Fade,
 // like CSS classes and an event handler.
 <Fade show={show}><div>Some text content</div></Fade>
 
+// A <span> will be created, then the same rules apply as above
+<Fade show={show}>Some text content</Fade>
+
 // All those props are merged. This is also fine!
-<Fade show={show}><div className="some-class" style={{ ...something }}>Some text content</div></Fade>
+<Fade show={show} className="some-class">
+    <div className="another-class" style={{ background: "red" }}>Some text content</div>
+</Fade>
 ```
 
+![An animated image showing examples of a card and its contents transitioning in and out in place](collapse.gif?raw=true "Collapse demo image")
 
-In addition, combinations of the above also exist.
-These are extremely easy to compose, and are simply provided for convenience. Even the interaction between `Zoom`'s `transform: scale` and `Slide`'s `transform: translate` is handled just by the CSS, not these components.
+## Basics
 
-* `ClipFade`
-* `CollapseFade`
-* `SlideFade`
-* `ZoomFade`
-* `SlideZoom`
-* `SlideZoomFade`
+This library comes with a number of built-in transitions that are all made using the `useTransition` hook.
 
-`<ZoomFade minBlockSize={0.8} minInlineSize={0.8}>{children}</ZoomFade>` is an easy way to create a Zoom effect that's much more subtle and arguably less distracting for large components, as there's less net movement on-screen.
+`useTransition` simply adds a set of CSS classes, styles, and event handlers to some props that you specify so that they properly render a transition.
 
+For example, this is how `Fade` is implemented:
+```tsx
+// Incoming arguments to control where the fade starts/stops
+const fadeMin = 0;
+const fadeMax = 1;
 
-(Prefer using, e.g., `<SlideZoom />` or `<Transitionable props={...bothProps} />` over `<Slide><Zoom /></Slide>`. When wrapped like the latter, the two components are *unaware* of each other, and each independently create their own `<Transitionable>` that modify the same child. Not *wrong*, but a touch wasteful.)
+// The CSS we wrote for the fade 
+// references these class names and custom properties,
+// but they're not used directly by `useTransition`.
+const fadeProps = {
+    className: `ptl-fade`,
+    style: {
+        [`--ptl-fade-min`]: fadeMin,
+        [`--ptl-fade-max`]: fadeMax,
+    }
+}
 
+// Finally, implement the transition logic
+return useTransition({ transitionParameters: {
+    measure: false,     // Only `true` used for `Collapse`, basically
+    show,
+    duration,
+    animateOnMount,
+    exitVisibility,
+    delayMountUntilShown,
+    onVisibilityChange,
+    propsIncoming: useMergedProps(fadeProps, anyOtherPropsIfYouGotEm)
+}});
+```
+
+Use this pattern to easily implement custom transitions based on CSS properties.
 
 
 ## `Swappable`
@@ -79,12 +77,13 @@ All children in the `Swappable` overlap each other, so only one should have `sho
 </Swappable>
 ```
 
+Also, `Swappable` manipulates the default value of child `useTransition`s' `animateOnMount` so that all components *do not* animate on mount, but once after `Swappable` has mounted, then the children *do* animate when mounted. The end result is that the child transitions will appear (or be hidden) instantly on mount, but if a visible child mounts afterwards, it will animate in (this does not carry over to sub-descendants -- just the first "generation" of children). You can control this behavior with `childrenAnimateOnMount` (default: `null`).
+
 `Swappable` uses `display: grid` internally, so you can control whether it uses `grid` or `inline-grid` either by using a `span` instead of a `div` (or any other HTML element that's inline by default), or by passing `inline={true|false}`.
 
-The `Slide` component this library comes with has special handling for sliding to/from 0 that allows it to work well with scenarios like the following:
+The `Slide` and `Fade` components this library come with special handling for sliding to/from `null` that allows it to work well with scenarios like the following:
 
 ````tsx
-
 const [selectedIndex, setSelectedIndex] = useState(0);
 
 <Swappable>
@@ -100,33 +99,113 @@ const [selectedIndex, setSelectedIndex] = useState(0);
             // so it animates correctly.
             for (let index = 0; index < 5; ++index)
                 yield (
-                    <Slide show={selectedIndex == index} slideBlock={index - selectedIndex}>
+                    <Slide show={selectedIndex == index} slideBlock={(index - selectedIndex) || null}>
                         <div>{randomContent[index]}</div>
-                    </Slide>)
+                    </Slide>
+                );
         })()))}
     </span>
 </Swappable>
 ````
 
 
+## Built-ins
+
+|Component|Props|Description|
+|---|---|---|
+|`Fade`|<ul><li>`fadeMin`</li><li>`fadeMax`</li></ul>|Simple opacity-based transition. `fadeMin` and `fadeMax` are, like the rest of all these props, are simply forwarded on as CSS variables.|
+|`Clip`|<ul><li>`clipOrigin{\|Inline\|Block}`</li><li>`clipMin{\|Inline\|Block}`</li></ul>|Use `clip-path` to animate in/out. Note that `Inline` and `Block` are used instead of `X` and `Y` so the effect is consistent regardless of `writing-mode`. In some cases, this can be a more performant alternative to `<Collapse />` if you're not picky about border styles.|
+|`Slide`|<ul><li>`slide{Inline\|Block}`</li></ul>|Slide the element out to the target position. A value of `null` for `slideInline` or `slideBlock` has the special meaning of "transition in from the last non-zero value" so that you don't need to keep track of what that was for each.|
+|`Zoom`|<ul><li>`zoomOrigin{\|Inline\|Block}`</li><li>`zoomMin{\|Inline\|Block}`</li></ul>|Simple `transform: scale`-based transition.|
+|`Collapse`|<ul><li>`minBlockSize`</li></ul>|Animate `height` (in horizontal languages, or `width` in vertial languages, or just `block-size` regardless) between `auto` and `0` (or some custom `minBlockSize`, like `10em`). Be sure to use caution, as animating these sorts of properties is *not* cheap for the browser to do and you may drop below 60fps on lower-powered devices.|
+|`Flip`|<ul><li>`flipAngle{\|Inline\|Block}`</li><li>`perspective`</li></ul>|A 3D card-flipping effect. If you make the timing function linear (or symmetrical), then by taking advantage of the fact that the back face is not visible, it can work well in a `Swappable` with a `flipAngle` of 180.|
+
+Note that `Slide` and `Flip` can be easily animated to slide to the left or right depending on if they should appear "before" or "after. For example, if a given `Slide` is the 3rd out of 10 in a TabPanel (or similar construction), an easy way to animate it would be `slideTargetInline={(index - currentIndex) || null}`.
+
+In addition, `useTransition` and all built-ins listed above provide the following options:
+
+|Prop name|Description|Default|
+|---|---|---|
+|`show`|Controls if the content is visible or not. Passing `null` is the same as passing `false`, except when `animateOnMount` is `true`; in that case, `null` tells `animateOnMount` to wait for a non-`null` value to actually do that animation.|`false`|
+|`animateOnMount`|By default, on mount, all components appear pre-transitioned (except within a `Swappable`&mdash;see above). This prop will allow mounted components to animate themselves appearing/disappearing on mount instead.  Note that if `show` is `null` instead of `false`, the "first mount" (and subsequent avoiding of that first animation) won't occur until it's actually  `true` or `false`. This lets you "delay" that logic if need be.|`false`|
+|`measure`|Whether a set of CSS variables corresponding to the current and/or final size of the content should be provided. May cause jank when the animation starts, be sure to test on older hardware. Only used by `Collapse` and its ilk here.|`false`|
+|`exitVisibility`|Controls how components are hidden when their exit transition completes: <ul><li>"hidden": `visibility: hidden`</li><li>"removed": `display: none`</li><li>"inert": No additional styling is applied, but the [`inert`](https://caniuse.com/mdn-api_htmlelement_inert) attribute is applied to the element.</li><li>"visible": No changes are made. __You are responsible for making sure this content is hidden from the tab order, assistive technologies, etc.__ An example is a Tooltip, which must be reachable even before/after it's shown.</li></ul>|`hidden`|
+
+In addition, combinations of the built-ins also exist purely for convenience.
+
+* `ClipFade`
+* `CollapseFade`
+* `SlideFade`
+* `ZoomFade`
+* `SlideZoom`
+* `SlideZoomFade`
+
+These are trivial to implement; for example, `CollapseFade` is simply:
+```tsx
+return useTransition({
+    transitionParameters: {
+        measure: true,
+        show,
+        duration,
+        animateOnMount,
+        exitVisibility,
+        delayMountUntilShown,
+        onVisibilityChange,
+        propsIncoming: useMergedProps<E>(
+            useBasePropsFade({ fadeParameters: { fadeMax, fadeMin } }),
+            useBasePropsCollapse({ collapseParameters: { minBlockSize } }),
+            { ref, ...rest }
+        )
+    }
+});
+```
+
+`<ZoomFade minBlockSize={0.8} minInlineSize={0.8}>{children}</ZoomFade>` is an easy way to create a Zoom effect that's much more subtle and arguably less distracting for large components, as there's less net movement on-screen.
+
+
+(Prefer using, e.g., `<SlideZoom />` over `<Slide><Zoom /></Slide>`. When wrapped like the latter, the two components are *unaware* of each other, and each independently run their own `useTransition` logic that modifes the same child. Not *wrong*, but a touch wasteful.)
+
+## The algorithm
+
+Firstly, note that we keep track of some internal state: `direction` and `phase`.
+* `direction` can be `"enter"` or `"exit"`. It's whether we're transitioning towards visible (`"enter"`) or hidden (`"exit"`)
+* `phase` can be `"init"`, `"transition"`, or `"finalize"`, changing from one to the next as the transition plays.
+    * `"init"` is the first frame of the animation. It has `transition: none` applied to ensure that we "snap" to this position when applicable. (The measurement class also has this property.)
+    * `"transition"` is every subsequent frame until the transition ends
+    * `"finalize"` is after the transition has played to completion (or an emergency timeout fires).
+
+Now for the actual algorithm:
+
+1. Whenver `show` is changed to be `true` or `false`:
+    * `direction` is set to `"enter"` if `show` is `true`, and `"exit"` otherwise.
+    * `phase` becomes `"init"`. **EXCEPTIONS:**
+        * `phase` snaps straight to `"finalize"` if we just mounted and `animateOnMount` is `false` (the default).
+        * `phase` stays as `"transition"` if we're still in the middle of a transition currently.
+    * Notably, when `show` is `null` (i.e. *not* `true` or `false`), these steps are skipped entirely.
+2. Whenver the `direction` or `phase` changes (either from step 1 or recursively from a reason below):
+    * If `measure` is `true`, perform the following steps:
+        * Add the classes used for measurement
+        * Pretend `direction` is `"enter"` and `phase` is `"finalize"` and apply those classes to the element
+        * Measure the element's dimensions, and record them as custom CSS properties
+        * Remove the measurement classes
+    * Apply the classes that correspond to the requested `direction` and `phase`
+    * Force a reflow
+    * The `inert` attribute is applied or removed as requested by `exitVisibility`.
+    * Clear any of the "waits" below.
+    * Do something different based on the new phase:
+        * `"init"`:
+            * Wait one frame
+            * Change the phase to `"transition"` (implicitly running step 2 again).
+        * `"transition"`:
+            * Wait until the transition ends
+                * `onTransitionEnd` is used, with `setTimeout` as an emergency backup
+            * Change the phase to `"finalize"` (implicitly running step 2 again).
+        * `"finalize"`:
+            * Nothing additional needs to be done.
+    
+
 ## CSS Classes
-
-The `<Transition>` component adds/removes classes in the following order. In all cases, the current class name is built with the following formula:
-
-`${classBase}-${direction}-${phase}`.  For example, `transition-enter-init`.
-
-1. When the `show` state is updated, change the direction and set the phase to "init".
-    * *If this is the first time rendering*, then unless `animateOnMount` is given we set the phase to "finalize" instead.
-2. If measuring is requested, measure the current size of our content at whatever point in the transition we're at and provide this as a set of CSS variables.
-    * In addition, if we're transitioning away from a "finalize" phase, measure the current size of our content at its "auto" size.
-3. The change in phase from step 1 causes a re-render immediately (before the browser paints).
-4. Now that the phase is "init", set the phase to "transition".
-5. The change in phase causes a re-render immediately (before the browser paints).
-6. Now that the phase is "transition", wait for a "transitionEnd" event.
-7. Finally, with no more changes, yield control and let the browser paint. 
-8. When `transitionend` is fired, set the phase to "finalize" (which causes a re-render).
-
-<hr />
+// TODO: Outdated class names
 
 Something like a fade transition would be created like this:
 ````scss
@@ -147,101 +226,4 @@ Something like a fade transition would be created like this:
 
 <hr />
 
-By default, approx. the following styles are provided: (simplified, see base.scss for the full definitions)
-````scss
-// Because transitions don't inherit well at all, 
-// we just set almost everything to transition by default.
-// You can override this, but then you'll need to
-// make your own, e.g. .fade-zoom classes with transitions
-// that affect just those two properties
-.transition-enter, .transition-exit { 
-  transition: all 175ms ease-in-out, 
-              visibility 0ms linear, 
-              transform-origin 0ms linear; 
-  }
-
-// Make sure we don't animate when switching to these states
-.transition-enter.transition-enter-init { transition: none; }
-.transition-exit.transition-exit-init  { transition: none; }
-
-// Make sure nothing is visible on the accessability tree
-// (including disabling focus to anything inside)
-.transition-exit-finalize  { visibility: hidden; }
-
-@media (prefers-reduced-motion) { 
-    // Usually some additional CSS is also needed
-    // for any individual transition for it to undo itself,
-    // but the basic idea is to just disable all transitions except opacity,
-    // at least to start with.
-    .transition-enter { transition: opacity 175ms ease-in-out; }
-    .transition-exit  { transition: opacity 175ms ease-in-out; }
-
-    // Provide a basic fade transition, no matter what was there before.
-    .transition-enter-init, .transition-exit-transition, .transition-exit-finalize { opacity: 0; }
-    .transition-exit-init, .transition-enter-transition, .transition-enter-finalize { opacity: 1; }
-}
-````
-
-## Custom Transitions and useCreateTransitionableProps
-
-TODO: This is all outdated and overly complicated
-
-You generally won't need to care about `useCreateTransitionableProps` or the other `useCreate*Props` hooks -- to build a custom Transition, the following is usually enough:
-
-````tsx
-function CustomTransition(props) {
-    const transitionableProps: CreateTransitionableProps = { 
-        // Configure "measure" or other props if you need them
-        ... 
-    };
-
-    // All you additionally need is just a class name,
-    // maybe some styles based on props passed in.
-    const mergedProps = useMergedProps({ className: "my-custom-transition" }, props);
-    return <Transitionable {...useCreateTransitionableProps(transitionableProps, mergedProps)} />
-}
-````
-
-That said,
-
-Every component, like `<Zoom>`, comes with a corresponding hook, `useCreateZoomProps`, that takes the same props as its component.  These functions return a set of relatively bare props to send to an HTMLElement (and any additional props to send to the `<Transitionable>`, like `measure`).  For example, `useCreateZoomProps` simply returns the following:
-
-
-
-````tsx
-{
-    className: `${classBase}-zoom`,
-    classBase,
-    style: { /* CSS variables */ } as h.JSX.CSSProperties,
-};
-````
-
-Before returning, however, the hook will merge those props with any you might have passed in as a second argument. This is a shorthand provided because it's *always* required to merge the transition's props with the user's props anyway, but it's not required to use.
-
-````tsx
- // If you're forwarding a ref (which you should) use { ...props, ref } instead of props.
-const userProps = props;   
-const zoomProps = useMergedProps({ className: `transition-zoom`, [...] }, props);
-````
-
-Finally, simply send the merged props into your `<Transitionable>`, which will take those props, props from the child, and its own `useCreateTransitionableProps` props, merge them all, and pass them to the child.
-
-````tsx
-return <Transitionable {...zoomProps} />;
-````
-
-
-To merge two transitions, like zoom and fade, simply take a `<Zoom>` transition and pass it props from `useCreateFadeProps`:
-
-````tsx
-const userProps = props;
-const fadeProps = useCreateFadeProps({  }, userProps);
-
-// We don't even need useCreateZoomProps, because Zoom does that already.
-return <Zoom {...fadeProps} />;
-````
-
-Please note that, unlike a `<Transitionable>` component, which will take in unknown props and pass them along, `useCreateTransitionableProps` is *purely* a starting point and will not pass through any unknown props.
-
-However, because you must always merge its result with incoming user props regardless, each of these hooks accepts a second argument, which is a bag of properties to additionally merge with.
-
+When the user has enabled `prefers-reduced-motion`, only a basic fade animation is ever used. 

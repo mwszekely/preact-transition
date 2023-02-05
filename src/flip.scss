@@ -2,16 +2,16 @@
 @use "./_variables" as *;
 
 
-.#{$transition-class-name} {
-  &.#{$transition-class-name}-flip {
+.#{$transition-class-base} {
+  &.#{$transition-class-base}-flip {
     backface-visibility: hidden;
-    --#{$transition-class-name}-properties: transform;
+    --#{$transition-class-base}-properties: transform;
 
 
-    &.#{$transition-class-name}-enter-init,
-    &.#{$transition-class-name}-exit-transition,
-    &.#{$transition-class-name}-exit-finalize {
-      transform: perspective(var(--#{$transition-class-name}-perspective, 800px)) rotate3d(1, 0, 0, calc(var(--#{$transition-class-name}-flip-angle-x, 0))) rotate3d(0, 1, 0, calc(var(--#{$transition-class-name}-flip-angle-y, 0)));
+    &.#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-init},
+    &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-transition},
+    &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-finalize} {
+      transform: perspective(var(--#{$transition-class-base}-perspective, 800px)) rotate3d(1, 0, 0, calc(var(--#{$transition-class-base}-flip-angle-x, 0))) rotate3d(0, 1, 0, calc(var(--#{$transition-class-base}-flip-angle-y, 0)));
 
       @media (prefers-reduced-motion) {
         transform: none;
@@ -20,10 +20,10 @@
 
 
 
-    &.#{$transition-class-name}-exit-init,
-    &.#{$transition-class-name}-enter-transition,
-    &.#{$transition-class-name}-enter-finalize {
-      transform: perspective(var(--#{$transition-class-name}-perspective, 800px)) rotate3d(1, 0, 0, 0deg) rotate3d(0, 1, 0, 0deg);
+    &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-init},
+    &.#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-transition},
+    &.#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-finalize} {
+      transform: perspective(var(--#{$transition-class-base}-perspective, 800px)) rotate3d(1, 0, 0, 0deg) rotate3d(0, 1, 0, 0deg);
     }
 
 
@@ -33,42 +33,42 @@
 
 
     // Handle converting all our inline and block values to the X and Y coordinates most other CSS expects
-    --#{$transition-class-name}-origin-x: calc(0 + var(--#{$transition-class-name}-origin-inline));
-    --#{$transition-class-name}-origin-y: calc(0 + var(--#{$transition-class-name}-origin-block));
+    --#{$transition-class-base}-origin-x: calc(0 + var(--#{$transition-class-base}-origin-inline));
+    --#{$transition-class-base}-origin-y: calc(0 + var(--#{$transition-class-base}-origin-block));
 
-    &.#{$transition-class-name}-inline-direction-ltr {
-      --#{$transition-class-name}-flip-angle-x: calc(1 * var(--#{$transition-class-name}-flip-angle-inline));
+    &.#{$transition-class-base}-inline-direction-ltr {
+      --#{$transition-class-base}-flip-angle-x: calc(1 * var(--#{$transition-class-base}-flip-angle-inline));
     }
 
-    &.#{$transition-class-name}-inline-direction-rtl {
-      --#{$transition-class-name}-flip-angle-x: calc(-1 * var(--#{$transition-class-name}-flip-angle-inline));
+    &.#{$transition-class-base}-inline-direction-rtl {
+      --#{$transition-class-base}-flip-angle-x: calc(-1 * var(--#{$transition-class-base}-flip-angle-inline));
     }
 
-    &.#{$transition-class-name}-block-direction-ttb {
-      --#{$transition-class-name}-flip-angle-y: calc(1 * var(--#{$transition-class-name}-flip-angle-block));
+    &.#{$transition-class-base}-block-direction-ttb {
+      --#{$transition-class-base}-flip-angle-y: calc(1 * var(--#{$transition-class-base}-flip-angle-block));
     }
 
-    &.#{$transition-class-name}-block-direction-btt {
-      --#{$transition-class-name}-flip-angle-y: calc(-1 * var(--#{$transition-class-name}-flip-angle-block));
+    &.#{$transition-class-base}-block-direction-btt {
+      --#{$transition-class-base}-flip-angle-y: calc(-1 * var(--#{$transition-class-base}-flip-angle-block));
     }
 
 
 
 
-    &.#{$transition-class-name}-block-direction-ltr {
-      --#{$transition-class-name}-flip-angle-x: calc(1 * var(--#{$transition-class-name}-flip-angle-block));
+    &.#{$transition-class-base}-block-direction-ltr {
+      --#{$transition-class-base}-flip-angle-x: calc(1 * var(--#{$transition-class-base}-flip-angle-block));
     }
 
-    &.#{$transition-class-name}-block-direction-rtl {
-      --#{$transition-class-name}-flip-angle-x: calc(-1 * var(--#{$transition-class-name}-flip-angle-block));
+    &.#{$transition-class-base}-block-direction-rtl {
+      --#{$transition-class-base}-flip-angle-x: calc(-1 * var(--#{$transition-class-base}-flip-angle-block));
     }
 
-    &.#{$transition-class-name}-inline-direction-ttb {
-      --#{$transition-class-name}-flip-angle-y: calc(1 * var(--#{$transition-class-name}-flip-angle-inline));
+    &.#{$transition-class-base}-inline-direction-ttb {
+      --#{$transition-class-base}-flip-angle-y: calc(1 * var(--#{$transition-class-base}-flip-angle-inline));
     }
 
-    &.#{$transition-class-name}-inline-direction-btt {
-      --#{$transition-class-name}-flip-angle-y: calc(-1 * var(--#{$transition-class-name}-flip-angle-inline));
+    &.#{$transition-class-base}-inline-direction-btt {
+      --#{$transition-class-base}-flip-angle-y: calc(-1 * var(--#{$transition-class-base}-flip-angle-inline));
     }
   }
 }

@@ -3,15 +3,15 @@
 
 
 
-.#{$transition-class-name} {
-  &.#{$transition-class-name}-slide {
-    --#{$transition-class-name}-properties: transform;
+.#{$transition-class-base} {
+  &.#{$transition-class-base}-slide {
+    --#{$transition-class-base}-properties: transform;
 
 
-    &.#{$transition-class-name}-enter-init,
-    &.#{$transition-class-name}-exit-transition,
-    &.#{$transition-class-name}-exit-finalize {
-      transform: translate(calc(100% * var(--#{$transition-class-name}-slide-target-x, 0)), calc(100% * var(--#{$transition-class-name}-slide-target-y, 0)));
+    &.#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-init},
+    &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-transition},
+    &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-finalize} {
+      transform: translate(calc(100% * var(--#{$transition-class-base}-slide-target-x, 0)), calc(100% * var(--#{$transition-class-base}-slide-target-y, 0)));
 
       @media (prefers-reduced-motion) {
         transform: none;
@@ -20,9 +20,9 @@
 
 
 
-    &.#{$transition-class-name}-exit-init,
-    &.#{$transition-class-name}-enter-transition,
-    &.#{$transition-class-name}-enter-finalize {
+    &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-init},
+    &.#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-transition},
+    &.#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-finalize} {
       transform: translate(0, 0);
     }
 
@@ -33,42 +33,42 @@
 
 
     // Handle converting all our inline and block values to the X and Y coordinates most other CSS expects
-    --#{$transition-class-name}-origin-x: calc(0 + var(--#{$transition-class-name}-origin-inline));
-    --#{$transition-class-name}-origin-y: calc(0 + var(--#{$transition-class-name}-origin-block));
+    --#{$transition-class-base}-origin-x: calc(0 + var(--#{$transition-class-base}-origin-inline));
+    --#{$transition-class-base}-origin-y: calc(0 + var(--#{$transition-class-base}-origin-block));
 
-    &.#{$transition-class-name}-inline-direction-ltr {
-      --#{$transition-class-name}-slide-target-x: calc(1 * var(--#{$transition-class-name}-slide-target-inline));
+    &.#{$transition-class-base}-inline-direction-ltr {
+      --#{$transition-class-base}-slide-target-x: calc(1 * var(--#{$transition-class-base}-slide-target-inline));
     }
 
-    &.#{$transition-class-name}-inline-direction-rtl {
-      --#{$transition-class-name}-slide-target-x: calc(-1 * var(--#{$transition-class-name}-slide-target-inline));
+    &.#{$transition-class-base}-inline-direction-rtl {
+      --#{$transition-class-base}-slide-target-x: calc(-1 * var(--#{$transition-class-base}-slide-target-inline));
     }
 
-    &.#{$transition-class-name}-block-direction-ttb {
-      --#{$transition-class-name}-slide-target-y: calc(1 * var(--#{$transition-class-name}-slide-target-block));
+    &.#{$transition-class-base}-block-direction-ttb {
+      --#{$transition-class-base}-slide-target-y: calc(1 * var(--#{$transition-class-base}-slide-target-block));
     }
 
-    &.#{$transition-class-name}-block-direction-btt {
-      --#{$transition-class-name}-slide-target-y: calc(-1 * var(--#{$transition-class-name}-slide-target-block));
+    &.#{$transition-class-base}-block-direction-btt {
+      --#{$transition-class-base}-slide-target-y: calc(-1 * var(--#{$transition-class-base}-slide-target-block));
     }
 
 
 
 
-    &.#{$transition-class-name}-block-direction-ltr {
-      --#{$transition-class-name}-slide-target-x: calc(1 * var(--#{$transition-class-name}-slide-target-block));
+    &.#{$transition-class-base}-block-direction-ltr {
+      --#{$transition-class-base}-slide-target-x: calc(1 * var(--#{$transition-class-base}-slide-target-block));
     }
 
-    &.#{$transition-class-name}-block-direction-rtl {
-      --#{$transition-class-name}-slide-target-x: calc(-1 * var(--#{$transition-class-name}-slide-target-block));
+    &.#{$transition-class-base}-block-direction-rtl {
+      --#{$transition-class-base}-slide-target-x: calc(-1 * var(--#{$transition-class-base}-slide-target-block));
     }
 
-    &.#{$transition-class-name}-inline-direction-ttb {
-      --#{$transition-class-name}-slide-target-y: calc(1 * var(--#{$transition-class-name}-slide-target-inline));
+    &.#{$transition-class-base}-inline-direction-ttb {
+      --#{$transition-class-base}-slide-target-y: calc(1 * var(--#{$transition-class-base}-slide-target-inline));
     }
 
-    &.#{$transition-class-name}-inline-direction-btt {
-      --#{$transition-class-name}-slide-target-y: calc(-1 * var(--#{$transition-class-name}-slide-target-inline));
+    &.#{$transition-class-base}-inline-direction-btt {
+      --#{$transition-class-base}-slide-target-y: calc(-1 * var(--#{$transition-class-base}-slide-target-inline));
     }
   }
 }

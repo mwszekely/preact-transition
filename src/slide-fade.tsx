@@ -1,33 +1,30 @@
-import { h, Ref } from "preact";
-import { forwardElementRef } from "./forward-element-ref";
-import { createSlideProps, CreateSlideProps, Slide, SlideProps } from "./slide";
-import { createFadeProps, CreateFadeProps, FadeProps } from "./fade";
+import { Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
-import { NonIntrusiveElementAttributes, Transitionable, UseTransitionProps } from "./transitionable";
 import { memo } from "preact/compat";
+import { useBasePropsFade, UseBasePropsFadeParameters } from "./fade";
+import { useBasePropsSlide, UseBasePropsSlideParameters } from "./slide";
+import { useTransition } from "./transitionable";
+import { Get, TransitionParametersBase } from "./util/types";
+import { forwardElementRef } from "./util/util";
 
+export interface SlideFadeProps<E extends Element> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFadeParameters<E>, "fadeParameters">>, Partial<Get<UseBasePropsSlideParameters<E>, "slideParameters">> { };
 
-export interface CreateSlideFadeProps extends CreateFadeProps, CreateSlideProps { }
-export interface SlideFadeProps<E extends HTMLElement> extends Partial<CreateSlideFadeProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
-
-export const SlideFade = memo(forwardElementRef(function SlideFade<E extends HTMLElement>({ classBase, delayMountUntilShown, duration, slideTargetBlock, slideTargetInline, show, animateOnMount, fadeMin, fadeMax, exitVisibility, ...rest }: SlideFadeProps<E>, ref: Ref<E>) {
-    
-    //({ targetBlock: slideTargetBlock, targetInline: slideTargetInline } = useSlideThing({ targetBlock: slideTargetBlock, targetInline: slideTargetInline }));
-
-    return (
-        <Transitionable<E>
-        measure={false}
-        show={show}
-        duration={duration}
-        animateOnMount={animateOnMount}
-        classBase={classBase}
-        exitVisibility={exitVisibility}
-        delayMountUntilShown={delayMountUntilShown}
-        {...useMergedProps<E>(
-                { ref, ...rest },
-                createFadeProps({ classBase, fadeMin, fadeMax }),
-                createSlideProps({ classBase, slideTargetBlock, slideTargetInline })
-            )}
-        />
-    )
+export const SlideFade = memo(forwardElementRef(function SlideFade<E extends HTMLElement>({ duration, fadeMin, fadeMax, show, animateOnMount, delayMountUntilShown, slideTargetBlock, slideTargetInline, exitVisibility, onVisibilityChange, ...rest }: SlideFadeProps<E>, ref: Ref<E>) {
+    return useTransition({
+        transitionParameters: {
+            measure: false,
+            show,
+            duration,
+            animateOnMount,
+            exitVisibility,
+            delayMountUntilShown,
+            onVisibilityChange,
+            propsIncoming: useMergedProps<E>(
+                useBasePropsFade({ fadeParameters: { fadeMax, fadeMin } }),
+                useBasePropsSlide({ slideParameters: { slideTargetBlock, slideTargetInline } }),
+                { ref, ...rest }
+            )
+        },
+        refElementParameters: {}
+    });
 }));

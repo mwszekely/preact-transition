@@ -1,25 +1,22 @@
-import { h, Ref } from "preact";
-import { forwardElementRef } from "./forward-element-ref";
+import { Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
-import { defaultClassBase, NonIntrusiveElementAttributes, Transitionable, TransitionableProps, UseTransitionProps } from "./transitionable";
 import { memo } from "preact/compat";
+import { useCssClasses } from "./util/context";
+import { useTransition } from "./transitionable";
+import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types";
+import { forwardElementRef } from "./util/util";
 
 /**
  * Properties that allow adjusting the direction of the collapse effect.
  */
-export interface CreateCollapseProps {
-    /**
-     * The smallest size the component collapses to.
-     */
-    minBlockSize: string | null | undefined;
+export interface UseBasePropsCollapseParameters<E extends Element> extends UseBasePropsBaseParameters<E> {
 
-    /**
-     * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
-     * @default "transition"
-     */
-    classBase: string | undefined;
-
-    delayMountUntilShown?: boolean;
+    collapseParameters: {
+        /**
+        * The smallest size the component collapses to.
+        */
+        minBlockSize: string | null | undefined;
+    }
 }
 
 /**
@@ -30,17 +27,17 @@ export interface CreateCollapseProps {
  * 
  * @example <Transitionable measure {...useCreateCollapseProps(...)} />
  */
-export function createCollapseProps({ classBase, minBlockSize }: CreateCollapseProps) {
-    classBase = defaultClassBase(classBase);
+export function useBasePropsCollapse<E extends Element>({ collapseParameters: { minBlockSize } }: UseBasePropsCollapseParameters<E>) {
+    const { GetBaseClass } = useCssClasses();
     return {
-        className: `${classBase}-collapse`,
+        className: `${GetBaseClass()}-collapse`,
         style: {
-            [`--${classBase}-collapse-min-block`]: minBlockSize ?? 0
+            [`--${GetBaseClass()}-collapse-min-block`]: minBlockSize ?? 0
         }
     };
 }
 
-export interface CollapseProps<E extends HTMLElement> extends Partial<CreateCollapseProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
+export interface CollapseProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsCollapseParameters<E>, "collapseParameters">> { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Collapse effect.
@@ -51,17 +48,22 @@ export interface CollapseProps<E extends HTMLElement> extends Partial<CreateColl
  * 
  * @see `Transitionable`
  */
-export const Collapse = memo(forwardElementRef(function Collapse<E extends HTMLElement>({ classBase, show, duration, delayMountUntilShown, minBlockSize, animateOnMount, exitVisibility, ...rest }: CollapseProps<E>, ref: Ref<E>) {
-    return (
-        <Transitionable<E>
-            measure={true}
-            show={show}
-            duration={duration}
-            animateOnMount={animateOnMount}
-            classBase={classBase}
-            exitVisibility={exitVisibility}
-            delayMountUntilShown={delayMountUntilShown}
-            {...useMergedProps<E>({ ref, ...rest }, createCollapseProps({ classBase, minBlockSize }))}
-        />
-    )
+export const Collapse = memo(forwardElementRef(function Collapse<E extends HTMLElement>({ show, duration, delayMountUntilShown, minBlockSize, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: CollapseProps<E>, ref: Ref<E>) {
+
+    return useTransition({
+        transitionParameters: {
+            measure: true,
+            show,
+            duration,
+            animateOnMount,
+            exitVisibility,
+            delayMountUntilShown,
+            onVisibilityChange,
+            propsIncoming: useMergedProps<E>(
+                useBasePropsCollapse({ collapseParameters: { minBlockSize } }),
+                { ref, ...rest },
+            )
+        },
+        refElementParameters: {}
+    });
 }));

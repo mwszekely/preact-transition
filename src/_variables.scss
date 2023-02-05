@@ -1,6 +1,12 @@
 
 // Corresponds to classBase in any given Transitionable
-$transition-class-name: ptl !default;
+$transition-class-base: ptl !default;
+$transition-class-enter: n !default;
+$transition-class-exit: x !default;
+$transition-class-measure: m !default;
+$transition-class-init: i !default;
+$transition-class-transition: t !default;
+$transition-class-finalize: f !default;
 
 $transition-default-duration: 175ms !default;
 

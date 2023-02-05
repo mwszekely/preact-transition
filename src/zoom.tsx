@@ -1,93 +1,95 @@
 import { h, Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
-import { forwardElementRef } from "./forward-element-ref";
-import { defaultClassBase, NonIntrusiveElementAttributes, Transitionable, TransitionableProps, UseTransitionProps } from "./transitionable";
+import { useCssClasses } from "./util/context";
+import { useTransition } from "./transitionable";
+import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types";
+import { forwardElementRef } from "./util/util";
 
 /**
  * Properties that allow adjusting the origin, minimum size, and direction of the zoom effect.
  */
-export interface CreateZoomProps {
+export interface UseBasePropsZoomParameters<E extends Element> extends UseBasePropsBaseParameters<E> {
+    zoomParameters: {
+        /**
+         * The target point to zoom out of/into (with X & Y components identical)
+         * @default 0.5
+         */
+        zoomOrigin: number | null | undefined;
 
-    /**
-     * The target point to zoom out of/into (with X & Y components identical)
-     * @default 0.5
-     */
-    zoomOrigin: number | null | undefined;
+        /**
+         * The target point to zoom out of/into (X component)
+         * @default 0.5
+         */
+        zoomOriginInline: number | undefined | null;
 
-    /**
-     * The target point to zoom out of/into (X component)
-     * @default 0.5
-     */
-    zoomOriginInline: number | undefined | null;
+        /**
+         * The target point to zoom out of/into (Y component)
+         * @default 0.5
+         */
+        zoomOriginBlock: number | undefined | null;
 
-    /**
-     * The target point to zoom out of/into (Y component)
-     * @default 0.5
-     */
-    zoomOriginBlock: number | undefined | null;
+        /**
+         * The minimum size to shrink to/from, from 0 to 1 (with X & Y components identical).
+         * @default 0
+         */
+        zoomMin: number | null | undefined;
 
-    /**
-     * The minimum size to shrink to/from, from 0 to 1 (with X & Y components identical).
-     * @default 0
-     */
-    zoomMin: number | null | undefined;
+        /**
+         * The minimum size to shrink to/from, from 0 to 1 (X component in horizontal writing modes).
+         * @default 0
+         */
+        zoomMinInline: number | undefined | null;
 
-    /**
-     * The minimum size to shrink to/from, from 0 to 1 (X component in horizontal writing modes).
-     * @default 0
-     */
-    zoomMinInline: number | undefined | null;
-
-    /**
-     * The minimum size to shrink to/from, from 0 to 1 (Y component in horizontal writing modes).
-     * @default 0
-     */
-    zoomMinBlock: number | undefined | null;
-
-    /**
-     * Allows customizing the class name used (in the format of `${classBase}-swap-container`)
-     * @default "transition"
-     */
-    classBase: string | undefined;
-
-    delayMountUntilShown?: boolean;
+        /**
+         * The minimum size to shrink to/from, from 0 to 1 (Y component in horizontal writing modes).
+         * @default 0
+         */
+        zoomMinBlock: number | undefined | null;
+    }
 }
 
 /**
  * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
  */
-export function createZoomProps({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock }: Partial<CreateZoomProps>) {
-    classBase = defaultClassBase(classBase);
+export function useBasePropsZoom<E extends Element>({ zoomParameters: { zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock } }: UseBasePropsZoomParameters<E>) {
+    const { GetBaseClass } = useCssClasses();
     return ({
-        className: `${classBase}-zoom`,
+        className: `${GetBaseClass()}-zoom`,
         style: {
-            [`--${classBase}-zoom-origin-inline`]: `${(zoomOriginInline ?? zoomOrigin ?? 0.5)}`,
-            [`--${classBase}-zoom-origin-block`]: `${(zoomOriginBlock ?? zoomOrigin ?? 0.5)}`,
-            [`--${classBase}-zoom-min-inline`]: `${(zoomMinInline ?? zoomMin ?? 0)}`,
-            [`--${classBase}-zoom-min-block`]: `${(zoomMinBlock ?? zoomMin ?? 0)}`,
+            [`--${GetBaseClass()}-zoom-origin-inline`]: `${(zoomOriginInline ?? zoomOrigin ?? 0.5)}`,
+            [`--${GetBaseClass()}-zoom-origin-block`]: `${(zoomOriginBlock ?? zoomOrigin ?? 0.5)}`,
+            [`--${GetBaseClass()}-zoom-min-inline`]: `${(zoomMinInline ?? zoomMin ?? 0)}`,
+            [`--${GetBaseClass()}-zoom-min-block`]: `${(zoomMinBlock ?? zoomMin ?? 0)}`,
         } as h.JSX.CSSProperties,
     });
 }
 
-export interface ZoomProps<E extends HTMLElement> extends Partial<CreateZoomProps>, Omit<UseTransitionProps, "measure">, NonIntrusiveElementAttributes<E> { };
+export interface ZoomProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsZoomParameters<E>, "zoomParameters">> { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
  * @see `Transitionable` `ZoomFade`
  */
-export const Zoom = memo(forwardElementRef(function Zoom<E extends HTMLElement>({ classBase, duration, delayMountUntilShown, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, ...rest }: ZoomProps<E>, ref: Ref<E>) {
+export const Zoom = memo(forwardElementRef(function Zoom<E extends HTMLElement>({ duration, delayMountUntilShown, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: ZoomProps<E>, ref: Ref<E>) {
+
     return (
-        <Transitionable<E>
-        measure={false}
-        show={show}
-        duration={duration}
-        animateOnMount={animateOnMount}
-        classBase={classBase}
-        exitVisibility={exitVisibility}
-        delayMountUntilShown={delayMountUntilShown}
-        {...useMergedProps<E>(createZoomProps({ classBase, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock }), { ...rest, ref })}
-        />
+        useTransition({
+            transitionParameters: {
+                measure: false,
+                show,
+                duration,
+                animateOnMount,
+                exitVisibility,
+                delayMountUntilShown,
+                onVisibilityChange,
+                propsIncoming: useMergedProps<E>(
+                    useBasePropsZoom({ zoomParameters: { zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline } }),
+                    { ref, ...rest },
+                )
+            },
+            refElementParameters: {}
+        })
     );
 }));
 
