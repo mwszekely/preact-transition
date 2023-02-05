@@ -160,12 +160,8 @@ export function useTransition<E extends HTMLElement>({ transitionParameters: { p
         if (nextState == null)
             return;
 
-        debugger;
-
-
         const [nextDirection, nextPhase] = parseState(nextState);
         const element = getElement();
-
 
         // Make sure no stale change code ever runs
         if (timeoutHandle.current >= 0 && timeoutClearFunction.current)
