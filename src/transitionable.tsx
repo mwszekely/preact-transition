@@ -288,15 +288,15 @@ export function useTransition<E extends HTMLElement>({ transitionParameters: { p
     easingOut ??= easing;
 
     if (easingOut != null)
-        cssProperties.current[`--${GetBaseClass()}-timing-function-out`] = easingOut;
+        cssProperties.current[`--${GetBaseClass()}-${GetExitClass()}-timing-function`] = easingOut;
     else
-        delete cssProperties.current[`--${GetBaseClass()}-timing-function-out`];
+        delete cssProperties.current[`--${GetBaseClass()}-${GetExitClass()}-timing-function`];
 
 
     if (easingIn != null)
-        cssProperties.current[`--${GetBaseClass()}-timing-function-in`] = easingIn;
+        cssProperties.current[`--${GetBaseClass()}-${GetEnterClass()}-timing-function`] = easingIn;
     else
-        delete cssProperties.current[`--${GetBaseClass()}-timing-function-in`];
+        delete cssProperties.current[`--${GetBaseClass()}-${GetEnterClass()}-timing-function`];
 
 
 
