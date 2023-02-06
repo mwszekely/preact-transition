@@ -27,6 +27,27 @@ export interface UseTransitionParameters<E extends Element> extends UseRefElemen
     transitionParameters: {
 
         /**
+         * The easing to use for the transition.
+         * 
+         * If undefined, it's the same value as defined in the corresponding Sass variable.
+         */
+        easing?: string;
+
+        /**
+         * The easing to use when `show` becomes `true`.
+         * 
+         * If unspecified, it's the same value as `easing`.
+         */
+        easingIn?: string;
+
+        /**
+         * The easing to use when `show` becomes `false`.
+         * 
+         * If unspecified, it's the same value as `easing`.
+         */
+        easingOut?: string;
+
+        /**
          * These props will be merged with whatever's necessary to provide transitions (CSS classes, styles, events, etc.)
          * and returned as a separate object.
          * 

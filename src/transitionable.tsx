@@ -26,7 +26,7 @@ function parseState(nextState: TransitionState) {
  * @param param0 
  * @returns 
  */
-export function useTransition<E extends HTMLElement>({ transitionParameters: { propsIncoming: { children, ...p }, show, animateOnMount, measure, exitVisibility, duration, delayMountUntilShown, onVisibilityChange }, refElementParameters }: UseTransitionParameters<E>): VNode<h.JSX.HTMLAttributes<E>> | null {
+export function useTransition<E extends HTMLElement>({ transitionParameters: { propsIncoming: { children, ...p }, show, animateOnMount, measure, exitVisibility, duration, delayMountUntilShown, easing, easingIn, easingOut, onVisibilityChange }, refElementParameters }: UseTransitionParameters<E>): VNode<h.JSX.HTMLAttributes<E>> | null {
     //const [isVisible, setIsVisible] = useState(false);
     const { getAnimateOnMount } = useContext(SwappableContext);
     exitVisibility ||= "hidden"
@@ -283,6 +283,20 @@ export function useTransition<E extends HTMLElement>({ transitionParameters: { p
         cssProperties.current[`--${GetBaseClass()}-duration`] = duration + "ms";
     else
         delete cssProperties.current[`--${GetBaseClass()}-duration`];
+
+    easingIn ??= easing;
+    easingOut ??= easing;
+
+    if (easingOut != null)
+        cssProperties.current[`--${GetBaseClass()}-timing-function-out`] = easingOut;
+    else
+        delete cssProperties.current[`--${GetBaseClass()}-timing-function-out`];
+
+
+    if (easingIn != null)
+        cssProperties.current[`--${GetBaseClass()}-timing-function-in`] = easingIn;
+    else
+        delete cssProperties.current[`--${GetBaseClass()}-timing-function-in`];
 
 
 
