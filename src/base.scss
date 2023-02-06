@@ -27,11 +27,11 @@
 
 
     &.#{$transition-class-base}-#{$transition-class-enter} {
-        transition-timing-function: var(--#{$transition-class-base}-#{$transition-class-enter}-timing-function-in, #{$transition-default-timing-function-in});
+        transition-timing-function: var(--#{$transition-class-base}-#{$transition-class-enter}-timing-function, #{$transition-default-timing-function-in});
     }
 
     &.#{$transition-class-base}-#{$transition-class-exit} {
-        transition-timing-function: var(--#{$transition-class-base}-#{$transition-class-exit}-timing-function-out, #{$transition-default-timing-function-out});
+        transition-timing-function: var(--#{$transition-class-base}-#{$transition-class-exit}-timing-function, #{$transition-default-timing-function-out});
     }
 
     &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-finalize} {
