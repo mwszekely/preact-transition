@@ -2,8 +2,8 @@ import clsx from "clsx";
 import { h, Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
-import { useCssClasses } from "./util/context";
 import { useTransition } from "./transitionable";
+import { useCssClasses } from "./util/context";
 import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types";
 import { forwardElementRef } from "./util/util";
 
@@ -80,6 +80,5 @@ export const Clip = memo(forwardElementRef(function Clip<E extends HTMLElement>(
                 { ref, ...rest }
             )
         },
-        refElementParameters: {}
     });
 }))

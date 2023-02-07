@@ -1,5 +1,4 @@
 import { h } from "preact";
-import { UseRefElementParameters } from "preact-prop-helpers";
 
 export type ExitVisibility = "inert" | "removed" | "hidden" | "visible"
 
@@ -23,7 +22,7 @@ export interface UseBasePropsBaseParameters<E extends Element> /*extends UseRefE
     //transitionParameters: Pick<UseTransitionParameters<E>["transitionParameters"], Needed>;
 }
 
-export interface UseTransitionParameters<E extends Element> extends UseRefElementParameters<E> {
+export interface UseTransitionParameters<E extends Element> {
     transitionParameters: {
 
         /**

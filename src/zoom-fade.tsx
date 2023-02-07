@@ -25,8 +25,7 @@ export const ZoomFade = memo(forwardElementRef(function ZoomFade<E extends HTMLE
                     useBasePropsZoom({ zoomParameters: { zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline } }),
                     { ref, ...rest },
                 )
-            },
-            refElementParameters: {}
+            }
         })
     );
 }));

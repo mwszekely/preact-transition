@@ -1,8 +1,8 @@
 import { h, Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
-import { useCssClasses } from "./util/context";
 import { useTransition } from "./transitionable";
+import { useCssClasses } from "./util/context";
 import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types";
 import { forwardElementRef, useLastNonNullValue } from "./util/util";
 
@@ -76,7 +76,6 @@ export const Flip = memo(forwardElementRef(function Flip<E extends HTMLElement>(
                 useBasePropsFlip({ flipParameters: { flipAngleBlock, flipAngleInline, flipPerspective } }),
                 { ref, ...rest },
             )
-        },
-        refElementParameters: {}
+        }
     });
 }));

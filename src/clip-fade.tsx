@@ -26,7 +26,6 @@ export const ClipFade = memo(forwardElementRef(function ClipFade<E extends HTMLE
                 { ref, ...rest }
             )
         },
-        refElementParameters: {}
     });
 }));
 

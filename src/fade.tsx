@@ -1,9 +1,9 @@
 import { h, Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
-import { useCssClasses } from "./util/context";
 import { useTransition } from "./transitionable";
-import { Get, PseudoPartial, TransitionParametersBase, UseBasePropsBaseParameters, UseTransitionParameters } from "./util/types";
+import { useCssClasses } from "./util/context";
+import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types";
 import { forwardElementRef } from "./util/util";
 
 /**
@@ -53,14 +53,16 @@ export interface FadeProps<E extends HTMLElement> extends TransitionParametersBa
  * @see `Transitionable`
  */
 export const Fade = memo(forwardElementRef(function Fade<E extends HTMLElement>({ duration, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: FadeProps<E>, ref: Ref<E>) {
-    return useTransition({ transitionParameters: {
-        measure: false,
-        show,
-        duration,
-        animateOnMount,
-        exitVisibility,
-        delayMountUntilShown,
-        onVisibilityChange,
-        propsIncoming: useMergedProps<E>({ ref, ...rest }, useBasePropsFade({ fadeParameters: { fadeMax, fadeMin } }))
-    }, refElementParameters: {} });
+    return useTransition({
+        transitionParameters: {
+            measure: false,
+            show,
+            duration,
+            animateOnMount,
+            exitVisibility,
+            delayMountUntilShown,
+            onVisibilityChange,
+            propsIncoming: useMergedProps<E>({ ref, ...rest }, useBasePropsFade({ fadeParameters: { fadeMax, fadeMin } }))
+        }
+    });
 }));

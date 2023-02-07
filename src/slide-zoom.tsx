@@ -24,7 +24,6 @@ export const SlideZoom = memo(forwardElementRef(function SlideZoom<E extends HTM
                 useBasePropsZoom({ zoomParameters: { zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline } }),
                 useBasePropsSlide({ slideParameters: { slideTargetBlock, slideTargetInline } }),
             )
-        },
-        refElementParameters: {}
+        }
     });
 }));

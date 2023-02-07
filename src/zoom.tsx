@@ -1,8 +1,8 @@
 import { h, Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
-import { useCssClasses } from "./util/context";
 import { useTransition } from "./transitionable";
+import { useCssClasses } from "./util/context";
 import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types";
 import { forwardElementRef } from "./util/util";
 
@@ -87,8 +87,7 @@ export const Zoom = memo(forwardElementRef(function Zoom<E extends HTMLElement>(
                     useBasePropsZoom({ zoomParameters: { zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline } }),
                     { ref, ...rest },
                 )
-            },
-            refElementParameters: {}
+            }
         })
     );
 }));

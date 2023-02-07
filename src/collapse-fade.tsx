@@ -25,6 +25,5 @@ export const CollapseFade = memo(forwardElementRef(function CollapseFade<E exten
                 { ref, ...rest }
             )
         },
-        refElementParameters: {}
     });
 }));

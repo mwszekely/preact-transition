@@ -26,7 +26,6 @@ export const SlideZoomFade = memo(forwardElementRef(function SlideZoomFade<E ext
                 useBasePropsFade({ fadeParameters: { fadeMax, fadeMin } }),
                 { ref, ...rest }
             )
-        },
-        refElementParameters: {}
+        }
     });
 }));

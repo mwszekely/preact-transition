@@ -26,7 +26,7 @@ function parseState(nextState: TransitionState) {
  * @param param0 
  * @returns 
  */
-export function useTransition<E extends HTMLElement>({ transitionParameters: { propsIncoming: { children, ...p }, show, animateOnMount, measure, exitVisibility, duration, delayMountUntilShown, easing, easingIn, easingOut, onVisibilityChange }, refElementParameters }: UseTransitionParameters<E>): VNode<h.JSX.HTMLAttributes<E>> | null {
+export function useTransition<E extends HTMLElement>({ transitionParameters: { propsIncoming: { children, ...p }, show, animateOnMount, measure, exitVisibility, duration, delayMountUntilShown, easing, easingIn, easingOut, onVisibilityChange } }: UseTransitionParameters<E>): VNode<h.JSX.HTMLAttributes<E>> | null {
     //const [isVisible, setIsVisible] = useState(false);
     const { getAnimateOnMount } = useContext(SwappableContext);
     exitVisibility ||= "hidden"
@@ -37,7 +37,7 @@ export function useTransition<E extends HTMLElement>({ transitionParameters: { p
     const getExitVisibility = useStableGetter(exitVisibility);
     const { GetBaseClass, GetEnterClass, GetExitClass, GetMeasureClass, GetInitClass, GetTransitionClass, GetFinalizeClass, GetDirectionClass, GetPhaseClass } = useCssClasses();
 
-    const { refElementReturn, refElementReturn: { getElement, propsStable } } = useRefElement<E>({ refElementParameters })
+    const { refElementReturn, refElementReturn: { getElement, propsStable } } = useRefElement<E>({ })
     const cssProperties = useRef<h.JSX.CSSProperties>({});
     const classNames = useRef(new Set<string>([
         // This is removed during useLayoutEffect on the first render

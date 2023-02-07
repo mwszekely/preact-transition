@@ -24,7 +24,6 @@ export const SlideFade = memo(forwardElementRef(function SlideFade<E extends HTM
                 useBasePropsSlide({ slideParameters: { slideTargetBlock, slideTargetInline } }),
                 { ref, ...rest }
             )
-        },
-        refElementParameters: {}
+        }
     });
 }));
