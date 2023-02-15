@@ -37,7 +37,7 @@ export function useTransition<E extends HTMLElement>({ transitionParameters: { p
     const getExitVisibility = useStableGetter(exitVisibility);
     const { GetBaseClass, GetEnterClass, GetExitClass, GetMeasureClass, GetInitClass, GetTransitionClass, GetFinalizeClass, GetDirectionClass, GetPhaseClass } = useCssClasses();
 
-    const { refElementReturn, refElementReturn: { getElement, propsStable } } = useRefElement<E>({ })
+    const { refElementReturn: { getElement, propsStable } } = useRefElement<E>({})
     const cssProperties = useRef<h.JSX.CSSProperties>({});
     const classNames = useRef(new Set<string>([
         // This is removed during useLayoutEffect on the first render
@@ -225,6 +225,7 @@ export function useTransition<E extends HTMLElement>({ transitionParameters: { p
         }
     }, []);
 
+    
     const [getState, setState] = usePassiveState<TransitionState | null, undefined>(onStateChange, returnNull, runImmediately);
 
 
@@ -233,23 +234,10 @@ export function useTransition<E extends HTMLElement>({ transitionParameters: { p
     useLayoutEffect(() => {
 
         // If `show` is null, then we don't change anything.
-        if (show == null)
+        if (show == null) 
             return;
 
-        // `show` is true or false (as opposed to null).
-        // If this is our first time seeing a non-null value, 
-        // then remove the class that indicates the no transition logic has started.
-        // (Because this is useLayoutEffect, it will take effect before the class's effects are painted)
-        if (!hasMounted.current) {
-            classNames.current.delete(`${GetBaseClass()}-pending`);
-            const element = getElement();
-            if (element) {
-                element.classList.remove(`${GetBaseClass()}-pending`);
-                // Because the pending class often makes this hidden or d-none, 
-                // force a reflow juuust to be safe.
-                forceReflow(element);
-            }
-        }
+        // (If `show` is true/false, we'll remove the CSS classes during `onChange`)
 
         const currentState = getState();
         let nextPhase: TransitionPhase = measure ? "measure" : "init";
@@ -323,6 +311,7 @@ export function useTransition<E extends HTMLElement>({ transitionParameters: { p
     const finalProps = useMergedProps<E>(p, propsStable, otherProps.current, {
         className: [
             ...classNames.current,
+            `${GetBaseClass()}`,
             `${GetBaseClass()}-ev-${exitVisibility}`,
             `${GetBaseClass()}-inline-direction-${inlineDirection ?? "ltr"}`,
             `${GetBaseClass()}-block-direction-${blockDirection ?? "ttb"}`

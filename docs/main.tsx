@@ -60,7 +60,7 @@ function Demo() {
         <div className="radiogroup">
           <div>Outer card visible state: </div>
           <label className=""><input type="radio" name="outer-card-show" onInput={e => { e.preventDefault(); setShow1("unmounted") }} checked={show1 == "unmounted"} />Unmounted</label>
-          <label className=""><input type="radio" name="outer-card-show" onInput={e => { e.preventDefault(); setShow1("pending") }} checked={show1 == "pending"} />Mounted, `show` is `null`</label>
+          <label className=""><input type="radio" name="outer-card-show" onInput={e => { e.preventDefault(); setShow1("pending") }} checked={show1 == "pending"} disabled={show1 == "hiding" || show1 == "showing"} />Mounted, `show` is `null`</label>
           <label className=""><input type="radio" name="outer-card-show" onInput={e => { e.preventDefault(); setShow1("hiding") }} checked={show1 == "hiding"} />Mounted, `show` is `false`</label>
           <label className=""><input type="radio" name="outer-card-show" onInput={e => { e.preventDefault(); setShow1("showing") }} checked={show1 == "showing"} />Mounted, `show` is `true`</label>
         </div>
