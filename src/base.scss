@@ -68,33 +68,9 @@
 
 
 @media (prefers-reduced-motion) {
-
     // When this media query is active, 
     // override all other transitions with just a simple opacity transition.
-    // (I suppose it's actually beneficial that transitions don't inherit well in this case)
-
     .#{$transition-class-base} {
-        #{$transition-class-base}-properties: none !important;
+        --#{$transition-class-base}-properties: opacity !important;
     }
-
-    /*.#{$transition-class-base}-#{$transition-class-enter} {
-        transition: opacity 175ms ease-in-out;
-    }
-
-    .#{$transition-class-base}-#{$transition-class-exit} {
-        transition: opacity 175ms ease-in-out;
-    }
-
-
-    .#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-init},
-    .#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-transition},
-    .#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-finalize} {
-        opacity: 0;
-    }
-
-    .#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-init},
-    .#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-transition},
-    .#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-finalize} {
-        opacity: 1;
-    }*/
 }
