@@ -1,8 +1,9 @@
 import { createContext, h, RenderableProps } from "preact";
 import { useCallback, useContext, useMemo } from "preact/hooks";
-import { TransitionDirection, TransitionPhase } from "./types";
+import { ExclusiveContextType, SwappableContextType, TransitionDirection, TransitionPhase } from "./types";
 
-export const SwappableContext = createContext<{ getAnimateOnMount: () => boolean }>({ getAnimateOnMount: () => false });
+export const SwappableContext = createContext<SwappableContextType>({ getAnimateOnMount: () => false });
+export const ExclusiveTransitionContext = createContext<ExclusiveContextType | null>(null);
 
 
 /*

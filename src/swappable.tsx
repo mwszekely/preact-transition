@@ -6,9 +6,21 @@ import { useEffect, useRef } from "preact/hooks";
 import { SwappableContext, useCssClasses } from "./util/context";
 import { forwardElementRef } from "./util/util";
 import { NonIntrusiveElementAttributes } from "./util/types";
+import { ExclusiveTransitionProvider } from "./exclusive";
 
 export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappableProps>, NonIntrusiveElementAttributes<E> {
     children: ComponentChildren;
+
+    /**
+     * By default, each child transitions in/out at the same time, in sync with each other.
+     * 
+     * If you want to guarantee that, no matter what, only one is ever visible at all,
+     * pass `true` to `exclusive`.
+     * 
+     * This is also available as a separate component (`ExclusiveTransitionProvider`)
+     * if you need this behavior in unrelated circumstances.
+     */
+    exclusive?: boolean;
 }
 
 export interface CreateSwappableProps {
@@ -46,25 +58,26 @@ export function useCreateSwappableProps<P extends {}>({ inline }: CreateSwappabl
  * @param param0 
  * @returns 
  */
-export const Swappable = memo(forwardElementRef(function Swappable<E extends HTMLElement>({ children: c, inline, childrenAnimateOnMount, ...p }: SwapProps<E>, ref: Ref<E>) {
+export const Swappable = memo(forwardElementRef(function Swappable<E extends HTMLElement>({ children: c, inline, childrenAnimateOnMount, exclusive, ...p }: SwapProps<E>, ref: Ref<E>) {
     let children = c as VNode;
     if (!(children as VNode).type)
-        children = (!inline? <div>{children}</div> : <span>{children}</span>)
+        children = (!inline ? <div>{children}</div> : <span>{children}</span>)
     inline ??= typeof children.type === "string" && inlineElements.has(children.type);
 
     const transitionProps = useCreateSwappableProps({ inline }, { ...p, ref });
     const mergedWithChildren = useMergedProps<E>(transitionProps, children.props);
 
-    const animateOnMount = useRef(childrenAnimateOnMount?? false);
+    const animateOnMount = useRef(childrenAnimateOnMount ?? false);
     useEffect(() => {
         animateOnMount.current = true;
     }, [])
     const contextValue = useRef({ getAnimateOnMount: () => { return animateOnMount.current; } });
-    return (
-        <SwappableContext.Provider value={contextValue.current}>
-            {cloneElement(children, mergedWithChildren as typeof transitionProps)}
-        </SwappableContext.Provider>
-    );
+    let ret = cloneElement(children, mergedWithChildren as typeof transitionProps);
+    ret = (<SwappableContext.Provider value={contextValue.current}>{ret}</SwappableContext.Provider>)
+    if (exclusive) {
+        ret = (<ExclusiveTransitionProvider>{ret}</ExclusiveTransitionProvider>)
+    }
+    return ret;
 }))
 
 // If "inline" isn't explicitly provided, we try to implicitly do it based on the child's tag.

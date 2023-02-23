@@ -18,6 +18,7 @@ type Showing = "unmounted" | "pending" | "showing" | "hiding";
 
 function Demo() {
   //const [mounted, setMounted] = useState(false);
+  const [exclusive, setExclusive] = useState(true);
   const [animateOnMount, setAnimateOnMount] = useState(true);
   const [writingMode, setWritingMode] = useState<"horizontal" | "vertical">("horizontal");
   const [show1, setShow1] = useState<Showing>("pending");
@@ -43,6 +44,7 @@ function Demo() {
   const onInput6 = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setWritingMode("horizontal"); e.preventDefault(); }, []);
   const onInput7 = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setWritingMode("vertical"); e.preventDefault(); }, []);
   const onInput8 = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setDuration((e.target as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+  const onInput9 = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setExclusive((e.target as HTMLInputElement).checked); e.preventDefault(); }, []);
   const onInputA = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setShow3(0); e.preventDefault(); }, []);
   const onInputB = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setShow3(1); e.preventDefault(); }, []);
   const onInputC = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setShow3(2); e.preventDefault(); }, []);
@@ -76,6 +78,7 @@ function Demo() {
           <label className="code-mimic"><input type="radio" name="swap-index" onInput={onInputA} checked={show3 == 0} />#0</label>
           <label className="code-mimic"><input type="radio" name="swap-index" onInput={onInputB} checked={show3 == 1} />#1</label>
           <label className="code-mimic"><input type="radio" name="swap-index" onInput={onInputC} checked={show3 == 2} />#2</label>
+          <label><input type="checkbox" onInput={onInput9} checked={exclusive} />Exclusive</label>
         </div>
 
         <div className="radiogroup">
@@ -85,7 +88,9 @@ function Demo() {
           <label className="code-mimic"><input type="radio" name="hidden-type" onInput={onInput5} checked={reflow == "removed"} />display: none</label>
         </div>
 
-        <div><label><input onInput={onInput8} type="number" value={duration}></input> Duration</label></div>
+        <div >
+          <label><input onInput={onInput8} type="number" value={duration}></input> Duration</label>
+        </div>
 
         <div className="radiogroup">
           <div>Demo's writing mode: </div>
@@ -95,21 +100,24 @@ function Demo() {
         <textarea cols={30} rows={5} onInput={onInput3} value={text} />
 
       </div>
-      <div id="root-body" className={`writing-mode-${writingMode}`} style={{ [`--${useCssClasses().GetBaseClass()}-duration`]: `${duration}ms` }} key={writingMode}>        
-        <FadeDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
-        <SlideDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
-        <ZoomDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
-        <ClipDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
-        <FlipDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
-        <ZoomSlideDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
-        <CollapseDemo cardShow={show1} animateOnMount={animateOnMount} contentIndex={show3} exitVisibility={reflow} text={text} />
+      <div id="root-body" className={`writing-mode-${writingMode}`} style={{ [`--${useCssClasses().GetBaseClass()}-duration`]: `${duration}ms` }} key={writingMode}>
+        <FadeDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
+        {/*
+        <SlideDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
+        <ZoomDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
+        <ClipDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
+        <FlipDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
+        <ZoomSlideDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
+        <CollapseDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
+         */}
+
       </div>
     </>
   )
 }
 
 
-function FadeDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount }: { animateOnMount: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
+function FadeDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount, exclusive }: { animateOnMount: boolean, exclusive: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(1);
   const onMinInput = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setMin(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
@@ -130,7 +138,7 @@ function FadeDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
       </div>
 
       {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} fadeMin={min} fadeMax={max}>
-        <Swappable>
+        <Swappable exclusive={exclusive}>
           <div className="card">
             {makeChild(0)}
             {makeChild(1)}
@@ -163,7 +171,7 @@ function FadeDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
   </div>
 }
 
-function ClipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount }: { animateOnMount: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
+function ClipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount, exclusive }: { animateOnMount: boolean, exclusive: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
   const [originX, setOriginX] = useState(0.5);
   const [originY, setOriginY] = useState(0);
   const [minX, setMinX] = useState(1);
@@ -193,7 +201,7 @@ function ClipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
       </div>
 
       {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} clipMinInline={minX} clipMinBlock={minY} clipOriginInline={originX} clipOriginBlock={originY}>
-        <Swappable>
+        <Swappable exclusive={exclusive}>
           <div className="card">
             {makeChild(0)}
             {makeChild(1)}
@@ -230,7 +238,7 @@ function ClipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
   </div>
 }
 
-function ZoomSlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount }: { animateOnMount: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
+function ZoomSlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount, exclusive }: { animateOnMount: boolean, exclusive: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
   const [originX, setOriginX] = useState(0.5);
   const [originY, setOriginY] = useState(0);
   const [minX, setMinX] = useState(0.75);
@@ -264,7 +272,7 @@ function ZoomSlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOn
         <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
       </div>
       {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} slideTargetInline={slideX || null} slideTargetBlock={slideY || null} zoomMinInline={minX} zoomMinBlock={minY} zoomOriginInline={originX} zoomOriginBlock={originY}>
-        <Swappable>
+        <Swappable exclusive={exclusive}>
           <div className="card">
             {makeChild(0)}
             {makeChild(1)}
@@ -305,7 +313,7 @@ function ZoomSlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOn
   </div>
 }
 
-function ZoomDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount }: { animateOnMount: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
+function ZoomDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount, exclusive }: { animateOnMount: boolean, exclusive: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
   const [originX, setOriginX] = useState(0.5);
   const [originY, setOriginY] = useState(0);
   const [minX, setMinX] = useState(0.75);
@@ -333,7 +341,7 @@ function ZoomDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
         <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
       </div>
       {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} zoomMinInline={minX} zoomMinBlock={minY} zoomOriginInline={originX} zoomOriginBlock={originY}>
-        <Swappable>
+        <Swappable exclusive={exclusive}>
           <div className="card">
             {makeChild(0)}
             {makeChild(1)}
@@ -370,7 +378,7 @@ function ZoomDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
   </div>
 }
 
-function SlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount }: { animateOnMount: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
+function SlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount, exclusive }: { animateOnMount: boolean, exclusive: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
   const [slideX, setSlideX] = useState(0.25);
   const [slideY, setSlideY] = useState(0);
   const [withFade, setWithFade] = useState(true);
@@ -395,7 +403,7 @@ function SlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMoun
         {/*<label>Using boilerplate<input checked={bare} onInput={onBare} type="checkbox" /></label>*/}
       </div>
       {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} slideTargetInline={slideX || null} slideTargetBlock={slideY || null}>
-        <Swappable>
+        <Swappable exclusive={exclusive}>
           <div className="card">
             {makeChild(0)}
             {makeChild(1)}
@@ -427,7 +435,7 @@ function SlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMoun
   </div>
 }
 
-function CollapseDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount }: { animateOnMount: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
+function CollapseDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount, exclusive }: { animateOnMount: boolean, exclusive: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
   const [minBlockSize, setMinBlockSize] = useState("0px");
   const onWithFadeInput = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setWithFade(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
   const [withFade, setWithFade] = useState(true);
@@ -451,7 +459,7 @@ function CollapseDemo({ cardShow, contentIndex, exitVisibility, text, animateOnM
         <div>
           {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} minBlockSize={minBlockSize}>
             <div>
-              <Swappable>
+              <Swappable exclusive={exclusive}>
                 <div className="card">
                   {makeChild(0)}
                   {makeChild(1)}
@@ -492,7 +500,7 @@ function CollapseDemo({ cardShow, contentIndex, exitVisibility, text, animateOnM
 
 
 
-function FlipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount }: { animateOnMount: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
+function FlipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount, exclusive }: { animateOnMount: boolean, exclusive: boolean, cardShow: Showing, contentIndex: number, exitVisibility: EV, text: string }) {
   const [flipX, setFlipX] = useState(0);
   const [flipY, setFlipY] = useState(180);
   const onFlipXInput = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setFlipX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
@@ -511,7 +519,7 @@ function FlipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
         <label>Rotate along block axis <input type="number" onInput={onFlipYInput} value={flipY} /></label>
       </div>
       {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} flipAngleInline={flipX} flipAngleBlock={flipY}>
-        <Swappable>
+        <Swappable exclusive={exclusive}>
           <div className="card">
             {makeChild(0)}
             {makeChild(1)}

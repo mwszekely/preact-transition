@@ -1,4 +1,5 @@
 import { h } from "preact";
+import { ManagedChildInfo, UseManagedChildrenContext } from "preact-prop-helpers";
 
 export type ExitVisibility = "inert" | "removed" | "hidden" | "visible"
 
@@ -106,10 +107,11 @@ export interface UseTransitionParameters<E extends Element> {
          * If you want to re-render when the component becomes visible/hidden,
          * you can set some state here.
          * 
-         * This is usually synced up with your `show` prop, so it's not necessarily always useful.
+         * This is correlated with your `show` prop; when `show` becomes
+         * `true` so does `visible`, but when `show` becomes `false`,
+         * this won't fire back with `false` until the transition ends.
          * 
          * @param visible 
-         * @returns 
          */
         onVisibilityChange?: (visible: boolean) => void;
 
@@ -121,23 +123,23 @@ export interface UseTransitionParameters<E extends Element> {
     }
 }
 
-//export interface UseTransitionReturnType<E extends Element> extends UseRefElementReturnType<E> {
-//    transitionReturn: {
-/**
- * Whether or not this component's children should be rendered.
- * 
- * Once this value is `true`, it is guaranteed to never become `false` again
- * to prevent wasting repeated work on repeatedly mounting/unmounting over and over.
- */
-//      renderChildren: boolean;
-//  }
 
-/**
- * The child to render for this component, created from merging `propsIncoming`, its children, and any necessary event handlers, CSS classes, etc.
- */
-////   child: VNode<h.JSX.HTMLAttributes<E>> | null;
-//props: h.JSX.HTMLAttributes<E>;
-//}
+export interface ExclusiveInfo extends ManagedChildInfo<string> {
+    getExclusivelyOpen(): boolean;
+    setExclusivelyOpen(open: boolean): void;
+    forceClose(): void;
+}
+
+export interface SwappableContextType { 
+    getAnimateOnMount: () => boolean;
+}
+
+export interface ExclusiveContextType extends UseManagedChildrenContext<ExclusiveInfo> {
+    exclusiveTransitionContext: {
+        onVisibilityChange(index: string, visible: "hidden" | "show"): void;
+    }
+}
+
 
 
 /**
