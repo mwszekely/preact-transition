@@ -1,3 +1,4 @@
+import { UseExclusiveTransitionParameters } from "exclusive";
 import { h } from "preact";
 import { ManagedChildInfo, UseManagedChildrenContext } from "preact-prop-helpers";
 
@@ -24,6 +25,7 @@ export interface UseBasePropsBaseParameters<E extends Element> /*extends UseRefE
 }
 
 export interface UseTransitionParameters<E extends Element> {
+    exclusiveTransitionParameters: Partial<Pick<UseExclusiveTransitionParameters["exclusiveTransitionParameters"], "exclusivityKey">>;
     transitionParameters: {
 
         /**
@@ -136,6 +138,7 @@ export interface SwappableContextType {
 
 export interface ExclusiveContextType extends UseManagedChildrenContext<ExclusiveInfo> {
     exclusiveTransitionContext: {
+        exclusivityKey: string | undefined | null;
         onVisibilityChange(index: string, visible: "hidden" | "show"): void;
     }
 }
@@ -153,5 +156,5 @@ export interface NonIntrusiveElementAttributes<E extends Element> extends Pick<h
 /**
  * Full components can inherit from this to get a useful default of props for consumers to use as an interface
  */
-export interface TransitionParametersBase<E extends Element> extends OmitStrong<Get<UseTransitionParameters<E>, "transitionParameters">, "measure" | "propsIncoming">, NonIntrusiveElementAttributes<E> { }
+export interface TransitionParametersBase<E extends Element> extends OmitStrong<Get<UseTransitionParameters<E>, "transitionParameters">, "measure" | "propsIncoming">, Get<UseTransitionParameters<E>, "exclusiveTransitionParameters">, NonIntrusiveElementAttributes<E> { }
 

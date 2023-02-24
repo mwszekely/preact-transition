@@ -48,7 +48,7 @@ export interface CollapseProps<E extends HTMLElement> extends TransitionParamete
  * 
  * @see `Transitionable`
  */
-export const Collapse = memo(forwardElementRef(function Collapse<E extends HTMLElement>({ show, duration, delayMountUntilShown, minBlockSize, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: CollapseProps<E>, ref: Ref<E>) {
+export const Collapse = memo(forwardElementRef(function Collapse<E extends HTMLElement>({ show, exclusivityKey, easing, easingIn, easingOut, duration, delayMountUntilShown, minBlockSize, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: CollapseProps<E>, ref: Ref<E>) {
 
     return useTransition({
         transitionParameters: {
@@ -59,10 +59,14 @@ export const Collapse = memo(forwardElementRef(function Collapse<E extends HTMLE
             exitVisibility,
             delayMountUntilShown,
             onVisibilityChange,
+            easing,
+            easingIn,
+            easingOut,
             propsIncoming: useMergedProps<E>(
                 useBasePropsCollapse({ collapseParameters: { minBlockSize } }),
                 { ref, ...rest },
             )
         },
+        exclusiveTransitionParameters: { exclusivityKey }
     });
 }));

@@ -9,7 +9,7 @@ import { forwardElementRef } from "./util/util";
 
 export interface CollapseFadeProps<E extends Element> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFadeParameters<E>, "fadeParameters">>, Partial<Get<UseBasePropsCollapseParameters<E>, "collapseParameters">> { };
 
-export const CollapseFade = memo(forwardElementRef(function CollapseFade<E extends HTMLElement>({ show, duration, animateOnMount, delayMountUntilShown, fadeMin, fadeMax, exitVisibility, minBlockSize, onVisibilityChange, ...rest }: CollapseFadeProps<E>, ref: Ref<E>) {
+export const CollapseFade = memo(forwardElementRef(function CollapseFade<E extends HTMLElement>({ show, exclusivityKey, easing, easingIn, easingOut, duration, animateOnMount, delayMountUntilShown, fadeMin, fadeMax, exitVisibility, minBlockSize, onVisibilityChange, ...rest }: CollapseFadeProps<E>, ref: Ref<E>) {
     return useTransition({
         transitionParameters: {
             measure: true,
@@ -19,11 +19,15 @@ export const CollapseFade = memo(forwardElementRef(function CollapseFade<E exten
             exitVisibility,
             delayMountUntilShown,
             onVisibilityChange,
+            easing,
+            easingIn,
+            easingOut,
             propsIncoming: useMergedProps<E>(
                 useBasePropsFade({ fadeParameters: { fadeMax, fadeMin } }),
                 useBasePropsCollapse({ collapseParameters: { minBlockSize } }),
                 { ref, ...rest }
             )
         },
+        exclusiveTransitionParameters: { exclusivityKey }
     });
 }));

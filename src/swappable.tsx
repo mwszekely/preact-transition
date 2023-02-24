@@ -3,7 +3,7 @@ import { cloneElement, ComponentChildren, h, Ref, VNode } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useEffect, useRef } from "preact/hooks";
-import { SwappableContext, useCssClasses } from "./util/context";
+import { GetExclusiveTransitionContext, SwappableContext, useCssClasses } from "./util/context";
 import { forwardElementRef } from "./util/util";
 import { NonIntrusiveElementAttributes } from "./util/types";
 import { ExclusiveTransitionProvider } from "./exclusive";
@@ -15,12 +15,13 @@ export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappabl
      * By default, each child transitions in/out at the same time, in sync with each other.
      * 
      * If you want to guarantee that, no matter what, only one is ever visible at all,
-     * pass `true` to `exclusive`.
+     * pass a string to `exclusivityKey`, and all transitions that use that same
+     * `exclusivityKey` will coordinate this behavior among themselves.
      * 
      * This is also available as a separate component (`ExclusiveTransitionProvider`)
      * if you need this behavior in unrelated circumstances.
      */
-    exclusive?: boolean;
+    exclusivityKey?: string | null | undefined;
 }
 
 export interface CreateSwappableProps {
@@ -58,7 +59,7 @@ export function useCreateSwappableProps<P extends {}>({ inline }: CreateSwappabl
  * @param param0 
  * @returns 
  */
-export const Swappable = memo(forwardElementRef(function Swappable<E extends HTMLElement>({ children: c, inline, childrenAnimateOnMount, exclusive, ...p }: SwapProps<E>, ref: Ref<E>) {
+export const Swappable = memo(forwardElementRef(function Swappable<E extends HTMLElement>({ children: c, inline, childrenAnimateOnMount, exclusivityKey, ...p }: SwapProps<E>, ref: Ref<E>) {
     let children = c as VNode;
     if (!(children as VNode).type)
         children = (!inline ? <div>{children}</div> : <span>{children}</span>)
@@ -74,8 +75,8 @@ export const Swappable = memo(forwardElementRef(function Swappable<E extends HTM
     const contextValue = useRef({ getAnimateOnMount: () => { return animateOnMount.current; } });
     let ret = cloneElement(children, mergedWithChildren as typeof transitionProps);
     ret = (<SwappableContext.Provider value={contextValue.current}>{ret}</SwappableContext.Provider>)
-    if (exclusive) {
-        ret = (<ExclusiveTransitionProvider>{ret}</ExclusiveTransitionProvider>)
+    if (exclusivityKey) {
+        ret = (<ExclusiveTransitionProvider key={exclusivityKey} exclusivityKey={exclusivityKey}>{ret}</ExclusiveTransitionProvider>)
     }
     return ret;
 }))

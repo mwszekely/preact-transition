@@ -52,7 +52,7 @@ export interface FadeProps<E extends HTMLElement> extends TransitionParametersBa
  * 
  * @see `Transitionable`
  */
-export const Fade = memo(forwardElementRef(function Fade<E extends HTMLElement>({ duration, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: FadeProps<E>, ref: Ref<E>) {
+export const Fade = memo(forwardElementRef(function Fade<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: FadeProps<E>, ref: Ref<E>) {
     return useTransition({
         transitionParameters: {
             measure: false,
@@ -63,6 +63,7 @@ export const Fade = memo(forwardElementRef(function Fade<E extends HTMLElement>(
             delayMountUntilShown,
             onVisibilityChange,
             propsIncoming: useMergedProps<E>({ ref, ...rest }, useBasePropsFade({ fadeParameters: { fadeMax, fadeMin } }))
-        }
+        },
+        exclusiveTransitionParameters: { exclusivityKey }
     });
 }));

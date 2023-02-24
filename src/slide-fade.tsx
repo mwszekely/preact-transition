@@ -9,7 +9,7 @@ import { forwardElementRef } from "./util/util";
 
 export interface SlideFadeProps<E extends Element> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFadeParameters<E>, "fadeParameters">>, Partial<Get<UseBasePropsSlideParameters<E>, "slideParameters">> { };
 
-export const SlideFade = memo(forwardElementRef(function SlideFade<E extends HTMLElement>({ duration, fadeMin, fadeMax, show, animateOnMount, delayMountUntilShown, slideTargetBlock, slideTargetInline, exitVisibility, onVisibilityChange, ...rest }: SlideFadeProps<E>, ref: Ref<E>) {
+export const SlideFade = memo(forwardElementRef(function SlideFade<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, fadeMin, fadeMax, show, animateOnMount, delayMountUntilShown, slideTargetBlock, slideTargetInline, exitVisibility, onVisibilityChange, ...rest }: SlideFadeProps<E>, ref: Ref<E>) {
     return useTransition({
         transitionParameters: {
             measure: false,
@@ -19,11 +19,15 @@ export const SlideFade = memo(forwardElementRef(function SlideFade<E extends HTM
             exitVisibility,
             delayMountUntilShown,
             onVisibilityChange,
+            easing,
+            easingIn,
+            easingOut,
             propsIncoming: useMergedProps<E>(
                 useBasePropsFade({ fadeParameters: { fadeMax, fadeMin } }),
                 useBasePropsSlide({ slideParameters: { slideTargetBlock, slideTargetInline } }),
                 { ref, ...rest }
             )
-        }
+        },
+        exclusiveTransitionParameters: { exclusivityKey }
     });
 }));

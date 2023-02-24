@@ -71,7 +71,7 @@ export interface ZoomProps<E extends HTMLElement> extends TransitionParametersBa
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
  * @see `Transitionable` `ZoomFade`
  */
-export const Zoom = memo(forwardElementRef(function Zoom<E extends HTMLElement>({ duration, delayMountUntilShown, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: ZoomProps<E>, ref: Ref<E>) {
+export const Zoom = memo(forwardElementRef(function Zoom<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: ZoomProps<E>, ref: Ref<E>) {
 
     return (
         useTransition({
@@ -83,11 +83,15 @@ export const Zoom = memo(forwardElementRef(function Zoom<E extends HTMLElement>(
                 exitVisibility,
                 delayMountUntilShown,
                 onVisibilityChange,
+                easing,
+                easingIn,
+                easingOut,
                 propsIncoming: useMergedProps<E>(
                     useBasePropsZoom({ zoomParameters: { zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline } }),
                     { ref, ...rest },
                 )
-            }
+            },
+            exclusiveTransitionParameters: { exclusivityKey }
         })
     );
 }));

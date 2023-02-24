@@ -1,20 +1,14 @@
+import memoize from "lodash-es/memoize";
 import { createContext, h, RenderableProps } from "preact";
 import { useCallback, useContext, useMemo } from "preact/hooks";
 import { ExclusiveContextType, SwappableContextType, TransitionDirection, TransitionPhase } from "./types";
 
 export const SwappableContext = createContext<SwappableContextType>({ getAnimateOnMount: () => false });
-export const ExclusiveTransitionContext = createContext<ExclusiveContextType | null>(null);
-
-
-/*
-const CssClasses = {
-    base: "ptl",
-    enter: "n",
-    exit: "x",
-    init: "i",
-    transition: "t",
-    finalize: "f"
-}*/
+export const GetExclusiveTransitionContext = memoize((exclusivityKey: string | null | undefined) => {
+    if (exclusivityKey == null)
+        return null;
+    return createContext<ExclusiveContextType | null>(null);
+});
 
 interface CssClassesProviderProps {
     base: string;
@@ -97,17 +91,3 @@ function useCssClassContextValue(newValues: Partial<CssClassesProviderProps>): C
     }), [base, enter, exit, init, transition, finalize])
 }
 
-/*
-export function getCssClass(): string
-export function getCssClass(direction: TransitionDirection): string
-export function getCssClass(direction: TransitionDirection, phase: TransitionPhase): string
-export function getCssClass(direction?: TransitionDirection, phase?: TransitionPhase): string {
-    const phasePart = `${phase == null ? "" : `-${CssClasses[phase]}`}`;
-    const directionPart = `${direction == null ? "" : `-${CssClasses[direction]}${phasePart}`}`;
-    return `${CssClasses.base}${directionPart}`
-}
-
-export function setCssClass(which: keyof typeof CssClasses, value: string) {
-    CssClasses[which] = value;
-}
-*/

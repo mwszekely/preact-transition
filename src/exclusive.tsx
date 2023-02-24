@@ -1,14 +1,15 @@
-import { Fragment, h, RenderableProps } from "preact";
-import { useChildrenFlag, useManagedChild, UseManagedChildParameters, useManagedChildren, usePassiveState, useStableObject, useState } from "preact-prop-helpers";
-import { useCallback, useLayoutEffect, useMemo } from "preact/hooks";
-import { ExclusiveTransitionContext } from "./util/context";
+import { Context, Fragment, h, RenderableProps, VNode } from "preact";
+import { useChildrenFlag, useEnsureStability, useManagedChild, UseManagedChildParameters, useManagedChildren, UseManagedChildrenContext, usePassiveState, useStableObject, useState } from "preact-prop-helpers";
+import { useCallback, useContext, useLayoutEffect, useMemo } from "preact/hooks";
+import { GetExclusiveTransitionContext } from "./util/context";
 import { ExclusiveContextType, ExclusiveInfo, TransitionParametersBase } from "./util/types";
 
 
 
 let globalCount = -1;
 
-export function ExclusiveTransitionProvider({ children }: RenderableProps<{}>) {
+export function ExclusiveTransitionProvider({ exclusivityKey, children }: RenderableProps<{ exclusivityKey?: string | null | undefined }>) {
+    useEnsureStability("ExclusiveTransitionProvider", exclusivityKey);
 
     const [getNextIndexInLine, setNextIndexInLine] = usePassiveState<string | null, never>(null);
 
@@ -59,26 +60,27 @@ export function ExclusiveTransitionProvider({ children }: RenderableProps<{}>) {
     const context2: ExclusiveContextType = useStableObject({
         ...context,
         exclusiveTransitionContext: useStableObject({
+            exclusivityKey,
             onVisibilityChange,
         })
     });
 
-    return (
-        <ExclusiveTransitionContext.Provider value={context2}>
-            {children}
-        </ExclusiveTransitionContext.Provider>
-    )
+    const ExclusiveTransitionContext = GetExclusiveTransitionContext(exclusivityKey);
+
+    return (ExclusiveTransitionContext == null) ? ((children as VNode) ?? null) : <ExclusiveTransitionContext.Provider value={context2}>{children}</ExclusiveTransitionContext.Provider>;
 }
 
 
 
-export interface UseExclusiveTransitionParameters extends Omit<UseManagedChildParameters<ExclusiveInfo>, "managedChildParameters"> {
-    context: ExclusiveContextType | null;
+export interface UseExclusiveTransitionParameters extends Omit<UseManagedChildParameters<ExclusiveInfo>, "managedChildParameters" | "context"> {
     transitionParameters: Pick<TransitionParametersBase<any>, "show">;
-    exclusiveTransitionParameters: { forceClose: () => void; }
+    exclusiveTransitionParameters: { forceClose: () => void; exclusivityKey?: string | null | undefined; }
 }
 
-export function useExclusiveTransition({ context, transitionParameters: { show }, exclusiveTransitionParameters: { forceClose } }: UseExclusiveTransitionParameters) {
+export function useExclusiveTransition({ transitionParameters: { show }, exclusiveTransitionParameters: { forceClose, exclusivityKey } }: UseExclusiveTransitionParameters) {
+    const c = GetExclusiveTransitionContext(exclusivityKey);
+    useEnsureStability("useExclusiveTransition", c == null);
+    const context = c? useContext(c) : null;
 
     //const index = useMemo(() => generateRandomId(), []);
     const index = useMemo(() => { globalCount += 1; return (globalCount).toString() }, []);
@@ -90,8 +92,7 @@ export function useExclusiveTransition({ context, transitionParameters: { show }
     const parentOnVisChange = context?.exclusiveTransitionContext.onVisibilityChange;
 
     const onVisibilityChange = useCallback<NonNullable<TransitionParametersBase<any>["onVisibilityChange"]>>((visible) => {
-        //if (visible == false)
-            parentOnVisChange?.(index, visible == false? "hidden" : "show");
+        parentOnVisChange?.(index, visible == false ? "hidden" : "show");
     }, [parentOnVisChange, index]);
 
     useLayoutEffect(() => {

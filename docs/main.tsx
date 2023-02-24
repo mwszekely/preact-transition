@@ -18,7 +18,7 @@ type Showing = "unmounted" | "pending" | "showing" | "hiding";
 
 function Demo() {
   //const [mounted, setMounted] = useState(false);
-  const [exclusive, setExclusive] = useState(true);
+  const [exclusive, setExclusive] = useState(false);
   const [animateOnMount, setAnimateOnMount] = useState(true);
   const [writingMode, setWritingMode] = useState<"horizontal" | "vertical">("horizontal");
   const [show1, setShow1] = useState<Showing>("pending");
@@ -102,15 +102,12 @@ function Demo() {
       </div>
       <div id="root-body" className={`writing-mode-${writingMode}`} style={{ [`--${useCssClasses().GetBaseClass()}-duration`]: `${duration}ms` }} key={writingMode}>
         <FadeDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
-        {/*
         <SlideDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ZoomDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ClipDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
         <FlipDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ZoomSlideDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
         <CollapseDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
-         */}
-
       </div>
     </>
   )
@@ -126,8 +123,9 @@ function FadeDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
 
   const C = Fade;
   const CS = "Fade";
+  const E = (exclusive? "e" : null);
 
-  const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} fadeMin={min} fadeMax={max}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+  const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} fadeMin={min} fadeMax={max}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
   return <div className="demo-section">
     <h2>Fade</h2>
@@ -138,7 +136,7 @@ function FadeDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
       </div>
 
       {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} fadeMin={min} fadeMax={max}>
-        <Swappable exclusive={exclusive}>
+        <Swappable exclusivityKey={E}>
           <div className="card">
             {makeChild(0)}
             {makeChild(1)}
@@ -186,8 +184,9 @@ function ClipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
 
   const C = withFade ? ClipFade : Clip;
   const CS = withFade ? "ClipFade" : "Clip";
+  const E = (exclusive? "e" : null);
 
-  const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} clipOriginInline={originX} clipOriginBlock={originY} clipMinInline={minX} clipMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+  const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} clipOriginInline={originX} clipOriginBlock={originY} clipMinInline={minX} clipMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
   return <div className="demo-section">
     <h2>Clip</h2>
@@ -201,7 +200,7 @@ function ClipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
       </div>
 
       {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} clipMinInline={minX} clipMinBlock={minY} clipOriginInline={originX} clipOriginBlock={originY}>
-        <Swappable exclusive={exclusive}>
+        <Swappable exclusivityKey={E}>
           <div className="card">
             {makeChild(0)}
             {makeChild(1)}
@@ -256,8 +255,9 @@ function ZoomSlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOn
 
   const C = withFade ? SlideZoomFade : SlideZoom;
   const CS = withFade ? "SlideZoomFade" : "SlideZoom";
+  const E = (exclusive? "e" : null);
 
-  const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} slideTargetInline={(slideX * Math.sign(i - contentIndex)) || null} slideTargetBlock={(slideY * Math.sign(i - contentIndex)) || null} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+  const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} slideTargetInline={(slideX * Math.sign(i - contentIndex)) || null} slideTargetBlock={(slideY * Math.sign(i - contentIndex)) || null} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
   return <div className="demo-section">
     <h2>Zoom &amp; Slide</h2>
@@ -272,7 +272,7 @@ function ZoomSlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOn
         <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
       </div>
       {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} slideTargetInline={slideX || null} slideTargetBlock={slideY || null} zoomMinInline={minX} zoomMinBlock={minY} zoomOriginInline={originX} zoomOriginBlock={originY}>
-        <Swappable exclusive={exclusive}>
+        <Swappable exclusivityKey={E}>
           <div className="card">
             {makeChild(0)}
             {makeChild(1)}
@@ -327,8 +327,9 @@ function ZoomDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
 
   const C = withFade ? ZoomFade : Zoom;
   const CS = withFade ? "ZoomFade" : "Zoom";
+  const E = (exclusive? "e" : null);
 
-  const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+  const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
   return <div className="demo-section">
     <h2>Zoom</h2>
@@ -341,7 +342,7 @@ function ZoomDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
         <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
       </div>
       {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} zoomMinInline={minX} zoomMinBlock={minY} zoomOriginInline={originX} zoomOriginBlock={originY}>
-        <Swappable exclusive={exclusive}>
+        <Swappable exclusivityKey={E}>
           <div className="card">
             {makeChild(0)}
             {makeChild(1)}
@@ -390,8 +391,9 @@ function SlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMoun
 
   const C = withFade ? SlideFade : Slide;
   const CS = withFade ? "SlideFade" : "Slide";
+  const E = (exclusive? "e" : null);
 
-  const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} slideTargetInline={(slideX * Math.sign(i - contentIndex)) || null} slideTargetBlock={slideY * Math.sign(i - contentIndex)}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+  const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} slideTargetInline={(slideX * Math.sign(i - contentIndex)) || null} slideTargetBlock={slideY * Math.sign(i - contentIndex)}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
   return <div className="demo-section">
     <h2>Slide</h2>
@@ -403,7 +405,7 @@ function SlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMoun
         {/*<label>Using boilerplate<input checked={bare} onInput={onBare} type="checkbox" /></label>*/}
       </div>
       {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} slideTargetInline={slideX || null} slideTargetBlock={slideY || null}>
-        <Swappable exclusive={exclusive}>
+        <Swappable exclusivityKey={E}>
           <div className="card">
             {makeChild(0)}
             {makeChild(1)}
@@ -441,9 +443,10 @@ function CollapseDemo({ cardShow, contentIndex, exitVisibility, text, animateOnM
   const [withFade, setWithFade] = useState(true);
   const C = withFade ? CollapseFade : Collapse;
   const CS = withFade ? "CollapseFade" : "Collapse";
+  const E = (exclusive? "e" : null);
   const onMinSize = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setMinBlockSize(((e.target) as HTMLInputElement).value); e.preventDefault(); }, []);
 
-  const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} minBlockSize={minBlockSize}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+  const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} minBlockSize={minBlockSize}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
 
   return (
@@ -459,7 +462,7 @@ function CollapseDemo({ cardShow, contentIndex, exitVisibility, text, animateOnM
         <div>
           {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} minBlockSize={minBlockSize}>
             <div>
-              <Swappable exclusive={exclusive}>
+              <Swappable exclusivityKey={E} key={E}>
                 <div className="card">
                   {makeChild(0)}
                   {makeChild(1)}
@@ -508,8 +511,8 @@ function FlipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
 
   const C = Flip;
   const CS = "Flip";
-
-  const makeChild = (i: number) => <C show={contentIndex === i} exitVisibility={exitVisibility} flipAngleInline={(flipX * Math.sign(i - contentIndex)) || null} flipAngleBlock={(flipY * Math.sign(i - contentIndex)) || null}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+  const E = (exclusive? "e" : null);
+  const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} flipAngleInline={(flipX * Math.sign(i - contentIndex)) || null} flipAngleBlock={(flipY * Math.sign(i - contentIndex)) || null}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
   return <div className="demo-section">
     <h2>Flip</h2>
@@ -519,7 +522,7 @@ function FlipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
         <label>Rotate along block axis <input type="number" onInput={onFlipYInput} value={flipY} /></label>
       </div>
       {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} flipAngleInline={flipX} flipAngleBlock={flipY}>
-        <Swappable exclusive={exclusive}>
+        <Swappable exclusivityKey={E}>
           <div className="card">
             {makeChild(0)}
             {makeChild(1)}

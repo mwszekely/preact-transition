@@ -10,7 +10,7 @@ import { useBasePropsZoom, UseBasePropsZoomParameters } from "./zoom";
 
 export interface SlideZoomFadeProps<E extends Element> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsZoomParameters<E>, "zoomParameters">>, Partial<Get<UseBasePropsSlideParameters<E>, "slideParameters">>, Partial<Get<UseBasePropsFadeParameters<E>, "fadeParameters">> { };
 
-export const SlideZoomFade = memo(forwardElementRef(function SlideZoomFade<E extends HTMLElement>({ duration, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, show, animateOnMount, delayMountUntilShown, slideTargetBlock, slideTargetInline, fadeMax, fadeMin, exitVisibility, onVisibilityChange, ...rest }: SlideZoomFadeProps<E>, ref: Ref<E>) {
+export const SlideZoomFade = memo(forwardElementRef(function SlideZoomFade<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, show, animateOnMount, delayMountUntilShown, slideTargetBlock, slideTargetInline, fadeMax, fadeMin, exitVisibility, onVisibilityChange, ...rest }: SlideZoomFadeProps<E>, ref: Ref<E>) {
     return useTransition({
         transitionParameters: {
             measure: false,
@@ -20,12 +20,16 @@ export const SlideZoomFade = memo(forwardElementRef(function SlideZoomFade<E ext
             exitVisibility,
             delayMountUntilShown,
             onVisibilityChange,
+            easing,
+            easingIn,
+            easingOut,
             propsIncoming: useMergedProps<E>(
                 useBasePropsZoom({ zoomParameters: { zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline } }),
                 useBasePropsSlide({ slideParameters: { slideTargetBlock, slideTargetInline } }),
                 useBasePropsFade({ fadeParameters: { fadeMax, fadeMin } }),
                 { ref, ...rest }
             )
-        }
+        },
+        exclusiveTransitionParameters: { exclusivityKey }
     });
 }));

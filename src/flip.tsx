@@ -57,12 +57,12 @@ export interface FlipProps<E extends HTMLElement> extends TransitionParametersBa
  * with `1` being `100%` of the element's width or height.
  * 
  * A value of `0` is handled specially, effectively meaning "use the last non-zero value",
- * which allows for convenient setups inside of a `SwapContainer` 
+ * exclusivityKey allows for convenient setups inside of a `SwapContainer` 
  * (`flipInline={index - selectedIndex}` or similar.) 
  * 
  * @see `Transitionable`
  */
-export const Flip = memo(forwardElementRef(function Flip<E extends HTMLElement>({ duration, delayMountUntilShown, flipAngleInline, flipAngleBlock, flipPerspective, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: FlipProps<E>, ref: Ref<E>) {
+export const Flip = memo(forwardElementRef(function Flip<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, flipAngleInline, flipAngleBlock, flipPerspective, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: FlipProps<E>, ref: Ref<E>) {
     return useTransition({
         transitionParameters: {
             measure: false,
@@ -72,10 +72,14 @@ export const Flip = memo(forwardElementRef(function Flip<E extends HTMLElement>(
             exitVisibility,
             delayMountUntilShown,
             onVisibilityChange,
+            easing,
+            easingIn,
+            easingOut,
             propsIncoming: useMergedProps<E>(
                 useBasePropsFlip({ flipParameters: { flipAngleBlock, flipAngleInline, flipPerspective } }),
                 { ref, ...rest },
             )
-        }
+        },
+        exclusiveTransitionParameters: { exclusivityKey }
     });
 }));

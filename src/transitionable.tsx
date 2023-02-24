@@ -3,9 +3,9 @@ import { OnPassiveStateChange, returnNull, useEnsureStability, useMergedProps, u
 import { returnFalse, runImmediately } from "preact-prop-helpers/preact-extensions/use-passive-state";
 import { useCallback, useContext, useEffect, useLayoutEffect, useRef } from "preact/hooks";
 import { useExclusiveTransition } from "./exclusive";
-import { useCssClasses } from "./util/context";
+import { GetExclusiveTransitionContext, useCssClasses } from "./util/context";
 import { SwappableContextType, TransitionDirection, TransitionPhase, TransitionState, UseTransitionParameters } from "./util/types";
-import { SwappableContext, ExclusiveTransitionContext } from "./util/context";
+import { SwappableContext } from "./util/context";
 
 
 function getTimeoutDuration<E extends HTMLElement>(element: E | null) {
@@ -28,25 +28,20 @@ function parseState(nextState: TransitionState) {
  * @param param0 
  * @returns 
  */
-export function useTransition<E extends HTMLElement>({ transitionParameters: { propsIncoming: { children, ...p }, show, animateOnMount, measure, exitVisibility, duration, delayMountUntilShown, easing, easingIn, easingOut, onVisibilityChange } }: UseTransitionParameters<E>): VNode<h.JSX.HTMLAttributes<E>> | null {
-
-
+export function useTransition<E extends HTMLElement>({ transitionParameters: { propsIncoming: { children, ...p }, show, animateOnMount, measure, exitVisibility, duration, delayMountUntilShown, easing, easingIn, easingOut, onVisibilityChange }, exclusiveTransitionParameters: { exclusivityKey } }: UseTransitionParameters<E>): VNode<h.JSX.HTMLAttributes<E>> | null {
+    useEnsureStability("useTransition", onVisibilityChange);
 
     const { getAnimateOnMount } = useContext(SwappableContext);
     exitVisibility ||= "hidden"
     animateOnMount ??= getAnimateOnMount();
     measure ??= false;
 
-
-
-    useEnsureStability("useTransition", onVisibilityChange);
     const getExitVisibility = useStableGetter(exitVisibility);
     const { GetBaseClass, GetEnterClass, GetExitClass, GetMeasureClass, GetInitClass, GetTransitionClass, GetFinalizeClass, GetDirectionClass, GetPhaseClass } = useCssClasses();
     const getMeasure = useStableGetter(measure);
     const { exclusiveTransitionReturn: { exclusivelyOpen, isExclusive, onVisibilityChange: exclusiveTransitionVisibilityChange } } = useExclusiveTransition({
         transitionParameters: { show },
-        exclusiveTransitionParameters: { forceClose: useStableCallback(() => { internalOnShowChanged(false, getMeasure()); }) },
-        context: useContext(ExclusiveTransitionContext)
+        exclusiveTransitionParameters: { exclusivityKey, forceClose: useStableCallback(() => { internalOnShowChanged(false, getMeasure()); }) }
     });
 
     if (isExclusive) {
@@ -346,13 +341,11 @@ export function useTransition<E extends HTMLElement>({ transitionParameters: { p
     let modifiedChildren: VNode;
 
     if (childrenIsVnode) {
-        modifiedChildren = <ExclusiveTransitionContext.Provider value={null}><SwappableContext.Provider value={resetContext}>{cloneElement(children as VNode, finalProps)}</SwappableContext.Provider></ExclusiveTransitionContext.Provider>
+        modifiedChildren = <SwappableContext.Provider value={resetContext}>{cloneElement(children as VNode, finalProps)}</SwappableContext.Provider>
     }
     else {
-        modifiedChildren = <ExclusiveTransitionContext.Provider value={null}><SwappableContext.Provider value={resetContext}><span {...finalProps as h.JSX.HTMLAttributes<any>}>{children}</span></SwappableContext.Provider></ExclusiveTransitionContext.Provider>
+        modifiedChildren = <SwappableContext.Provider value={resetContext}><span {...finalProps as h.JSX.HTMLAttributes<any>}>{children}</span></SwappableContext.Provider>
     }
-
-
 
     return renderChildren ? modifiedChildren : null;
 }

@@ -58,7 +58,7 @@ export interface SlideProps<E extends HTMLElement> extends TransitionParametersB
  * 
  * @see `Transitionable`
  */
-export const Slide = memo(forwardElementRef(function Slide<E extends HTMLElement>({ duration, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, ...rest }: SlideProps<E>, ref: Ref<E>) {
+export const Slide = memo(forwardElementRef(function Slide<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, onVisibilityChange, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, ...rest }: SlideProps<E>, ref: Ref<E>) {
     return useTransition({
         transitionParameters: {
             measure: false,
@@ -67,10 +67,15 @@ export const Slide = memo(forwardElementRef(function Slide<E extends HTMLElement
             animateOnMount,
             exitVisibility,
             delayMountUntilShown,
+            easing,
+            easingIn,
+            easingOut,
+            onVisibilityChange,
             propsIncoming: useMergedProps<E>(
                 useBasePropsSlide({ slideParameters: { slideTargetBlock, slideTargetInline } }),
                 { ref, ...rest },
             )
-        }
+        },
+        exclusiveTransitionParameters: { exclusivityKey }
     });
 }));

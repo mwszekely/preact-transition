@@ -9,7 +9,7 @@ import { useBasePropsZoom, UseBasePropsZoomParameters } from "./zoom";
 
 export interface ZoomFadeProps<E extends Element> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFadeParameters<E>, "fadeParameters">>, Partial<Get<UseBasePropsZoomParameters<E>, "zoomParameters">> { };
 
-export const ZoomFade = memo(forwardElementRef(function ZoomFade<E extends HTMLElement>({ duration, fadeMin, fadeMax, show, animateOnMount, delayMountUntilShown, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, exitVisibility, onVisibilityChange, ...rest }: ZoomFadeProps<E>, ref: Ref<E>) {
+export const ZoomFade = memo(forwardElementRef(function ZoomFade<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, fadeMin, fadeMax, show, animateOnMount, delayMountUntilShown, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, exitVisibility, onVisibilityChange, ...rest }: ZoomFadeProps<E>, ref: Ref<E>) {
     return (
         useTransition({
             transitionParameters: {
@@ -20,12 +20,16 @@ export const ZoomFade = memo(forwardElementRef(function ZoomFade<E extends HTMLE
                 exitVisibility,
                 delayMountUntilShown,
                 onVisibilityChange,
+                easing,
+                easingIn,
+                easingOut,
                 propsIncoming: useMergedProps<E>(
                     useBasePropsFade({ fadeParameters: { fadeMax, fadeMin } }),
                     useBasePropsZoom({ zoomParameters: { zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline } }),
                     { ref, ...rest },
                 )
-            }
+            },
+            exclusiveTransitionParameters: { exclusivityKey }
         })
     );
 }));

@@ -64,7 +64,7 @@ export function useBasePropsClip<E extends Element>({ clipParameters: { clipMin,
 
 export interface ClipProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsClipParameters<E>, "clipParameters">> { };
 
-export const Clip = memo(forwardElementRef(function Clip<E extends HTMLElement>({ duration, delayMountUntilShown, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: ClipProps<E>, ref: Ref<E>) {
+export const Clip = memo(forwardElementRef(function Clip<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: ClipProps<E>, ref: Ref<E>) {
 
     return useTransition({
         transitionParameters: {
@@ -75,10 +75,14 @@ export const Clip = memo(forwardElementRef(function Clip<E extends HTMLElement>(
             exitVisibility,
             delayMountUntilShown,
             onVisibilityChange,
+            easing,
+            easingIn,
+            easingOut,
             propsIncoming: useMergedProps<E>(
                 useBasePropsClip({ clipParameters: { clipMin, clipMinInline, clipMinBlock, clipOrigin, clipOriginInline, clipOriginBlock } }),
                 { ref, ...rest }
             )
         },
+        exclusiveTransitionParameters: { exclusivityKey }
     });
 }))
