@@ -1,14 +1,25 @@
 import memoize from "lodash-es/memoize";
-import { createContext, h, RenderableProps } from "preact";
+import { Context, createContext, h, RenderableProps } from "preact";
 import { useCallback, useContext, useMemo } from "preact/hooks";
 import { ExclusiveContextType, SwappableContextType, TransitionDirection, TransitionPhase } from "./types";
 
-export const SwappableContext = createContext<SwappableContextType>({ getAnimateOnMount: () => false });
-export const GetExclusiveTransitionContext = memoize((exclusivityKey: string | null | undefined) => {
+function getExclusiveTransitionContextPrememoization(exclusivityKey: string): Context<ExclusiveContextType | null>;
+function getExclusiveTransitionContextPrememoization(exclusivityKey: null | undefined): null;
+function getExclusiveTransitionContextPrememoization(exclusivityKey: string | null | undefined): Context<ExclusiveContextType | null> | null;
+function getExclusiveTransitionContextPrememoization(exclusivityKey: string | null | undefined): Context<ExclusiveContextType | null> | null {
     if (exclusivityKey == null)
         return null;
     return createContext<ExclusiveContextType | null>(null);
-});
+}
+
+export const SwappableContext = createContext<SwappableContextType>({ getAnimateOnMount: () => false });
+
+/**
+ * Returns the context for a given `exclusivityKey`, creating one if it doesn't already exist.
+ * 
+ * If 
+ */
+export const GetExclusiveTransitionContext: typeof getExclusiveTransitionContextPrememoization = memoize(getExclusiveTransitionContextPrememoization);
 
 interface CssClassesProviderProps {
     base: string;
