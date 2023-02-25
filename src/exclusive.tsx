@@ -1,8 +1,8 @@
-import { Context, Fragment, h, RenderableProps, VNode } from "preact";
-import { useChildrenFlag, useEnsureStability, useManagedChild, UseManagedChildParameters, useManagedChildren, UseManagedChildrenContext, usePassiveState, useStableObject, useState } from "preact-prop-helpers";
+import { Fragment, h, RenderableProps, VNode } from "preact";
+import { useChildrenFlag, useEnsureStability, useManagedChild, UseManagedChildParameters, useManagedChildren, usePassiveState, useStableObject, useState } from "preact-prop-helpers";
 import { useCallback, useContext, useLayoutEffect, useMemo } from "preact/hooks";
-import { GetExclusiveTransitionContext } from "./util/context";
-import { ExclusiveContextType, ExclusiveInfo, TransitionParametersBase } from "./util/types";
+import { GetExclusiveTransitionContext } from "./util/context.js";
+import { ExclusiveContextType, ExclusiveInfo, TransitionParametersBase } from "./util/types.js";
 
 
 

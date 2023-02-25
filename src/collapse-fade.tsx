@@ -1,11 +1,11 @@
 import { Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
-import { useBasePropsCollapse, UseBasePropsCollapseParameters } from "./collapse";
-import { useBasePropsFade, UseBasePropsFadeParameters } from "./fade";
-import { useTransition } from "./transitionable";
-import { Get, TransitionParametersBase } from "./util/types";
-import { forwardElementRef } from "./util/util";
+import { useBasePropsCollapse, UseBasePropsCollapseParameters } from "./collapse.js";
+import { useBasePropsFade, UseBasePropsFadeParameters } from "./fade.js";
+import { useTransition } from "./transitionable.js";
+import { Get, TransitionParametersBase } from "./util/types.js";
+import { forwardElementRef } from "./util/util.js";
 
 export interface CollapseFadeProps<E extends Element> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFadeParameters<E>, "fadeParameters">>, Partial<Get<UseBasePropsCollapseParameters<E>, "collapseParameters">> { };
 

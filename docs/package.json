@@ -1,8 +1,9 @@
 {
   "name": "preact-transition-demo",
-  "private": true,
   "version": "0.0.1",
-  "main": "index.html",
+  "type": "module",
+  "description": "Demo page for preact-transition",
+  "main": "index.tsx",
   "packageManager": "pnpm@7.26.2",
   "browserslist": "defaults, iOS >= 12",
   "scripts": {

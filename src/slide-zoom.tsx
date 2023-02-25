@@ -1,11 +1,11 @@
 import { Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
-import { useBasePropsSlide, UseBasePropsSlideParameters } from "./slide";
-import { useTransition } from "./transitionable";
-import { Get, TransitionParametersBase } from "./util/types";
-import { forwardElementRef } from "./util/util";
-import { useBasePropsZoom, UseBasePropsZoomParameters } from "./zoom";
+import { useBasePropsSlide, UseBasePropsSlideParameters } from "./slide.js";
+import { useTransition } from "./transitionable.js";
+import { Get, TransitionParametersBase } from "./util/types.js";
+import { forwardElementRef } from "./util/util.js";
+import { useBasePropsZoom, UseBasePropsZoomParameters } from "./zoom.js";
 
 export interface SlideZoomProps<E extends Element> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsZoomParameters<E>, "zoomParameters">>, Partial<Get<UseBasePropsSlideParameters<E>, "slideParameters">> { };
 

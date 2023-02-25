@@ -1,12 +1,12 @@
-import { default as clsx } from "clsx";
+import { clsx } from "clsx";
 import { cloneElement, ComponentChildren, h, Ref, VNode } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useEffect, useRef } from "preact/hooks";
-import { GetExclusiveTransitionContext, SwappableContext, useCssClasses } from "./util/context";
-import { forwardElementRef } from "./util/util";
-import { NonIntrusiveElementAttributes } from "./util/types";
-import { ExclusiveTransitionProvider } from "./exclusive";
+import { ExclusiveTransitionProvider } from "./exclusive.js";
+import { SwappableContext, useCssClasses } from "./util/context.js";
+import { NonIntrusiveElementAttributes } from "./util/types.js";
+import { forwardElementRef } from "./util/util.js";
 
 export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappableProps>, NonIntrusiveElementAttributes<E> {
     children: ComponentChildren;
