@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Demo page for preact-transition",
   "main": "index.tsx",
-  "packageManager": "pnpm@7.26.2",
+  "packageManager": "pnpm@7.28.0",
   "browserslist": "defaults, iOS >= 12",
   "scripts": {
     "build": "npx npm-run-all --npm-path npm -sc build:sass build:css build:js",

@@ -10,6 +10,7 @@ package-lock.json
 !docs/bundle.js
 docs/main-unprefixed.css
 docs/main-unprefixed.css.map
+!dist/**
 
 # Logs
 logs
@@ -95,7 +96,6 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
 # Gatsby files
 .cache/
