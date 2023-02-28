@@ -22,4 +22,6 @@ export { SlideZoomFade, SlideZoomFadeProps } from "./slide-zoom-fade.js";
 export { useBasePropsZoom, UseBasePropsZoomParameters, Zoom, ZoomProps } from "./zoom.js";
 export { ZoomFade, ZoomFadeProps } from "./zoom-fade.js";
 
+export { ExclusiveTransitionProvider } from "./exclusive.js"
+
 export { useCssClasses } from "./util/context.js";

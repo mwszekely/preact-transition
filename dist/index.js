@@ -12,5 +12,6 @@ export { SlideZoom } from "./slide-zoom.js";
 export { SlideZoomFade } from "./slide-zoom-fade.js";
 export { useBasePropsZoom, Zoom } from "./zoom.js";
 export { ZoomFade } from "./zoom-fade.js";
+export { ExclusiveTransitionProvider } from "./exclusive.js";
 export { useCssClasses } from "./util/context.js";
 //# sourceMappingURL=index.js.map
