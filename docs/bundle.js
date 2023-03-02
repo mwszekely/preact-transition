@@ -2929,7 +2929,6 @@
       }, [])
     });
     const onVisibilityChange = T$1((index, visible) => {
-      debugger;
       const nextInLine = getNextIndexInLine();
       const currentInLine = getCurrentIndex();
       if (visible == "show" && index != currentInLine) {
@@ -2984,7 +2983,6 @@
     const c = GetExclusiveTransitionContext(exclusivityKey);
     useEnsureStability("useExclusiveTransition", c == null);
     const context = c ? q(c) : null;
-    //const index = useMemo(() => generateRandomId(), []);
     const index = F$1(() => {
       globalCount += 1;
       return globalCount.toString();

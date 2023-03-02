@@ -17,7 +17,6 @@ export function ExclusiveTransitionProvider({ exclusivityKey, children }) {
         isValid: useCallback((m) => { return true; }, []),
     });
     const onVisibilityChange = useCallback((index, visible) => {
-        debugger;
         const nextInLine = getNextIndexInLine();
         const currentInLine = getCurrentIndex();
         if (visible == "show" && index != currentInLine) {
@@ -61,7 +60,6 @@ export function useExclusiveTransition({ transitionParameters: { show }, exclusi
     const c = GetExclusiveTransitionContext(exclusivityKey);
     useEnsureStability("useExclusiveTransition", c == null);
     const context = c ? useContext(c) : null;
-    //const index = useMemo(() => generateRandomId(), []);
     const index = useMemo(() => { globalCount += 1; return (globalCount).toString(); }, []);
     const [exclusivelyOpen, setExclusivelyOpen, getExclusivelyOpen] = useState(!!show);
     const { managedChildReturn: { getChildren } } = useManagedChild({ context, managedChildParameters: { index } }, { index, getExclusivelyOpen, setExclusivelyOpen, forceClose });

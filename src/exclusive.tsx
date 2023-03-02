@@ -25,7 +25,6 @@ export function ExclusiveTransitionProvider({ exclusivityKey, children }: Render
     })
 
     const onVisibilityChange = useCallback((index: string, visible: "show" | "hidden") => {
-        debugger;
         const nextInLine = getNextIndexInLine();
         const currentInLine = getCurrentIndex();
 
@@ -82,7 +81,6 @@ export function useExclusiveTransition({ transitionParameters: { show }, exclusi
     useEnsureStability("useExclusiveTransition", c == null);
     const context = c? useContext(c) : null;
 
-    //const index = useMemo(() => generateRandomId(), []);
     const index = useMemo(() => { globalCount += 1; return (globalCount).toString() }, []);
     const [exclusivelyOpen, setExclusivelyOpen, getExclusivelyOpen] = useState<boolean>(!!show);
     const {
