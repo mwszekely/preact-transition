@@ -8,8 +8,10 @@ package-lock.json
 !rollup.config.js
 !true.js
 !docs/bundle.js
+!docs/bundle.js.map
 docs/main-unprefixed.css
 docs/main-unprefixed.css.map
+!dist/**
 
 # Logs
 logs
@@ -95,7 +97,6 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
 
 # Gatsby files
 .cache/

@@ -1,4 +1,4 @@
-import { UseExclusiveTransitionParameters } from "exclusive";
+import { UseExclusiveTransitionParameters } from "../exclusive.js";
 import { h } from "preact";
 import { ManagedChildInfo, UseManagedChildrenContext } from "preact-prop-helpers";
 

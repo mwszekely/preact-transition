@@ -1,11 +1,11 @@
 import { cloneElement, h, VNode } from "preact";
 import { OnPassiveStateChange, returnNull, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableCallback, useStableGetter } from "preact-prop-helpers";
-import { returnFalse, runImmediately } from "preact-prop-helpers/preact-extensions/use-passive-state";
+import { returnFalse, runImmediately } from "preact-prop-helpers";
 import { useCallback, useContext, useEffect, useLayoutEffect, useRef } from "preact/hooks";
-import { useExclusiveTransition } from "./exclusive";
-import { GetExclusiveTransitionContext, useCssClasses } from "./util/context";
-import { SwappableContextType, TransitionDirection, TransitionPhase, TransitionState, UseTransitionParameters } from "./util/types";
-import { SwappableContext } from "./util/context";
+import { useExclusiveTransition } from "./exclusive.js";
+import { GetExclusiveTransitionContext, useCssClasses } from "./util/context.js";
+import { SwappableContextType, TransitionDirection, TransitionPhase, TransitionState, UseTransitionParameters } from "./util/types.js";
+import { SwappableContext } from "./util/context.js";
 
 
 function getTimeoutDuration<E extends HTMLElement>(element: E | null) {

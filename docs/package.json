@@ -1,9 +1,10 @@
 {
   "name": "preact-transition-demo",
-  "private": true,
   "version": "0.0.1",
-  "main": "index.html",
-  "packageManager": "pnpm@7.26.2",
+  "type": "module",
+  "description": "Demo page for preact-transition",
+  "main": "index.tsx",
+  "packageManager": "pnpm@7.28.0",
   "browserslist": "defaults, iOS >= 12",
   "scripts": {
     "build": "npx npm-run-all --npm-path npm -sc build:sass build:css build:js",
@@ -14,8 +15,7 @@
     "build:sass": "sass ./main.scss:./main-unprefixed.css",
     "build:css": "postcss main-unprefixed.css --use autoprefixer -o main.css",
     "build:js": "rollup --config rollup.config.mjs",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "npm run build"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",

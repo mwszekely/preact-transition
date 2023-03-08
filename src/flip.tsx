@@ -1,10 +1,10 @@
 import { h, Ref } from "preact";
 import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
-import { useTransition } from "./transitionable";
-import { useCssClasses } from "./util/context";
-import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types";
-import { forwardElementRef, useLastNonNullValue } from "./util/util";
+import { useTransition } from "./transitionable.js";
+import { useCssClasses } from "./util/context.js";
+import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types.js";
+import { forwardElementRef, useLastNonNullValue } from "./util/util.js";
 
 /**
  * Properties that allow adjusting the direction and extent of the flip effect. 

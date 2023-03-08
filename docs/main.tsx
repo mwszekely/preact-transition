@@ -1,8 +1,8 @@
 
 import { Fragment, h, render } from "preact";
 import { useCallback, useLayoutEffect, useState } from "preact/hooks";
-import { Clip, ZoomFade, ClipFade, Collapse, Zoom, Fade, Slide, SlideFade, SlideZoomFade, SlideZoom, Swappable, CollapseFade, Flip, ExitVisibility as EV, useCssClasses } from "..";
-import { UseTransitionParameters } from "../util/types";
+import { Clip, ZoomFade, ClipFade, Collapse, Zoom, Fade, Slide, SlideFade, SlideZoomFade, SlideZoom, Swappable, CollapseFade, Flip, ExitVisibility as EV, useCssClasses } from "../dist/index.js";
+import { UseTransitionParameters } from "../dist/index.js";
 
 function halfText(input: string, times: number): string {
   if (times <= 0)
