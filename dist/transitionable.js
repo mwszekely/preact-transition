@@ -40,7 +40,7 @@ export function useTransition({ transitionParameters: { propsIncoming: { childre
     if (isExclusive) {
         show = (show && exclusivelyOpen);
     }
-    const { refElementReturn: { getElement, propsStable } } = useRefElement({});
+    const { refElementReturn: { getElement }, propsStable } = useRefElement({});
     const cssProperties = useRef({});
     const classNames = useRef(new Set([
         // This is removed during useLayoutEffect on the first render

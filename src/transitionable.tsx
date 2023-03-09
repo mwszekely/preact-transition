@@ -48,7 +48,7 @@ export function useTransition<E extends HTMLElement>({ transitionParameters: { p
         show = (show && exclusivelyOpen);
     }
 
-    const { refElementReturn: { getElement, propsStable } } = useRefElement<E>({})
+    const { refElementReturn: { getElement }, propsStable } = useRefElement<E>({})
     const cssProperties = useRef<h.JSX.CSSProperties>({});
     const classNames = useRef(new Set<string>([
         // This is removed during useLayoutEffect on the first render
