@@ -3,15 +3,15 @@ lockfileVersion: 5.4
 specifiers:
   clsx: ^1.2.1
   npm-run-all: ^4.1.5
-  preact: ^10.13.0
+  preact: ^10.13.1
   preact-prop-helpers: github:mwszekely/preact-prop-helpers
   sass: ^1.58.0
   typescript: 5.0.1-rc
 
 dependencies:
   clsx: 1.2.1
-  preact: 10.13.0
-  preact-prop-helpers: github.com/mwszekely/preact-prop-helpers/e904c865fe8376f2198251f128d043bf83752124_preact@10.13.0
+  preact: 10.13.1
+  preact-prop-helpers: github.com/mwszekely/preact-prop-helpers/4eef67d281542795eef9d4b1d473bf585f2ec535_preact@10.13.1
 
 devDependencies:
   npm-run-all: 4.1.5
@@ -590,8 +590,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /preact/10.13.0:
-    resolution: {integrity: sha512-ERdIdUpR6doqdaSIh80hvzebHB7O6JxycOhyzAeLEchqOq/4yueslQbfnPwXaNhAYacFTyCclhwkEbOumT0tHw==}
+  /preact/10.13.1:
+    resolution: {integrity: sha512-KyoXVDU5OqTpG9LXlB3+y639JAGzl8JSBXLn1J9HTSB3gbKcuInga7bZnXLlxmK94ntTs1EFeZp0lrja2AuBYQ==}
     dev: false
 
   /read-pkg/3.0.0:
@@ -818,9 +818,9 @@ packages:
     resolution: {integrity: sha512-Ba9tGNYxXwaqKEi9sJJvPMKuo063umUPsHN0JJsjrs2j8KDSzkWLMZGZ+MH1Jf1Fq4OWZ5HsESJID6nRza2ang==}
     dev: false
 
-  github.com/mwszekely/preact-prop-helpers/e904c865fe8376f2198251f128d043bf83752124_preact@10.13.0:
-    resolution: {tarball: https://codeload.github.com/mwszekely/preact-prop-helpers/tar.gz/e904c865fe8376f2198251f128d043bf83752124}
-    id: github.com/mwszekely/preact-prop-helpers/e904c865fe8376f2198251f128d043bf83752124
+  github.com/mwszekely/preact-prop-helpers/4eef67d281542795eef9d4b1d473bf585f2ec535_preact@10.13.1:
+    resolution: {tarball: https://codeload.github.com/mwszekely/preact-prop-helpers/tar.gz/4eef67d281542795eef9d4b1d473bf585f2ec535}
+    id: github.com/mwszekely/preact-prop-helpers/4eef67d281542795eef9d4b1d473bf585f2ec535
     name: preact-prop-helpers
     version: 0.0.1
     peerDependencies:
@@ -829,7 +829,7 @@ packages:
       blocking-elements: 0.1.1
       clsx: 1.2.1
       lodash-es: 4.17.21
-      preact: 10.13.0
+      preact: 10.13.1
       tabbable: 6.1.1
       wicg-inert: 3.1.2
     dev: false
