@@ -3,7 +3,7 @@ import { UseManagedChildParameters } from "preact-prop-helpers";
 import { ExclusiveInfo, TransitionParametersBase } from "./util/types.js";
 export declare function ExclusiveTransitionProvider({ exclusivityKey, children }: RenderableProps<{
     exclusivityKey?: string | null | undefined;
-}>): VNode<{}> | h.JSX.Element;
+}>): h.JSX.Element | VNode<{}>;
 export interface UseExclusiveTransitionParameters extends Omit<UseManagedChildParameters<ExclusiveInfo>, "managedChildParameters" | "context"> {
     transitionParameters: Pick<TransitionParametersBase<any>, "show">;
     exclusiveTransitionParameters: {
