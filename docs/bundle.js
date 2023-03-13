@@ -3178,7 +3178,6 @@
         }, [])
       });
       const onVisibilityChange = T$1((index, visible) => {
-        console.log("onVisibilityChange: Setting ".concat(index, " to ").concat(visible));
         const nextInLine = getNextIndexInLine();
         const currentInLine = getCurrentIndex();
         if (visible == "show" && index != currentInLine) {
@@ -3189,12 +3188,9 @@
            * or wait until that aforementioned exit has finished.
            */
           if (currentInLine == null) {
-            console.log("changeIndex(".concat(index, ")"));
             changeIndex(index);
           } else {
             var _getChildren$getAt, _getChildren$getAt$fo;
-            console.log("getChildren().getAt(".concat(currentInLine, ")?.forceClose?.()"));
-            console.log("setNextIndexInLine(".concat(index, ")"));
             (_getChildren$getAt = getChildren().getAt(currentInLine)) === null || _getChildren$getAt === void 0 ? void 0 : (_getChildren$getAt$fo = _getChildren$getAt.forceClose) === null || _getChildren$getAt$fo === void 0 ? void 0 : _getChildren$getAt$fo.call(_getChildren$getAt);
             setNextIndexInLine(index);
           }
@@ -3205,8 +3201,6 @@
            * that we do so.
            */
           if (nextInLine != null) {
-            console.log("changeIndex(".concat(nextInLine, ")"));
-            console.log("setNextIndexInLine(null)");
             changeIndex(nextInLine);
             setNextIndexInLine(null);
           } else {
