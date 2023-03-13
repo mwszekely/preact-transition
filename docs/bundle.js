@@ -3178,6 +3178,7 @@
         }, [])
       });
       const onVisibilityChange = T$1((index, visible) => {
+        console.log("onVisibilityChange: Setting ".concat(index, " to ").concat(visible));
         const nextInLine = getNextIndexInLine();
         const currentInLine = getCurrentIndex();
         if (visible == "show" && index != currentInLine) {
@@ -3188,9 +3189,12 @@
            * or wait until that aforementioned exit has finished.
            */
           if (currentInLine == null) {
+            console.log("changeIndex(".concat(index, ")"));
             changeIndex(index);
           } else {
             var _getChildren$getAt, _getChildren$getAt$fo;
+            console.log("getChildren().getAt(".concat(currentInLine, ")?.forceClose?.()"));
+            console.log("setNextIndexInLine(".concat(index, ")"));
             (_getChildren$getAt = getChildren().getAt(currentInLine)) === null || _getChildren$getAt === void 0 ? void 0 : (_getChildren$getAt$fo = _getChildren$getAt.forceClose) === null || _getChildren$getAt$fo === void 0 ? void 0 : _getChildren$getAt$fo.call(_getChildren$getAt);
             setNextIndexInLine(index);
           }
@@ -3201,8 +3205,12 @@
            * that we do so.
            */
           if (nextInLine != null) {
+            console.log("changeIndex(".concat(nextInLine, ")"));
+            console.log("setNextIndexInLine(null)");
             changeIndex(nextInLine);
             setNextIndexInLine(null);
+          } else {
+            changeIndex(null);
           }
         }
       }, []);
@@ -3770,7 +3778,7 @@
         }
       };
     }
-    const Clip = x(forwardElementRef(function Clip(_ref6, ref) {
+    x(forwardElementRef(function Clip(_ref6, ref) {
       let {
         duration,
         exclusivityKey,
@@ -3822,7 +3830,7 @@
       });
     }));
 
-    const ClipFade = x(forwardElementRef(function ClipFade(_ref, ref) {
+    x(forwardElementRef(function ClipFade(_ref, ref) {
       let {
         delayMountUntilShown,
         exclusivityKey,
@@ -3914,7 +3922,7 @@
      *
      * @see `Transitionable`
      */
-    const Collapse = x(forwardElementRef(function Collapse(_ref2, ref) {
+    x(forwardElementRef(function Collapse(_ref2, ref) {
       let {
         show,
         exclusivityKey,
@@ -3956,7 +3964,7 @@
       });
     }));
 
-    const CollapseFade = x(forwardElementRef(function CollapseFade(_ref, ref) {
+    x(forwardElementRef(function CollapseFade(_ref, ref) {
       let {
         show,
         exclusivityKey,
@@ -4041,7 +4049,7 @@
      *
      * @see `Transitionable`
      */
-    const Flip = x(forwardElementRef(function Flip(_ref2, ref) {
+    x(forwardElementRef(function Flip(_ref2, ref) {
       let {
         duration,
         exclusivityKey,
@@ -4123,7 +4131,7 @@
      *
      * @see `Transitionable`
      */
-    const Slide = x(forwardElementRef(function Slide(_ref2, ref) {
+    x(forwardElementRef(function Slide(_ref2, ref) {
       let {
         duration,
         exclusivityKey,
@@ -4167,7 +4175,7 @@
       });
     }));
 
-    const SlideFade = x(forwardElementRef(function SlideFade(_ref, ref) {
+    x(forwardElementRef(function SlideFade(_ref, ref) {
       let {
         duration,
         exclusivityKey,
@@ -4250,7 +4258,7 @@
      * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
      * @see `Transitionable` `ZoomFade`
      */
-    const Zoom = x(forwardElementRef(function Zoom(_ref6, ref) {
+    x(forwardElementRef(function Zoom(_ref6, ref) {
       let {
         duration,
         exclusivityKey,
@@ -4302,7 +4310,7 @@
       });
     }));
 
-    const SlideZoom = x(forwardElementRef(function SlideZoom(_ref, ref) {
+    x(forwardElementRef(function SlideZoom(_ref, ref) {
       let {
         duration,
         exclusivityKey,
@@ -4361,7 +4369,7 @@
       });
     }));
 
-    const SlideZoomFade = x(forwardElementRef(function SlideZoomFade(_ref, ref) {
+    x(forwardElementRef(function SlideZoomFade(_ref, ref) {
       let {
         duration,
         exclusivityKey,
@@ -4427,7 +4435,7 @@
       });
     }));
 
-    const ZoomFade = x(forwardElementRef(function ZoomFade(_ref, ref) {
+    x(forwardElementRef(function ZoomFade(_ref, ref) {
       let {
         duration,
         exclusivityKey,
@@ -4554,6 +4562,10 @@
         setShow3(2);
         e.preventDefault();
       }, []);
+      const onInputD = T$1(e => {
+        setShow3(null);
+        e.preventDefault();
+      }, []);
       return o$1(d$1, {
         children: [o$1("div", {
           id: "controls",
@@ -4660,6 +4672,14 @@
               children: [o$1("input", {
                 type: "radio",
                 name: "swap-index",
+                onInput: onInputD,
+                checked: show3 == null
+              }), "(none)"]
+            }), o$1("label", {
+              className: "code-mimic",
+              children: [o$1("input", {
+                type: "radio",
+                name: "swap-index",
                 onInput: onInputA,
                 checked: show3 == 0
               }), "#0"]
@@ -4754,56 +4774,14 @@
           style: {
             ["--".concat(useCssClasses().GetBaseClass(), "-duration")]: "".concat(duration, "ms")
           },
-          children: [o$1(FadeDemo, {
+          children: o$1(FadeDemo, {
             cardShow: show1,
             animateOnMount: animateOnMount,
             exclusive: exclusive,
             contentIndex: show3,
             exitVisibility: reflow,
             text: text
-          }), o$1(SlideDemo, {
-            cardShow: show1,
-            animateOnMount: animateOnMount,
-            exclusive: exclusive,
-            contentIndex: show3,
-            exitVisibility: reflow,
-            text: text
-          }), o$1(ZoomDemo, {
-            cardShow: show1,
-            animateOnMount: animateOnMount,
-            exclusive: exclusive,
-            contentIndex: show3,
-            exitVisibility: reflow,
-            text: text
-          }), o$1(ClipDemo, {
-            cardShow: show1,
-            animateOnMount: animateOnMount,
-            exclusive: exclusive,
-            contentIndex: show3,
-            exitVisibility: reflow,
-            text: text
-          }), o$1(FlipDemo, {
-            cardShow: show1,
-            animateOnMount: animateOnMount,
-            exclusive: exclusive,
-            contentIndex: show3,
-            exitVisibility: reflow,
-            text: text
-          }), o$1(ZoomSlideDemo, {
-            cardShow: show1,
-            animateOnMount: animateOnMount,
-            exclusive: exclusive,
-            contentIndex: show3,
-            exitVisibility: reflow,
-            text: text
-          }), o$1(CollapseDemo, {
-            cardShow: show1,
-            animateOnMount: animateOnMount,
-            exclusive: exclusive,
-            contentIndex: show3,
-            exitVisibility: reflow,
-            text: text
-          })]
+          })
         }, writingMode)]
       });
     }
@@ -4886,690 +4864,7 @@
             })
           }), o$1("code", {
             children: o$1("pre", {
-              children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(min != 0 ? " \n  fadeMin={".concat(min, "}") : "").concat(max != 1 ? " \n  fadeMax={".concat(max, "}") : "").concat(exitVisibility != "hidden" ? "\n  exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  <Swappable>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={").concat(contentIndex.toString(), " == 0}").concat(min != 0 ? " \n        fadeMin={".concat(min, "}") : "").concat(max != 1 ? " \n        fadeMax={".concat(max, "}") : "").concat(exitVisibility != "hidden" ? "\n        exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={").concat(contentIndex.toString(), " == 1} [...] />\n      <").concat(CS, " show={").concat(contentIndex.toString(), " == 2} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
-            })
-          })]
-        })]
-      });
-    }
-    function ClipDemo(_ref2) {
-      let {
-        cardShow,
-        contentIndex,
-        exitVisibility,
-        text,
-        animateOnMount,
-        exclusive
-      } = _ref2;
-      const [originX, setOriginX] = p(0.5);
-      const [originY, setOriginY] = p(0);
-      const [minX, setMinX] = p(1);
-      const [minY, setMinY] = p(0);
-      const [withFade, setWithFade] = p(true);
-      p(false);
-      const onOriginXInput = T$1(e => {
-        setOriginX(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onOriginYInput = T$1(e => {
-        setOriginY(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onMinXInput = T$1(e => {
-        setMinX(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onMinYInput = T$1(e => {
-        setMinY(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onWithFadeInput = T$1(e => {
-        setWithFade(e.target.checked);
-        e.preventDefault();
-      }, []);
-      const C = withFade ? ClipFade : Clip;
-      const CS = withFade ? "ClipFade" : "Clip";
-      const E = exclusive ? "e" : null;
-      const makeChild = i => o$1(C, {
-        show: contentIndex === i,
-        exclusivityKey: E,
-        exitVisibility: exitVisibility,
-        clipOriginInline: originX,
-        clipOriginBlock: originY,
-        clipMinInline: minX,
-        clipMinBlock: minY,
-        children: o$1("div", {
-          className: "card-contents",
-          children: [halfText(text, i), o$1("div", {
-            children: o$1("button", {
-              children: "Focusable element"
-            })
-          })]
-        })
-      });
-      return o$1("div", {
-        className: "demo-section",
-        children: [o$1("h2", {
-          children: "Clip"
-        }), o$1("div", {
-          className: "demo",
-          children: [o$1("div", {
-            className: "demo-controls",
-            children: [o$1("label", {
-              children: ["Origin to center the effect around on the inline-axis position (X-axis in English, etc.) ", o$1("input", {
-                onInput: onOriginXInput,
-                value: originX,
-                type: "number",
-                step: 0.125,
-                min: -2,
-                max: 2
-              })]
-            }), o$1("label", {
-              children: ["Origin to center the effect around on the block-axis position (Y-axis in English, etc.)  ", o$1("input", {
-                onInput: onOriginYInput,
-                value: originY,
-                type: "number",
-                step: 0.125,
-                min: -2,
-                max: 2
-              })]
-            }), o$1("label", {
-              children: ["Minimum size on the inline-axis ", o$1("input", {
-                onInput: onMinXInput,
-                value: minX,
-                type: "number",
-                step: 0.125,
-                min: 0,
-                max: 1
-              })]
-            }), o$1("label", {
-              children: ["Minimum size on the block-axis  ", o$1("input", {
-                onInput: onMinYInput,
-                value: minY,
-                type: "number",
-                step: 0.125,
-                min: 0,
-                max: 1
-              })]
-            }), o$1("label", {
-              children: ["With fade", o$1("input", {
-                checked: withFade,
-                onInput: onWithFadeInput,
-                type: "checkbox"
-              })]
-            })]
-          }), cardShow != "unmounted" && o$1(C, {
-            show: cardShow == "pending" ? null : cardShow == "showing",
-            animateOnMount: animateOnMount,
-            exitVisibility: exitVisibility,
-            clipMinInline: minX,
-            clipMinBlock: minY,
-            clipOriginInline: originX,
-            clipOriginBlock: originY,
-            children: o$1(Swappable, {
-              exclusivityKey: E,
-              children: o$1("div", {
-                className: "card",
-                children: [makeChild(0), makeChild(1), makeChild(2)]
-              })
-            })
-          }), o$1("code", {
-            children: o$1("pre", {
-              children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(originX != 0.5 ? " \n  clipOriginX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n  clipOriginY={".concat(originY, "}") : "").concat(minX != 0 ? " \n  clipMinX={".concat(minX, "}") : "").concat(minY != 0 ? " \n  clipMinY={".concat(minY, "}") : "").concat(exitVisibility ? "\n  exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  <Swappable>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={").concat(contentIndex.toString(), " == 0}").concat(originX != 0.5 ? " \n        clipOriginX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n        clipOriginY={".concat(originY, "}") : "").concat(minX != 0 ? " \n        clipMinX={".concat(minX, "}") : "").concat(minY != 0 ? " \n        clipMinY={".concat(minY, "}") : "").concat(exitVisibility ? "\n        exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={").concat(contentIndex.toString(), " == 1} [...] />\n      <").concat(CS, " show={").concat(contentIndex.toString(), " == 2} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
-            })
-          })]
-        })]
-      });
-    }
-    function ZoomSlideDemo(_ref3) {
-      let {
-        cardShow,
-        contentIndex,
-        exitVisibility,
-        text,
-        animateOnMount,
-        exclusive
-      } = _ref3;
-      const [originX, setOriginX] = p(0.5);
-      const [originY, setOriginY] = p(0);
-      const [minX, setMinX] = p(0.75);
-      const [minY, setMinY] = p(0.75);
-      const [slideX, setSlideX] = p(0.25);
-      const [slideY, setSlideY] = p(0);
-      const [withFade, setWithFade] = p(true);
-      const onSlideXInput = T$1(e => {
-        setSlideX(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onSlideYInput = T$1(e => {
-        setSlideY(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onWithFadeInput = T$1(e => {
-        setWithFade(e.target.checked);
-        e.preventDefault();
-      }, []);
-      const onOriginXInput = T$1(e => {
-        setOriginX(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onOriginYInput = T$1(e => {
-        setOriginY(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onMinXInput = T$1(e => {
-        setMinX(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onMinYInput = T$1(e => {
-        setMinY(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const C = withFade ? SlideZoomFade : SlideZoom;
-      const CS = withFade ? "SlideZoomFade" : "SlideZoom";
-      const E = exclusive ? "e" : null;
-      const makeChild = i => o$1(C, {
-        show: contentIndex === i,
-        exclusivityKey: E,
-        exitVisibility: exitVisibility,
-        slideTargetInline: slideX * Math.sign(i - contentIndex) || null,
-        slideTargetBlock: slideY * Math.sign(i - contentIndex) || null,
-        zoomOriginInline: originX,
-        zoomOriginBlock: originY,
-        zoomMinInline: minX,
-        zoomMinBlock: minY,
-        children: o$1("div", {
-          className: "card-contents",
-          children: [halfText(text, i), o$1("div", {
-            children: o$1("button", {
-              children: "Focusable element"
-            })
-          })]
-        })
-      });
-      return o$1("div", {
-        className: "demo-section",
-        children: [o$1("h2", {
-          children: "Zoom & Slide"
-        }), o$1("div", {
-          className: "demo",
-          children: [o$1("div", {
-            className: "demo-controls",
-            children: [o$1("label", {
-              children: ["Transform origin on the inline-axis position (X-axis in English, etc.) ", o$1("input", {
-                onInput: onOriginXInput,
-                value: originX,
-                type: "number",
-                step: 0.125,
-                min: -2,
-                max: 2
-              })]
-            }), o$1("label", {
-              children: ["Transform origin on the block-axis position (Y-axis in English, etc.)  ", o$1("input", {
-                onInput: onOriginYInput,
-                value: originY,
-                type: "number",
-                step: 0.125,
-                min: -2,
-                max: 2
-              })]
-            }), o$1("label", {
-              children: ["Target block-axis position (X-axis in English, etc.) ", o$1("input", {
-                onInput: onSlideXInput,
-                value: slideX,
-                type: "number",
-                step: 0.125,
-                min: -2,
-                max: 2
-              })]
-            }), o$1("label", {
-              children: ["Target inline-axis position (Y-axis in English, etc.)  ", o$1("input", {
-                onInput: onSlideYInput,
-                value: slideY,
-                type: "number",
-                step: 0.125,
-                min: -2,
-                max: 2
-              })]
-            }), o$1("label", {
-              children: ["Minimum size on the inline-axis ", o$1("input", {
-                onInput: onMinXInput,
-                value: minX,
-                type: "number",
-                step: 0.125,
-                min: 0,
-                max: 1
-              })]
-            }), o$1("label", {
-              children: ["Minimum size on the block-axis  ", o$1("input", {
-                onInput: onMinYInput,
-                value: minY,
-                type: "number",
-                step: 0.125,
-                min: 0,
-                max: 1
-              })]
-            }), o$1("label", {
-              children: ["With fade", o$1("input", {
-                checked: withFade,
-                onInput: onWithFadeInput,
-                type: "checkbox"
-              })]
-            })]
-          }), cardShow != "unmounted" && o$1(C, {
-            show: cardShow == "pending" ? null : cardShow == "showing",
-            animateOnMount: animateOnMount,
-            exitVisibility: exitVisibility,
-            slideTargetInline: slideX || null,
-            slideTargetBlock: slideY || null,
-            zoomMinInline: minX,
-            zoomMinBlock: minY,
-            zoomOriginInline: originX,
-            zoomOriginBlock: originY,
-            children: o$1(Swappable, {
-              exclusivityKey: E,
-              children: o$1("div", {
-                className: "card",
-                children: [makeChild(0), makeChild(1), makeChild(2)]
-              })
-            })
-          }), o$1("code", {
-            children: o$1("pre", {
-              children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(originX != 0.5 ? " \n  originX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n  originY={".concat(originY, "}") : "").concat(minX != 0 ? " \n  minX={".concat(minX, "}") : "").concat(minY != 0 ? " \n  minY={".concat(minY, "}") : "").concat(slideX != 0 ? " \n  slideTargetInline={".concat(slideX, "}") : "").concat(slideY != 0 ? " \n  slideTargetBlock={".concat(slideY, "}") : "").concat(exitVisibility ? "\n  exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  <Swappable>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={0 == ").concat(contentIndex.toString(), "}").concat(originX != 0.5 ? " \n        originX={".concat(originX, " * Math.sign(0 - ").concat(contentIndex, "}") : "").concat(originY != 0.5 ? " \n        originY={".concat(originY, " * Math.sign(0 - ").concat(contentIndex, "}") : "").concat(minX != 0 ? " \n        minX={".concat(minX, "}") : "").concat(minY != 0 ? " \n        minY={".concat(minY, "}") : "").concat(slideX != 0 ? " \n        slideTargetInline={".concat(slideX, "}") : "").concat(slideY != 0 ? " \n        slideTargetBlock={".concat(slideY, "}") : "").concat(exitVisibility ? "\n        exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={1 == ").concat(contentIndex.toString(), "} [...] />\n      <").concat(CS, " show={2 == ").concat(contentIndex.toString(), "} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
-            })
-          })]
-        })]
-      });
-    }
-    function ZoomDemo(_ref4) {
-      let {
-        cardShow,
-        contentIndex,
-        exitVisibility,
-        text,
-        animateOnMount,
-        exclusive
-      } = _ref4;
-      const [originX, setOriginX] = p(0.5);
-      const [originY, setOriginY] = p(0);
-      const [minX, setMinX] = p(0.75);
-      const [minY, setMinY] = p(0.75);
-      const [withFade, setWithFade] = p(true);
-      const onOriginXInput = T$1(e => {
-        setOriginX(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onOriginYInput = T$1(e => {
-        setOriginY(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onMinXInput = T$1(e => {
-        setMinX(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onMinYInput = T$1(e => {
-        setMinY(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onWithFadeInput = T$1(e => {
-        setWithFade(e.target.checked);
-        e.preventDefault();
-      }, []);
-      const C = withFade ? ZoomFade : Zoom;
-      const CS = withFade ? "ZoomFade" : "Zoom";
-      const E = exclusive ? "e" : null;
-      const makeChild = i => o$1(C, {
-        show: contentIndex === i,
-        exclusivityKey: E,
-        exitVisibility: exitVisibility,
-        zoomOriginInline: originX,
-        zoomOriginBlock: originY,
-        zoomMinInline: minX,
-        zoomMinBlock: minY,
-        children: o$1("div", {
-          className: "card-contents",
-          children: [halfText(text, i), o$1("div", {
-            children: o$1("button", {
-              children: "Focusable element"
-            })
-          })]
-        })
-      });
-      return o$1("div", {
-        className: "demo-section",
-        children: [o$1("h2", {
-          children: "Zoom"
-        }), o$1("div", {
-          className: "demo",
-          children: [o$1("div", {
-            className: "demo-controls",
-            children: [o$1("label", {
-              children: ["Transform origin on the inline-axis position (X-axis in English, etc.) ", o$1("input", {
-                onInput: onOriginXInput,
-                value: originX,
-                type: "number",
-                step: 0.125,
-                min: -2,
-                max: 2
-              })]
-            }), o$1("label", {
-              children: ["Transform origin on the block-axis position (Y-axis in English, etc.)  ", o$1("input", {
-                onInput: onOriginYInput,
-                value: originY,
-                type: "number",
-                step: 0.125,
-                min: -2,
-                max: 2
-              })]
-            }), o$1("label", {
-              children: ["Minimum size on the inline-axis ", o$1("input", {
-                onInput: onMinXInput,
-                value: minX,
-                type: "number",
-                step: 0.125,
-                min: 0,
-                max: 1
-              })]
-            }), o$1("label", {
-              children: ["Minimum size on the block-axis  ", o$1("input", {
-                onInput: onMinYInput,
-                value: minY,
-                type: "number",
-                step: 0.125,
-                min: 0,
-                max: 1
-              })]
-            }), o$1("label", {
-              children: ["With fade", o$1("input", {
-                checked: withFade,
-                onInput: onWithFadeInput,
-                type: "checkbox"
-              })]
-            })]
-          }), cardShow != "unmounted" && o$1(C, {
-            show: cardShow == "pending" ? null : cardShow == "showing",
-            animateOnMount: animateOnMount,
-            exitVisibility: exitVisibility,
-            zoomMinInline: minX,
-            zoomMinBlock: minY,
-            zoomOriginInline: originX,
-            zoomOriginBlock: originY,
-            children: o$1(Swappable, {
-              exclusivityKey: E,
-              children: o$1("div", {
-                className: "card",
-                children: [makeChild(0), makeChild(1), makeChild(2)]
-              })
-            })
-          }), o$1("code", {
-            children: o$1("pre", {
-              children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(originX != 0.5 ? " \n  originX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n  originY={".concat(originY, "}") : "").concat(minX != 0 ? " \n  minX={".concat(minX, "}") : "").concat(minY != 0 ? " \n  minY={".concat(minY, "}") : "").concat(exitVisibility ? "\n  exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  <Swappable>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={").concat(contentIndex.toString(), " == 0}").concat(originX != 0.5 ? " \n        originX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n        originY={".concat(originY, "}") : "").concat(minX != 0 ? " \n        minX={".concat(minX, "}") : "").concat(minY != 0 ? " \n        minY={".concat(minY, "}") : "").concat(exitVisibility ? " \n        exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={").concat(contentIndex.toString(), " == 1} [...] />\n      <").concat(CS, " show={").concat(contentIndex.toString(), " == 2} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
-            })
-          })]
-        })]
-      });
-    }
-    function SlideDemo(_ref5) {
-      let {
-        cardShow,
-        contentIndex,
-        exitVisibility,
-        text,
-        animateOnMount,
-        exclusive
-      } = _ref5;
-      const [slideX, setSlideX] = p(0.25);
-      const [slideY, setSlideY] = p(0);
-      const [withFade, setWithFade] = p(true);
-      const onSlideXInput = T$1(e => {
-        setSlideX(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onSlideYInput = T$1(e => {
-        setSlideY(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onWithFadeInput = T$1(e => {
-        setWithFade(e.target.checked);
-        e.preventDefault();
-      }, []);
-      //const [bare, setBare] = useState(false);
-      // const onBare = useCallback((e: Event) => { setBare(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
-      const C = withFade ? SlideFade : Slide;
-      const CS = withFade ? "SlideFade" : "Slide";
-      const E = exclusive ? "e" : null;
-      const makeChild = i => o$1(C, {
-        show: contentIndex === i,
-        exclusivityKey: E,
-        exitVisibility: exitVisibility,
-        slideTargetInline: slideX * Math.sign(i - contentIndex) || null,
-        slideTargetBlock: slideY * Math.sign(i - contentIndex),
-        children: o$1("div", {
-          className: "card-contents",
-          children: [halfText(text, i), o$1("div", {
-            children: o$1("button", {
-              children: "Focusable element"
-            })
-          })]
-        })
-      });
-      return o$1("div", {
-        className: "demo-section",
-        children: [o$1("h2", {
-          children: "Slide"
-        }), o$1("div", {
-          className: "demo",
-          children: [o$1("div", {
-            className: "demo-controls",
-            children: [o$1("label", {
-              children: ["Target block-axis position (X-axis in English, etc.) ", o$1("input", {
-                onInput: onSlideXInput,
-                value: slideX,
-                type: "number",
-                step: 0.125,
-                min: -2,
-                max: 2
-              })]
-            }), o$1("label", {
-              children: ["Target inline-axis position (Y-axis in English, etc.)  ", o$1("input", {
-                onInput: onSlideYInput,
-                value: slideY,
-                type: "number",
-                step: 0.125,
-                min: -2,
-                max: 2
-              })]
-            }), o$1("label", {
-              children: ["With fade", o$1("input", {
-                checked: withFade,
-                onInput: onWithFadeInput,
-                type: "checkbox"
-              })]
-            })]
-          }), cardShow != "unmounted" && o$1(C, {
-            show: cardShow == "pending" ? null : cardShow == "showing",
-            animateOnMount: animateOnMount,
-            exitVisibility: exitVisibility,
-            slideTargetInline: slideX || null,
-            slideTargetBlock: slideY || null,
-            children: o$1(Swappable, {
-              exclusivityKey: E,
-              children: o$1("div", {
-                className: "card",
-                children: [makeChild(0), makeChild(1), makeChild(2)]
-              })
-            })
-          }), o$1("code", {
-            children: o$1("pre", {
-              children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "} \n  slideTargetInline={").concat(slideX, "}\n  slideTargetBlock={").concat(slideY, "}\n  exitVisibility={").concat(JSON.stringify(exitVisibility), "}>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={0 == ").concat(contentIndex, "}\n        exitVisibility={").concat(JSON.stringify(exitVisibility), "}\n        slideTargetInline={").concat(slideX, " * Math.sign(0 - ").concat(contentIndex, ")}\n        slideTargetBlock={").concat(slideY, " * Math.sign(0 - ").concat(contentIndex, "}>\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={1 == ").concat(contentIndex, "} [...] />\n      <").concat(CS, " show={2 == ").concat(contentIndex, "} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
-            })
-          })]
-        })]
-      });
-    }
-    function CollapseDemo(_ref6) {
-      let {
-        cardShow,
-        contentIndex,
-        exitVisibility,
-        text,
-        animateOnMount,
-        exclusive
-      } = _ref6;
-      const [minBlockSize, setMinBlockSize] = p("0px");
-      const onWithFadeInput = T$1(e => {
-        setWithFade(e.target.checked);
-        e.preventDefault();
-      }, []);
-      const [withFade, setWithFade] = p(true);
-      const C = withFade ? CollapseFade : Collapse;
-      const CS = withFade ? "CollapseFade" : "Collapse";
-      const E = exclusive ? "e" : null;
-      const onMinSize = T$1(e => {
-        setMinBlockSize(e.target.value);
-        e.preventDefault();
-      }, []);
-      const makeChild = i => o$1(C, {
-        show: contentIndex === i,
-        exclusivityKey: E,
-        exitVisibility: exitVisibility,
-        minBlockSize: minBlockSize,
-        children: o$1("div", {
-          className: "card-contents",
-          children: [halfText(text, i), o$1("div", {
-            children: o$1("button", {
-              children: "Focusable element"
-            })
-          })]
-        })
-      });
-      return o$1("div", {
-        className: "demo-section",
-        children: [o$1("h2", {
-          children: "Collapse"
-        }), o$1("div", {
-          className: "demo",
-          children: [o$1("div", {
-            className: "demo-controls",
-            children: [o$1("label", {
-              children: ["Minimum size: ", o$1("input", {
-                type: "text",
-                value: minBlockSize,
-                onInput: onMinSize
-              })]
-            }), o$1("label", {
-              children: ["With fade", o$1("input", {
-                checked: withFade,
-                onInput: onWithFadeInput,
-                type: "checkbox"
-              })]
-            }), o$1("div", {
-              children: "Direction cannot be directly controlled. Only the size along the block axis (Y-axis in horizontal languages) can be resized."
-            }), o$1("div", {
-              children: ["In general, only use this component if you ", o$1("em", {
-                children: "specifically"
-              }), " need its reflow transitioning properties, because it's very taxing on, well, ", o$1("em", {
-                children: "most"
-              }), " devices, unless you take other precautions. If you want a \"disappear in place without zooming out\", consider a Clip effect."]
-            })]
-          }), o$1("div", {
-            children: cardShow != "unmounted" && o$1(C, {
-              show: cardShow == "pending" ? null : cardShow == "showing",
-              animateOnMount: animateOnMount,
-              exitVisibility: exitVisibility,
-              minBlockSize: minBlockSize,
-              children: o$1("div", {
-                children: o$1(Swappable, {
-                  exclusivityKey: E,
-                  children: o$1("div", {
-                    className: "card",
-                    children: [makeChild(0), makeChild(1), makeChild(2)]
-                  })
-                }, E)
-              })
-            })
-          }), o$1("code", {
-            children: o$1("pre", {
-              children: "<".concat(CS, " show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(minBlockSize && minBlockSize != "0px" ? " minBlockSize={".concat(JSON.stringify(minBlockSize), "}") : "").concat(exitVisibility ? " exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  {/* These cards have padding, \n      and height doesn't include that, \n      but a wrapper's would */}\n  <div>\n    <Swappable>\n      <div className=\"card\">\n        <").concat(CS, " \n          show={").concat(contentIndex.toString(), " == 0}").concat(minBlockSize && minBlockSize != "0px" ? " \n          minBlockSize={".concat(JSON.stringify(minBlockSize), "}") : "").concat(exitVisibility ? " \n          exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n          <div className=\"card-contents\">\n             {text}\n          </div>\n        </").concat(CS, ">\n      </div>\n    </Swappable>\n  </div>\n</").concat(CS, ">\n<").concat(CS, " show={1 == ").concat(contentIndex.toString(), "} [...] />\n<").concat(CS, " show={2 == ").concat(contentIndex.toString(), "} [...] />")
-            })
-          })]
-        })]
-      });
-    }
-    function FlipDemo(_ref7) {
-      let {
-        cardShow,
-        contentIndex,
-        exitVisibility,
-        text,
-        animateOnMount,
-        exclusive
-      } = _ref7;
-      const [flipX, setFlipX] = p(0);
-      const [flipY, setFlipY] = p(180);
-      const onFlipXInput = T$1(e => {
-        setFlipX(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const onFlipYInput = T$1(e => {
-        setFlipY(e.target.valueAsNumber);
-        e.preventDefault();
-      }, []);
-      const C = Flip;
-      const CS = "Flip";
-      const E = exclusive ? "e" : null;
-      const makeChild = i => o$1(C, {
-        show: contentIndex === i,
-        exclusivityKey: E,
-        exitVisibility: exitVisibility,
-        flipAngleInline: flipX * Math.sign(i - contentIndex) || null,
-        flipAngleBlock: flipY * Math.sign(i - contentIndex) || null,
-        children: o$1("div", {
-          className: "card-contents",
-          children: [halfText(text, i), o$1("div", {
-            children: o$1("button", {
-              children: "Focusable element"
-            })
-          })]
-        })
-      });
-      return o$1("div", {
-        className: "demo-section",
-        children: [o$1("h2", {
-          children: "Flip"
-        }), o$1("div", {
-          className: "demo",
-          children: [o$1("div", {
-            className: "demo-controls",
-            children: [o$1("label", {
-              children: ["Rotate on inline axis ", o$1("input", {
-                type: "number",
-                onInput: onFlipXInput,
-                value: flipX
-              })]
-            }), o$1("label", {
-              children: ["Rotate along block axis ", o$1("input", {
-                type: "number",
-                onInput: onFlipYInput,
-                value: flipY
-              })]
-            })]
-          }), cardShow != "unmounted" && o$1(C, {
-            show: cardShow == "pending" ? null : cardShow == "showing",
-            animateOnMount: animateOnMount,
-            exitVisibility: exitVisibility,
-            flipAngleInline: flipX,
-            flipAngleBlock: flipY,
-            children: o$1(Swappable, {
-              exclusivityKey: E,
-              children: o$1("div", {
-                className: "card",
-                children: [makeChild(0), makeChild(1), makeChild(2)]
-              })
-            })
-          }), o$1("code", {
-            children: o$1("pre", {
-              children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "} \n  flipAngleInline={").concat(JSON.stringify(flipX), "} \n  flipAngleBlock={").concat(JSON.stringify(flipY), "} \n  exitVisibility={").concat(JSON.stringify(exitVisibility), "}}>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={0 == ").concat(contentIndex.toString(), "}\n        flipAngleInline={").concat(JSON.stringify(flipX), " * Math.sign(0 - ").concat(contentIndex.toString(), ")} \n        flipAngleBlock={").concat(JSON.stringify(flipY), " * Math.sign(0 - ").concat(contentIndex.toString(), ")} \n        exitVisibility={").concat(JSON.stringify(exitVisibility), "}>\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={1 == ").concat(contentIndex.toString(), "} [...] />\n      <").concat(CS, " show={2 == ").concat(contentIndex.toString(), "} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
+              children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(min != 0 ? " \n  fadeMin={".concat(min, "}") : "").concat(max != 1 ? " \n  fadeMax={".concat(max, "}") : "").concat(exitVisibility != "hidden" ? "\n  exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  <Swappable>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 0}").concat(min != 0 ? " \n        fadeMin={".concat(min, "}") : "").concat(max != 1 ? " \n        fadeMax={".concat(max, "}") : "").concat(exitVisibility != "hidden" ? "\n        exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 1} [...] />\n      <").concat(CS, " show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 2} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
             })
           })]
         })]
