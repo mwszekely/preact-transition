@@ -65,7 +65,7 @@ export function useExclusiveTransition({ transitionParameters: { show }, exclusi
     const context = c ? useContext(c) : null;
     const index = useMemo(() => { globalCount += 1; return (globalCount).toString(); }, []);
     const [exclusivelyOpen, setExclusivelyOpen, getExclusivelyOpen] = useState(!!show);
-    const { managedChildReturn: { getChildren } } = useManagedChild({ context, managedChildParameters: { index } }, { index, getExclusivelyOpen, setExclusivelyOpen, forceClose });
+    const { managedChildReturn: { getChildren } } = useManagedChild({ context, info: { index, getExclusivelyOpen, setExclusivelyOpen, forceClose } });
     const parentOnVisChange = context?.exclusiveTransitionContext.onVisibilityChange;
     const onVisibilityChange = useCallback((visible) => {
         parentOnVisChange?.(index, visible == false ? "hidden" : "show");

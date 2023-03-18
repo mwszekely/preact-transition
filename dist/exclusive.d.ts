@@ -1,10 +1,10 @@
 import { h, RenderableProps, VNode } from "preact";
 import { UseManagedChildParameters } from "preact-prop-helpers";
-import { ExclusiveInfo, TransitionParametersBase } from "./util/types.js";
+import { ExclusiveInfo, OmitStrong, TransitionParametersBase } from "./util/types.js";
 export declare function ExclusiveTransitionProvider({ exclusivityKey, children }: RenderableProps<{
     exclusivityKey?: string | null | undefined;
 }>): h.JSX.Element | VNode<{}>;
-export interface UseExclusiveTransitionParameters extends Omit<UseManagedChildParameters<ExclusiveInfo>, "managedChildParameters" | "context"> {
+export interface UseExclusiveTransitionParameters extends OmitStrong<UseManagedChildParameters<ExclusiveInfo>, "info" | "context"> {
     transitionParameters: Pick<TransitionParametersBase<any>, "show">;
     exclusiveTransitionParameters: {
         forceClose: () => void;

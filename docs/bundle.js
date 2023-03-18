@@ -1,11 +1,11 @@
 (function () {
     'use strict';
 
-    var n,l$1,u$1,t$1,r$2,o$2,f$1,e$1={},c$1=[],s$1=/acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;function a$1(n,l){for(var u in l)n[u]=l[u];return n}function h$1(n){var l=n.parentNode;l&&l.removeChild(n);}function v$1(l,u,i){var t,r,o,f={};for(o in u)"key"==o?t=u[o]:"ref"==o?r=u[o]:f[o]=u[o];if(arguments.length>2&&(f.children=arguments.length>3?n.call(arguments,2):i),"function"==typeof l&&null!=l.defaultProps)for(o in l.defaultProps)void 0===f[o]&&(f[o]=l.defaultProps[o]);return y$1(l,f,t,r,null)}function y$1(n,i,t,r,o){var f={type:n,props:i,key:t,ref:r,__k:null,__:null,__b:0,__e:null,__d:void 0,__c:null,__h:null,constructor:void 0,__v:null==o?++u$1:o};return null==o&&null!=l$1.vnode&&l$1.vnode(f),f}function d$1(n){return n.children}function _$2(n,l){this.props=n,this.context=l;}function k$2(n,l){if(null==l)return n.__?k$2(n.__,n.__.__k.indexOf(n)+1):null;for(var u;l<n.__k.length;l++)if(null!=(u=n.__k[l])&&null!=u.__e)return u.__e;return "function"==typeof n.type?k$2(n):null}function b$1(n){var l,u;if(null!=(n=n.__)&&null!=n.__c){for(n.__e=n.__c.base=null,l=0;l<n.__k.length;l++)if(null!=(u=n.__k[l])&&null!=u.__e){n.__e=n.__c.base=u.__e;break}return b$1(n)}}function g$2(n){(!n.__d&&(n.__d=!0)&&t$1.push(n)&&!m$1.__r++||r$2!==l$1.debounceRendering)&&((r$2=l$1.debounceRendering)||o$2)(m$1);}function m$1(){var n,l,u,i,r,o,f,e;for(t$1.sort(function(n,l){return n.__v.__b-l.__v.__b});n=t$1.shift();)n.__d&&(l=t$1.length,i=void 0,r=void 0,f=(o=(u=n).__v).__e,(e=u.__P)&&(i=[],(r=a$1({},o)).__v=o.__v+1,z$2(e,o,r,u.__n,void 0!==e.ownerSVGElement,null!=o.__h?[f]:null,i,null==f?k$2(o):f,o.__h),L$1(i,o),o.__e!=f&&b$1(o)),t$1.length>l&&t$1.sort(function(n,l){return n.__v.__b-l.__v.__b}));m$1.__r=0;}function w$2(n,l,u,i,t,r,o,f,s,a){var h,v,p,_,b,g,m,w=i&&i.__k||c$1,A=w.length;for(u.__k=[],h=0;h<l.length;h++)if(null!=(_=u.__k[h]=null==(_=l[h])||"boolean"==typeof _?null:"string"==typeof _||"number"==typeof _||"bigint"==typeof _?y$1(null,_,null,null,_):Array.isArray(_)?y$1(d$1,{children:_},null,null,null):_.__b>0?y$1(_.type,_.props,_.key,_.ref?_.ref:null,_.__v):_)){if(_.__=u,_.__b=u.__b+1,null===(p=w[h])||p&&_.key==p.key&&_.type===p.type)w[h]=void 0;else for(v=0;v<A;v++){if((p=w[v])&&_.key==p.key&&_.type===p.type){w[v]=void 0;break}p=null;}z$2(n,_,p=p||e$1,t,r,o,f,s,a),b=_.__e,(v=_.ref)&&p.ref!=v&&(m||(m=[]),p.ref&&m.push(p.ref,null,_),m.push(v,_.__c||b,_)),null!=b?(null==g&&(g=b),"function"==typeof _.type&&_.__k===p.__k?_.__d=s=x$1(_,s,n):s=P(n,_,p,w,b,s),"function"==typeof u.type&&(u.__d=s)):s&&p.__e==s&&s.parentNode!=n&&(s=k$2(p));}for(u.__e=g,h=A;h--;)null!=w[h]&&("function"==typeof u.type&&null!=w[h].__e&&w[h].__e==u.__d&&(u.__d=C$1(i).nextSibling),O(w[h],w[h]));if(m)for(h=0;h<m.length;h++)N$1(m[h],m[++h],m[++h]);}function x$1(n,l,u){for(var i,t=n.__k,r=0;t&&r<t.length;r++)(i=t[r])&&(i.__=n,l="function"==typeof i.type?x$1(i,l,u):P(u,i,i,t,i.__e,l));return l}function A$1(n,l){return l=l||[],null==n||"boolean"==typeof n||(Array.isArray(n)?n.some(function(n){A$1(n,l);}):l.push(n)),l}function P(n,l,u,i,t,r){var o,f,e;if(void 0!==l.__d)o=l.__d,l.__d=void 0;else if(null==u||t!=r||null==t.parentNode)n:if(null==r||r.parentNode!==n)n.appendChild(t),o=null;else {for(f=r,e=0;(f=f.nextSibling)&&e<i.length;e+=1)if(f==t)break n;n.insertBefore(t,r),o=r;}return void 0!==o?o:t.nextSibling}function C$1(n){var l,u,i;if(null==n.type||"string"==typeof n.type)return n.__e;if(n.__k)for(l=n.__k.length-1;l>=0;l--)if((u=n.__k[l])&&(i=C$1(u)))return i;return null}function $(n,l,u,i,t){var r;for(r in u)"children"===r||"key"===r||r in l||I$1(n,r,null,u[r],i);for(r in l)t&&"function"!=typeof l[r]||"children"===r||"key"===r||"value"===r||"checked"===r||u[r]===l[r]||I$1(n,r,l[r],u[r],i);}function H$1(n,l,u){"-"===l[0]?n.setProperty(l,null==u?"":u):n[l]=null==u?"":"number"!=typeof u||s$1.test(l)?u:u+"px";}function I$1(n,l,u,i,t){var r;n:if("style"===l)if("string"==typeof u)n.style.cssText=u;else {if("string"==typeof i&&(n.style.cssText=i=""),i)for(l in i)u&&l in u||H$1(n.style,l,"");if(u)for(l in u)i&&u[l]===i[l]||H$1(n.style,l,u[l]);}else if("o"===l[0]&&"n"===l[1])r=l!==(l=l.replace(/Capture$/,"")),l=l.toLowerCase()in n?l.toLowerCase().slice(2):l.slice(2),n.l||(n.l={}),n.l[l+r]=u,u?i||n.addEventListener(l,r?j$1:T$2,r):n.removeEventListener(l,r?j$1:T$2,r);else if("dangerouslySetInnerHTML"!==l){if(t)l=l.replace(/xlink(H|:h)/,"h").replace(/sName$/,"s");else if("width"!==l&&"height"!==l&&"href"!==l&&"list"!==l&&"form"!==l&&"tabIndex"!==l&&"download"!==l&&l in n)try{n[l]=null==u?"":u;break n}catch(n){}"function"==typeof u||(null==u||!1===u&&-1==l.indexOf("-")?n.removeAttribute(l):n.setAttribute(l,u));}}function T$2(n){return this.l[n.type+!1](l$1.event?l$1.event(n):n)}function j$1(n){return this.l[n.type+!0](l$1.event?l$1.event(n):n)}function z$2(n,u,i,t,r,o,f,e,c){var s,h,v,y,p,k,b,g,m,x,A,P,C,$,H,I=u.type;if(void 0!==u.constructor)return null;null!=i.__h&&(c=i.__h,e=u.__e=i.__e,u.__h=null,o=[e]),(s=l$1.__b)&&s(u);try{n:if("function"==typeof I){if(g=u.props,m=(s=I.contextType)&&t[s.__c],x=s?m?m.props.value:s.__:t,i.__c?b=(h=u.__c=i.__c).__=h.__E:("prototype"in I&&I.prototype.render?u.__c=h=new I(g,x):(u.__c=h=new _$2(g,x),h.constructor=I,h.render=S),m&&m.sub(h),h.props=g,h.state||(h.state={}),h.context=x,h.__n=t,v=h.__d=!0,h.__h=[],h._sb=[]),null==h.__s&&(h.__s=h.state),null!=I.getDerivedStateFromProps&&(h.__s==h.state&&(h.__s=a$1({},h.__s)),a$1(h.__s,I.getDerivedStateFromProps(g,h.__s))),y=h.props,p=h.state,h.__v=u,v)null==I.getDerivedStateFromProps&&null!=h.componentWillMount&&h.componentWillMount(),null!=h.componentDidMount&&h.__h.push(h.componentDidMount);else {if(null==I.getDerivedStateFromProps&&g!==y&&null!=h.componentWillReceiveProps&&h.componentWillReceiveProps(g,x),!h.__e&&null!=h.shouldComponentUpdate&&!1===h.shouldComponentUpdate(g,h.__s,x)||u.__v===i.__v){for(u.__v!==i.__v&&(h.props=g,h.state=h.__s,h.__d=!1),h.__e=!1,u.__e=i.__e,u.__k=i.__k,u.__k.forEach(function(n){n&&(n.__=u);}),A=0;A<h._sb.length;A++)h.__h.push(h._sb[A]);h._sb=[],h.__h.length&&f.push(h);break n}null!=h.componentWillUpdate&&h.componentWillUpdate(g,h.__s,x),null!=h.componentDidUpdate&&h.__h.push(function(){h.componentDidUpdate(y,p,k);});}if(h.context=x,h.props=g,h.__P=n,P=l$1.__r,C=0,"prototype"in I&&I.prototype.render){for(h.state=h.__s,h.__d=!1,P&&P(u),s=h.render(h.props,h.state,h.context),$=0;$<h._sb.length;$++)h.__h.push(h._sb[$]);h._sb=[];}else do{h.__d=!1,P&&P(u),s=h.render(h.props,h.state,h.context),h.state=h.__s;}while(h.__d&&++C<25);h.state=h.__s,null!=h.getChildContext&&(t=a$1(a$1({},t),h.getChildContext())),v||null==h.getSnapshotBeforeUpdate||(k=h.getSnapshotBeforeUpdate(y,p)),H=null!=s&&s.type===d$1&&null==s.key?s.props.children:s,w$2(n,Array.isArray(H)?H:[H],u,i,t,r,o,f,e,c),h.base=u.__e,u.__h=null,h.__h.length&&f.push(h),b&&(h.__E=h.__=null),h.__e=!1;}else null==o&&u.__v===i.__v?(u.__k=i.__k,u.__e=i.__e):u.__e=M(i.__e,u,i,t,r,o,f,c);(s=l$1.diffed)&&s(u);}catch(n){u.__v=null,(c||null!=o)&&(u.__e=e,u.__h=!!c,o[o.indexOf(e)]=null),l$1.__e(n,u,i);}}function L$1(n,u){l$1.__c&&l$1.__c(u,n),n.some(function(u){try{n=u.__h,u.__h=[],n.some(function(n){n.call(u);});}catch(n){l$1.__e(n,u.__v);}});}function M(l,u,i,t,r,o,f,c){var s,a,v,y=i.props,p=u.props,d=u.type,_=0;if("svg"===d&&(r=!0),null!=o)for(;_<o.length;_++)if((s=o[_])&&"setAttribute"in s==!!d&&(d?s.localName===d:3===s.nodeType)){l=s,o[_]=null;break}if(null==l){if(null===d)return document.createTextNode(p);l=r?document.createElementNS("http://www.w3.org/2000/svg",d):document.createElement(d,p.is&&p),o=null,c=!1;}if(null===d)y===p||c&&l.data===p||(l.data=p);else {if(o=o&&n.call(l.childNodes),a=(y=i.props||e$1).dangerouslySetInnerHTML,v=p.dangerouslySetInnerHTML,!c){if(null!=o)for(y={},_=0;_<l.attributes.length;_++)y[l.attributes[_].name]=l.attributes[_].value;(v||a)&&(v&&(a&&v.__html==a.__html||v.__html===l.innerHTML)||(l.innerHTML=v&&v.__html||""));}if($(l,p,y,r,c),v)u.__k=[];else if(_=u.props.children,w$2(l,Array.isArray(_)?_:[_],u,i,t,r&&"foreignObject"!==d,o,f,o?o[0]:i.__k&&k$2(i,0),c),null!=o)for(_=o.length;_--;)null!=o[_]&&h$1(o[_]);c||("value"in p&&void 0!==(_=p.value)&&(_!==l.value||"progress"===d&&!_||"option"===d&&_!==y.value)&&I$1(l,"value",_,y.value,!1),"checked"in p&&void 0!==(_=p.checked)&&_!==l.checked&&I$1(l,"checked",_,y.checked,!1));}return l}function N$1(n,u,i){try{"function"==typeof n?n(u):n.current=u;}catch(n){l$1.__e(n,i);}}function O(n,u,i){var t,r;if(l$1.unmount&&l$1.unmount(n),(t=n.ref)&&(t.current&&t.current!==n.__e||N$1(t,null,u)),null!=(t=n.__c)){if(t.componentWillUnmount)try{t.componentWillUnmount();}catch(n){l$1.__e(n,u);}t.base=t.__P=null,n.__c=void 0;}if(t=n.__k)for(r=0;r<t.length;r++)t[r]&&O(t[r],u,i||"function"!=typeof n.type);i||null==n.__e||h$1(n.__e),n.__=n.__e=n.__d=void 0;}function S(n,l,u){return this.constructor(n,u)}function q$1(u,i,t){var r,o,f;l$1.__&&l$1.__(u,i),o=(r="function"==typeof t)?null:t&&t.__k||i.__k,f=[],z$2(i,u=(!r&&t||i).__k=v$1(d$1,null,[u]),o||e$1,e$1,void 0!==i.ownerSVGElement,!r&&t?[t]:o?null:i.firstChild?n.call(i.childNodes):null,f,!r&&t?t:o?o.__e:i.firstChild,r),L$1(f,u);}function D$1(l,u,i){var t,r,o,f=a$1({},l.props);for(o in u)"key"==o?t=u[o]:"ref"==o?r=u[o]:f[o]=u[o];return arguments.length>2&&(f.children=arguments.length>3?n.call(arguments,2):i),y$1(l.type,f,t||l.key,r||l.ref,null)}function E(n,l){var u={__c:l="__cC"+f$1++,__:n,Consumer:function(n,l){return n.children(l)},Provider:function(n){var u,i;return this.getChildContext||(u=[],(i={})[l]=this,this.getChildContext=function(){return i},this.shouldComponentUpdate=function(n){this.props.value!==n.value&&u.some(function(n){n.__e=!0,g$2(n);});},this.sub=function(n){u.push(n);var l=n.componentWillUnmount;n.componentWillUnmount=function(){u.splice(u.indexOf(n),1),l&&l.call(n);};}),n.children}};return u.Provider.__=u.Consumer.contextType=u}n=c$1.slice,l$1={__e:function(n,l,u,i){for(var t,r,o;l=l.__;)if((t=l.__c)&&!t.__)try{if((r=t.constructor)&&null!=r.getDerivedStateFromError&&(t.setState(r.getDerivedStateFromError(n)),o=t.__d),null!=t.componentDidCatch&&(t.componentDidCatch(n,i||{}),o=t.__d),o)return t.__E=t}catch(l){n=l;}throw n}},u$1=0,_$2.prototype.setState=function(n,l){var u;u=null!=this.__s&&this.__s!==this.state?this.__s:this.__s=a$1({},this.state),"function"==typeof n&&(n=n(a$1({},u),this.props)),n&&a$1(u,n),null!=n&&this.__v&&(l&&this._sb.push(l),g$2(this));},_$2.prototype.forceUpdate=function(n){this.__v&&(this.__e=!0,n&&this.__h.push(n),g$2(this));},_$2.prototype.render=d$1,t$1=[],o$2="function"==typeof Promise?Promise.prototype.then.bind(Promise.resolve()):setTimeout,m$1.__r=0,f$1=0;
+    var n,l$1,u$1,t$1,r$2,o$2,f$1,e$1,c$1={},s$1=[],a$1=/acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;function h$1(n,l){for(var u in l)n[u]=l[u];return n}function v$1(n){var l=n.parentNode;l&&l.removeChild(n);}function y$1(l,u,i){var t,r,o,f={};for(o in u)"key"==o?t=u[o]:"ref"==o?r=u[o]:f[o]=u[o];if(arguments.length>2&&(f.children=arguments.length>3?n.call(arguments,2):i),"function"==typeof l&&null!=l.defaultProps)for(o in l.defaultProps)void 0===f[o]&&(f[o]=l.defaultProps[o]);return p$1(l,f,t,r,null)}function p$1(n,i,t,r,o){var f={type:n,props:i,key:t,ref:r,__k:null,__:null,__b:0,__e:null,__d:void 0,__c:null,__h:null,constructor:void 0,__v:null==o?++u$1:o};return null==o&&null!=l$1.vnode&&l$1.vnode(f),f}function _$2(n){return n.children}function k$2(n,l){this.props=n,this.context=l;}function b$1(n,l){if(null==l)return n.__?b$1(n.__,n.__.__k.indexOf(n)+1):null;for(var u;l<n.__k.length;l++)if(null!=(u=n.__k[l])&&null!=u.__e)return u.__e;return "function"==typeof n.type?b$1(n):null}function g$2(n){var l,u;if(null!=(n=n.__)&&null!=n.__c){for(n.__e=n.__c.base=null,l=0;l<n.__k.length;l++)if(null!=(u=n.__k[l])&&null!=u.__e){n.__e=n.__c.base=u.__e;break}return g$2(n)}}function m$1(n){(!n.__d&&(n.__d=!0)&&t$1.push(n)&&!w$2.__r++||r$2!==l$1.debounceRendering)&&((r$2=l$1.debounceRendering)||o$2)(w$2);}function w$2(){var n,l,u,i,r,o,e,c;for(t$1.sort(f$1);n=t$1.shift();)n.__d&&(l=t$1.length,i=void 0,r=void 0,e=(o=(u=n).__v).__e,(c=u.__P)&&(i=[],(r=h$1({},o)).__v=o.__v+1,L$1(c,o,r,u.__n,void 0!==c.ownerSVGElement,null!=o.__h?[e]:null,i,null==e?b$1(o):e,o.__h),M(i,o),o.__e!=e&&g$2(o)),t$1.length>l&&t$1.sort(f$1));w$2.__r=0;}function x$1(n,l,u,i,t,r,o,f,e,a){var h,v,y,d,k,g,m,w=i&&i.__k||s$1,x=w.length;for(u.__k=[],h=0;h<l.length;h++)if(null!=(d=u.__k[h]=null==(d=l[h])||"boolean"==typeof d||"function"==typeof d?null:"string"==typeof d||"number"==typeof d||"bigint"==typeof d?p$1(null,d,null,null,d):Array.isArray(d)?p$1(_$2,{children:d},null,null,null):d.__b>0?p$1(d.type,d.props,d.key,d.ref?d.ref:null,d.__v):d)){if(d.__=u,d.__b=u.__b+1,null===(y=w[h])||y&&d.key==y.key&&d.type===y.type)w[h]=void 0;else for(v=0;v<x;v++){if((y=w[v])&&d.key==y.key&&d.type===y.type){w[v]=void 0;break}y=null;}L$1(n,d,y=y||c$1,t,r,o,f,e,a),k=d.__e,(v=d.ref)&&y.ref!=v&&(m||(m=[]),y.ref&&m.push(y.ref,null,d),m.push(v,d.__c||k,d)),null!=k?(null==g&&(g=k),"function"==typeof d.type&&d.__k===y.__k?d.__d=e=A$1(d,e,n):e=C$1(n,d,y,w,k,e),"function"==typeof u.type&&(u.__d=e)):e&&y.__e==e&&e.parentNode!=n&&(e=b$1(y));}for(u.__e=g,h=x;h--;)null!=w[h]&&("function"==typeof u.type&&null!=w[h].__e&&w[h].__e==u.__d&&(u.__d=$$1(i).nextSibling),S(w[h],w[h]));if(m)for(h=0;h<m.length;h++)O(m[h],m[++h],m[++h]);}function A$1(n,l,u){for(var i,t=n.__k,r=0;t&&r<t.length;r++)(i=t[r])&&(i.__=n,l="function"==typeof i.type?A$1(i,l,u):C$1(u,i,i,t,i.__e,l));return l}function P(n,l){return l=l||[],null==n||"boolean"==typeof n||(Array.isArray(n)?n.some(function(n){P(n,l);}):l.push(n)),l}function C$1(n,l,u,i,t,r){var o,f,e;if(void 0!==l.__d)o=l.__d,l.__d=void 0;else if(null==u||t!=r||null==t.parentNode)n:if(null==r||r.parentNode!==n)n.appendChild(t),o=null;else {for(f=r,e=0;(f=f.nextSibling)&&e<i.length;e+=1)if(f==t)break n;n.insertBefore(t,r),o=r;}return void 0!==o?o:t.nextSibling}function $$1(n){var l,u,i;if(null==n.type||"string"==typeof n.type)return n.__e;if(n.__k)for(l=n.__k.length-1;l>=0;l--)if((u=n.__k[l])&&(i=$$1(u)))return i;return null}function H$1(n,l,u,i,t){var r;for(r in u)"children"===r||"key"===r||r in l||T$2(n,r,null,u[r],i);for(r in l)t&&"function"!=typeof l[r]||"children"===r||"key"===r||"value"===r||"checked"===r||u[r]===l[r]||T$2(n,r,l[r],u[r],i);}function I$1(n,l,u){"-"===l[0]?n.setProperty(l,null==u?"":u):n[l]=null==u?"":"number"!=typeof u||a$1.test(l)?u:u+"px";}function T$2(n,l,u,i,t){var r;n:if("style"===l)if("string"==typeof u)n.style.cssText=u;else {if("string"==typeof i&&(n.style.cssText=i=""),i)for(l in i)u&&l in u||I$1(n.style,l,"");if(u)for(l in u)i&&u[l]===i[l]||I$1(n.style,l,u[l]);}else if("o"===l[0]&&"n"===l[1])r=l!==(l=l.replace(/Capture$/,"")),l=l.toLowerCase()in n?l.toLowerCase().slice(2):l.slice(2),n.l||(n.l={}),n.l[l+r]=u,u?i||n.addEventListener(l,r?z$1:j$1,r):n.removeEventListener(l,r?z$1:j$1,r);else if("dangerouslySetInnerHTML"!==l){if(t)l=l.replace(/xlink(H|:h)/,"h").replace(/sName$/,"s");else if("width"!==l&&"height"!==l&&"href"!==l&&"list"!==l&&"form"!==l&&"tabIndex"!==l&&"download"!==l&&l in n)try{n[l]=null==u?"":u;break n}catch(n){}"function"==typeof u||(null==u||!1===u&&-1==l.indexOf("-")?n.removeAttribute(l):n.setAttribute(l,u));}}function j$1(n){return this.l[n.type+!1](l$1.event?l$1.event(n):n)}function z$1(n){return this.l[n.type+!0](l$1.event?l$1.event(n):n)}function L$1(n,u,i,t,r,o,f,e,c){var s,a,v,y,p,d,b,g,m,w,A,P,C,$,H,I=u.type;if(void 0!==u.constructor)return null;null!=i.__h&&(c=i.__h,e=u.__e=i.__e,u.__h=null,o=[e]),(s=l$1.__b)&&s(u);try{n:if("function"==typeof I){if(g=u.props,m=(s=I.contextType)&&t[s.__c],w=s?m?m.props.value:s.__:t,i.__c?b=(a=u.__c=i.__c).__=a.__E:("prototype"in I&&I.prototype.render?u.__c=a=new I(g,w):(u.__c=a=new k$2(g,w),a.constructor=I,a.render=q$2),m&&m.sub(a),a.props=g,a.state||(a.state={}),a.context=w,a.__n=t,v=a.__d=!0,a.__h=[],a._sb=[]),null==a.__s&&(a.__s=a.state),null!=I.getDerivedStateFromProps&&(a.__s==a.state&&(a.__s=h$1({},a.__s)),h$1(a.__s,I.getDerivedStateFromProps(g,a.__s))),y=a.props,p=a.state,a.__v=u,v)null==I.getDerivedStateFromProps&&null!=a.componentWillMount&&a.componentWillMount(),null!=a.componentDidMount&&a.__h.push(a.componentDidMount);else {if(null==I.getDerivedStateFromProps&&g!==y&&null!=a.componentWillReceiveProps&&a.componentWillReceiveProps(g,w),!a.__e&&null!=a.shouldComponentUpdate&&!1===a.shouldComponentUpdate(g,a.__s,w)||u.__v===i.__v){for(u.__v!==i.__v&&(a.props=g,a.state=a.__s,a.__d=!1),a.__e=!1,u.__e=i.__e,u.__k=i.__k,u.__k.forEach(function(n){n&&(n.__=u);}),A=0;A<a._sb.length;A++)a.__h.push(a._sb[A]);a._sb=[],a.__h.length&&f.push(a);break n}null!=a.componentWillUpdate&&a.componentWillUpdate(g,a.__s,w),null!=a.componentDidUpdate&&a.__h.push(function(){a.componentDidUpdate(y,p,d);});}if(a.context=w,a.props=g,a.__P=n,P=l$1.__r,C=0,"prototype"in I&&I.prototype.render){for(a.state=a.__s,a.__d=!1,P&&P(u),s=a.render(a.props,a.state,a.context),$=0;$<a._sb.length;$++)a.__h.push(a._sb[$]);a._sb=[];}else do{a.__d=!1,P&&P(u),s=a.render(a.props,a.state,a.context),a.state=a.__s;}while(a.__d&&++C<25);a.state=a.__s,null!=a.getChildContext&&(t=h$1(h$1({},t),a.getChildContext())),v||null==a.getSnapshotBeforeUpdate||(d=a.getSnapshotBeforeUpdate(y,p)),H=null!=s&&s.type===_$2&&null==s.key?s.props.children:s,x$1(n,Array.isArray(H)?H:[H],u,i,t,r,o,f,e,c),a.base=u.__e,u.__h=null,a.__h.length&&f.push(a),b&&(a.__E=a.__=null),a.__e=!1;}else null==o&&u.__v===i.__v?(u.__k=i.__k,u.__e=i.__e):u.__e=N$1(i.__e,u,i,t,r,o,f,c);(s=l$1.diffed)&&s(u);}catch(n){u.__v=null,(c||null!=o)&&(u.__e=e,u.__h=!!c,o[o.indexOf(e)]=null),l$1.__e(n,u,i);}}function M(n,u){l$1.__c&&l$1.__c(u,n),n.some(function(u){try{n=u.__h,u.__h=[],n.some(function(n){n.call(u);});}catch(n){l$1.__e(n,u.__v);}});}function N$1(l,u,i,t,r,o,f,e){var s,a,h,y=i.props,p=u.props,d=u.type,_=0;if("svg"===d&&(r=!0),null!=o)for(;_<o.length;_++)if((s=o[_])&&"setAttribute"in s==!!d&&(d?s.localName===d:3===s.nodeType)){l=s,o[_]=null;break}if(null==l){if(null===d)return document.createTextNode(p);l=r?document.createElementNS("http://www.w3.org/2000/svg",d):document.createElement(d,p.is&&p),o=null,e=!1;}if(null===d)y===p||e&&l.data===p||(l.data=p);else {if(o=o&&n.call(l.childNodes),a=(y=i.props||c$1).dangerouslySetInnerHTML,h=p.dangerouslySetInnerHTML,!e){if(null!=o)for(y={},_=0;_<l.attributes.length;_++)y[l.attributes[_].name]=l.attributes[_].value;(h||a)&&(h&&(a&&h.__html==a.__html||h.__html===l.innerHTML)||(l.innerHTML=h&&h.__html||""));}if(H$1(l,p,y,r,e),h)u.__k=[];else if(_=u.props.children,x$1(l,Array.isArray(_)?_:[_],u,i,t,r&&"foreignObject"!==d,o,f,o?o[0]:i.__k&&b$1(i,0),e),null!=o)for(_=o.length;_--;)null!=o[_]&&v$1(o[_]);e||("value"in p&&void 0!==(_=p.value)&&(_!==l.value||"progress"===d&&!_||"option"===d&&_!==y.value)&&T$2(l,"value",_,y.value,!1),"checked"in p&&void 0!==(_=p.checked)&&_!==l.checked&&T$2(l,"checked",_,y.checked,!1));}return l}function O(n,u,i){try{"function"==typeof n?n(u):n.current=u;}catch(n){l$1.__e(n,i);}}function S(n,u,i){var t,r;if(l$1.unmount&&l$1.unmount(n),(t=n.ref)&&(t.current&&t.current!==n.__e||O(t,null,u)),null!=(t=n.__c)){if(t.componentWillUnmount)try{t.componentWillUnmount();}catch(n){l$1.__e(n,u);}t.base=t.__P=null,n.__c=void 0;}if(t=n.__k)for(r=0;r<t.length;r++)t[r]&&S(t[r],u,i||"function"!=typeof n.type);i||null==n.__e||v$1(n.__e),n.__=n.__e=n.__d=void 0;}function q$2(n,l,u){return this.constructor(n,u)}function B$2(u,i,t){var r,o,f;l$1.__&&l$1.__(u,i),o=(r="function"==typeof t)?null:t&&t.__k||i.__k,f=[],L$1(i,u=(!r&&t||i).__k=y$1(_$2,null,[u]),o||c$1,c$1,void 0!==i.ownerSVGElement,!r&&t?[t]:o?null:i.firstChild?n.call(i.childNodes):null,f,!r&&t?t:o?o.__e:i.firstChild,r),M(f,u);}function E(l,u,i){var t,r,o,f=h$1({},l.props);for(o in u)"key"==o?t=u[o]:"ref"==o?r=u[o]:f[o]=u[o];return arguments.length>2&&(f.children=arguments.length>3?n.call(arguments,2):i),p$1(l.type,f,t||l.key,r||l.ref,null)}function F$2(n,l){var u={__c:l="__cC"+e$1++,__:n,Consumer:function(n,l){return n.children(l)},Provider:function(n){var u,i;return this.getChildContext||(u=[],(i={})[l]=this,this.getChildContext=function(){return i},this.shouldComponentUpdate=function(n){this.props.value!==n.value&&u.some(function(n){n.__e=!0,m$1(n);});},this.sub=function(n){u.push(n);var l=n.componentWillUnmount;n.componentWillUnmount=function(){u.splice(u.indexOf(n),1),l&&l.call(n);};}),n.children}};return u.Provider.__=u.Consumer.contextType=u}n=s$1.slice,l$1={__e:function(n,l,u,i){for(var t,r,o;l=l.__;)if((t=l.__c)&&!t.__)try{if((r=t.constructor)&&null!=r.getDerivedStateFromError&&(t.setState(r.getDerivedStateFromError(n)),o=t.__d),null!=t.componentDidCatch&&(t.componentDidCatch(n,i||{}),o=t.__d),o)return t.__E=t}catch(l){n=l;}throw n}},u$1=0,k$2.prototype.setState=function(n,l){var u;u=null!=this.__s&&this.__s!==this.state?this.__s:this.__s=h$1({},this.state),"function"==typeof n&&(n=n(h$1({},u),this.props)),n&&h$1(u,n),null!=n&&this.__v&&(l&&this._sb.push(l),m$1(this));},k$2.prototype.forceUpdate=function(n){this.__v&&(this.__e=!0,n&&this.__h.push(n),m$1(this));},k$2.prototype.render=_$2,t$1=[],o$2="function"==typeof Promise?Promise.prototype.then.bind(Promise.resolve()):setTimeout,f$1=function(n,l){return n.__v.__b-l.__v.__b},w$2.__r=0,e$1=0;
 
     var _$1=0;function o$1(o,e,n,t,f,l){var s,u,a={};for(u in e)"ref"==u?s=e[u]:a[u]=e[u];var i={type:o,props:a,key:n,ref:s,__k:null,__:null,__b:0,__e:null,__d:void 0,__c:null,__h:null,constructor:void 0,__v:--_$1,__source:f,__self:l};if("function"==typeof o&&(s=o.defaultProps))for(u in s)void 0===a[u]&&(a[u]=s[u]);return l$1.vnode&&l$1.vnode(i),i}
 
-    var t,r$1,u,i,o=0,f=[],c=[],e=l$1.__b,a=l$1.__r,v=l$1.diffed,l=l$1.__c,m=l$1.unmount;function d(t,u){l$1.__h&&l$1.__h(r$1,t,o||u),o=0;var i=r$1.__H||(r$1.__H={__:[],__h:[]});return t>=i.__.length&&i.__.push({__V:c}),i.__[t]}function p(n){return o=1,y(B$1,n)}function y(n,u,i){var o=d(t++,2);if(o.t=n,!o.__c&&(o.__=[i?i(u):B$1(void 0,u),function(n){var t=o.__N?o.__N[0]:o.__[0],r=o.t(t,n);t!==r&&(o.__N=[r,o.__[1]],o.__c.setState({}));}],o.__c=r$1,!r$1.u)){r$1.u=!0;var f=r$1.shouldComponentUpdate;r$1.shouldComponentUpdate=function(n,t,r){if(!o.__c.__H)return !0;var u=o.__c.__H.__.filter(function(n){return n.__c});if(u.every(function(n){return !n.__N}))return !f||f.call(this,n,t,r);var i=!1;return u.forEach(function(n){if(n.__N){var t=n.__[0];n.__=n.__N,n.__N=void 0,t!==n.__[0]&&(i=!0);}}),!(!i&&o.__c.props===n)&&(!f||f.call(this,n,t,r))};}return o.__N||o.__}function h(u,i){var o=d(t++,3);!l$1.__s&&z$1(o.__H,i)&&(o.__=u,o.i=i,r$1.__H.__h.push(o));}function s(u,i){var o=d(t++,4);!l$1.__s&&z$1(o.__H,i)&&(o.__=u,o.i=i,r$1.__h.push(o));}function _(n){return o=5,F$1(function(){return {current:n}},[])}function A(n,t,r){o=6,s(function(){return "function"==typeof n?(n(t()),function(){return n(null)}):n?(n.current=t(),function(){return n.current=null}):void 0},null==r?r:r.concat(n));}function F$1(n,r){var u=d(t++,7);return z$1(u.__H,r)?(u.__V=n(),u.i=r,u.__h=n,u.__V):u.__}function T$1(n,t){return o=8,F$1(function(){return n},t)}function q(n){var u=r$1.context[n.__c],i=d(t++,9);return i.c=n,u?(null==i.__&&(i.__=!0,u.sub(r$1)),u.props.value):n.__}function b(){for(var t;t=f.shift();)if(t.__P&&t.__H)try{t.__H.__h.forEach(k$1),t.__H.__h.forEach(w$1),t.__H.__h=[];}catch(r){t.__H.__h=[],l$1.__e(r,t.__v);}}l$1.__b=function(n){r$1=null,e&&e(n);},l$1.__r=function(n){a&&a(n),t=0;var i=(r$1=n.__c).__H;i&&(u===r$1?(i.__h=[],r$1.__h=[],i.__.forEach(function(n){n.__N&&(n.__=n.__N),n.__V=c,n.__N=n.i=void 0;})):(i.__h.forEach(k$1),i.__h.forEach(w$1),i.__h=[])),u=r$1;},l$1.diffed=function(t){v&&v(t);var o=t.__c;o&&o.__H&&(o.__H.__h.length&&(1!==f.push(o)&&i===l$1.requestAnimationFrame||((i=l$1.requestAnimationFrame)||j)(b)),o.__H.__.forEach(function(n){n.i&&(n.__H=n.i),n.__V!==c&&(n.__=n.__V),n.i=void 0,n.__V=c;})),u=r$1=null;},l$1.__c=function(t,r){r.some(function(t){try{t.__h.forEach(k$1),t.__h=t.__h.filter(function(n){return !n.__||w$1(n)});}catch(u){r.some(function(n){n.__h&&(n.__h=[]);}),r=[],l$1.__e(u,t.__v);}}),l&&l(t,r);},l$1.unmount=function(t){m&&m(t);var r,u=t.__c;u&&u.__H&&(u.__H.__.forEach(function(n){try{k$1(n);}catch(n){r=n;}}),u.__H=void 0,r&&l$1.__e(r,u.__v));};var g$1="function"==typeof requestAnimationFrame;function j(n){var t,r=function(){clearTimeout(u),g$1&&cancelAnimationFrame(t),setTimeout(n);},u=setTimeout(r,100);g$1&&(t=requestAnimationFrame(r));}function k$1(n){var t=r$1,u=n.__c;"function"==typeof u&&(n.__c=void 0,u()),r$1=t;}function w$1(n){var t=r$1;n.__c=n.__(),r$1=t;}function z$1(n,t){return !n||n.length!==t.length||t.some(function(t,r){return t!==n[r]})}function B$1(n,t){return "function"==typeof t?t(n):t}
+    var t,r$1,u,i,o=0,f=[],c=[],e=l$1.__b,a=l$1.__r,v=l$1.diffed,l=l$1.__c,m=l$1.unmount;function d(t,u){l$1.__h&&l$1.__h(r$1,t,o||u),o=0;var i=r$1.__H||(r$1.__H={__:[],__h:[]});return t>=i.__.length&&i.__.push({__V:c}),i.__[t]}function h(n){return o=1,s(B$1,n)}function s(n,u,i){var o=d(t++,2);if(o.t=n,!o.__c&&(o.__=[i?i(u):B$1(void 0,u),function(n){var t=o.__N?o.__N[0]:o.__[0],r=o.t(t,n);t!==r&&(o.__N=[r,o.__[1]],o.__c.setState({}));}],o.__c=r$1,!r$1.u)){var f=function(n,t,r){if(!o.__c.__H)return !0;var u=o.__c.__H.__.filter(function(n){return n.__c});if(u.every(function(n){return !n.__N}))return !c||c.call(this,n,t,r);var i=!1;return u.forEach(function(n){if(n.__N){var t=n.__[0];n.__=n.__N,n.__N=void 0,t!==n.__[0]&&(i=!0);}}),!(!i&&o.__c.props===n)&&(!c||c.call(this,n,t,r))};r$1.u=!0;var c=r$1.shouldComponentUpdate,e=r$1.componentWillUpdate;r$1.componentWillUpdate=function(n,t,r){if(this.__e){var u=c;c=void 0,f(n,t,r),c=u;}e&&e.call(this,n,t,r);},r$1.shouldComponentUpdate=f;}return o.__N||o.__}function p(u,i){var o=d(t++,3);!l$1.__s&&z(o.__H,i)&&(o.__=u,o.i=i,r$1.__H.__h.push(o));}function y(u,i){var o=d(t++,4);!l$1.__s&&z(o.__H,i)&&(o.__=u,o.i=i,r$1.__h.push(o));}function _(n){return o=5,F$1(function(){return {current:n}},[])}function A(n,t,r){o=6,y(function(){return "function"==typeof n?(n(t()),function(){return n(null)}):n?(n.current=t(),function(){return n.current=null}):void 0},null==r?r:r.concat(n));}function F$1(n,r){var u=d(t++,7);return z(u.__H,r)?(u.__V=n(),u.i=r,u.__h=n,u.__V):u.__}function T$1(n,t){return o=8,F$1(function(){return n},t)}function q$1(n){var u=r$1.context[n.__c],i=d(t++,9);return i.c=n,u?(null==i.__&&(i.__=!0,u.sub(r$1)),u.props.value):n.__}function b(){for(var t;t=f.shift();)if(t.__P&&t.__H)try{t.__H.__h.forEach(k$1),t.__H.__h.forEach(w$1),t.__H.__h=[];}catch(r){t.__H.__h=[],l$1.__e(r,t.__v);}}l$1.__b=function(n){r$1=null,e&&e(n);},l$1.__r=function(n){a&&a(n),t=0;var i=(r$1=n.__c).__H;i&&(u===r$1?(i.__h=[],r$1.__h=[],i.__.forEach(function(n){n.__N&&(n.__=n.__N),n.__V=c,n.__N=n.i=void 0;})):(i.__h.forEach(k$1),i.__h.forEach(w$1),i.__h=[])),u=r$1;},l$1.diffed=function(t){v&&v(t);var o=t.__c;o&&o.__H&&(o.__H.__h.length&&(1!==f.push(o)&&i===l$1.requestAnimationFrame||((i=l$1.requestAnimationFrame)||j)(b)),o.__H.__.forEach(function(n){n.i&&(n.__H=n.i),n.__V!==c&&(n.__=n.__V),n.i=void 0,n.__V=c;})),u=r$1=null;},l$1.__c=function(t,r){r.some(function(t){try{t.__h.forEach(k$1),t.__h=t.__h.filter(function(n){return !n.__||w$1(n)});}catch(u){r.some(function(n){n.__h&&(n.__h=[]);}),r=[],l$1.__e(u,t.__v);}}),l&&l(t,r);},l$1.unmount=function(t){m&&m(t);var r,u=t.__c;u&&u.__H&&(u.__H.__.forEach(function(n){try{k$1(n);}catch(n){r=n;}}),u.__H=void 0,r&&l$1.__e(r,u.__v));};var g$1="function"==typeof requestAnimationFrame;function j(n){var t,r=function(){clearTimeout(u),g$1&&cancelAnimationFrame(t),setTimeout(n);},u=setTimeout(r,100);g$1&&(t=requestAnimationFrame(r));}function k$1(n){var t=r$1,u=n.__c;"function"==typeof u&&(n.__c=void 0,u()),r$1=t;}function w$1(n){var t=r$1;n.__c=n.__(),r$1=t;}function z(n,t){return !n||n.length!==t.length||t.some(function(t,r){return t!==n[r]})}function B$1(n,t){return "function"==typeof t?t(n):t}
 
     function r(e) {
       var t,
@@ -161,7 +161,7 @@
         if (valueRef.current === Unset$1) tryEnsureValue();
         return valueRef.current === Unset$1 ? undefined : valueRef.current;
       }, []);
-      s(() => {
+      y(() => {
         // Make sure we've run our effect at least once on mount.
         // (If we have an initial value, of course)
         tryEnsureValue();
@@ -219,6 +219,41 @@
      */
     function runImmediately(f) {
       f();
+    }
+
+    function useMergedChildren(lhs, rhs) {
+      monitorCallCount(useMergedChildren);
+      if (lhs == null && rhs == null) {
+        return undefined;
+      } else if (lhs == null) {
+        return rhs;
+      } else if (rhs == null) {
+        return lhs;
+      } else {
+        return y$1(_$2, {}, lhs, rhs);
+      }
+    }
+
+    /**
+     * Given two sets of props, merges their `class` and `className` properties.
+     * Duplicate classes are removed (order doesn't matter anyway).
+     *
+     * @param lhs Classes of the first component
+     * @param rhs Classes of the second component
+     * @returns A string representing all combined classes from both arguments.
+     */
+    function useMergedClasses(lhsClass, lhsClassName, rhsClass, rhsClassName) {
+      monitorCallCount(useMergedClasses);
+      // Note: For the sake of forward compatibility, this function is labelled as
+      // a hook, but as it uses no other hooks it technically isn't one.
+      if (lhsClass || rhsClass || lhsClassName || rhsClassName) {
+        const lhsClasses = clsx(lhsClass, lhsClassName).split(" ");
+        const rhsClasses = clsx(rhsClass, rhsClassName).split(" ");
+        const allClasses = new Set([...Array.from(lhsClasses), ...Array.from(rhsClasses)]);
+        return Array.from(allClasses).join(" ");
+      } else {
+        return undefined;
+      }
     }
 
     const Table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
@@ -289,13 +324,13 @@
      */
     function useBeforeLayoutEffect(effect, inputs) {
       monitorCallCount(useBeforeLayoutEffect);
-      const [id] = p(() => generateRandomId());
+      const [id] = h(() => generateRandomId());
       if (effect) toRun.set(id, {
         effect,
         inputs,
         cleanup: null
       });else toRun.delete(id);
-      h(() => {
+      p(() => {
         return () => {
           toRun.delete(id);
           previousInputs.delete(id);
@@ -381,41 +416,6 @@
       } else {
         console.assert(noDeps.length === 0);
         return setIsStableGetter(T$1(fn, []));
-      }
-    }
-
-    function useMergedChildren(lhs, rhs) {
-      monitorCallCount(useMergedChildren);
-      if (lhs == null && rhs == null) {
-        return undefined;
-      } else if (lhs == null) {
-        return rhs;
-      } else if (rhs == null) {
-        return lhs;
-      } else {
-        return v$1(d$1, {}, lhs, rhs);
-      }
-    }
-
-    /**
-     * Given two sets of props, merges their `class` and `className` properties.
-     * Duplicate classes are removed (order doesn't matter anyway).
-     *
-     * @param lhs Classes of the first component
-     * @param rhs Classes of the second component
-     * @returns A string representing all combined classes from both arguments.
-     */
-    function useMergedClasses(lhsClass, lhsClassName, rhsClass, rhsClassName) {
-      monitorCallCount(useMergedClasses);
-      // Note: For the sake of forward compatibility, this function is labelled as
-      // a hook, but as it uses no other hooks it technically isn't one.
-      if (lhsClass || rhsClass || lhsClassName || rhsClassName) {
-        const lhsClasses = clsx(lhsClass, lhsClassName).split(" ");
-        const rhsClasses = clsx(rhsClass, rhsClassName).split(" ");
-        const allClasses = new Set([...Array.from(lhsClasses), ...Array.from(rhsClasses)]);
-        return Array.from(allClasses).join(" ");
-      } else {
-        return undefined;
       }
     }
 
@@ -579,6 +579,353 @@
         const rv = rhs(...arguments);
         if (lv instanceof Promise || rv instanceof Promise) return Promise.all([lv, rv]);
       };
+    }
+
+    /**
+     * Allows a parent component to access information about certain
+     * child components once they have rendered.
+     *
+     * This hook is designed to be lightweight, in that the parent keeps no state
+     * and runs no effects.  Each child *does* run an effect, but with no state
+     * changes unless you explicitly request them.
+     *
+     *
+     */
+    function useManagedChildren(parentParameters) {
+      monitorCallCount(useManagedChildren);
+      const {
+        managedChildrenParameters: {
+          onAfterChildLayoutEffect,
+          onChildrenMountChange,
+          onChildrenCountChange
+        },
+        ...rest
+      } = parentParameters;
+      useEnsureStability("useManagedChildren", onAfterChildLayoutEffect, onChildrenMountChange, onChildrenCountChange);
+      //const [getMountCount, setMountCount] = usePassiveState(onChildrenCountChange, returnZero, runImmediately);
+      const getHighestIndex = T$1(() => {
+        return managedChildrenArray.current.highestIndex;
+      }, []);
+      // All the information we have about our children is stored in this **stable** array.
+      // Any mutations to this array **DO NOT** trigger any sort of a re-render.
+      const managedChildrenArray = _({
+        arr: [],
+        rec: {},
+        highestIndex: 0,
+        lowestIndex: 0
+      });
+      // For indirect access to each child
+      // Compare getManagedChildInfo
+      // TODO: The primary use for this is flaggable closest fits
+      // which needs to search all children for that closest fit.
+      // It would be nice if there was something better for that.
+      const forEachChild = T$1(f => {
+        for (const child of managedChildrenArray.current.arr) {
+          if (child) {
+            if (f(child) == 'break') return;
+          }
+        }
+        for (const field in managedChildrenArray.current.rec) {
+          const child = managedChildrenArray.current.rec[field];
+          if (child) if (f(child) == 'break') return;
+        }
+      }, []);
+      // Retrieves the information associated with the child with the given index.
+      // `undefined` if not child there, or it's unmounted.
+      const getManagedChildInfo = T$1(index => {
+        if (typeof index == "number") return managedChildrenArray.current.arr[index];else return managedChildrenArray.current.rec[index];
+      }, []);
+      // tl;dr this is a way to have run useLayoutEffect once after all N children
+      // have mounted and run *their* useLayoutEffect, but also *without* re-rendering
+      // ourselves because of having a `childCount` state or anything similar.
+      //
+      // When the child count ref updates, we want the parent to also run an effect
+      // to maybe do something with all these children that just mounted.
+      // The easiest way would be useEffect(..., [childCount]) but
+      // that would require us having a childCount state, then calling
+      // setChildCount and re-rendering every time children mount
+      // (only one re-render at a time unless children are staggered, but still)
+      // 
+      // As an alternate solution, any time a child uses ULE on mount, it queues a microtask
+      // to emulate running ULE on the parent. Only the first child will actually queue
+      // the microtask (by checking hasRemoteULE first) so that the "effect" only
+      // runs once. When it's done, hasRemoteULE is reset so it can run again if
+      // more children mount/unmount.
+      const hasRemoteULEChildMounted = _(null);
+      const remoteULEChildChangedCausers = _(new Set());
+      const remoteULEChildChanged = T$1(index => {
+        if (remoteULEChildChangedCausers.current.size == 0) {
+          if (onAfterChildLayoutEffect != null) {
+            debounceRendering(() => {
+              onAfterChildLayoutEffect === null || onAfterChildLayoutEffect === void 0 ? void 0 : onAfterChildLayoutEffect(remoteULEChildChangedCausers.current);
+              remoteULEChildChangedCausers.current.clear();
+            });
+          }
+        }
+        remoteULEChildChangedCausers.current.add(index);
+        return () => {};
+      }, [/* Must remain stable */]);
+      const remoteULEChildMounted = T$1((index, mounted) => {
+        if (!hasRemoteULEChildMounted.current) {
+          hasRemoteULEChildMounted.current = {
+            mounts: new Set(),
+            unmounts: new Set()
+          };
+          if (onChildrenCountChange || onChildrenMountChange) {
+            debounceRendering(() => {
+              onChildrenMountChange === null || onChildrenMountChange === void 0 ? void 0 : onChildrenMountChange(hasRemoteULEChildMounted.current.mounts, hasRemoteULEChildMounted.current.unmounts);
+              onChildrenCountChange === null || onChildrenCountChange === void 0 ? void 0 : onChildrenCountChange(getChildren().getHighestIndex() + 1);
+              hasRemoteULEChildMounted.current = null;
+            });
+          }
+        }
+        if (mounted) {
+          if (typeof index == "number") managedChildrenArray.current.highestIndex = Math.max(managedChildrenArray.current.highestIndex, index);
+        } else {
+          if (typeof index == "number") {
+            delete managedChildrenArray.current.arr[index];
+            let shave = 0;
+            while (shave <= managedChildrenArray.current.arr.length && managedChildrenArray.current.arr[managedChildrenArray.current.arr.length - 1 - shave] === undefined) {
+              ++shave;
+            }
+            managedChildrenArray.current.arr.splice(managedChildrenArray.current.arr.length - shave, shave);
+          } else delete managedChildrenArray.current.rec[index];
+          if (typeof index == "number") managedChildrenArray.current.highestIndex = managedChildrenArray.current.arr.length - 1;
+        }
+        hasRemoteULEChildMounted.current[mounted ? "mounts" : "unmounts"].add(index);
+      }, [/* Must remain stable */]);
+      const managedChildren = useStableObject({
+        ...{
+          _: managedChildrenArray.current
+        },
+        forEach: forEachChild,
+        getAt: getManagedChildInfo,
+        getHighestIndex: getHighestIndex,
+        arraySlice: T$1(() => {
+          let ret = managedChildrenArray.current.arr.slice();
+          const max = getHighestIndex();
+          for (let i = 0; i <= max; ++i) {
+            if (ret[i] == null) ret[i] = {
+              index: i
+            };
+          }
+          return ret;
+        }, [])
+      });
+      const getChildren = T$1(() => managedChildren, []);
+      return {
+        context: useStableObject({
+          managedChildContext: useStableObject({
+            managedChildrenArray: managedChildrenArray.current,
+            remoteULEChildMounted,
+            remoteULEChildChanged,
+            getChildren
+          })
+        }),
+        managedChildrenReturn: {
+          getChildren
+        }
+      };
+    }
+    function useManagedChild(_ref) {
+      let {
+        context,
+        info
+      } = _ref;
+      monitorCallCount(useManagedChild);
+      const {
+        managedChildContext: {
+          getChildren,
+          managedChildrenArray,
+          remoteULEChildMounted,
+          remoteULEChildChanged
+        }
+      } = context !== null && context !== void 0 ? context : {
+        managedChildContext: {}
+      };
+      const index = info.index;
+      // Any time our child props change, make that information available
+      // the parent if they need it.
+      // The parent can listen for all updates and only act on the ones it cares about,
+      // and multiple children updating in the same tick will all be sent at once.
+      y(() => {
+        if (managedChildrenArray == null || remoteULEChildChanged == null) return;
+        // Insert this information in-place
+        if (typeof index == "number") {
+          managedChildrenArray.arr[index] = {
+            ...info
+          };
+        } else {
+          managedChildrenArray.rec[index] = {
+            ...info
+          };
+        }
+        return remoteULEChildChanged(index);
+      }, [...Object.entries(info).flat(9)]); // 9 is infinity, right? Sure. Unrelated: TODO.
+      // When we mount, notify the parent via queueMicrotask
+      // (every child does this, so everything's coordinated to only queue a single microtask per tick)
+      // Do the same on unmount.
+      // Note: It's important that this comes AFTER remoteULEChildChanged
+      // so that remoteULEChildMounted has access to all the info on mount.
+      y(() => {
+        remoteULEChildMounted === null || remoteULEChildMounted === void 0 ? void 0 : remoteULEChildMounted(index, true);
+        return () => remoteULEChildMounted === null || remoteULEChildMounted === void 0 ? void 0 : remoteULEChildMounted(index, false);
+      }, [index]);
+      return {
+        managedChildReturn: {
+          getChildren: getChildren
+        }
+      };
+    }
+    /**
+     * An extension to useManagedChildren that handles the following common case:
+     * 1. You have a bunch of children
+     * 2. At any given time, only 1 of them is "selected", "activated", "focusable", whatever (or 0 of them, that's cool too, just 0 or 1 though).
+     * 3. The parent has control over who is "selected" via a numerical index.
+     *
+     * This hook allows for much easier control over selection management.
+     *
+     * Note that because you may want to use multiple flags with the same children, this hook *does not* use `useManagedChildren`!
+     * You need to pass it the existing children, and you must pass your invocation of `useManagedChildren` the returned `onChildrenMountChange` handler!
+     *
+     * Also because of that, the types of this function are rather odd.  It's better to start off using a hook that already uses a flag, such as `useRovingTabIndex`, as an example.
+     *
+     *
+     * @param param0
+     * @returns
+     */
+    function useChildrenFlag(_ref2) {
+      let {
+        getChildren,
+        initialIndex,
+        closestFit,
+        onIndexChange,
+        getAt,
+        setAt,
+        isValid
+      } = _ref2;
+      useEnsureStability("useChildrenFlag", onIndexChange, getAt, setAt, isValid);
+      // TODO (maybe?): Even if there is an initial index, it's not set until mount. Is that fine?
+      const [getCurrentIndex, setCurrentIndex] = usePassiveState(onIndexChange);
+      const [getRequestedIndex, setRequestedIndex] = usePassiveState(null);
+      // Shared between onChildrenMountChange and changeIndex, not public
+      // Only called when `closestFit` is false, naturally.
+      const getClosestFit = T$1(requestedIndex => {
+        const children = getChildren();
+        let closestDistance = Infinity;
+        let closestIndex = null;
+        children.forEach(child => {
+          if (child != null && isValid(child)) {
+            console.assert(typeof child.index == "number", "closestFit can only be used when each child has a numeric index, and cannot be used when children use string indices instead.");
+            const newDistance = Math.abs(child.index - requestedIndex);
+            if (newDistance < closestDistance || newDistance == closestDistance && child.index < requestedIndex) {
+              closestDistance = newDistance;
+              closestIndex = child.index;
+            }
+          }
+        });
+        return closestIndex;
+      }, [/* Must remain stable! */]);
+      // Any time a child mounts/unmounts, we need to double-check to see if that affects 
+      // the "currently selected" (or whatever) index.  The two cases we're looking for:
+      // 1. The currently selected child unmounted
+      // 2. A child mounted, and it mounts with the index we're looking for
+      const reevaluateClosestFit = useStableCallback(() => {
+        const children = getChildren();
+        const requestedIndex = getRequestedIndex();
+        const currentIndex = getCurrentIndex();
+        const currentChild = currentIndex == null ? null : children.getAt(currentIndex);
+        if (requestedIndex != null && closestFit && (requestedIndex != currentIndex || currentChild == null || !isValid(currentChild))) {
+          console.assert(typeof requestedIndex == "number", "closestFit can only be used when each child has a numeric index, and cannot be used when children use string indices instead.");
+          const closestFitIndex = getClosestFit(requestedIndex);
+          setCurrentIndex(closestFitIndex, undefined);
+          if (currentChild) setAt(currentChild, false, closestFitIndex, currentIndex);
+          if (closestFitIndex != null) {
+            const closestFitChild = children.getAt(closestFitIndex);
+            console.assert(closestFitChild != null, "Internal logic???");
+            setAt(closestFitChild, true, closestFitIndex, currentIndex);
+          }
+        }
+      });
+      const changeIndex = T$1((arg, reason) => {
+        const children = getChildren();
+        const requestedIndex = arg instanceof Function ? arg(getRequestedIndex()) : arg;
+        setRequestedIndex(requestedIndex, reason);
+        const currentIndex = getCurrentIndex();
+        if (currentIndex == requestedIndex) return requestedIndex;
+        let newMatchingChild = requestedIndex == null ? null : children.getAt(requestedIndex);
+        const oldMatchingChild = currentIndex == null ? null : children.getAt(currentIndex);
+        if (requestedIndex == null) {
+          // Easy case
+          setCurrentIndex(null, reason);
+          if (oldMatchingChild) setAt(oldMatchingChild, false, requestedIndex, currentIndex);
+          return null;
+        } else {
+          const childIsValid = newMatchingChild && isValid(newMatchingChild);
+          if (childIsValid || !closestFit) {
+            setCurrentIndex(requestedIndex, reason);
+            if (oldMatchingChild) setAt(oldMatchingChild, false, requestedIndex, currentIndex);
+            if (newMatchingChild) setAt(newMatchingChild, true, requestedIndex, currentIndex);
+            return requestedIndex;
+          } else {
+            console.assert(typeof requestedIndex == "number", "closestFit can only be used when each child has a numeric index, and cannot be used when children use string indices instead.");
+            const closestFitIndex = getClosestFit(requestedIndex);
+            setCurrentIndex(closestFitIndex, reason);
+            if (closestFitIndex != null) {
+              newMatchingChild = children.getAt(closestFitIndex);
+              console.assert(newMatchingChild != null, "Internal logic???");
+              if (oldMatchingChild) setAt(oldMatchingChild, false, closestFitIndex, currentIndex);
+              setAt(newMatchingChild, true, closestFitIndex, currentIndex);
+              return closestFitIndex;
+            } else {
+              if (oldMatchingChild) setAt(oldMatchingChild, false, closestFitIndex, currentIndex);
+              return null;
+            }
+          }
+        }
+      }, []);
+      // Run once, on mount
+      y(() => {
+        changeIndex(initialIndex !== null && initialIndex !== void 0 ? initialIndex : null, undefined);
+      }, []);
+      return {
+        changeIndex,
+        reevaluateClosestFit,
+        getCurrentIndex
+      };
+    }
+
+    /**
+     * Slightly enhanced version of `useState` that includes a getter that remains constant
+     * (i.e. you can use it in `useEffect` and friends without it being a dependency).
+     *
+     * @param initialState
+     * @returns
+     */
+    function useState(initialState) {
+      monitorCallCount(useState);
+      // We keep both, but overrride the `setState` functionality
+      const [state, setStateP] = h(initialState);
+      const ref = _(state);
+      // Hijack the normal setter function 
+      // to also set our ref to the new value
+      const setState = T$1(value => {
+        if (typeof value === "function") {
+          const callback = value;
+          setStateP(prevValue => {
+            const nextValue = callback(prevValue);
+            ref.current = nextValue;
+            return nextValue;
+          });
+        } else {
+          ref.current = value;
+          setStateP(value);
+        }
+      }, []);
+      const getState = T$1(() => {
+        return ref.current;
+      }, []);
+      return [state, setState, getState];
     }
 
     /*
@@ -1772,349 +2119,7 @@
       }
     })();
 
-    /**
-     * Allows a parent component to access information about certain
-     * child components once they have rendered.
-     *
-     * This hook is designed to be lightweight, in that the parent keeps no state
-     * and runs no effects.  Each child *does* run an effect, but with no state
-     * changes unless you explicitly request them.
-     *
-     *
-     */
-    function useManagedChildren(parentParameters) {
-      monitorCallCount(useManagedChildren);
-      const {
-        managedChildrenParameters: {
-          onAfterChildLayoutEffect,
-          onChildrenMountChange,
-          onChildCountChange
-        },
-        ...rest
-      } = parentParameters;
-      useEnsureStability("useManagedChildren", onAfterChildLayoutEffect, onChildrenMountChange, onChildCountChange);
-      //const [getMountCount, setMountCount] = usePassiveState(onChildCountChange, returnZero, runImmediately);
-      const getHighestIndex = T$1(() => {
-        return managedChildrenArray.current.highestIndex;
-      }, []);
-      // All the information we have about our children is stored in this **stable** array.
-      // Any mutations to this array **DO NOT** trigger any sort of a re-render.
-      const managedChildrenArray = _({
-        arr: [],
-        rec: {},
-        highestIndex: 0,
-        lowestIndex: 0
-      });
-      // For indirect access to each child
-      // Compare getManagedChildInfo
-      // TODO: The primary use for this is flaggable closest fits
-      // which needs to search all children for that closest fit.
-      // It would be nice if there was something better for that.
-      const forEachChild = T$1(f => {
-        for (const child of managedChildrenArray.current.arr) {
-          if (child) f(child);
-        }
-        for (const field in managedChildrenArray.current.rec) {
-          const child = managedChildrenArray.current.rec[field];
-          if (child) f(child);
-        }
-      }, []);
-      // Retrieves the information associated with the child with the given index.
-      // `undefined` if not child there, or it's unmounted.
-      const getManagedChildInfo = T$1(index => {
-        if (typeof index == "number") return managedChildrenArray.current.arr[index];else return managedChildrenArray.current.rec[index];
-      }, []);
-      // tl;dr this is a way to have run useLayoutEffect once after all N children
-      // have mounted and run *their* useLayoutEffect, but also *without* re-rendering
-      // ourselves because of having a `childCount` state or anything similar.
-      //
-      // When the child count ref updates, we want the parent to also run an effect
-      // to maybe do something with all these children that just mounted.
-      // The easiest way would be useEffect(..., [childCount]) but
-      // that would require us having a childCount state, then calling
-      // setChildCount and re-rendering every time children mount
-      // (only one re-render at a time unless children are staggered, but still)
-      // 
-      // As an alternate solution, any time a child uses ULE on mount, it queues a microtask
-      // to emulate running ULE on the parent. Only the first child will actually queue
-      // the microtask (by checking hasRemoteULE first) so that the "effect" only
-      // runs once. When it's done, hasRemoteULE is reset so it can run again if
-      // more children mount/unmount.
-      const hasRemoteULEChildMounted = _(null);
-      const remoteULEChildChangedCausers = _(new Set());
-      const remoteULEChildChanged = T$1(index => {
-        if (remoteULEChildChangedCausers.current.size == 0) {
-          if (onAfterChildLayoutEffect != null) {
-            debounceRendering(() => {
-              onAfterChildLayoutEffect === null || onAfterChildLayoutEffect === void 0 ? void 0 : onAfterChildLayoutEffect(remoteULEChildChangedCausers.current);
-              remoteULEChildChangedCausers.current.clear();
-            });
-          }
-        }
-        remoteULEChildChangedCausers.current.add(index);
-        return () => {};
-      }, [/* Must remain stable */]);
-      const remoteULEChildMounted = T$1((index, mounted) => {
-        if (!hasRemoteULEChildMounted.current) {
-          hasRemoteULEChildMounted.current = {
-            mounts: new Set(),
-            unmounts: new Set()
-          };
-          if (onChildCountChange || onChildrenMountChange) {
-            debounceRendering(() => {
-              onChildrenMountChange === null || onChildrenMountChange === void 0 ? void 0 : onChildrenMountChange(hasRemoteULEChildMounted.current.mounts, hasRemoteULEChildMounted.current.unmounts);
-              onChildCountChange === null || onChildCountChange === void 0 ? void 0 : onChildCountChange(getChildren().getHighestIndex() + 1);
-              hasRemoteULEChildMounted.current = null;
-            });
-          }
-        }
-        if (mounted) {
-          if (typeof index == "number") managedChildrenArray.current.highestIndex = Math.max(managedChildrenArray.current.highestIndex, index);
-        } else {
-          if (typeof index == "number") {
-            delete managedChildrenArray.current.arr[index];
-            let shave = 0;
-            while (shave <= managedChildrenArray.current.arr.length && managedChildrenArray.current.arr[managedChildrenArray.current.arr.length - 1 - shave] === undefined) {
-              ++shave;
-            }
-            managedChildrenArray.current.arr.splice(managedChildrenArray.current.arr.length - shave, shave);
-          } else delete managedChildrenArray.current.rec[index];
-          if (typeof index == "number") managedChildrenArray.current.highestIndex = managedChildrenArray.current.arr.length - 1;
-        }
-        hasRemoteULEChildMounted.current[mounted ? "mounts" : "unmounts"].add(index);
-      }, [/* Must remain stable */]);
-      const managedChildren = useStableObject({
-        ...{
-          _: managedChildrenArray.current
-        },
-        forEach: forEachChild,
-        getAt: getManagedChildInfo,
-        getHighestIndex: getHighestIndex,
-        arraySlice: T$1(() => {
-          let ret = managedChildrenArray.current.arr.slice();
-          const max = getHighestIndex();
-          for (let i = 0; i <= max; ++i) {
-            if (ret[i] == null) ret[i] = {
-              index: i
-            };
-          }
-          return ret;
-        }, [])
-      });
-      const getChildren = T$1(() => managedChildren, []);
-      return {
-        context: useStableObject({
-          managedChildContext: useStableObject({
-            managedChildrenArray: managedChildrenArray.current,
-            remoteULEChildMounted,
-            remoteULEChildChanged,
-            getChildren
-          })
-        }),
-        managedChildrenReturn: {
-          getChildren
-        }
-      };
-    }
-    function useManagedChild(info, managedChildParameters) {
-      var _info$context;
-      monitorCallCount(useManagedChild);
-      const {
-        managedChildContext: {
-          getChildren,
-          managedChildrenArray,
-          remoteULEChildMounted,
-          remoteULEChildChanged
-        }
-      } = (_info$context = info.context) !== null && _info$context !== void 0 ? _info$context : {
-        managedChildContext: {}
-      };
-      const index = managedChildParameters.index;
-      // Any time our child props change, make that information available
-      // the parent if they need it.
-      // The parent can listen for all updates and only act on the ones it cares about,
-      // and multiple children updating in the same tick will all be sent at once.
-      s(() => {
-        if (managedChildrenArray == null || remoteULEChildChanged == null) return;
-        // Insert this information in-place
-        if (typeof index == "number") {
-          managedChildrenArray.arr[index] = {
-            ...managedChildParameters
-          };
-        } else {
-          managedChildrenArray.rec[index] = {
-            ...managedChildParameters
-          };
-        }
-        return remoteULEChildChanged(index);
-      }, [...Object.entries(info).flat(9)]); // 9 is infinity, right? Sure. Unrelated: TODO.
-      // When we mount, notify the parent via queueMicrotask
-      // (every child does this, so everything's coordinated to only queue a single microtask per tick)
-      // Do the same on unmount.
-      // Note: It's important that this comes AFTER remoteULEChildChanged
-      // so that remoteULEChildMounted has access to all the info on mount.
-      s(() => {
-        remoteULEChildMounted === null || remoteULEChildMounted === void 0 ? void 0 : remoteULEChildMounted(index, true);
-        return () => remoteULEChildMounted === null || remoteULEChildMounted === void 0 ? void 0 : remoteULEChildMounted(index, false);
-      }, [index]);
-      return {
-        managedChildReturn: {
-          getChildren: getChildren
-        }
-      };
-    }
-    /**
-     * An extension to useManagedChildren that handles the following common case:
-     * 1. You have a bunch of children
-     * 2. At any given time, only 1 of them is "selected", "activated", "focusable", whatever (or 0 of them, that's cool too, just 0 or 1 though).
-     * 3. The parent has control over who is "selected" via a numerical index.
-     *
-     * This hook allows for much easier control over selection management.
-     *
-     * Note that because you may want to use multiple flags with the same children, this hook *does not* use `useManagedChildren`!
-     * You need to pass it the existing children, and you must pass your invocation of `useManagedChildren` the returned `onChildrenMountChange` handler!
-     *
-     * Also because of that, the types of this function are rather odd.  It's better to start off using a hook that already uses a flag, such as `useRovingTabIndex`, as an example.
-     *
-     *
-     * @param param0
-     * @returns
-     */
-    function useChildrenFlag(_ref) {
-      let {
-        getChildren,
-        initialIndex,
-        closestFit,
-        onIndexChange,
-        getAt,
-        setAt,
-        isValid
-      } = _ref;
-      useEnsureStability("useChildrenFlag", onIndexChange, getAt, setAt, isValid);
-      // TODO (maybe?): Even if there is an initial index, it's not set until mount. Is that fine?
-      const [getCurrentIndex, setCurrentIndex] = usePassiveState(onIndexChange);
-      const [getRequestedIndex, setRequestedIndex] = usePassiveState(null);
-      // Shared between onChildrenMountChange and changeIndex, not public
-      // Only called when `closestFit` is false, naturally.
-      const getClosestFit = T$1(requestedIndex => {
-        const children = getChildren();
-        let closestDistance = Infinity;
-        let closestIndex = null;
-        children.forEach(child => {
-          if (child != null && isValid(child)) {
-            console.assert(typeof child.index == "number", "closestFit can only be used when each child has a numeric index, and cannot be used when children use string indices instead.");
-            const newDistance = Math.abs(child.index - requestedIndex);
-            if (newDistance < closestDistance || newDistance == closestDistance && child.index < requestedIndex) {
-              closestDistance = newDistance;
-              closestIndex = child.index;
-            }
-          }
-        });
-        return closestIndex;
-      }, [/* Must remain stable! */]);
-      // Any time a child mounts/unmounts, we need to double-check to see if that affects 
-      // the "currently selected" (or whatever) index.  The two cases we're looking for:
-      // 1. The currently selected child unmounted
-      // 2. A child mounted, and it mounts with the index we're looking for
-      const reevaluateClosestFit = useStableCallback(() => {
-        const children = getChildren();
-        const requestedIndex = getRequestedIndex();
-        const currentIndex = getCurrentIndex();
-        const currentChild = currentIndex == null ? null : children.getAt(currentIndex);
-        if (requestedIndex != null && closestFit && (requestedIndex != currentIndex || currentChild == null || !isValid(currentChild))) {
-          console.assert(typeof requestedIndex == "number", "closestFit can only be used when each child has a numeric index, and cannot be used when children use string indices instead.");
-          const closestFitIndex = getClosestFit(requestedIndex);
-          setCurrentIndex(closestFitIndex, undefined);
-          if (currentChild) setAt(currentChild, false, closestFitIndex, currentIndex);
-          if (closestFitIndex != null) {
-            const closestFitChild = children.getAt(closestFitIndex);
-            console.assert(closestFitChild != null, "Internal logic???");
-            setAt(closestFitChild, true, closestFitIndex, currentIndex);
-          }
-        }
-      });
-      const changeIndex = T$1((arg, reason) => {
-        const children = getChildren();
-        const requestedIndex = arg instanceof Function ? arg(getRequestedIndex()) : arg;
-        setRequestedIndex(requestedIndex, reason);
-        const currentIndex = getCurrentIndex();
-        if (currentIndex == requestedIndex) return requestedIndex;
-        let newMatchingChild = requestedIndex == null ? null : children.getAt(requestedIndex);
-        const oldMatchingChild = currentIndex == null ? null : children.getAt(currentIndex);
-        if (requestedIndex == null) {
-          // Easy case
-          setCurrentIndex(null, reason);
-          if (oldMatchingChild) setAt(oldMatchingChild, false, requestedIndex, currentIndex);
-          return null;
-        } else {
-          const childIsValid = newMatchingChild && isValid(newMatchingChild);
-          if (childIsValid || !closestFit) {
-            setCurrentIndex(requestedIndex, reason);
-            if (oldMatchingChild) setAt(oldMatchingChild, false, requestedIndex, currentIndex);
-            if (newMatchingChild) setAt(newMatchingChild, true, requestedIndex, currentIndex);
-            return requestedIndex;
-          } else {
-            console.assert(typeof requestedIndex == "number", "closestFit can only be used when each child has a numeric index, and cannot be used when children use string indices instead.");
-            const closestFitIndex = getClosestFit(requestedIndex);
-            setCurrentIndex(closestFitIndex, reason);
-            if (closestFitIndex != null) {
-              newMatchingChild = children.getAt(closestFitIndex);
-              console.assert(newMatchingChild != null, "Internal logic???");
-              if (oldMatchingChild) setAt(oldMatchingChild, false, closestFitIndex, currentIndex);
-              setAt(newMatchingChild, true, closestFitIndex, currentIndex);
-              return closestFitIndex;
-            } else {
-              if (oldMatchingChild) setAt(oldMatchingChild, false, closestFitIndex, currentIndex);
-              return null;
-            }
-          }
-        }
-      }, []);
-      // Run once, on mount
-      s(() => {
-        changeIndex(initialIndex !== null && initialIndex !== void 0 ? initialIndex : null, undefined);
-      }, []);
-      return {
-        changeIndex,
-        reevaluateClosestFit,
-        getCurrentIndex
-      };
-    }
-
-    /**
-     * Slightly enhanced version of `useState` that includes a getter that remains constant
-     * (i.e. you can use it in `useEffect` and friends without it being a dependency).
-     *
-     * @param initialState
-     * @returns
-     */
-    function useState(initialState) {
-      monitorCallCount(useState);
-      // We keep both, but overrride the `setState` functionality
-      const [state, setStateP] = p(initialState);
-      const ref = _(state);
-      // Hijack the normal setter function 
-      // to also set our ref to the new value
-      const setState = T$1(value => {
-        if (typeof value === "function") {
-          const callback = value;
-          setStateP(prevValue => {
-            const nextValue = callback(prevValue);
-            ref.current = nextValue;
-            return nextValue;
-          });
-        } else {
-          ref.current = value;
-          setStateP(value);
-        }
-      }, []);
-      const getState = T$1(() => {
-        return ref.current;
-      }, []);
-      return [state, setState, getState];
-    }
-
-    function g(n,t){for(var e in t)n[e]=t[e];return n}function C(n,t){for(var e in n)if("__source"!==e&&!(e in t))return !0;for(var r in t)if("__source"!==r&&n[r]!==t[r])return !0;return !1}function w(n){this.props=n;}function x(n,e){function r(n){var t=this.props.ref,r=t==n.ref;return !r&&t&&(t.call?t(null):t.current=null),e?!e(this.props,n)||!r:C(this.props,n)}function u(e){return this.shouldComponentUpdate=r,v$1(n,e)}return u.displayName="Memo("+(n.displayName||n.name)+")",u.prototype.isReactComponent=!0,u.__f=!0,u}(w.prototype=new _$2).isPureReactComponent=!0,w.prototype.shouldComponentUpdate=function(n,t){return C(this.props,n)||C(this.state,t)};var R=l$1.__b;l$1.__b=function(n){n.type&&n.type.__f&&n.ref&&(n.props.ref=n.ref,n.ref=null),R&&R(n);};var N="undefined"!=typeof Symbol&&Symbol.for&&Symbol.for("react.forward_ref")||3911;function k(n){function t(t){var e=g({},t);return delete e.ref,n(e,t.ref||null)}return t.$$typeof=N,t.render=t,t.prototype.isReactComponent=t.__f=!0,t.displayName="ForwardRef("+(n.displayName||n.name)+")",t}var T=l$1.__e;l$1.__e=function(n,t,e,r){if(n.then)for(var u,o=t;o=o.__;)if((u=o.__c)&&u.__c)return null==t.__e&&(t.__e=e.__e,t.__k=e.__k),u.__c(n,t);T(n,t,e,r);};var I=l$1.unmount;function L(n,t,e){return n&&(n.__c&&n.__c.__H&&(n.__c.__H.__.forEach(function(n){"function"==typeof n.__c&&n.__c();}),n.__c.__H=null),null!=(n=g({},n)).__c&&(n.__c.__P===e&&(n.__c.__P=t),n.__c=null),n.__k=n.__k&&n.__k.map(function(n){return L(n,t,e)})),n}function U(n,t,e){return n&&(n.__v=null,n.__k=n.__k&&n.__k.map(function(n){return U(n,t,e)}),n.__c&&n.__c.__P===t&&(n.__e&&e.insertBefore(n.__e,n.__d),n.__c.__e=!0,n.__c.__P=e)),n}function D(){this.__u=0,this.t=null,this.__b=null;}function F(n){var t=n.__.__c;return t&&t.__a&&t.__a(n)}function V(){this.u=null,this.o=null;}l$1.unmount=function(n){var t=n.__c;t&&t.__R&&t.__R(),t&&!0===n.__h&&(n.type=null),I&&I(n);},(D.prototype=new _$2).__c=function(n,t){var e=t.__c,r=this;null==r.t&&(r.t=[]),r.t.push(e);var u=F(r.__v),o=!1,i=function(){o||(o=!0,e.__R=null,u?u(l):l());};e.__R=i;var l=function(){if(!--r.__u){if(r.state.__a){var n=r.state.__a;r.__v.__k[0]=U(n,n.__c.__P,n.__c.__O);}var t;for(r.setState({__a:r.__b=null});t=r.t.pop();)t.forceUpdate();}},c=!0===t.__h;r.__u++||c||r.setState({__a:r.__b=r.__v.__k[0]}),n.then(i,i);},D.prototype.componentWillUnmount=function(){this.t=[];},D.prototype.render=function(n,e){if(this.__b){if(this.__v.__k){var r=document.createElement("div"),o=this.__v.__k[0].__c;this.__v.__k[0]=L(this.__b,r,o.__O=o.__P);}this.__b=null;}var i=e.__a&&v$1(d$1,null,n.fallback);return i&&(i.__h=null),[v$1(d$1,null,e.__a?null:n.children),i]};var W=function(n,t,e){if(++e[1]===e[0]&&n.o.delete(t),n.props.revealOrder&&("t"!==n.props.revealOrder[0]||!n.o.size))for(e=n.u;e;){for(;e.length>3;)e.pop()();if(e[1]<e[0])break;n.u=e=e[2];}};(V.prototype=new _$2).__a=function(n){var t=this,e=F(t.__v),r=t.o.get(n);return r[0]++,function(u){var o=function(){t.props.revealOrder?(r.push(u),W(t,n,r)):u();};e?e(o):o();}},V.prototype.render=function(n){this.u=null,this.o=new Map;var t=A$1(n.children);n.revealOrder&&"b"===n.revealOrder[0]&&t.reverse();for(var e=t.length;e--;)this.o.set(t[e],this.u=[1,0,this.u]);return n.children},V.prototype.componentDidUpdate=V.prototype.componentDidMount=function(){var n=this;this.o.forEach(function(t,e){W(n,e,t);});};var z="undefined"!=typeof Symbol&&Symbol.for&&Symbol.for("react.element")||60103,B=/^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/,H="undefined"!=typeof document,Z=function(n){return ("undefined"!=typeof Symbol&&"symbol"==typeof Symbol()?/fil|che|rad/i:/fil|che|ra/i).test(n)};_$2.prototype.isReactComponent={},["componentWillMount","componentWillReceiveProps","componentWillUpdate"].forEach(function(t){Object.defineProperty(_$2.prototype,t,{configurable:!0,get:function(){return this["UNSAFE_"+t]},set:function(n){Object.defineProperty(this,t,{configurable:!0,writable:!0,value:n});}});});var G=l$1.event;function J(){}function K(){return this.cancelBubble}function Q(){return this.defaultPrevented}l$1.event=function(n){return G&&(n=G(n)),n.persist=J,n.isPropagationStopped=K,n.isDefaultPrevented=Q,n.nativeEvent=n};var nn={configurable:!0,get:function(){return this.class}},tn=l$1.vnode;l$1.vnode=function(n){var t=n.type,e=n.props,u=e;if("string"==typeof t){var o=-1===t.indexOf("-");for(var i in u={},e){var l=e[i];H&&"children"===i&&"noscript"===t||"value"===i&&"defaultValue"in e&&null==l||("defaultValue"===i&&"value"in e&&null==e.value?i="value":"download"===i&&!0===l?l="":/ondoubleclick/i.test(i)?i="ondblclick":/^onchange(textarea|input)/i.test(i+t)&&!Z(e.type)?i="oninput":/^onfocus$/i.test(i)?i="onfocusin":/^onblur$/i.test(i)?i="onfocusout":/^on(Ani|Tra|Tou|BeforeInp|Compo)/.test(i)?i=i.toLowerCase():o&&B.test(i)?i=i.replace(/[A-Z0-9]/g,"-$&").toLowerCase():null===l&&(l=void 0),/^oninput$/i.test(i)&&(i=i.toLowerCase(),u[i]&&(i="oninputCapture")),u[i]=l);}"select"==t&&u.multiple&&Array.isArray(u.value)&&(u.value=A$1(e.children).forEach(function(n){n.props.selected=-1!=u.value.indexOf(n.props.value);})),"select"==t&&null!=u.defaultValue&&(u.value=A$1(e.children).forEach(function(n){n.props.selected=u.multiple?-1!=u.defaultValue.indexOf(n.props.value):u.defaultValue==n.props.value;})),n.props=u,e.class!=e.className&&(nn.enumerable="className"in e,null!=e.className&&(u.class=e.className),Object.defineProperty(u,"className",nn));}n.$$typeof=z,tn&&tn(n);};var en=l$1.__r;l$1.__r=function(n){en&&en(n),n.__c;};var rn=l$1.diffed;l$1.diffed=function(n){rn&&rn(n);var t=n.props,e=n.__e;null!=e&&"textarea"===n.type&&"value"in t&&t.value!==e.value&&(e.value=null==t.value?"":t.value);};
+    function g(n,t){for(var e in t)n[e]=t[e];return n}function C(n,t){for(var e in n)if("__source"!==e&&!(e in t))return !0;for(var r in t)if("__source"!==r&&n[r]!==t[r])return !0;return !1}function w(n){this.props=n;}function x(n,e){function r(n){var t=this.props.ref,r=t==n.ref;return !r&&t&&(t.call?t(null):t.current=null),e?!e(this.props,n)||!r:C(this.props,n)}function u(e){return this.shouldComponentUpdate=r,y$1(n,e)}return u.displayName="Memo("+(n.displayName||n.name)+")",u.prototype.isReactComponent=!0,u.__f=!0,u}(w.prototype=new k$2).isPureReactComponent=!0,w.prototype.shouldComponentUpdate=function(n,t){return C(this.props,n)||C(this.state,t)};var R=l$1.__b;l$1.__b=function(n){n.type&&n.type.__f&&n.ref&&(n.props.ref=n.ref,n.ref=null),R&&R(n);};var N="undefined"!=typeof Symbol&&Symbol.for&&Symbol.for("react.forward_ref")||3911;function k(n){function t(t){var e=g({},t);return delete e.ref,n(e,t.ref||null)}return t.$$typeof=N,t.render=t,t.prototype.isReactComponent=t.__f=!0,t.displayName="ForwardRef("+(n.displayName||n.name)+")",t}var T=l$1.__e;l$1.__e=function(n,t,e,r){if(n.then)for(var u,o=t;o=o.__;)if((u=o.__c)&&u.__c)return null==t.__e&&(t.__e=e.__e,t.__k=e.__k),u.__c(n,t);T(n,t,e,r);};var I=l$1.unmount;function L(n,t,e){return n&&(n.__c&&n.__c.__H&&(n.__c.__H.__.forEach(function(n){"function"==typeof n.__c&&n.__c();}),n.__c.__H=null),null!=(n=g({},n)).__c&&(n.__c.__P===e&&(n.__c.__P=t),n.__c=null),n.__k=n.__k&&n.__k.map(function(n){return L(n,t,e)})),n}function U(n,t,e){return n&&(n.__v=null,n.__k=n.__k&&n.__k.map(function(n){return U(n,t,e)}),n.__c&&n.__c.__P===t&&(n.__e&&e.insertBefore(n.__e,n.__d),n.__c.__e=!0,n.__c.__P=e)),n}function D(){this.__u=0,this.t=null,this.__b=null;}function F(n){var t=n.__.__c;return t&&t.__a&&t.__a(n)}function V(){this.u=null,this.o=null;}l$1.unmount=function(n){var t=n.__c;t&&t.__R&&t.__R(),t&&!0===n.__h&&(n.type=null),I&&I(n);},(D.prototype=new k$2).__c=function(n,t){var e=t.__c,r=this;null==r.t&&(r.t=[]),r.t.push(e);var u=F(r.__v),o=!1,i=function(){o||(o=!0,e.__R=null,u?u(l):l());};e.__R=i;var l=function(){if(!--r.__u){if(r.state.__a){var n=r.state.__a;r.__v.__k[0]=U(n,n.__c.__P,n.__c.__O);}var t;for(r.setState({__a:r.__b=null});t=r.t.pop();)t.forceUpdate();}},c=!0===t.__h;r.__u++||c||r.setState({__a:r.__b=r.__v.__k[0]}),n.then(i,i);},D.prototype.componentWillUnmount=function(){this.t=[];},D.prototype.render=function(n,e){if(this.__b){if(this.__v.__k){var r=document.createElement("div"),o=this.__v.__k[0].__c;this.__v.__k[0]=L(this.__b,r,o.__O=o.__P);}this.__b=null;}var i=e.__a&&y$1(_$2,null,n.fallback);return i&&(i.__h=null),[y$1(_$2,null,e.__a?null:n.children),i]};var W=function(n,t,e){if(++e[1]===e[0]&&n.o.delete(t),n.props.revealOrder&&("t"!==n.props.revealOrder[0]||!n.o.size))for(e=n.u;e;){for(;e.length>3;)e.pop()();if(e[1]<e[0])break;n.u=e=e[2];}};(V.prototype=new k$2).__a=function(n){var t=this,e=F(t.__v),r=t.o.get(n);return r[0]++,function(u){var o=function(){t.props.revealOrder?(r.push(u),W(t,n,r)):u();};e?e(o):o();}},V.prototype.render=function(n){this.u=null,this.o=new Map;var t=P(n.children);n.revealOrder&&"b"===n.revealOrder[0]&&t.reverse();for(var e=t.length;e--;)this.o.set(t[e],this.u=[1,0,this.u]);return n.children},V.prototype.componentDidUpdate=V.prototype.componentDidMount=function(){var n=this;this.o.forEach(function(t,e){W(n,e,t);});};var B="undefined"!=typeof Symbol&&Symbol.for&&Symbol.for("react.element")||60103,H=/^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/,Z=/^on(Ani|Tra|Tou|BeforeInp|Compo)/,Y=/[A-Z0-9]/g,$="undefined"!=typeof document,q=function(n){return ("undefined"!=typeof Symbol&&"symbol"==typeof Symbol()?/fil|che|rad/:/fil|che|ra/).test(n)};k$2.prototype.isReactComponent={},["componentWillMount","componentWillReceiveProps","componentWillUpdate"].forEach(function(t){Object.defineProperty(k$2.prototype,t,{configurable:!0,get:function(){return this["UNSAFE_"+t]},set:function(n){Object.defineProperty(this,t,{configurable:!0,writable:!0,value:n});}});});var K=l$1.event;function Q(){}function X(){return this.cancelBubble}function nn(){return this.defaultPrevented}l$1.event=function(n){return K&&(n=K(n)),n.persist=Q,n.isPropagationStopped=X,n.isDefaultPrevented=nn,n.nativeEvent=n};var en={configurable:!0,get:function(){return this.class}},rn=l$1.vnode;l$1.vnode=function(n){var t=n.type,e=n.props,u=e;if("string"==typeof t){for(var o in u={},e){var i=e[o];if(!("value"===o&&"defaultValue"in e&&null==i||$&&"children"===o&&"noscript"===t)){var l=o.toLowerCase();"defaultValue"===o&&"value"in e&&null==e.value?o="value":"download"===o&&!0===i?i="":"ondoubleclick"===l?o="ondblclick":"onchange"!==l||"input"!==t&&"textarea"!==t||q(e.type)?"onfocus"===l?o="onfocusin":"onblur"===l?o="onfocusout":Z.test(o)?o=l:-1===t.indexOf("-")&&H.test(o)?o=o.replace(Y,"-$&").toLowerCase():null===i&&(i=void 0):l=o="oninput","oninput"===l&&u[o=l]&&(o="oninputCapture"),u[o]=i;}}"select"==t&&u.multiple&&Array.isArray(u.value)&&(u.value=P(e.children).forEach(function(n){n.props.selected=-1!=u.value.indexOf(n.props.value);})),"select"==t&&null!=u.defaultValue&&(u.value=P(e.children).forEach(function(n){n.props.selected=u.multiple?-1!=u.defaultValue.indexOf(n.props.value):u.defaultValue==n.props.value;})),n.props=u,e.class!=e.className&&(en.enumerable="className"in e,null!=e.className&&(u.class=e.className),Object.defineProperty(u,"className",en));}n.$$typeof=B,rn&&rn(n);};var un=l$1.__r;l$1.__r=function(n){un&&un(n),n.__c;};var on=l$1.diffed;l$1.diffed=function(n){on&&on(n);var t=n.props,e=n.__e;null!=e&&"textarea"===n.type&&"value"in t&&t.value!==e.value&&(e.value=null==t.value?"":t.value);};
 
     /**
      * Easy access to an HTMLElement that can be controlled imperatively.
@@ -2229,7 +2234,7 @@
         refElementReturn
       });
       A(handle, () => imperativeHandle);
-      return v$1(Tag, useMergedProps(propsStable, iprops, props, {
+      return y$1(Tag, useMergedProps(propsStable, iprops, props, {
         ref
       }));
     }
@@ -2316,7 +2321,7 @@
       wheel: "onWheel"
     };
 
-    E(null);
+    F$2(null);
 
     /** Detect free variable `global` from Node.js. */
     var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
@@ -3081,9 +3086,9 @@
 
     function getExclusiveTransitionContextPrememoization(exclusivityKey) {
       if (exclusivityKey == null) return null;
-      return E(null);
+      return F$2(null);
     }
-    const SwappableContext = E({
+    const SwappableContext = F$2({
       getAnimateOnMount: () => false
     });
     /**
@@ -3092,7 +3097,7 @@
      * If
      */
     const GetExclusiveTransitionContext = memoize(getExclusiveTransitionContextPrememoization);
-    const CssClassContext = E({
+    const CssClassContext = F$2({
       GetBaseClass: () => "ptl",
       GetEnterClass: () => "n",
       GetExitClass: () => "x",
@@ -3110,7 +3115,7 @@
         GetInitClass,
         GetTransitionClass,
         GetFinalizeClass
-      } = q(CssClassContext);
+      } = q$1(CssClassContext);
       const GetDirectionClass = T$1(direction => {
         switch (direction) {
           case "enter":
@@ -3233,7 +3238,7 @@
       } = _ref2;
       const c = GetExclusiveTransitionContext(exclusivityKey);
       useEnsureStability("useExclusiveTransition", c == null);
-      const context = c ? q(c) : null;
+      const context = c ? q$1(c) : null;
       const index = F$1(() => {
         globalCount += 1;
         return globalCount.toString();
@@ -3241,20 +3246,18 @@
       const [exclusivelyOpen, setExclusivelyOpen, getExclusivelyOpen] = useState(!!show);
       useManagedChild({
         context,
-        managedChildParameters: {
-          index
+        info: {
+          index,
+          getExclusivelyOpen,
+          setExclusivelyOpen,
+          forceClose
         }
-      }, {
-        index,
-        getExclusivelyOpen,
-        setExclusivelyOpen,
-        forceClose
       });
       const parentOnVisChange = context === null || context === void 0 ? void 0 : context.exclusiveTransitionContext.onVisibilityChange;
       const onVisibilityChange = T$1(visible => {
         parentOnVisChange === null || parentOnVisChange === void 0 ? void 0 : parentOnVisChange(index, visible == false ? "hidden" : "show");
       }, [parentOnVisChange, index]);
-      s(() => {
+      y(() => {
         if (show) parentOnVisChange === null || parentOnVisChange === void 0 ? void 0 : parentOnVisChange(index, "show");
       }, [show, parentOnVisChange, index]);
       return {
@@ -3287,7 +3290,7 @@
      */
     function useLastNonNullValue(value) {
       const lastNonNullValue = _(null);
-      h(() => {
+      p(() => {
         if (value != null) lastNonNullValue.current = value;
       }, [value]);
       return value !== null && value !== void 0 ? value : lastNonNullValue.current;
@@ -3324,7 +3327,7 @@
         inline,
         childrenAnimateOnMount,
         exclusivityKey,
-        ...p
+        ...p$1
       } = _ref2;
       let children = c;
       if (!children.type) children = !inline ? o$1("div", {
@@ -3336,12 +3339,12 @@
       const transitionProps = useCreateSwappableProps({
         inline
       }, {
-        ...p,
+        ...p$1,
         ref
       });
       const mergedWithChildren = useMergedProps(transitionProps, children.props);
       const animateOnMount = _(childrenAnimateOnMount !== null && childrenAnimateOnMount !== void 0 ? childrenAnimateOnMount : false);
-      h(() => {
+      p(() => {
         animateOnMount.current = true;
       }, []);
       const contextValue = _({
@@ -3349,7 +3352,7 @@
           return animateOnMount.current;
         }
       });
-      let ret = D$1(children, mergedWithChildren);
+      let ret = E(children, mergedWithChildren);
       ret = o$1(SwappableContext.Provider, {
         value: contextValue.current,
         children: ret
@@ -3388,7 +3391,7 @@
         transitionParameters: {
           propsIncoming: {
             children,
-            ...p
+            ...p$1
           },
           show,
           animateOnMount,
@@ -3408,7 +3411,7 @@
       useEnsureStability("useTransition", onVisibilityChange);
       const {
         getAnimateOnMount
-      } = q(SwappableContext);
+      } = q$1(SwappableContext);
       exitVisibility || (exitVisibility = "hidden");
       (_animateOnMount = animateOnMount) !== null && _animateOnMount !== void 0 ? _animateOnMount : animateOnMount = getAnimateOnMount();
       (_measure = measure) !== null && _measure !== void 0 ? _measure : measure = false;
@@ -3600,7 +3603,7 @@
       const [getState, setState] = usePassiveState(onStateChange, returnNull, runImmediately);
       // When we mount, and every time thereafter that `show` changes,
       // change our current state according to that `show` value.
-      s(() => internalOnShowChanged(show, measure), [measure, show]);
+      y(() => internalOnShowChanged(show, measure), [measure, show]);
       // This has no dependences and is relied on in two different areas
       function internalOnShowChanged(show, measure) {
         // If `show` is null, then we don't change anything.
@@ -3632,11 +3635,11 @@
       const definitelyShouldMountChildren = show || !delayMountUntilShown;
       const hasRenderedChildren = _(false);
       const renderChildren = definitelyShouldMountChildren || hasRenderedChildren.current;
-      h(() => {
+      p(() => {
         if (definitelyShouldMountChildren) hasRenderedChildren.current || (hasRenderedChildren.current = true);
       }, [hasRenderedChildren.current ? false : definitelyShouldMountChildren]);
       const childrenIsVnode = children && children.type && children.props;
-      const finalProps = useMergedProps(p, propsStable, otherProps.current, {
+      const finalProps = useMergedProps(p$1, propsStable, otherProps.current, {
         className: [...classNames.current, "".concat(GetBaseClass()), "".concat(GetBaseClass(), "-ev-").concat(exitVisibility), "".concat(GetBaseClass(), "-inline-direction-").concat("ltr"), "".concat(GetBaseClass(), "-block-direction-").concat("ttb")].join(" "),
         style: cssProperties.current
       }, childrenIsVnode ? {
@@ -3650,7 +3653,7 @@
       if (childrenIsVnode) {
         modifiedChildren = o$1(SwappableContext.Provider, {
           value: resetContext,
-          children: D$1(children, finalProps)
+          children: E(children, finalProps)
         });
       } else {
         modifiedChildren = o$1(SwappableContext.Provider, {
@@ -3772,7 +3775,7 @@
         }
       };
     }
-    x(forwardElementRef(function Clip(_ref6, ref) {
+    const Clip = x(forwardElementRef(function Clip(_ref6, ref) {
       let {
         duration,
         exclusivityKey,
@@ -3824,7 +3827,7 @@
       });
     }));
 
-    x(forwardElementRef(function ClipFade(_ref, ref) {
+    const ClipFade = x(forwardElementRef(function ClipFade(_ref, ref) {
       let {
         delayMountUntilShown,
         exclusivityKey,
@@ -3916,7 +3919,7 @@
      *
      * @see `Transitionable`
      */
-    x(forwardElementRef(function Collapse(_ref2, ref) {
+    const Collapse = x(forwardElementRef(function Collapse(_ref2, ref) {
       let {
         show,
         exclusivityKey,
@@ -3958,7 +3961,7 @@
       });
     }));
 
-    x(forwardElementRef(function CollapseFade(_ref, ref) {
+    const CollapseFade = x(forwardElementRef(function CollapseFade(_ref, ref) {
       let {
         show,
         exclusivityKey,
@@ -4043,7 +4046,7 @@
      *
      * @see `Transitionable`
      */
-    x(forwardElementRef(function Flip(_ref2, ref) {
+    const Flip = x(forwardElementRef(function Flip(_ref2, ref) {
       let {
         duration,
         exclusivityKey,
@@ -4125,7 +4128,7 @@
      *
      * @see `Transitionable`
      */
-    x(forwardElementRef(function Slide(_ref2, ref) {
+    const Slide = x(forwardElementRef(function Slide(_ref2, ref) {
       let {
         duration,
         exclusivityKey,
@@ -4169,7 +4172,7 @@
       });
     }));
 
-    x(forwardElementRef(function SlideFade(_ref, ref) {
+    const SlideFade = x(forwardElementRef(function SlideFade(_ref, ref) {
       let {
         duration,
         exclusivityKey,
@@ -4252,7 +4255,7 @@
      * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
      * @see `Transitionable` `ZoomFade`
      */
-    x(forwardElementRef(function Zoom(_ref6, ref) {
+    const Zoom = x(forwardElementRef(function Zoom(_ref6, ref) {
       let {
         duration,
         exclusivityKey,
@@ -4304,7 +4307,7 @@
       });
     }));
 
-    x(forwardElementRef(function SlideZoom(_ref, ref) {
+    const SlideZoom = x(forwardElementRef(function SlideZoom(_ref, ref) {
       let {
         duration,
         exclusivityKey,
@@ -4363,7 +4366,7 @@
       });
     }));
 
-    x(forwardElementRef(function SlideZoomFade(_ref, ref) {
+    const SlideZoomFade = x(forwardElementRef(function SlideZoomFade(_ref, ref) {
       let {
         duration,
         exclusivityKey,
@@ -4429,7 +4432,7 @@
       });
     }));
 
-    x(forwardElementRef(function ZoomFade(_ref, ref) {
+    const ZoomFade = x(forwardElementRef(function ZoomFade(_ref, ref) {
       let {
         duration,
         exclusivityKey,
@@ -4496,16 +4499,16 @@
     }
     function Demo() {
       //const [mounted, setMounted] = useState(false);
-      const [exclusive, setExclusive] = p(false);
-      const [animateOnMount, setAnimateOnMount] = p(true);
-      const [writingMode, setWritingMode] = p("horizontal");
-      const [show1, setShow1] = p("pending");
-      const [show3, setShow3] = p(0);
-      const [reflow, setReflow] = p("hidden");
-      const [duration, setDuration] = p(500);
-      const [text, setText] = p("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-      const [flicker, setFlicker] = p(0);
-      s(() => {
+      const [exclusive, setExclusive] = h(false);
+      const [animateOnMount, setAnimateOnMount] = h(true);
+      const [writingMode, setWritingMode] = h("horizontal");
+      const [show1, setShow1] = h("pending");
+      const [show3, setShow3] = h(0);
+      const [reflow, setReflow] = h("hidden");
+      const [duration, setDuration] = h(500);
+      const [text, setText] = h("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+      const [flicker, setFlicker] = h(0);
+      y(() => {
         if (flicker > 0) {
           setShow1(s => s == "showing" ? "hiding" : "showing");
           setFlicker(f => f - 1);
@@ -4560,7 +4563,7 @@
         setShow3(null);
         e.preventDefault();
       }, []);
-      return o$1(d$1, {
+      return o$1(_$2, {
         children: [o$1("div", {
           id: "controls",
           children: [o$1("h1", {
@@ -4768,14 +4771,56 @@
           style: {
             ["--".concat(useCssClasses().GetBaseClass(), "-duration")]: "".concat(duration, "ms")
           },
-          children: o$1(FadeDemo, {
+          children: [o$1(FadeDemo, {
             cardShow: show1,
             animateOnMount: animateOnMount,
             exclusive: exclusive,
             contentIndex: show3,
             exitVisibility: reflow,
             text: text
-          })
+          }), o$1(SlideDemo, {
+            cardShow: show1,
+            animateOnMount: animateOnMount,
+            exclusive: exclusive,
+            contentIndex: show3,
+            exitVisibility: reflow,
+            text: text
+          }), o$1(ZoomDemo, {
+            cardShow: show1,
+            animateOnMount: animateOnMount,
+            exclusive: exclusive,
+            contentIndex: show3,
+            exitVisibility: reflow,
+            text: text
+          }), o$1(ClipDemo, {
+            cardShow: show1,
+            animateOnMount: animateOnMount,
+            exclusive: exclusive,
+            contentIndex: show3,
+            exitVisibility: reflow,
+            text: text
+          }), o$1(FlipDemo, {
+            cardShow: show1,
+            animateOnMount: animateOnMount,
+            exclusive: exclusive,
+            contentIndex: show3,
+            exitVisibility: reflow,
+            text: text
+          }), o$1(ZoomSlideDemo, {
+            cardShow: show1,
+            animateOnMount: animateOnMount,
+            exclusive: exclusive,
+            contentIndex: show3,
+            exitVisibility: reflow,
+            text: text
+          }), o$1(CollapseDemo, {
+            cardShow: show1,
+            animateOnMount: animateOnMount,
+            exclusive: exclusive,
+            contentIndex: show3,
+            exitVisibility: reflow,
+            text: text
+          })]
         }, writingMode)]
       });
     }
@@ -4788,8 +4833,8 @@
         animateOnMount,
         exclusive
       } = _ref;
-      const [min, setMin] = p(0);
-      const [max, setMax] = p(1);
+      const [min, setMin] = h(0);
+      const [max, setMax] = h(1);
       const onMinInput = T$1(e => {
         setMin(e.target.valueAsNumber);
         e.preventDefault();
@@ -4864,8 +4909,691 @@
         })]
       });
     }
+    function ClipDemo(_ref2) {
+      let {
+        cardShow,
+        contentIndex,
+        exitVisibility,
+        text,
+        animateOnMount,
+        exclusive
+      } = _ref2;
+      const [originX, setOriginX] = h(0.5);
+      const [originY, setOriginY] = h(0);
+      const [minX, setMinX] = h(1);
+      const [minY, setMinY] = h(0);
+      const [withFade, setWithFade] = h(true);
+      h(false);
+      const onOriginXInput = T$1(e => {
+        setOriginX(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onOriginYInput = T$1(e => {
+        setOriginY(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onMinXInput = T$1(e => {
+        setMinX(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onMinYInput = T$1(e => {
+        setMinY(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onWithFadeInput = T$1(e => {
+        setWithFade(e.target.checked);
+        e.preventDefault();
+      }, []);
+      const C = withFade ? ClipFade : Clip;
+      const CS = withFade ? "ClipFade" : "Clip";
+      const E = exclusive ? "e" : null;
+      const makeChild = i => o$1(C, {
+        show: contentIndex === i,
+        exclusivityKey: E,
+        exitVisibility: exitVisibility,
+        clipOriginInline: originX,
+        clipOriginBlock: originY,
+        clipMinInline: minX,
+        clipMinBlock: minY,
+        children: o$1("div", {
+          className: "card-contents",
+          children: [halfText(text, i), o$1("div", {
+            children: o$1("button", {
+              children: "Focusable element"
+            })
+          })]
+        })
+      });
+      return o$1("div", {
+        className: "demo-section",
+        children: [o$1("h2", {
+          children: "Clip"
+        }), o$1("div", {
+          className: "demo",
+          children: [o$1("div", {
+            className: "demo-controls",
+            children: [o$1("label", {
+              children: ["Origin to center the effect around on the inline-axis position (X-axis in English, etc.) ", o$1("input", {
+                onInput: onOriginXInput,
+                value: originX,
+                type: "number",
+                step: 0.125,
+                min: -2,
+                max: 2
+              })]
+            }), o$1("label", {
+              children: ["Origin to center the effect around on the block-axis position (Y-axis in English, etc.)  ", o$1("input", {
+                onInput: onOriginYInput,
+                value: originY,
+                type: "number",
+                step: 0.125,
+                min: -2,
+                max: 2
+              })]
+            }), o$1("label", {
+              children: ["Minimum size on the inline-axis ", o$1("input", {
+                onInput: onMinXInput,
+                value: minX,
+                type: "number",
+                step: 0.125,
+                min: 0,
+                max: 1
+              })]
+            }), o$1("label", {
+              children: ["Minimum size on the block-axis  ", o$1("input", {
+                onInput: onMinYInput,
+                value: minY,
+                type: "number",
+                step: 0.125,
+                min: 0,
+                max: 1
+              })]
+            }), o$1("label", {
+              children: ["With fade", o$1("input", {
+                checked: withFade,
+                onInput: onWithFadeInput,
+                type: "checkbox"
+              })]
+            })]
+          }), cardShow != "unmounted" && o$1(C, {
+            show: cardShow == "pending" ? null : cardShow == "showing",
+            animateOnMount: animateOnMount,
+            exitVisibility: exitVisibility,
+            clipMinInline: minX,
+            clipMinBlock: minY,
+            clipOriginInline: originX,
+            clipOriginBlock: originY,
+            children: o$1(Swappable, {
+              exclusivityKey: E,
+              children: o$1("div", {
+                className: "card",
+                children: [makeChild(0), makeChild(1), makeChild(2)]
+              })
+            })
+          }), o$1("code", {
+            children: o$1("pre", {
+              children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(originX != 0.5 ? " \n  clipOriginX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n  clipOriginY={".concat(originY, "}") : "").concat(minX != 0 ? " \n  clipMinX={".concat(minX, "}") : "").concat(minY != 0 ? " \n  clipMinY={".concat(minY, "}") : "").concat(exitVisibility ? "\n  exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  <Swappable>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 0}").concat(originX != 0.5 ? " \n        clipOriginX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n        clipOriginY={".concat(originY, "}") : "").concat(minX != 0 ? " \n        clipMinX={".concat(minX, "}") : "").concat(minY != 0 ? " \n        clipMinY={".concat(minY, "}") : "").concat(exitVisibility ? "\n        exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 1} [...] />\n      <").concat(CS, " show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 2} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
+            })
+          })]
+        })]
+      });
+    }
+    function ZoomSlideDemo(_ref3) {
+      let {
+        cardShow,
+        contentIndex,
+        exitVisibility,
+        text,
+        animateOnMount,
+        exclusive
+      } = _ref3;
+      const [originX, setOriginX] = h(0.5);
+      const [originY, setOriginY] = h(0);
+      const [minX, setMinX] = h(0.75);
+      const [minY, setMinY] = h(0.75);
+      const [slideX, setSlideX] = h(0.25);
+      const [slideY, setSlideY] = h(0);
+      const [withFade, setWithFade] = h(true);
+      const onSlideXInput = T$1(e => {
+        setSlideX(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onSlideYInput = T$1(e => {
+        setSlideY(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onWithFadeInput = T$1(e => {
+        setWithFade(e.target.checked);
+        e.preventDefault();
+      }, []);
+      const onOriginXInput = T$1(e => {
+        setOriginX(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onOriginYInput = T$1(e => {
+        setOriginY(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onMinXInput = T$1(e => {
+        setMinX(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onMinYInput = T$1(e => {
+        setMinY(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const C = withFade ? SlideZoomFade : SlideZoom;
+      const CS = withFade ? "SlideZoomFade" : "SlideZoom";
+      const E = exclusive ? "e" : null;
+      const makeChild = i => o$1(C, {
+        show: contentIndex === i,
+        exclusivityKey: E,
+        exitVisibility: exitVisibility,
+        slideTargetInline: slideX * Math.sign(i - (contentIndex !== null && contentIndex !== void 0 ? contentIndex : 0)) || null,
+        slideTargetBlock: slideY * Math.sign(i - (contentIndex !== null && contentIndex !== void 0 ? contentIndex : 0)) || null,
+        zoomOriginInline: originX,
+        zoomOriginBlock: originY,
+        zoomMinInline: minX,
+        zoomMinBlock: minY,
+        children: o$1("div", {
+          className: "card-contents",
+          children: [halfText(text, i), o$1("div", {
+            children: o$1("button", {
+              children: "Focusable element"
+            })
+          })]
+        })
+      });
+      return o$1("div", {
+        className: "demo-section",
+        children: [o$1("h2", {
+          children: "Zoom & Slide"
+        }), o$1("div", {
+          className: "demo",
+          children: [o$1("div", {
+            className: "demo-controls",
+            children: [o$1("label", {
+              children: ["Transform origin on the inline-axis position (X-axis in English, etc.) ", o$1("input", {
+                onInput: onOriginXInput,
+                value: originX,
+                type: "number",
+                step: 0.125,
+                min: -2,
+                max: 2
+              })]
+            }), o$1("label", {
+              children: ["Transform origin on the block-axis position (Y-axis in English, etc.)  ", o$1("input", {
+                onInput: onOriginYInput,
+                value: originY,
+                type: "number",
+                step: 0.125,
+                min: -2,
+                max: 2
+              })]
+            }), o$1("label", {
+              children: ["Target block-axis position (X-axis in English, etc.) ", o$1("input", {
+                onInput: onSlideXInput,
+                value: slideX,
+                type: "number",
+                step: 0.125,
+                min: -2,
+                max: 2
+              })]
+            }), o$1("label", {
+              children: ["Target inline-axis position (Y-axis in English, etc.)  ", o$1("input", {
+                onInput: onSlideYInput,
+                value: slideY,
+                type: "number",
+                step: 0.125,
+                min: -2,
+                max: 2
+              })]
+            }), o$1("label", {
+              children: ["Minimum size on the inline-axis ", o$1("input", {
+                onInput: onMinXInput,
+                value: minX,
+                type: "number",
+                step: 0.125,
+                min: 0,
+                max: 1
+              })]
+            }), o$1("label", {
+              children: ["Minimum size on the block-axis  ", o$1("input", {
+                onInput: onMinYInput,
+                value: minY,
+                type: "number",
+                step: 0.125,
+                min: 0,
+                max: 1
+              })]
+            }), o$1("label", {
+              children: ["With fade", o$1("input", {
+                checked: withFade,
+                onInput: onWithFadeInput,
+                type: "checkbox"
+              })]
+            })]
+          }), cardShow != "unmounted" && o$1(C, {
+            show: cardShow == "pending" ? null : cardShow == "showing",
+            animateOnMount: animateOnMount,
+            exitVisibility: exitVisibility,
+            slideTargetInline: slideX || null,
+            slideTargetBlock: slideY || null,
+            zoomMinInline: minX,
+            zoomMinBlock: minY,
+            zoomOriginInline: originX,
+            zoomOriginBlock: originY,
+            children: o$1(Swappable, {
+              exclusivityKey: E,
+              children: o$1("div", {
+                className: "card",
+                children: [makeChild(0), makeChild(1), makeChild(2)]
+              })
+            })
+          }), o$1("code", {
+            children: o$1("pre", {
+              children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(originX != 0.5 ? " \n  originX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n  originY={".concat(originY, "}") : "").concat(minX != 0 ? " \n  minX={".concat(minX, "}") : "").concat(minY != 0 ? " \n  minY={".concat(minY, "}") : "").concat(slideX != 0 ? " \n  slideTargetInline={".concat(slideX, "}") : "").concat(slideY != 0 ? " \n  slideTargetBlock={".concat(slideY, "}") : "").concat(exitVisibility ? "\n  exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  <Swappable>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={0 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "}").concat(originX != 0.5 ? " \n        originX={".concat(originX, " * Math.sign(0 - ").concat(contentIndex, "}") : "").concat(originY != 0.5 ? " \n        originY={".concat(originY, " * Math.sign(0 - ").concat(contentIndex, "}") : "").concat(minX != 0 ? " \n        minX={".concat(minX, "}") : "").concat(minY != 0 ? " \n        minY={".concat(minY, "}") : "").concat(slideX != 0 ? " \n        slideTargetInline={".concat(slideX, "}") : "").concat(slideY != 0 ? " \n        slideTargetBlock={".concat(slideY, "}") : "").concat(exitVisibility ? "\n        exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={1 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "} [...] />\n      <").concat(CS, " show={2 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
+            })
+          })]
+        })]
+      });
+    }
+    function ZoomDemo(_ref4) {
+      let {
+        cardShow,
+        contentIndex,
+        exitVisibility,
+        text,
+        animateOnMount,
+        exclusive
+      } = _ref4;
+      const [originX, setOriginX] = h(0.5);
+      const [originY, setOriginY] = h(0);
+      const [minX, setMinX] = h(0.75);
+      const [minY, setMinY] = h(0.75);
+      const [withFade, setWithFade] = h(true);
+      const onOriginXInput = T$1(e => {
+        setOriginX(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onOriginYInput = T$1(e => {
+        setOriginY(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onMinXInput = T$1(e => {
+        setMinX(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onMinYInput = T$1(e => {
+        setMinY(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onWithFadeInput = T$1(e => {
+        setWithFade(e.target.checked);
+        e.preventDefault();
+      }, []);
+      const C = withFade ? ZoomFade : Zoom;
+      const CS = withFade ? "ZoomFade" : "Zoom";
+      const E = exclusive ? "e" : null;
+      const makeChild = i => o$1(C, {
+        show: contentIndex === i,
+        exclusivityKey: E,
+        exitVisibility: exitVisibility,
+        zoomOriginInline: originX,
+        zoomOriginBlock: originY,
+        zoomMinInline: minX,
+        zoomMinBlock: minY,
+        children: o$1("div", {
+          className: "card-contents",
+          children: [halfText(text, i), o$1("div", {
+            children: o$1("button", {
+              children: "Focusable element"
+            })
+          })]
+        })
+      });
+      return o$1("div", {
+        className: "demo-section",
+        children: [o$1("h2", {
+          children: "Zoom"
+        }), o$1("div", {
+          className: "demo",
+          children: [o$1("div", {
+            className: "demo-controls",
+            children: [o$1("label", {
+              children: ["Transform origin on the inline-axis position (X-axis in English, etc.) ", o$1("input", {
+                onInput: onOriginXInput,
+                value: originX,
+                type: "number",
+                step: 0.125,
+                min: -2,
+                max: 2
+              })]
+            }), o$1("label", {
+              children: ["Transform origin on the block-axis position (Y-axis in English, etc.)  ", o$1("input", {
+                onInput: onOriginYInput,
+                value: originY,
+                type: "number",
+                step: 0.125,
+                min: -2,
+                max: 2
+              })]
+            }), o$1("label", {
+              children: ["Minimum size on the inline-axis ", o$1("input", {
+                onInput: onMinXInput,
+                value: minX,
+                type: "number",
+                step: 0.125,
+                min: 0,
+                max: 1
+              })]
+            }), o$1("label", {
+              children: ["Minimum size on the block-axis  ", o$1("input", {
+                onInput: onMinYInput,
+                value: minY,
+                type: "number",
+                step: 0.125,
+                min: 0,
+                max: 1
+              })]
+            }), o$1("label", {
+              children: ["With fade", o$1("input", {
+                checked: withFade,
+                onInput: onWithFadeInput,
+                type: "checkbox"
+              })]
+            })]
+          }), cardShow != "unmounted" && o$1(C, {
+            show: cardShow == "pending" ? null : cardShow == "showing",
+            animateOnMount: animateOnMount,
+            exitVisibility: exitVisibility,
+            zoomMinInline: minX,
+            zoomMinBlock: minY,
+            zoomOriginInline: originX,
+            zoomOriginBlock: originY,
+            children: o$1(Swappable, {
+              exclusivityKey: E,
+              children: o$1("div", {
+                className: "card",
+                children: [makeChild(0), makeChild(1), makeChild(2)]
+              })
+            })
+          }), o$1("code", {
+            children: o$1("pre", {
+              children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(originX != 0.5 ? " \n  originX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n  originY={".concat(originY, "}") : "").concat(minX != 0 ? " \n  minX={".concat(minX, "}") : "").concat(minY != 0 ? " \n  minY={".concat(minY, "}") : "").concat(exitVisibility ? "\n  exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  <Swappable>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 0}").concat(originX != 0.5 ? " \n        originX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n        originY={".concat(originY, "}") : "").concat(minX != 0 ? " \n        minX={".concat(minX, "}") : "").concat(minY != 0 ? " \n        minY={".concat(minY, "}") : "").concat(exitVisibility ? " \n        exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 1} [...] />\n      <").concat(CS, " show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 2} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
+            })
+          })]
+        })]
+      });
+    }
+    function SlideDemo(_ref5) {
+      let {
+        cardShow,
+        contentIndex,
+        exitVisibility,
+        text,
+        animateOnMount,
+        exclusive
+      } = _ref5;
+      const [slideX, setSlideX] = h(0.25);
+      const [slideY, setSlideY] = h(0);
+      const [withFade, setWithFade] = h(true);
+      const onSlideXInput = T$1(e => {
+        setSlideX(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onSlideYInput = T$1(e => {
+        setSlideY(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onWithFadeInput = T$1(e => {
+        setWithFade(e.target.checked);
+        e.preventDefault();
+      }, []);
+      //const [bare, setBare] = useState(false);
+      // const onBare = useCallback((e: Event) => { setBare(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
+      const C = withFade ? SlideFade : Slide;
+      const CS = withFade ? "SlideFade" : "Slide";
+      const E = exclusive ? "e" : null;
+      const makeChild = i => o$1(C, {
+        show: contentIndex === i,
+        exclusivityKey: E,
+        exitVisibility: exitVisibility,
+        slideTargetInline: slideX * Math.sign(i - (contentIndex !== null && contentIndex !== void 0 ? contentIndex : 0)) || null,
+        slideTargetBlock: slideY * Math.sign(i - (contentIndex !== null && contentIndex !== void 0 ? contentIndex : 0)),
+        children: o$1("div", {
+          className: "card-contents",
+          children: [halfText(text, i), o$1("div", {
+            children: o$1("button", {
+              children: "Focusable element"
+            })
+          })]
+        })
+      });
+      return o$1("div", {
+        className: "demo-section",
+        children: [o$1("h2", {
+          children: "Slide"
+        }), o$1("div", {
+          className: "demo",
+          children: [o$1("div", {
+            className: "demo-controls",
+            children: [o$1("label", {
+              children: ["Target block-axis position (X-axis in English, etc.) ", o$1("input", {
+                onInput: onSlideXInput,
+                value: slideX,
+                type: "number",
+                step: 0.125,
+                min: -2,
+                max: 2
+              })]
+            }), o$1("label", {
+              children: ["Target inline-axis position (Y-axis in English, etc.)  ", o$1("input", {
+                onInput: onSlideYInput,
+                value: slideY,
+                type: "number",
+                step: 0.125,
+                min: -2,
+                max: 2
+              })]
+            }), o$1("label", {
+              children: ["With fade", o$1("input", {
+                checked: withFade,
+                onInput: onWithFadeInput,
+                type: "checkbox"
+              })]
+            })]
+          }), cardShow != "unmounted" && o$1(C, {
+            show: cardShow == "pending" ? null : cardShow == "showing",
+            animateOnMount: animateOnMount,
+            exitVisibility: exitVisibility,
+            slideTargetInline: slideX || null,
+            slideTargetBlock: slideY || null,
+            children: o$1(Swappable, {
+              exclusivityKey: E,
+              children: o$1("div", {
+                className: "card",
+                children: [makeChild(0), makeChild(1), makeChild(2)]
+              })
+            })
+          }), o$1("code", {
+            children: o$1("pre", {
+              children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "} \n  slideTargetInline={").concat(slideX, "}\n  slideTargetBlock={").concat(slideY, "}\n  exitVisibility={").concat(JSON.stringify(exitVisibility), "}>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={0 == ").concat(contentIndex, "}\n        exitVisibility={").concat(JSON.stringify(exitVisibility), "}\n        slideTargetInline={").concat(slideX, " * Math.sign(0 - ").concat(contentIndex, ")}\n        slideTargetBlock={").concat(slideY, " * Math.sign(0 - ").concat(contentIndex, "}>\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={1 == ").concat(contentIndex, "} [...] />\n      <").concat(CS, " show={2 == ").concat(contentIndex, "} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
+            })
+          })]
+        })]
+      });
+    }
+    function CollapseDemo(_ref6) {
+      let {
+        cardShow,
+        contentIndex,
+        exitVisibility,
+        text,
+        animateOnMount,
+        exclusive
+      } = _ref6;
+      const [minBlockSize, setMinBlockSize] = h("0px");
+      const onWithFadeInput = T$1(e => {
+        setWithFade(e.target.checked);
+        e.preventDefault();
+      }, []);
+      const [withFade, setWithFade] = h(true);
+      const C = withFade ? CollapseFade : Collapse;
+      const CS = withFade ? "CollapseFade" : "Collapse";
+      const E = exclusive ? "e" : null;
+      const onMinSize = T$1(e => {
+        setMinBlockSize(e.target.value);
+        e.preventDefault();
+      }, []);
+      const makeChild = i => o$1(C, {
+        show: contentIndex === i,
+        exclusivityKey: E,
+        exitVisibility: exitVisibility,
+        minBlockSize: minBlockSize,
+        children: o$1("div", {
+          className: "card-contents",
+          children: [halfText(text, i), o$1("div", {
+            children: o$1("button", {
+              children: "Focusable element"
+            })
+          })]
+        })
+      });
+      return o$1("div", {
+        className: "demo-section",
+        children: [o$1("h2", {
+          children: "Collapse"
+        }), o$1("div", {
+          className: "demo",
+          children: [o$1("div", {
+            className: "demo-controls",
+            children: [o$1("label", {
+              children: ["Minimum size: ", o$1("input", {
+                type: "text",
+                value: minBlockSize,
+                onInput: onMinSize
+              })]
+            }), o$1("label", {
+              children: ["With fade", o$1("input", {
+                checked: withFade,
+                onInput: onWithFadeInput,
+                type: "checkbox"
+              })]
+            }), o$1("div", {
+              children: "Direction cannot be directly controlled. Only the size along the block axis (Y-axis in horizontal languages) can be resized."
+            }), o$1("div", {
+              children: ["In general, only use this component if you ", o$1("em", {
+                children: "specifically"
+              }), " need its reflow transitioning properties, because it's very taxing on, well, ", o$1("em", {
+                children: "most"
+              }), " devices, unless you take other precautions. If you want a \"disappear in place without zooming out\", consider a Clip effect."]
+            })]
+          }), o$1("div", {
+            children: cardShow != "unmounted" && o$1(C, {
+              show: cardShow == "pending" ? null : cardShow == "showing",
+              animateOnMount: animateOnMount,
+              exitVisibility: exitVisibility,
+              minBlockSize: minBlockSize,
+              children: o$1("div", {
+                children: o$1(Swappable, {
+                  exclusivityKey: E,
+                  children: o$1("div", {
+                    className: "card",
+                    children: [makeChild(0), makeChild(1), makeChild(2)]
+                  })
+                }, E)
+              })
+            })
+          }), o$1("code", {
+            children: o$1("pre", {
+              children: "<".concat(CS, " show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(minBlockSize && minBlockSize != "0px" ? " minBlockSize={".concat(JSON.stringify(minBlockSize), "}") : "").concat(exitVisibility ? " exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  {/* These cards have padding, \n      and height doesn't include that, \n      but a wrapper's would */}\n  <div>\n    <Swappable>\n      <div className=\"card\">\n        <").concat(CS, " \n          show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 0}").concat(minBlockSize && minBlockSize != "0px" ? " \n          minBlockSize={".concat(JSON.stringify(minBlockSize), "}") : "").concat(exitVisibility ? " \n          exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n          <div className=\"card-contents\">\n             {text}\n          </div>\n        </").concat(CS, ">\n      </div>\n    </Swappable>\n  </div>\n</").concat(CS, ">\n<").concat(CS, " show={1 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "} [...] />\n<").concat(CS, " show={2 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "} [...] />")
+            })
+          })]
+        })]
+      });
+    }
+    function FlipDemo(_ref7) {
+      let {
+        cardShow,
+        contentIndex,
+        exitVisibility,
+        text,
+        animateOnMount,
+        exclusive
+      } = _ref7;
+      const [flipX, setFlipX] = h(0);
+      const [flipY, setFlipY] = h(180);
+      const onFlipXInput = T$1(e => {
+        setFlipX(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const onFlipYInput = T$1(e => {
+        setFlipY(e.target.valueAsNumber);
+        e.preventDefault();
+      }, []);
+      const C = Flip;
+      const CS = "Flip";
+      const E = exclusive ? "e" : null;
+      const makeChild = i => o$1(C, {
+        show: contentIndex === i,
+        exclusivityKey: E,
+        exitVisibility: exitVisibility,
+        flipAngleInline: flipX * Math.sign(i - (contentIndex !== null && contentIndex !== void 0 ? contentIndex : 0)) || null,
+        flipAngleBlock: flipY * Math.sign(i - (contentIndex !== null && contentIndex !== void 0 ? contentIndex : 0)) || null,
+        children: o$1("div", {
+          className: "card-contents",
+          children: [halfText(text, i), o$1("div", {
+            children: o$1("button", {
+              children: "Focusable element"
+            })
+          })]
+        })
+      });
+      return o$1("div", {
+        className: "demo-section",
+        children: [o$1("h2", {
+          children: "Flip"
+        }), o$1("div", {
+          className: "demo",
+          children: [o$1("div", {
+            className: "demo-controls",
+            children: [o$1("label", {
+              children: ["Rotate on inline axis ", o$1("input", {
+                type: "number",
+                onInput: onFlipXInput,
+                value: flipX
+              })]
+            }), o$1("label", {
+              children: ["Rotate along block axis ", o$1("input", {
+                type: "number",
+                onInput: onFlipYInput,
+                value: flipY
+              })]
+            })]
+          }), cardShow != "unmounted" && o$1(C, {
+            show: cardShow == "pending" ? null : cardShow == "showing",
+            animateOnMount: animateOnMount,
+            exitVisibility: exitVisibility,
+            flipAngleInline: flipX,
+            flipAngleBlock: flipY,
+            children: o$1(Swappable, {
+              exclusivityKey: E,
+              children: o$1("div", {
+                className: "card",
+                children: [makeChild(0), makeChild(1), makeChild(2)]
+              })
+            })
+          }), o$1("code", {
+            children: o$1("pre", {
+              children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "} \n  flipAngleInline={").concat(JSON.stringify(flipX), "} \n  flipAngleBlock={").concat(JSON.stringify(flipY), "} \n  exitVisibility={").concat(JSON.stringify(exitVisibility), "}}>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={0 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "}\n        flipAngleInline={").concat(JSON.stringify(flipX), " * Math.sign(0 - ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", ")} \n        flipAngleBlock={").concat(JSON.stringify(flipY), " * Math.sign(0 - ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", ")} \n        exitVisibility={").concat(JSON.stringify(exitVisibility), "}>\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={1 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "} [...] />\n      <").concat(CS, " show={2 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
+            })
+          })]
+        })]
+      });
+    }
     requestAnimationFrame(() => {
-      q$1(o$1(Demo, {}), document.getElementById("root"));
+      B$2(o$1(Demo, {}), document.getElementById("root"));
     });
 
 })();

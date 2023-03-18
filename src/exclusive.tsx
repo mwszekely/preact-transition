@@ -2,7 +2,7 @@ import { Fragment, h, RenderableProps, VNode } from "preact";
 import { useChildrenFlag, useEnsureStability, useManagedChild, UseManagedChildParameters, useManagedChildren, usePassiveState, useStableObject, useState } from "preact-prop-helpers";
 import { useCallback, useContext, useLayoutEffect, useMemo } from "preact/hooks";
 import { GetExclusiveTransitionContext } from "./util/context.js";
-import { ExclusiveContextType, ExclusiveInfo, TransitionParametersBase } from "./util/types.js";
+import { ExclusiveContextType, ExclusiveInfo, OmitStrong, TransitionParametersBase } from "./util/types.js";
 
 
 
@@ -74,7 +74,7 @@ export function ExclusiveTransitionProvider({ exclusivityKey, children }: Render
 
 
 
-export interface UseExclusiveTransitionParameters extends Omit<UseManagedChildParameters<ExclusiveInfo>, "managedChildParameters" | "context"> {
+export interface UseExclusiveTransitionParameters extends OmitStrong<UseManagedChildParameters<ExclusiveInfo>, "info" | "context"> {
     transitionParameters: Pick<TransitionParametersBase<any>, "show">;
     exclusiveTransitionParameters: { forceClose: () => void; exclusivityKey?: string | null | undefined; }
 }
@@ -88,7 +88,7 @@ export function useExclusiveTransition({ transitionParameters: { show }, exclusi
     const [exclusivelyOpen, setExclusivelyOpen, getExclusivelyOpen] = useState<boolean>(!!show);
     const {
         managedChildReturn: { getChildren }
-    } = useManagedChild<ExclusiveInfo>({ context, managedChildParameters: { index } }, { index, getExclusivelyOpen, setExclusivelyOpen, forceClose });
+    } = useManagedChild<ExclusiveInfo>({ context, info: { index, getExclusivelyOpen, setExclusivelyOpen, forceClose } });
 
     const parentOnVisChange = context?.exclusiveTransitionContext.onVisibilityChange;
 

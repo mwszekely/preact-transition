@@ -1,8 +1,7 @@
 
-import { Fragment, h, render } from "preact";
+import { h, render } from "preact";
 import { useCallback, useLayoutEffect, useState } from "preact/hooks";
-import { Clip, ZoomFade, ClipFade, Collapse, Zoom, Fade, Slide, SlideFade, SlideZoomFade, SlideZoom, Swappable, CollapseFade, Flip, ExitVisibility as EV, useCssClasses } from "../dist/index.js";
-import { UseTransitionParameters } from "../dist/index.js";
+import { Clip, ClipFade, Collapse, CollapseFade, ExitVisibility as EV, Fade, Flip, Slide, SlideFade, SlideZoom, SlideZoomFade, Swappable, useCssClasses, Zoom, ZoomFade } from "../dist/index.js";
 
 function halfText(input: string, times: number): string {
   if (times <= 0)
@@ -104,12 +103,12 @@ function Demo() {
       </div>
       <div id="root-body" className={`writing-mode-${writingMode}`} style={{ [`--${useCssClasses().GetBaseClass()}-duration`]: `${duration}ms` }} key={writingMode}>
         <FadeDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
-        {/*<SlideDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
+        <SlideDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ZoomDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ClipDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
         <FlipDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ZoomSlideDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
-      <CollapseDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />*/}
+        <CollapseDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
       </div>
     </>
   )
@@ -125,7 +124,7 @@ function FadeDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
 
   const C = Fade;
   const CS = "Fade";
-  const E = (exclusive? "e" : null);
+  const E = (exclusive ? "e" : null);
 
   const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} fadeMin={min} fadeMax={max}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
@@ -186,7 +185,7 @@ function ClipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
 
   const C = withFade ? ClipFade : Clip;
   const CS = withFade ? "ClipFade" : "Clip";
-  const E = (exclusive? "e" : null);
+  const E = (exclusive ? "e" : null);
 
   const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} clipOriginInline={originX} clipOriginBlock={originY} clipMinInline={minX} clipMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
@@ -257,7 +256,7 @@ function ZoomSlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOn
 
   const C = withFade ? SlideZoomFade : SlideZoom;
   const CS = withFade ? "SlideZoomFade" : "SlideZoom";
-  const E = (exclusive? "e" : null);
+  const E = (exclusive ? "e" : null);
 
   const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} slideTargetInline={(slideX * Math.sign(i - (contentIndex ?? 0))) || null} slideTargetBlock={(slideY * Math.sign(i - (contentIndex ?? 0))) || null} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
@@ -329,7 +328,7 @@ function ZoomDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
 
   const C = withFade ? ZoomFade : Zoom;
   const CS = withFade ? "ZoomFade" : "Zoom";
-  const E = (exclusive? "e" : null);
+  const E = (exclusive ? "e" : null);
 
   const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} zoomOriginInline={originX} zoomOriginBlock={originY} zoomMinInline={minX} zoomMinBlock={minY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
@@ -393,9 +392,9 @@ function SlideDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMoun
 
   const C = withFade ? SlideFade : Slide;
   const CS = withFade ? "SlideFade" : "Slide";
-  const E = (exclusive? "e" : null);
+  const E = (exclusive ? "e" : null);
 
-  const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} slideTargetInline={(slideX * Math.sign(i - (contentIndex ?? 0))) || null} slideTargetBlock={slideY * Math.sign(i - (contentIndex ??0))}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+  const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} slideTargetInline={(slideX * Math.sign(i - (contentIndex ?? 0))) || null} slideTargetBlock={slideY * Math.sign(i - (contentIndex ?? 0))}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
   return <div className="demo-section">
     <h2>Slide</h2>
@@ -445,7 +444,7 @@ function CollapseDemo({ cardShow, contentIndex, exitVisibility, text, animateOnM
   const [withFade, setWithFade] = useState(true);
   const C = withFade ? CollapseFade : Collapse;
   const CS = withFade ? "CollapseFade" : "Collapse";
-  const E = (exclusive? "e" : null);
+  const E = (exclusive ? "e" : null);
   const onMinSize = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setMinBlockSize(((e.target) as HTMLInputElement).value); e.preventDefault(); }, []);
 
   const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} minBlockSize={minBlockSize}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
@@ -513,7 +512,7 @@ function FlipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount
 
   const C = Flip;
   const CS = "Flip";
-  const E = (exclusive? "e" : null);
+  const E = (exclusive ? "e" : null);
   const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} flipAngleInline={(flipX * Math.sign(i - (contentIndex ?? 0))) || null} flipAngleBlock={(flipY * Math.sign(i - (contentIndex ?? 0))) || null}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
   return <div className="demo-section">
