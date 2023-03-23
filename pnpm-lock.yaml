@@ -1,7 +1,9 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@types/lodash-es': ^4.17.7
   clsx: ^1.2.1
+  lodash-es: ^4.17.21
   npm-run-all: ^4.1.5
   preact: ^10.13.1
   preact-prop-helpers: github:mwszekely/preact-prop-helpers
@@ -10,15 +12,27 @@ specifiers:
 
 dependencies:
   clsx: 1.2.1
+  lodash-es: 4.17.21
   preact: 10.13.1
-  preact-prop-helpers: github.com/mwszekely/preact-prop-helpers/a9030f8269a84a351a3eeeda0a8d0315d7cae975_preact@10.13.1
+  preact-prop-helpers: github.com/mwszekely/preact-prop-helpers/7e7215dd18ca0890332c4c83c2cca1f98f830380_preact@10.13.1
 
 devDependencies:
+  '@types/lodash-es': 4.17.7
   npm-run-all: 4.1.5
   sass: 1.59.3
   typescript: 5.0.2
 
 packages:
+
+  /@types/lodash-es/4.17.7:
+    resolution: {integrity: sha512-z0ptr6UI10VlU6l5MYhGwS4mC8DZyYer2mCoyysZtSF7p26zOX8UpbrV0YpNYLGS8K4PUFIyEr62IMFFjveSiQ==}
+    dependencies:
+      '@types/lodash': 4.14.191
+    dev: true
+
+  /@types/lodash/4.14.191:
+    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
+    dev: true
 
   /ansi-styles/3.2.1:
     resolution: {integrity: sha512-VT0ZI6kZRdTh8YyJw3SMbYm/u+NqfsAxEpWO0Pf9sq8/e94WxxOpPKx9FR1FlyCtOVDNOQ+8ntlqFxiRc+r5qA==}
@@ -835,9 +849,9 @@ packages:
     resolution: {integrity: sha512-Ba9tGNYxXwaqKEi9sJJvPMKuo063umUPsHN0JJsjrs2j8KDSzkWLMZGZ+MH1Jf1Fq4OWZ5HsESJID6nRza2ang==}
     dev: false
 
-  github.com/mwszekely/preact-prop-helpers/a9030f8269a84a351a3eeeda0a8d0315d7cae975_preact@10.13.1:
-    resolution: {tarball: https://codeload.github.com/mwszekely/preact-prop-helpers/tar.gz/a9030f8269a84a351a3eeeda0a8d0315d7cae975}
-    id: github.com/mwszekely/preact-prop-helpers/a9030f8269a84a351a3eeeda0a8d0315d7cae975
+  github.com/mwszekely/preact-prop-helpers/7e7215dd18ca0890332c4c83c2cca1f98f830380_preact@10.13.1:
+    resolution: {tarball: https://codeload.github.com/mwszekely/preact-prop-helpers/tar.gz/7e7215dd18ca0890332c4c83c2cca1f98f830380}
+    id: github.com/mwszekely/preact-prop-helpers/7e7215dd18ca0890332c4c83c2cca1f98f830380
     name: preact-prop-helpers
     version: 0.0.1
     peerDependencies:
