@@ -30,7 +30,7 @@ export interface CreateSwappableProps {
  * Creates a set of props that implement a swap container.
  * Be sure to merge these returned props with whatever the user passed in.
  */
-export declare function useCreateSwappableProps<P extends {}>({ inline }: CreateSwappableProps, otherProps: P): h.JSX.HTMLAttributes<P extends h.JSX.HTMLAttributes<infer E_1 extends EventTarget> ? E_1 : HTMLElement>;
+export declare function useCreateSwappableProps<P extends {}>({ inline }: CreateSwappableProps, otherProps: P): import("preact-prop-helpers").ElementProps<P extends h.JSX.HTMLAttributes<infer E_1 extends EventTarget> ? E_1 : HTMLElement>;
 /**
  * Allows a set of child <Transitionable> components to animate in & out in-place. Very useful for, e.g., tab panels.
  *

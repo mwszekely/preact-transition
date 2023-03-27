@@ -825,30 +825,31 @@
         timeoutHandle = requestIdleCallback(() => {
           //console.log((window as WindowWithHookCallCount)._hookCallCount.callCountsMoment);
           //(window as WindowWithHookCallCount)._hookCallCount.callCountsMoment = {};
-          console.table(Object.entries(window._hookCallCount.callCounts).map(_ref => {
+          const o = Object.entries(window._hookCallCount.callCounts).map(_ref => {
             let [hook, counts] = _ref;
             return {
-              hook,
-              moment: counts === null || counts === void 0 ? void 0 : counts.moment,
-              total: counts === null || counts === void 0 ? void 0 : counts.total
+              Hook: hook || "?",
+              Now: (counts === null || counts === void 0 ? void 0 : counts.moment) || 0,
+              Total: (counts === null || counts === void 0 ? void 0 : counts.total) || 0
             };
           }).filter(_ref2 => {
             let {
-              moment
+              Now
             } = _ref2;
-            return !!moment;
+            return !!Now;
           }).sort((_ref3, _ref4) => {
             let {
-              moment: lhsM
+              Now: lhsM
             } = _ref3;
             let {
-              moment: rhsM
+              Now: rhsM
             } = _ref4;
             if (!lhsM && !rhsM) return 0;
             lhsM || (lhsM = Infinity);
             rhsM || (rhsM = Infinity);
             return lhsM - rhsM;
-          }), ['hook', 'moment', 'total']);
+          });
+          console.table(o, ['Hook', 'Now', 'Total']);
           Object.entries(window._hookCallCount.callCounts).forEach(_ref5 => {
             let [, counts] = _ref5;
             counts.moment = 0;
@@ -1070,7 +1071,6 @@
       return "".concat(prefix !== null && prefix !== void 0 ? prefix : "id-").concat(random64Bits().map(n => base64(n)).join(""));
     }
 
-    const previousInputs = new Map();
     const toRun = new Map();
     // TODO: Whether this goes in options.diffed or options._commit
     // is a post-suspense question.
@@ -1085,24 +1085,27 @@
     // which is cool and means we won't need this at all soon.
     // So for now we'll stick with diff to prevent any weirdness with
     // commit being private and all.
+    //
+    // Also, in theory this could be replaced with `useInsertionEffect`,
+    // but that probably won't be available in Preact for awhile.
     const commitName = "diffed";
-    const originalCommit = l$1[commitName];
-    const newCommit = function () {
+    const newCommit = function (vnode) {
       for (const [id, effectInfo] of toRun) {
-        const oldInputs = previousInputs.get(id);
+        const oldInputs = effectInfo.prevInputs;
         if (argsChanged(oldInputs, effectInfo.inputs)) {
           var _effectInfo$cleanup;
           (_effectInfo$cleanup = effectInfo.cleanup) === null || _effectInfo$cleanup === void 0 ? void 0 : _effectInfo$cleanup.call(effectInfo);
           effectInfo.cleanup = effectInfo.effect();
-          previousInputs.set(id, effectInfo.inputs);
+          effectInfo.prevInputs = effectInfo.inputs;
         }
       }
       toRun.clear();
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
+      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+        args[_key - 1] = arguments[_key];
       }
-      originalCommit === null || originalCommit === void 0 ? void 0 : originalCommit(...args);
+      originalCommit === null || originalCommit === void 0 ? void 0 : originalCommit(vnode, ...args);
     };
+    const originalCommit = l$1[commitName];
     l$1[commitName] = newCommit;
     /**
      * Semi-private function to allow stable callbacks even within `useLayoutEffect` and ref assignment.
@@ -1124,7 +1127,6 @@
       p(() => {
         return () => {
           toRun.delete(id);
-          previousInputs.delete(id);
         };
       }, [id]);
     }
@@ -1720,7 +1722,7 @@
     }
 
     /*
-    export function useRefElementProps<E extends Element>(r: UseRefElementReturnType<E>, ...otherProps: h.JSX.HTMLAttributes<E>[]): h.JSX.HTMLAttributes<E>[] {
+    export function useRefElementProps<E extends Element>(r: UseRefElementReturnType<E>, ...otherProps: ElementProps<E>[]): ElementProps<E>[] {
         return [r.refElementReturn.propsStable, ...otherProps];
     }*/
     /**

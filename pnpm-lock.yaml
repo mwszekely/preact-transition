@@ -14,12 +14,12 @@ dependencies:
   clsx: 1.2.1
   lodash-es: 4.17.21
   preact: 10.13.1
-  preact-prop-helpers: github.com/mwszekely/preact-prop-helpers/7e7215dd18ca0890332c4c83c2cca1f98f830380_preact@10.13.1
+  preact-prop-helpers: github.com/mwszekely/preact-prop-helpers/31f8021314bc2cfe8652a33e5f6a1c47e2b20848_preact@10.13.1
 
 devDependencies:
   '@types/lodash-es': 4.17.7
   npm-run-all: 4.1.5
-  sass: 1.59.3
+  sass: 1.60.0
   typescript: 5.0.2
 
 packages:
@@ -658,8 +658,8 @@ packages:
       is-regex: 1.1.4
     dev: true
 
-  /sass/1.59.3:
-    resolution: {integrity: sha512-QCq98N3hX1jfTCoUAsF3eyGuXLsY7BCnCEg9qAact94Yc21npG2/mVOqoDvE0fCbWDqiM4WlcJQla0gWG2YlxQ==}
+  /sass/1.60.0:
+    resolution: {integrity: sha512-updbwW6fNb5gGm8qMXzVO7V4sWf7LMXnMly/JEyfbfERbVH46Fn6q02BX7/eHTdKpE7d+oTkMMQpFWNUMfFbgQ==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     dependencies:
@@ -849,9 +849,9 @@ packages:
     resolution: {integrity: sha512-Ba9tGNYxXwaqKEi9sJJvPMKuo063umUPsHN0JJsjrs2j8KDSzkWLMZGZ+MH1Jf1Fq4OWZ5HsESJID6nRza2ang==}
     dev: false
 
-  github.com/mwszekely/preact-prop-helpers/7e7215dd18ca0890332c4c83c2cca1f98f830380_preact@10.13.1:
-    resolution: {tarball: https://codeload.github.com/mwszekely/preact-prop-helpers/tar.gz/7e7215dd18ca0890332c4c83c2cca1f98f830380}
-    id: github.com/mwszekely/preact-prop-helpers/7e7215dd18ca0890332c4c83c2cca1f98f830380
+  github.com/mwszekely/preact-prop-helpers/31f8021314bc2cfe8652a33e5f6a1c47e2b20848_preact@10.13.1:
+    resolution: {tarball: https://codeload.github.com/mwszekely/preact-prop-helpers/tar.gz/31f8021314bc2cfe8652a33e5f6a1c47e2b20848}
+    id: github.com/mwszekely/preact-prop-helpers/31f8021314bc2cfe8652a33e5f6a1c47e2b20848
     name: preact-prop-helpers
     version: 0.0.1
     peerDependencies:
