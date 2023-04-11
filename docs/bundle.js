@@ -1561,28 +1561,6 @@
       return undefined;
     }
   }
-  const Table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-";
-  function base64(value) {
-    return Table[value];
-  }
-  function random6Bits() {
-    return Math.floor(Math.random() * 0b1000000);
-  }
-  function random64Bits() {
-    return [random6Bits(), random6Bits(), random6Bits(), random6Bits(), random6Bits(), random6Bits(), random6Bits(), random6Bits(), random6Bits(), random6Bits(), random6Bits()];
-  }
-  /**
-   * Returns a randomly-generated ID with an optional prefix.
-   * Note that if the prefix is *explicitly* set to "", then
-   * IDs that are not valid under HTML4 may be generated. Oh no.
-   *
-   *
-   * (This is here, in this particular file, to avoid circular dependencies
-   * because useBeforeLayoutEffect also needs random IDs for its own reasons)
-   */
-  function generateRandomId(prefix) {
-    return "".concat(prefix !== null && prefix !== void 0 ? prefix : "id-").concat(random64Bits().map(n => base64(n)).join(""));
-  }
   const toRun = new Map();
   // TODO: Whether this goes in options.diffed or options._commit
   // is a post-suspense question.
@@ -1619,6 +1597,13 @@
   };
   const originalCommit = l$1[commitName];
   l$1[commitName] = newCommit;
+  let incrementingId = 0;
+  function nextId() {
+    let next = ++incrementingId;
+    // TODO: This seems reasonable, but is is necessary or are we orders of magnitude from having to worry about overflow?
+    if (incrementingId >= Number.MAX_SAFE_INTEGER) incrementingId = -Number.MAX_SAFE_INTEGER;
+    return next;
+  }
   /**
    * Semi-private function to allow stable callbacks even within `useLayoutEffect` and ref assignment.
    *
@@ -1629,19 +1614,26 @@
    * @param inputs
    */
   function useBeforeLayoutEffect(effect, inputs) {
+    var _ref$current;
     monitorCallCount(useBeforeLayoutEffect);
-    const [id] = h(() => generateRandomId());
+    // Note to self: This is by far the most called hook by sheer volume of dependencies.
+    // So it should ideally be as quick as possible.
+    const ref = _(null);
+    (_ref$current = ref.current) !== null && _ref$current !== void 0 ? _ref$current : ref.current = nextId();
+    const id = ref.current;
     if (effect) toRun.set(id, {
       effect,
       inputs,
       cleanup: null
     });else toRun.delete(id);
-    p(() => {
-      return () => {
-        toRun.delete(id);
-      };
-    }, [id]);
+    // Not needed, because the insertion cleanup would run before useEffect anyway, I think?
+    /*useEffect(() => {
+        return () => {
+            toRun.delete(id);
+        }
+    }, [id])*/
   }
+
   function argsChanged(oldArgs, newArgs) {
     return !!(!oldArgs || oldArgs.length !== (newArgs === null || newArgs === void 0 ? void 0 : newArgs.length) || newArgs !== null && newArgs !== void 0 && newArgs.some((arg, index) => arg !== oldArgs[index]));
   }
@@ -3647,6 +3639,7 @@
       className: new Set(),
       style: {},
       children: null,
+      html: null,
       others: {}
     });
     const hasClass = T$1(cls => {
@@ -3676,7 +3669,16 @@
       let e = getElement();
       if (e && currentImperativeProps.current.children != children) {
         currentImperativeProps.current.children = children;
+        currentImperativeProps.current.html = null;
         e.textContent = children;
+      }
+    }, []);
+    const dangerouslySetInnerHTML = T$1(children => {
+      let e = getElement();
+      if (e && currentImperativeProps.current.html != children) {
+        currentImperativeProps.current.html = children;
+        currentImperativeProps.current.children = null;
+        e.innerHTML = children;
       }
     }, []);
     const getAttribute = T$1(prop => {
@@ -3684,13 +3686,17 @@
     }, []);
     const setAttribute = T$1((prop, value) => {
       if (value != null) {
-        var _getElement2;
-        currentImperativeProps.current.others[prop] = value;
-        (_getElement2 = getElement()) === null || _getElement2 === void 0 ? void 0 : _getElement2.setAttribute(prop, value);
+        if (getAttribute(prop) != value) {
+          var _getElement2;
+          currentImperativeProps.current.others[prop] = value;
+          (_getElement2 = getElement()) === null || _getElement2 === void 0 ? void 0 : _getElement2.setAttribute(prop, value);
+        }
       } else {
-        var _getElement3;
-        delete currentImperativeProps.current.others[prop];
-        (_getElement3 = getElement()) === null || _getElement3 === void 0 ? void 0 : _getElement3.removeAttribute(prop);
+        if (getAttribute(prop) != undefined) {
+          var _getElement3;
+          delete currentImperativeProps.current.others[prop];
+          (_getElement3 = getElement()) === null || _getElement3 === void 0 ? void 0 : _getElement3.removeAttribute(prop);
+        }
       }
     }, []);
     const setEventHandler = T$1((type, handler, options) => {
@@ -3714,7 +3720,8 @@
         getAttribute,
         setAttribute,
         setEventHandler,
-        setChildren
+        setChildren,
+        dangerouslySetInnerHTML
       }).current,
       props: useMergedProps({
         className: [...currentImperativeProps.current.className].join(" "),
