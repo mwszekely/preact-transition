@@ -1,6 +1,7 @@
 (function () {
   'use strict';
 
+  var _window, _window$requestIdleCa;
   var n,
     l$1,
     u$1,
@@ -1321,60 +1322,24 @@
 
   // Expose `MapCache`.
   memoize.Cache = MapCache;
-  let timeoutHandle = null;
-  function callCountU(hook) {
-    var _window, _window$_hookCallCoun, _window$_hookCallCoun2, _window$_hookCallCoun3;
-    const name = hook.name;
-    if (filters.has(name)) return;
-    console.assert(name.length > 0);
-    (_window$_hookCallCoun = (_window = window)._hookCallCount) !== null && _window$_hookCallCoun !== void 0 ? _window$_hookCallCoun : _window._hookCallCount = {
-      callCounts: {}
-    };
-    (_window$_hookCallCoun3 = (_window$_hookCallCoun2 = window._hookCallCount.callCounts)[name]) !== null && _window$_hookCallCoun3 !== void 0 ? _window$_hookCallCoun3 : _window$_hookCallCoun2[name] = {
-      moment: 0,
-      total: 0
-    };
-    window._hookCallCount.callCounts[name].moment += 1;
-    window._hookCallCount.callCounts[name].total += 1;
-    if (timeoutHandle == null) {
-      timeoutHandle = requestIdleCallback(() => {
-        //console.log((window as WindowWithHookCallCount)._hookCallCount.callCountsMoment);
-        //(window as WindowWithHookCallCount)._hookCallCount.callCountsMoment = {};
-        const o = Object.entries(window._hookCallCount.callCounts).map(_ref => {
-          let [hook, counts] = _ref;
-          return {
-            Hook: hook || "?",
-            Now: (counts === null || counts === void 0 ? void 0 : counts.moment) || 0,
-            Total: (counts === null || counts === void 0 ? void 0 : counts.total) || 0
-          };
-        }).filter(_ref2 => {
-          let {
-            Now
-          } = _ref2;
-          return !!Now;
-        }).sort((_ref3, _ref4) => {
-          let {
-            Now: lhsM
-          } = _ref3;
-          let {
-            Now: rhsM
-          } = _ref4;
-          if (!lhsM && !rhsM) return 0;
-          lhsM || (lhsM = Infinity);
-          rhsM || (rhsM = Infinity);
-          return lhsM - rhsM;
-        });
-        console.table(o, ['Hook', 'Now', 'Total']);
-        Object.entries(window._hookCallCount.callCounts).forEach(_ref5 => {
-          let [, counts] = _ref5;
-          counts.moment = 0;
-        });
-        timeoutHandle = null;
+
+  // TODO: This shouldn't be in every build, I don't think it's in core-js? I think?
+  // And it's extremely small anyway and basically does nothing.
+  (_window$requestIdleCa = (_window = window).requestIdleCallback) !== null && _window$requestIdleCa !== void 0 ? _window$requestIdleCa : _window.requestIdleCallback = callback => {
+    return setTimeout(() => {
+      callback({
+        didTimeout: false,
+        timeRemaining: () => {
+          return 0;
+        }
       });
-    }
+    }, 5);
+  };
+  function callCountU(hook) {
+    return;
   }
-  const filters = new Set();
-  const monitorCallCount = getBuildMode() == "development" ? callCountU : noop;
+  new Set();
+  getBuildMode() == "development" ? callCountU : noop;
 
   /**
    * Debug hook.
@@ -1431,7 +1396,7 @@
    * @returns
    */
   function usePassiveState(onChange, getInitialValue, customDebounceRendering) {
-    monitorCallCount(usePassiveState);
+    //let [id, ,getId] = useState(() => generateRandomId());
     const valueRef = _(Unset$1);
     const reasonRef = _(Unset$1);
     const warningRef = _(false);
@@ -1477,7 +1442,9 @@
     const setValue = T$1((arg, reason) => {
       // Regardless of anything else, figure out what our next value is about to be.
       const nextValue = arg instanceof Function ? arg(valueRef.current === Unset$1 ? undefined : valueRef.current) : arg;
-      if (dependencyToCompareAgainst.current === Unset$1 && nextValue !== valueRef.current) {
+      //let id = getId();
+      //console.log((nextValue !== valueRef.current? "" : "NOT ") + "Scheduling effect ", id, " with value ", nextValue);
+      if ( /*dependencyToCompareAgainst.current === Unset &&*/nextValue !== valueRef.current) {
         // This is the first request to change this value.
         // Evaluate the request immediately, then queue up the onChange function
         // Save our current value so that we can compare against it later
@@ -1491,14 +1458,19 @@
           const nextReason = reasonRef.current;
           const nextDep = valueRef.current;
           const prevDep = dependencyToCompareAgainst.current;
+          //let id = getId();
+          //console.log(((dependencyToCompareAgainst.current != valueRef.current)? "" : "NOT ") + "Running effect ", id, " with value ", nextDep);
           if (dependencyToCompareAgainst.current != valueRef.current) {
+            // TODO: This needs to happen here in order to make recursive onChanges work
+            // but it feels better to have it happen after onChange...
+            valueRef.current = dependencyToCompareAgainst.current = Unset$1;
             warningRef.current = true;
             try {
               var _onChange2;
               // Call any registered cleanup function
               onShouldCleanUp();
+              valueRef.current = nextDep; // Needs to happen before onChange in case onChange is recursive (e.g. focusing causing a focus causing a focus)
               cleanupCallbackRef.current = (_onChange2 = onChange === null || onChange === void 0 ? void 0 : onChange(nextDep, prevDep === Unset$1 ? undefined : prevDep, nextReason)) !== null && _onChange2 !== void 0 ? _onChange2 : undefined;
-              valueRef.current = nextDep;
             } finally {
               // Allow the user to normally call getValue again
               warningRef.current = false;
@@ -1510,7 +1482,7 @@
       }
       // Update the value immediately.
       // This will be checked against prevDep to see if we should actually call onChange
-      valueRef.current = nextValue;
+      //valueRef.current = nextValue;
     }, []);
     return [getValue, setValue];
   }
@@ -1528,7 +1500,6 @@
     f();
   }
   function useMergedChildren(lhs, rhs) {
-    monitorCallCount(useMergedChildren);
     if (lhs == null && rhs == null) {
       return undefined;
     } else if (lhs == null) {
@@ -1549,7 +1520,6 @@
    * @returns A string representing all combined classes from both arguments.
    */
   function useMergedClasses(lhsClass, lhsClassName, rhsClass, rhsClassName) {
-    monitorCallCount(useMergedClasses);
     // Note: For the sake of forward compatibility, this function is labelled as
     // a hook, but as it uses no other hooks it technically isn't one.
     if (lhsClass || rhsClass || lhsClassName || rhsClassName) {
@@ -1615,7 +1585,6 @@
    */
   function useBeforeLayoutEffect(effect, inputs) {
     var _ref$current;
-    monitorCallCount(useBeforeLayoutEffect);
     // Note to self: This is by far the most called hook by sheer volume of dependencies.
     // So it should ideally be as quick as possible.
     const ref = _(null);
@@ -1649,7 +1618,6 @@
    * @returns
    */
   function useStableGetter(value) {
-    monitorCallCount(useStableGetter);
     const ref = _(Unset);
     useBeforeLayoutEffect(() => {
       ref.current = value;
@@ -1669,8 +1637,8 @@
    */
   function useStableObject(t) {
     const e = Object.entries(t);
-    useEnsureStability("useStableObject", e.length, ...e.map(_ref6 => {
-      let [_k, v] = _ref6;
+    useEnsureStability("useStableObject", e.length, ...e.map(_ref => {
+      let [_k, v] = _ref;
       return v;
     }));
     return _(t).current;
@@ -1701,7 +1669,6 @@
    * truly has no dependencies/only stable dependencies!!
    */
   function useStableCallback(fn, noDeps) {
-    monitorCallCount(useStableCallback);
     useEnsureStability("useStableCallback", noDeps == null, noDeps === null || noDeps === void 0 ? void 0 : noDeps.length, isStableGetter(fn));
     if (isStableGetter(fn)) return fn;
     if (noDeps == null) {
@@ -1732,7 +1699,6 @@
    * @returns
    */
   function useMergedRefs(rhs, lhs) {
-    monitorCallCount(useMergedRefs);
     // This *must* be stable in order to prevent repeated reset `null` calls after every render.
     const combined = useStableCallback(function combined(current) {
       processRef(current, lhs);
@@ -1760,7 +1726,6 @@
    * @returns A CSS object containing the properties of both objects.
    */
   function useMergedStyles(lhs, rhs) {
-    monitorCallCount(useMergedStyles);
     // Easy case, when there are no styles to merge return nothing.
     if (!lhs && !rhs) return undefined;
     if (typeof lhs != typeof rhs) {
@@ -1797,7 +1762,6 @@
    * @returns
    */
   function useMergedProps() {
-    monitorCallCount(useMergedProps);
     for (var _len3 = arguments.length, allProps = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
       allProps[_key3] = arguments[_key3];
     }
@@ -1884,7 +1848,6 @@
    *
    */
   function useManagedChildren(parentParameters) {
-    monitorCallCount(useManagedChildren);
     const {
       managedChildrenParameters: {
         onAfterChildLayoutEffect,
@@ -2019,12 +1982,11 @@
       }
     };
   }
-  function useManagedChild(_ref7) {
+  function useManagedChild(_ref2) {
     let {
       context,
       info
-    } = _ref7;
-    monitorCallCount(useManagedChild);
+    } = _ref2;
     const {
       managedChildContext: {
         getChildren,
@@ -2086,7 +2048,7 @@
    * @param param0
    * @returns
    */
-  function useChildrenFlag(_ref8) {
+  function useChildrenFlag(_ref3) {
     let {
       getChildren,
       initialIndex,
@@ -2095,7 +2057,7 @@
       getAt,
       setAt,
       isValid
-    } = _ref8;
+    } = _ref3;
     useEnsureStability("useChildrenFlag", onIndexChange, getAt, setAt, isValid);
     // TODO (maybe?): Even if there is an initial index, it's not set until mount. Is that fine?
     const [getCurrentIndex, setCurrentIndex] = usePassiveState(onIndexChange);
@@ -2195,7 +2157,6 @@
    * @returns
    */
   function useState(initialState) {
-    monitorCallCount(useState);
     // We keep both, but overrride the `setState` functionality
     const [state, setStateP] = h(initialState);
     const ref = _(state);
@@ -2219,6 +2180,7 @@
     }, []);
     return [state, setState, getState];
   }
+  new Map();
 
   /*
   export function useRefElementProps<E extends Element>(r: UseRefElementReturnType<E>, ...otherProps: ElementProps<E>[]): ElementProps<E>[] {
@@ -2234,7 +2196,6 @@
    * @returns The element, and the sub-hook that makes it retrievable.
    */
   function useRefElement(args) {
-    monitorCallCount(useRefElement);
     const {
       onElementChange,
       onMount,
@@ -2262,6 +2223,10 @@
       }
     };
   }
+  new Map();
+  new Map();
+  new Map();
+  new Map();
 
   /**
    * @license
@@ -3619,7 +3584,14 @@
       e = n.__e;
     null != e && "textarea" === n.type && "value" in t && t.value !== e.value && (e.value = null == t.value ? "" : t.value);
   };
-
+  let templateElement = null;
+  function htmlToElement(parent, html) {
+    var _templateElement;
+    const document = parent.ownerDocument;
+    (_templateElement = templateElement) !== null && _templateElement !== void 0 ? _templateElement : templateElement = document.createElement("template");
+    templateElement.innerHTML = html.trim(); // TODO: Trim ensures whitespace doesn't add anything, but with a better explanation of why
+    return templateElement.content.firstChild;
+  }
   /**
    * Easy access to an HTMLElement that can be controlled imperatively.
    *
@@ -3628,13 +3600,12 @@
    * The `handle` prop should be e.g. `useRef<ImperativeHandle<HTMLDivElement>>(null)`
    */
   x(k(ImperativeElementU));
-  function useImperativeProps(_ref9) {
+  function useImperativeProps(_ref4) {
     let {
       refElementReturn: {
         getElement
       }
-    } = _ref9;
-    monitorCallCount(useImperativeProps);
+    } = _ref4;
     const currentImperativeProps = _({
       className: new Set(),
       style: {},
@@ -3681,6 +3652,18 @@
         e.innerHTML = children;
       }
     }, []);
+    const dangerouslyAppendHTML = T$1(children => {
+      let e = getElement();
+      if (e && children) {
+        const newChild = htmlToElement(e, children);
+        console.assert(newChild && newChild instanceof Node);
+        if (newChild && newChild instanceof Node) {
+          e.appendChild(newChild);
+          return newChild;
+        }
+      }
+      return null;
+    }, []);
     const getAttribute = T$1(prop => {
       return currentImperativeProps.current.others[prop];
     }, []);
@@ -3721,7 +3704,8 @@
         setAttribute,
         setEventHandler,
         setChildren,
-        dangerouslySetInnerHTML
+        dangerouslySetInnerHTML,
+        dangerouslyAppendHTML
       }).current,
       props: useMergedProps({
         className: [...currentImperativeProps.current.className].join(" "),
@@ -3729,12 +3713,12 @@
       }, currentImperativeProps.current.others)
     };
   }
-  function ImperativeElementU(_ref10, ref) {
+  function ImperativeElementU(_ref5, ref) {
     let {
       tag: Tag,
       handle,
       ...props
-    } = _ref10;
+    } = _ref5;
     const {
       propsStable,
       refElementReturn
@@ -3900,11 +3884,11 @@
     };
   }
   let globalCount = -1;
-  function ExclusiveTransitionProvider(_ref11) {
+  function ExclusiveTransitionProvider(_ref6) {
     let {
       exclusivityKey,
       children
-    } = _ref11;
+    } = _ref6;
     useEnsureStability("ExclusiveTransitionProvider", exclusivityKey);
     const [getNextIndexInLine, setNextIndexInLine] = usePassiveState(null);
     const {
@@ -3976,7 +3960,7 @@
       children: children
     });
   }
-  function useExclusiveTransition(_ref12) {
+  function useExclusiveTransition(_ref7) {
     let {
       transitionParameters: {
         show
@@ -3985,7 +3969,7 @@
         forceClose,
         exclusivityKey
       }
-    } = _ref12;
+    } = _ref7;
     const c = GetExclusiveTransitionContext(exclusivityKey);
     useEnsureStability("useExclusiveTransition", c == null);
     const context = c ? q$1(c) : null;
@@ -4050,10 +4034,10 @@
    * Creates a set of props that implement a swap container.
    * Be sure to merge these returned props with whatever the user passed in.
    */
-  function useCreateSwappableProps(_ref13, otherProps) {
+  function useCreateSwappableProps(_ref8, otherProps) {
     let {
       inline
-    } = _ref13;
+    } = _ref8;
     const {
       GetBaseClass
     } = useCssClasses();
@@ -4070,7 +4054,7 @@
    * @param param0
    * @returns
    */
-  const Swappable = x(forwardElementRef(function Swappable(_ref14, ref) {
+  const Swappable = x(forwardElementRef(function Swappable(_ref9, ref) {
     var _inline;
     let {
       children: c,
@@ -4078,7 +4062,7 @@
       childrenAnimateOnMount,
       exclusivityKey,
       ...p$1
-    } = _ref14;
+    } = _ref9;
     let children = c;
     if (!children.type) children = !inline ? o$1("div", {
       children: children
@@ -4134,7 +4118,7 @@
    * @param param0
    * @returns
    */
-  function useTransition(_ref15) {
+  function useTransition(_ref10) {
     var _animateOnMount, _measure, _easingIn, _easingOut;
     let {
       transitionParameters: {
@@ -4156,7 +4140,7 @@
       exclusiveTransitionParameters: {
         exclusivityKey
       }
-    } = _ref15;
+    } = _ref10;
     useEnsureStability("useTransition", onVisibilityChange);
     const {
       getAnimateOnMount
@@ -4430,13 +4414,13 @@
    * Creates a set of props that implement a Fade transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
    * Be sure to merge these returned props with whatever the user passed in.
    */
-  function useBasePropsFade(_ref16) {
+  function useBasePropsFade(_ref11) {
     let {
       fadeParameters: {
         fadeMin,
         fadeMax
       }
-    } = _ref16;
+    } = _ref11;
     const {
       GetBaseClass
     } = useCssClasses();
@@ -4458,7 +4442,7 @@
    *
    * @see `Transitionable`
    */
-  const Fade = x(forwardElementRef(function Fade(_ref17, ref) {
+  const Fade = x(forwardElementRef(function Fade(_ref12, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4473,7 +4457,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref17;
+    } = _ref12;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -4498,8 +4482,8 @@
       }
     });
   }));
-  function useBasePropsClip(_ref18) {
-    var _ref19, _ref20, _ref21, _ref22;
+  function useBasePropsClip(_ref13) {
+    var _ref14, _ref15, _ref16, _ref17;
     let {
       clipParameters: {
         clipMin,
@@ -4509,21 +4493,21 @@
         clipOriginBlock,
         clipOriginInline
       }
-    } = _ref18;
+    } = _ref13;
     const {
       GetBaseClass
     } = useCssClasses();
     return {
       className: clsx("".concat(GetBaseClass(), "-clip")),
       style: {
-        ["--".concat(GetBaseClass(), "-clip-origin-inline")]: (_ref19 = clipOriginInline !== null && clipOriginInline !== void 0 ? clipOriginInline : clipOrigin) !== null && _ref19 !== void 0 ? _ref19 : 0.5,
-        ["--".concat(GetBaseClass(), "-clip-origin-block")]: (_ref20 = clipOriginBlock !== null && clipOriginBlock !== void 0 ? clipOriginBlock : clipOrigin) !== null && _ref20 !== void 0 ? _ref20 : 0,
-        ["--".concat(GetBaseClass(), "-clip-min-inline")]: (_ref21 = clipMinInline !== null && clipMinInline !== void 0 ? clipMinInline : clipMin) !== null && _ref21 !== void 0 ? _ref21 : 1,
-        ["--".concat(GetBaseClass(), "-clip-min-block")]: (_ref22 = clipMinBlock !== null && clipMinBlock !== void 0 ? clipMinBlock : clipMin) !== null && _ref22 !== void 0 ? _ref22 : 0
+        ["--".concat(GetBaseClass(), "-clip-origin-inline")]: (_ref14 = clipOriginInline !== null && clipOriginInline !== void 0 ? clipOriginInline : clipOrigin) !== null && _ref14 !== void 0 ? _ref14 : 0.5,
+        ["--".concat(GetBaseClass(), "-clip-origin-block")]: (_ref15 = clipOriginBlock !== null && clipOriginBlock !== void 0 ? clipOriginBlock : clipOrigin) !== null && _ref15 !== void 0 ? _ref15 : 0,
+        ["--".concat(GetBaseClass(), "-clip-min-inline")]: (_ref16 = clipMinInline !== null && clipMinInline !== void 0 ? clipMinInline : clipMin) !== null && _ref16 !== void 0 ? _ref16 : 1,
+        ["--".concat(GetBaseClass(), "-clip-min-block")]: (_ref17 = clipMinBlock !== null && clipMinBlock !== void 0 ? clipMinBlock : clipMin) !== null && _ref17 !== void 0 ? _ref17 : 0
       }
     };
   }
-  const Clip = x(forwardElementRef(function Clip(_ref23, ref) {
+  const Clip = x(forwardElementRef(function Clip(_ref18, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4542,7 +4526,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref23;
+    } = _ref18;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -4574,7 +4558,7 @@
       }
     });
   }));
-  const ClipFade = x(forwardElementRef(function ClipFade(_ref24, ref) {
+  const ClipFade = x(forwardElementRef(function ClipFade(_ref19, ref) {
     let {
       delayMountUntilShown,
       exclusivityKey,
@@ -4595,7 +4579,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref24;
+    } = _ref19;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -4641,12 +4625,12 @@
    *
    * @example <Transitionable measure {...useCreateCollapseProps(...)} />
    */
-  function useBasePropsCollapse(_ref25) {
+  function useBasePropsCollapse(_ref20) {
     let {
       collapseParameters: {
         minBlockSize
       }
-    } = _ref25;
+    } = _ref20;
     const {
       GetBaseClass
     } = useCssClasses();
@@ -4666,7 +4650,7 @@
    *
    * @see `Transitionable`
    */
-  const Collapse = x(forwardElementRef(function Collapse(_ref26, ref) {
+  const Collapse = x(forwardElementRef(function Collapse(_ref21, ref) {
     let {
       show,
       exclusivityKey,
@@ -4680,7 +4664,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref26;
+    } = _ref21;
     return useTransition({
       transitionParameters: {
         measure: true,
@@ -4707,7 +4691,7 @@
       }
     });
   }));
-  const CollapseFade = x(forwardElementRef(function CollapseFade(_ref27, ref) {
+  const CollapseFade = x(forwardElementRef(function CollapseFade(_ref22, ref) {
     let {
       show,
       exclusivityKey,
@@ -4723,7 +4707,7 @@
       minBlockSize,
       onVisibilityChange,
       ...rest
-    } = _ref27;
+    } = _ref22;
     return useTransition({
       transitionParameters: {
         measure: true,
@@ -4759,7 +4743,7 @@
   /**
    * Creates a set of props that implement a Flip transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
    */
-  function useBasePropsFlip(_ref28) {
+  function useBasePropsFlip(_ref23) {
     var _useLastNonNullValue, _useLastNonNullValue2;
     let {
       flipParameters: {
@@ -4767,7 +4751,7 @@
         flipAngleInline,
         flipPerspective
       }
-    } = _ref28;
+    } = _ref23;
     const {
       GetBaseClass
     } = useCssClasses();
@@ -4792,7 +4776,7 @@
    *
    * @see `Transitionable`
    */
-  const Flip = x(forwardElementRef(function Flip(_ref29, ref) {
+  const Flip = x(forwardElementRef(function Flip(_ref24, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4808,7 +4792,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref29;
+    } = _ref24;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -4841,14 +4825,14 @@
   /**
    * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
    */
-  function useBasePropsSlide(_ref30) {
+  function useBasePropsSlide(_ref25) {
     var _slideTargetInline, _slideTargetBlock;
     let {
       slideParameters: {
         slideTargetInline,
         slideTargetBlock
       }
-    } = _ref30;
+    } = _ref25;
     slideTargetInline = useLastNonNullValue(slideTargetInline);
     slideTargetBlock = useLastNonNullValue(slideTargetBlock);
     const {
@@ -4874,7 +4858,7 @@
    *
    * @see `Transitionable`
    */
-  const Slide = x(forwardElementRef(function Slide(_ref31, ref) {
+  const Slide = x(forwardElementRef(function Slide(_ref26, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4889,7 +4873,7 @@
       exitVisibility,
       delayMountUntilShown,
       ...rest
-    } = _ref31;
+    } = _ref26;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -4917,7 +4901,7 @@
       }
     });
   }));
-  const SlideFade = x(forwardElementRef(function SlideFade(_ref32, ref) {
+  const SlideFade = x(forwardElementRef(function SlideFade(_ref27, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4934,7 +4918,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref32;
+    } = _ref27;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -4971,8 +4955,8 @@
   /**
    * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
    */
-  function useBasePropsZoom(_ref33) {
-    var _ref34, _ref35, _ref36, _ref37;
+  function useBasePropsZoom(_ref28) {
+    var _ref29, _ref30, _ref31, _ref32;
     let {
       zoomParameters: {
         zoomOrigin,
@@ -4982,17 +4966,17 @@
         zoomMinInline,
         zoomMinBlock
       }
-    } = _ref33;
+    } = _ref28;
     const {
       GetBaseClass
     } = useCssClasses();
     return {
       className: "".concat(GetBaseClass(), "-zoom"),
       style: {
-        ["--".concat(GetBaseClass(), "-zoom-origin-inline")]: "".concat((_ref34 = zoomOriginInline !== null && zoomOriginInline !== void 0 ? zoomOriginInline : zoomOrigin) !== null && _ref34 !== void 0 ? _ref34 : 0.5),
-        ["--".concat(GetBaseClass(), "-zoom-origin-block")]: "".concat((_ref35 = zoomOriginBlock !== null && zoomOriginBlock !== void 0 ? zoomOriginBlock : zoomOrigin) !== null && _ref35 !== void 0 ? _ref35 : 0.5),
-        ["--".concat(GetBaseClass(), "-zoom-min-inline")]: "".concat((_ref36 = zoomMinInline !== null && zoomMinInline !== void 0 ? zoomMinInline : zoomMin) !== null && _ref36 !== void 0 ? _ref36 : 0),
-        ["--".concat(GetBaseClass(), "-zoom-min-block")]: "".concat((_ref37 = zoomMinBlock !== null && zoomMinBlock !== void 0 ? zoomMinBlock : zoomMin) !== null && _ref37 !== void 0 ? _ref37 : 0)
+        ["--".concat(GetBaseClass(), "-zoom-origin-inline")]: "".concat((_ref29 = zoomOriginInline !== null && zoomOriginInline !== void 0 ? zoomOriginInline : zoomOrigin) !== null && _ref29 !== void 0 ? _ref29 : 0.5),
+        ["--".concat(GetBaseClass(), "-zoom-origin-block")]: "".concat((_ref30 = zoomOriginBlock !== null && zoomOriginBlock !== void 0 ? zoomOriginBlock : zoomOrigin) !== null && _ref30 !== void 0 ? _ref30 : 0.5),
+        ["--".concat(GetBaseClass(), "-zoom-min-inline")]: "".concat((_ref31 = zoomMinInline !== null && zoomMinInline !== void 0 ? zoomMinInline : zoomMin) !== null && _ref31 !== void 0 ? _ref31 : 0),
+        ["--".concat(GetBaseClass(), "-zoom-min-block")]: "".concat((_ref32 = zoomMinBlock !== null && zoomMinBlock !== void 0 ? zoomMinBlock : zoomMin) !== null && _ref32 !== void 0 ? _ref32 : 0)
       }
     };
   }
@@ -5000,7 +4984,7 @@
    * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
    * @see `Transitionable` `ZoomFade`
    */
-  const Zoom = x(forwardElementRef(function Zoom(_ref38, ref) {
+  const Zoom = x(forwardElementRef(function Zoom(_ref33, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5019,7 +5003,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref38;
+    } = _ref33;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -5051,7 +5035,7 @@
       }
     });
   }));
-  const SlideZoom = x(forwardElementRef(function SlideZoom(_ref39, ref) {
+  const SlideZoom = x(forwardElementRef(function SlideZoom(_ref34, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5072,7 +5056,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref39;
+    } = _ref34;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -5109,7 +5093,7 @@
       }
     });
   }));
-  const SlideZoomFade = x(forwardElementRef(function SlideZoomFade(_ref40, ref) {
+  const SlideZoomFade = x(forwardElementRef(function SlideZoomFade(_ref35, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5132,7 +5116,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref40;
+    } = _ref35;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -5174,7 +5158,7 @@
       }
     });
   }));
-  const ZoomFade = x(forwardElementRef(function ZoomFade(_ref41, ref) {
+  const ZoomFade = x(forwardElementRef(function ZoomFade(_ref36, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5195,7 +5179,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref41;
+    } = _ref36;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -5565,7 +5549,7 @@
       }, writingMode)]
     });
   }
-  function FadeDemo(_ref42) {
+  function FadeDemo(_ref37) {
     let {
       cardShow,
       contentIndex,
@@ -5573,7 +5557,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref42;
+    } = _ref37;
     const [min, setMin] = h(0);
     const [max, setMax] = h(1);
     const onMinInput = T$1(e => {
@@ -5650,7 +5634,7 @@
       })]
     });
   }
-  function ClipDemo(_ref43) {
+  function ClipDemo(_ref38) {
     let {
       cardShow,
       contentIndex,
@@ -5658,7 +5642,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref43;
+    } = _ref38;
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(1);
@@ -5779,7 +5763,7 @@
       })]
     });
   }
-  function ZoomSlideDemo(_ref44) {
+  function ZoomSlideDemo(_ref39) {
     let {
       cardShow,
       contentIndex,
@@ -5787,7 +5771,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref44;
+    } = _ref39;
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(0.75);
@@ -5939,7 +5923,7 @@
       })]
     });
   }
-  function ZoomDemo(_ref45) {
+  function ZoomDemo(_ref40) {
     let {
       cardShow,
       contentIndex,
@@ -5947,7 +5931,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref45;
+    } = _ref40;
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(0.75);
@@ -6067,7 +6051,7 @@
       })]
     });
   }
-  function SlideDemo(_ref46) {
+  function SlideDemo(_ref41) {
     let {
       cardShow,
       contentIndex,
@@ -6075,7 +6059,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref46;
+    } = _ref41;
     const [slideX, setSlideX] = h(0.25);
     const [slideY, setSlideY] = h(0);
     const [withFade, setWithFade] = h(true);
@@ -6165,7 +6149,7 @@
       })]
     });
   }
-  function CollapseDemo(_ref47) {
+  function CollapseDemo(_ref42) {
     let {
       cardShow,
       contentIndex,
@@ -6173,7 +6157,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref47;
+    } = _ref42;
     const [minBlockSize, setMinBlockSize] = h("0px");
     const onWithFadeInput = T$1(e => {
       setWithFade(e.target.checked);
@@ -6254,7 +6238,7 @@
       })]
     });
   }
-  function FlipDemo(_ref48) {
+  function FlipDemo(_ref43) {
     let {
       cardShow,
       contentIndex,
@@ -6262,7 +6246,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref48;
+    } = _ref43;
     const [flipX, setFlipX] = h(0);
     const [flipY, setFlipY] = h(180);
     const onFlipXInput = T$1(e => {
