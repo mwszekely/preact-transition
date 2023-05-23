@@ -1,5 +1,5 @@
 import { Fragment, h, RenderableProps, VNode } from "preact";
-import { useChildrenFlag, useEnsureStability, useManagedChild, UseManagedChildParameters, useManagedChildren, usePassiveState, useStableObject, useState } from "preact-prop-helpers";
+import { useChildrenFlag, useEnsureStability, useManagedChild, UseManagedChildParameters, useManagedChildren, usePassiveState, useMemoObject, useState } from "preact-prop-helpers";
 import { useCallback, useContext, useLayoutEffect, useMemo } from "preact/hooks";
 import { GetExclusiveTransitionContext } from "./util/context.js";
 import { ExclusiveContextType, ExclusiveInfo, OmitStrong, TransitionParametersBase } from "./util/types.js";
@@ -59,9 +59,9 @@ export function ExclusiveTransitionProvider({ exclusivityKey, children }: Render
         }
     }, [])
 
-    const context2: ExclusiveContextType = useStableObject({
+    const context2: ExclusiveContextType = useMemoObject({
         ...context,
-        exclusiveTransitionContext: useStableObject({
+        exclusiveTransitionContext: useMemoObject({
             exclusivityKey,
             onVisibilityChange,
         })

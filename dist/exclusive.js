@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "preact/jsx-runtime";
-import { useChildrenFlag, useEnsureStability, useManagedChild, useManagedChildren, usePassiveState, useStableObject, useState } from "preact-prop-helpers";
+import { useChildrenFlag, useEnsureStability, useManagedChild, useManagedChildren, usePassiveState, useMemoObject, useState } from "preact-prop-helpers";
 import { useCallback, useContext, useLayoutEffect, useMemo } from "preact/hooks";
 import { GetExclusiveTransitionContext } from "./util/context.js";
 let globalCount = -1;
@@ -49,9 +49,9 @@ export function ExclusiveTransitionProvider({ exclusivityKey, children }) {
             }
         }
     }, []);
-    const context2 = useStableObject({
+    const context2 = useMemoObject({
         ...context,
-        exclusiveTransitionContext: useStableObject({
+        exclusiveTransitionContext: useMemoObject({
             exclusivityKey,
             onVisibilityChange,
         })
