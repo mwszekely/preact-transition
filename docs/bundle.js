@@ -6,36 +6,37 @@
     l$1,
     u$1,
     t$1,
-    r$2,
     o$2,
+    r$2,
     f$1,
     e$1,
     c$1 = {},
     s$1 = [],
-    a$1 = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;
+    a$1 = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i,
+    v$1 = Array.isArray;
   function h$1(n, l) {
     for (var u in l) n[u] = l[u];
     return n;
   }
-  function v$1(n) {
+  function p$1(n) {
     var l = n.parentNode;
     l && l.removeChild(n);
   }
   function y$1(l, u, i) {
     var t,
-      r,
       o,
+      r,
       f = {};
-    for (o in u) "key" == o ? t = u[o] : "ref" == o ? r = u[o] : f[o] = u[o];
-    if (arguments.length > 2 && (f.children = arguments.length > 3 ? n.call(arguments, 2) : i), "function" == typeof l && null != l.defaultProps) for (o in l.defaultProps) void 0 === f[o] && (f[o] = l.defaultProps[o]);
-    return p$1(l, f, t, r, null);
+    for (r in u) "key" == r ? t = u[r] : "ref" == r ? o = u[r] : f[r] = u[r];
+    if (arguments.length > 2 && (f.children = arguments.length > 3 ? n.call(arguments, 2) : i), "function" == typeof l && null != l.defaultProps) for (r in l.defaultProps) void 0 === f[r] && (f[r] = l.defaultProps[r]);
+    return d$1(l, f, t, o, null);
   }
-  function p$1(n, i, t, r, o) {
+  function d$1(n, i, t, o, r) {
     var f = {
       type: n,
       props: i,
       key: t,
-      ref: r,
+      ref: o,
       __k: null,
       __: null,
       __b: 0,
@@ -44,108 +45,108 @@
       __c: null,
       __h: null,
       constructor: void 0,
-      __v: null == o ? ++u$1 : o
+      __v: null == r ? ++u$1 : r
     };
-    return null == o && null != l$1.vnode && l$1.vnode(f), f;
+    return null == r && null != l$1.vnode && l$1.vnode(f), f;
   }
-  function _$2(n) {
+  function k$2(n) {
     return n.children;
   }
-  function k$2(n, l) {
+  function b$1(n, l) {
     this.props = n, this.context = l;
   }
-  function b$1(n, l) {
-    if (null == l) return n.__ ? b$1(n.__, n.__.__k.indexOf(n) + 1) : null;
+  function g$2(n, l) {
+    if (null == l) return n.__ ? g$2(n.__, n.__.__k.indexOf(n) + 1) : null;
     for (var u; l < n.__k.length; l++) if (null != (u = n.__k[l]) && null != u.__e) return u.__e;
-    return "function" == typeof n.type ? b$1(n) : null;
+    return "function" == typeof n.type ? g$2(n) : null;
   }
-  function g$2(n) {
+  function m$1(n) {
     var l, u;
     if (null != (n = n.__) && null != n.__c) {
       for (n.__e = n.__c.base = null, l = 0; l < n.__k.length; l++) if (null != (u = n.__k[l]) && null != u.__e) {
         n.__e = n.__c.base = u.__e;
         break;
       }
-      return g$2(n);
+      return m$1(n);
     }
   }
-  function m$1(n) {
-    (!n.__d && (n.__d = !0) && t$1.push(n) && !w$2.__r++ || r$2 !== l$1.debounceRendering) && ((r$2 = l$1.debounceRendering) || o$2)(w$2);
+  function w$2(n) {
+    (!n.__d && (n.__d = !0) && t$1.push(n) && !x$1.__r++ || o$2 !== l$1.debounceRendering) && ((o$2 = l$1.debounceRendering) || r$2)(x$1);
   }
-  function w$2() {
-    var n, l, u, i, r, o, e, c;
-    for (t$1.sort(f$1); n = t$1.shift();) n.__d && (l = t$1.length, i = void 0, r = void 0, e = (o = (u = n).__v).__e, (c = u.__P) && (i = [], (r = h$1({}, o)).__v = o.__v + 1, L$1(c, o, r, u.__n, void 0 !== c.ownerSVGElement, null != o.__h ? [e] : null, i, null == e ? b$1(o) : e, o.__h), M(i, o), o.__e != e && g$2(o)), t$1.length > l && t$1.sort(f$1));
-    w$2.__r = 0;
+  function x$1() {
+    var n, l, u, i, o, r, e, c;
+    for (t$1.sort(f$1); n = t$1.shift();) n.__d && (l = t$1.length, i = void 0, o = void 0, e = (r = (u = n).__v).__e, (c = u.__P) && (i = [], (o = h$1({}, r)).__v = r.__v + 1, L$1(c, r, o, u.__n, void 0 !== c.ownerSVGElement, null != r.__h ? [e] : null, i, null == e ? g$2(r) : e, r.__h), M(i, r), r.__e != e && m$1(r)), t$1.length > l && t$1.sort(f$1));
+    x$1.__r = 0;
   }
-  function x$1(n, l, u, i, t, r, o, f, e, a) {
+  function P(n, l, u, i, t, o, r, f, e, a) {
     var h,
-      v,
+      p,
       y,
-      d,
-      k,
-      g,
+      _,
+      b,
       m,
-      w = i && i.__k || s$1,
-      x = w.length;
-    for (u.__k = [], h = 0; h < l.length; h++) if (null != (d = u.__k[h] = null == (d = l[h]) || "boolean" == typeof d || "function" == typeof d ? null : "string" == typeof d || "number" == typeof d || "bigint" == typeof d ? p$1(null, d, null, null, d) : Array.isArray(d) ? p$1(_$2, {
-      children: d
-    }, null, null, null) : d.__b > 0 ? p$1(d.type, d.props, d.key, d.ref ? d.ref : null, d.__v) : d)) {
-      if (d.__ = u, d.__b = u.__b + 1, null === (y = w[h]) || y && d.key == y.key && d.type === y.type) w[h] = void 0;else for (v = 0; v < x; v++) {
-        if ((y = w[v]) && d.key == y.key && d.type === y.type) {
-          w[v] = void 0;
+      w,
+      x = i && i.__k || s$1,
+      P = x.length;
+    for (u.__k = [], h = 0; h < l.length; h++) if (null != (_ = u.__k[h] = null == (_ = l[h]) || "boolean" == typeof _ || "function" == typeof _ ? null : "string" == typeof _ || "number" == typeof _ || "bigint" == typeof _ ? d$1(null, _, null, null, _) : v$1(_) ? d$1(k$2, {
+      children: _
+    }, null, null, null) : _.__b > 0 ? d$1(_.type, _.props, _.key, _.ref ? _.ref : null, _.__v) : _)) {
+      if (_.__ = u, _.__b = u.__b + 1, null === (y = x[h]) || y && _.key == y.key && _.type === y.type) x[h] = void 0;else for (p = 0; p < P; p++) {
+        if ((y = x[p]) && _.key == y.key && _.type === y.type) {
+          x[p] = void 0;
           break;
         }
         y = null;
       }
-      L$1(n, d, y = y || c$1, t, r, o, f, e, a), k = d.__e, (v = d.ref) && y.ref != v && (m || (m = []), y.ref && m.push(y.ref, null, d), m.push(v, d.__c || k, d)), null != k ? (null == g && (g = k), "function" == typeof d.type && d.__k === y.__k ? d.__d = e = A$1(d, e, n) : e = C$1(n, d, y, w, k, e), "function" == typeof u.type && (u.__d = e)) : e && y.__e == e && e.parentNode != n && (e = b$1(y));
+      L$1(n, _, y = y || c$1, t, o, r, f, e, a), b = _.__e, (p = _.ref) && y.ref != p && (w || (w = []), y.ref && w.push(y.ref, null, _), w.push(p, _.__c || b, _)), null != b ? (null == m && (m = b), "function" == typeof _.type && _.__k === y.__k ? _.__d = e = C$1(_, e, n) : e = $$1(n, _, y, x, b, e), "function" == typeof u.type && (u.__d = e)) : e && y.__e == e && e.parentNode != n && (e = g$2(y));
     }
-    for (u.__e = g, h = x; h--;) null != w[h] && ("function" == typeof u.type && null != w[h].__e && w[h].__e == u.__d && (u.__d = $$1(i).nextSibling), S(w[h], w[h]));
-    if (m) for (h = 0; h < m.length; h++) O(m[h], m[++h], m[++h]);
+    for (u.__e = m, h = P; h--;) null != x[h] && ("function" == typeof u.type && null != x[h].__e && x[h].__e == u.__d && (u.__d = A$1(i).nextSibling), q$2(x[h], x[h]));
+    if (w) for (h = 0; h < w.length; h++) O(w[h], w[++h], w[++h]);
   }
-  function A$1(n, l, u) {
-    for (var i, t = n.__k, r = 0; t && r < t.length; r++) (i = t[r]) && (i.__ = n, l = "function" == typeof i.type ? A$1(i, l, u) : C$1(u, i, i, t, i.__e, l));
+  function C$1(n, l, u) {
+    for (var i, t = n.__k, o = 0; t && o < t.length; o++) (i = t[o]) && (i.__ = n, l = "function" == typeof i.type ? C$1(i, l, u) : $$1(u, i, i, t, i.__e, l));
     return l;
   }
-  function P(n, l) {
-    return l = l || [], null == n || "boolean" == typeof n || (Array.isArray(n) ? n.some(function (n) {
-      P(n, l);
+  function S(n, l) {
+    return l = l || [], null == n || "boolean" == typeof n || (v$1(n) ? n.some(function (n) {
+      S(n, l);
     }) : l.push(n)), l;
   }
-  function C$1(n, l, u, i, t, r) {
-    var o, f, e;
-    if (void 0 !== l.__d) o = l.__d, l.__d = void 0;else if (null == u || t != r || null == t.parentNode) n: if (null == r || r.parentNode !== n) n.appendChild(t), o = null;else {
-      for (f = r, e = 0; (f = f.nextSibling) && e < i.length; e += 1) if (f == t) break n;
-      n.insertBefore(t, r), o = r;
+  function $$1(n, l, u, i, t, o) {
+    var r, f, e;
+    if (void 0 !== l.__d) r = l.__d, l.__d = void 0;else if (null == u || t != o || null == t.parentNode) n: if (null == o || o.parentNode !== n) n.appendChild(t), r = null;else {
+      for (f = o, e = 0; (f = f.nextSibling) && e < i.length; e += 1) if (f == t) break n;
+      n.insertBefore(t, o), r = o;
     }
-    return void 0 !== o ? o : t.nextSibling;
+    return void 0 !== r ? r : t.nextSibling;
   }
-  function $$1(n) {
+  function A$1(n) {
     var l, u, i;
     if (null == n.type || "string" == typeof n.type) return n.__e;
-    if (n.__k) for (l = n.__k.length - 1; l >= 0; l--) if ((u = n.__k[l]) && (i = $$1(u))) return i;
+    if (n.__k) for (l = n.__k.length - 1; l >= 0; l--) if ((u = n.__k[l]) && (i = A$1(u))) return i;
     return null;
   }
   function H$1(n, l, u, i, t) {
-    var r;
-    for (r in u) "children" === r || "key" === r || r in l || T$2(n, r, null, u[r], i);
-    for (r in l) t && "function" != typeof l[r] || "children" === r || "key" === r || "value" === r || "checked" === r || u[r] === l[r] || T$2(n, r, l[r], u[r], i);
+    var o;
+    for (o in u) "children" === o || "key" === o || o in l || T$2(n, o, null, u[o], i);
+    for (o in l) t && "function" != typeof l[o] || "children" === o || "key" === o || "value" === o || "checked" === o || u[o] === l[o] || T$2(n, o, l[o], u[o], i);
   }
   function I$1(n, l, u) {
     "-" === l[0] ? n.setProperty(l, null == u ? "" : u) : n[l] = null == u ? "" : "number" != typeof u || a$1.test(l) ? u : u + "px";
   }
   function T$2(n, l, u, i, t) {
-    var r;
+    var o;
     n: if ("style" === l) {
       if ("string" == typeof u) n.style.cssText = u;else {
         if ("string" == typeof i && (n.style.cssText = i = ""), i) for (l in i) u && l in u || I$1(n.style, l, "");
         if (u) for (l in u) i && u[l] === i[l] || I$1(n.style, l, u[l]);
       }
-    } else if ("o" === l[0] && "n" === l[1]) r = l !== (l = l.replace(/Capture$/, "")), l = l.toLowerCase() in n ? l.toLowerCase().slice(2) : l.slice(2), n.l || (n.l = {}), n.l[l + r] = u, u ? i || n.addEventListener(l, r ? z$1 : j$1, r) : n.removeEventListener(l, r ? z$1 : j$1, r);else if ("dangerouslySetInnerHTML" !== l) {
-      if (t) l = l.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");else if ("width" !== l && "height" !== l && "href" !== l && "list" !== l && "form" !== l && "tabIndex" !== l && "download" !== l && l in n) try {
+    } else if ("o" === l[0] && "n" === l[1]) o = l !== (l = l.replace(/Capture$/, "")), l = l.toLowerCase() in n ? l.toLowerCase().slice(2) : l.slice(2), n.l || (n.l = {}), n.l[l + o] = u, u ? i || n.addEventListener(l, o ? z$1 : j$1, o) : n.removeEventListener(l, o ? z$1 : j$1, o);else if ("dangerouslySetInnerHTML" !== l) {
+      if (t) l = l.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");else if ("width" !== l && "height" !== l && "href" !== l && "list" !== l && "form" !== l && "tabIndex" !== l && "download" !== l && "rowSpan" !== l && "colSpan" !== l && l in n) try {
         n[l] = null == u ? "" : u;
         break n;
       } catch (n) {}
-      "function" == typeof u || (null == u || !1 === u && -1 == l.indexOf("-") ? n.removeAttribute(l) : n.setAttribute(l, u));
+      "function" == typeof u || (null == u || !1 === u && "-" !== l[4] ? n.removeAttribute(l) : n.setAttribute(l, u));
     }
   }
   function j$1(n) {
@@ -154,50 +155,50 @@
   function z$1(n) {
     return this.l[n.type + !0](l$1.event ? l$1.event(n) : n);
   }
-  function L$1(n, u, i, t, r, o, f, e, c) {
+  function L$1(n, u, i, t, o, r, f, e, c) {
     var s,
       a,
-      v,
-      y,
       p,
+      y,
       d,
-      b,
+      _,
       g,
       m,
       w,
-      A,
-      P,
+      x,
       C,
+      S,
       $,
+      A,
       H,
       I = u.type;
     if (void 0 !== u.constructor) return null;
-    null != i.__h && (c = i.__h, e = u.__e = i.__e, u.__h = null, o = [e]), (s = l$1.__b) && s(u);
+    null != i.__h && (c = i.__h, e = u.__e = i.__e, u.__h = null, r = [e]), (s = l$1.__b) && s(u);
     try {
       n: if ("function" == typeof I) {
-        if (g = u.props, m = (s = I.contextType) && t[s.__c], w = s ? m ? m.props.value : s.__ : t, i.__c ? b = (a = u.__c = i.__c).__ = a.__E : ("prototype" in I && I.prototype.render ? u.__c = a = new I(g, w) : (u.__c = a = new k$2(g, w), a.constructor = I, a.render = q$2), m && m.sub(a), a.props = g, a.state || (a.state = {}), a.context = w, a.__n = t, v = a.__d = !0, a.__h = [], a._sb = []), null == a.__s && (a.__s = a.state), null != I.getDerivedStateFromProps && (a.__s == a.state && (a.__s = h$1({}, a.__s)), h$1(a.__s, I.getDerivedStateFromProps(g, a.__s))), y = a.props, p = a.state, a.__v = u, v) null == I.getDerivedStateFromProps && null != a.componentWillMount && a.componentWillMount(), null != a.componentDidMount && a.__h.push(a.componentDidMount);else {
-          if (null == I.getDerivedStateFromProps && g !== y && null != a.componentWillReceiveProps && a.componentWillReceiveProps(g, w), !a.__e && null != a.shouldComponentUpdate && !1 === a.shouldComponentUpdate(g, a.__s, w) || u.__v === i.__v) {
-            for (u.__v !== i.__v && (a.props = g, a.state = a.__s, a.__d = !1), a.__e = !1, u.__e = i.__e, u.__k = i.__k, u.__k.forEach(function (n) {
+        if (m = u.props, w = (s = I.contextType) && t[s.__c], x = s ? w ? w.props.value : s.__ : t, i.__c ? g = (a = u.__c = i.__c).__ = a.__E : ("prototype" in I && I.prototype.render ? u.__c = a = new I(m, x) : (u.__c = a = new b$1(m, x), a.constructor = I, a.render = B$2), w && w.sub(a), a.props = m, a.state || (a.state = {}), a.context = x, a.__n = t, p = a.__d = !0, a.__h = [], a._sb = []), null == a.__s && (a.__s = a.state), null != I.getDerivedStateFromProps && (a.__s == a.state && (a.__s = h$1({}, a.__s)), h$1(a.__s, I.getDerivedStateFromProps(m, a.__s))), y = a.props, d = a.state, a.__v = u, p) null == I.getDerivedStateFromProps && null != a.componentWillMount && a.componentWillMount(), null != a.componentDidMount && a.__h.push(a.componentDidMount);else {
+          if (null == I.getDerivedStateFromProps && m !== y && null != a.componentWillReceiveProps && a.componentWillReceiveProps(m, x), !a.__e && null != a.shouldComponentUpdate && !1 === a.shouldComponentUpdate(m, a.__s, x) || u.__v === i.__v) {
+            for (u.__v !== i.__v && (a.props = m, a.state = a.__s, a.__d = !1), a.__e = !1, u.__e = i.__e, u.__k = i.__k, u.__k.forEach(function (n) {
               n && (n.__ = u);
-            }), A = 0; A < a._sb.length; A++) a.__h.push(a._sb[A]);
+            }), C = 0; C < a._sb.length; C++) a.__h.push(a._sb[C]);
             a._sb = [], a.__h.length && f.push(a);
             break n;
           }
-          null != a.componentWillUpdate && a.componentWillUpdate(g, a.__s, w), null != a.componentDidUpdate && a.__h.push(function () {
-            a.componentDidUpdate(y, p, d);
+          null != a.componentWillUpdate && a.componentWillUpdate(m, a.__s, x), null != a.componentDidUpdate && a.__h.push(function () {
+            a.componentDidUpdate(y, d, _);
           });
         }
-        if (a.context = w, a.props = g, a.__P = n, P = l$1.__r, C = 0, "prototype" in I && I.prototype.render) {
-          for (a.state = a.__s, a.__d = !1, P && P(u), s = a.render(a.props, a.state, a.context), $ = 0; $ < a._sb.length; $++) a.__h.push(a._sb[$]);
+        if (a.context = x, a.props = m, a.__P = n, S = l$1.__r, $ = 0, "prototype" in I && I.prototype.render) {
+          for (a.state = a.__s, a.__d = !1, S && S(u), s = a.render(a.props, a.state, a.context), A = 0; A < a._sb.length; A++) a.__h.push(a._sb[A]);
           a._sb = [];
         } else do {
-          a.__d = !1, P && P(u), s = a.render(a.props, a.state, a.context), a.state = a.__s;
-        } while (a.__d && ++C < 25);
-        a.state = a.__s, null != a.getChildContext && (t = h$1(h$1({}, t), a.getChildContext())), v || null == a.getSnapshotBeforeUpdate || (d = a.getSnapshotBeforeUpdate(y, p)), H = null != s && s.type === _$2 && null == s.key ? s.props.children : s, x$1(n, Array.isArray(H) ? H : [H], u, i, t, r, o, f, e, c), a.base = u.__e, u.__h = null, a.__h.length && f.push(a), b && (a.__E = a.__ = null), a.__e = !1;
-      } else null == o && u.__v === i.__v ? (u.__k = i.__k, u.__e = i.__e) : u.__e = N$1(i.__e, u, i, t, r, o, f, c);
+          a.__d = !1, S && S(u), s = a.render(a.props, a.state, a.context), a.state = a.__s;
+        } while (a.__d && ++$ < 25);
+        a.state = a.__s, null != a.getChildContext && (t = h$1(h$1({}, t), a.getChildContext())), p || null == a.getSnapshotBeforeUpdate || (_ = a.getSnapshotBeforeUpdate(y, d)), P(n, v$1(H = null != s && s.type === k$2 && null == s.key ? s.props.children : s) ? H : [H], u, i, t, o, r, f, e, c), a.base = u.__e, u.__h = null, a.__h.length && f.push(a), g && (a.__E = a.__ = null), a.__e = !1;
+      } else null == r && u.__v === i.__v ? (u.__k = i.__k, u.__e = i.__e) : u.__e = N$1(i.__e, u, i, t, o, r, f, c);
       (s = l$1.diffed) && s(u);
     } catch (n) {
-      u.__v = null, (c || null != o) && (u.__e = e, u.__h = !!c, o[o.indexOf(e)] = null), l$1.__e(n, u, i);
+      u.__v = null, (c || null != r) && (u.__e = e, u.__h = !!c, r[r.indexOf(e)] = null), l$1.__e(n, u, i);
     }
   }
   function M(n, u) {
@@ -211,29 +212,29 @@
       }
     });
   }
-  function N$1(l, u, i, t, r, o, f, e) {
+  function N$1(l, u, i, t, o, r, f, e) {
     var s,
       a,
       h,
       y = i.props,
-      p = u.props,
-      d = u.type,
-      _ = 0;
-    if ("svg" === d && (r = !0), null != o) for (; _ < o.length; _++) if ((s = o[_]) && "setAttribute" in s == !!d && (d ? s.localName === d : 3 === s.nodeType)) {
-      l = s, o[_] = null;
+      d = u.props,
+      _ = u.type,
+      k = 0;
+    if ("svg" === _ && (o = !0), null != r) for (; k < r.length; k++) if ((s = r[k]) && "setAttribute" in s == !!_ && (_ ? s.localName === _ : 3 === s.nodeType)) {
+      l = s, r[k] = null;
       break;
     }
     if (null == l) {
-      if (null === d) return document.createTextNode(p);
-      l = r ? document.createElementNS("http://www.w3.org/2000/svg", d) : document.createElement(d, p.is && p), o = null, e = !1;
+      if (null === _) return document.createTextNode(d);
+      l = o ? document.createElementNS("http://www.w3.org/2000/svg", _) : document.createElement(_, d.is && d), r = null, e = !1;
     }
-    if (null === d) y === p || e && l.data === p || (l.data = p);else {
-      if (o = o && n.call(l.childNodes), a = (y = i.props || c$1).dangerouslySetInnerHTML, h = p.dangerouslySetInnerHTML, !e) {
-        if (null != o) for (y = {}, _ = 0; _ < l.attributes.length; _++) y[l.attributes[_].name] = l.attributes[_].value;
+    if (null === _) y === d || e && l.data === d || (l.data = d);else {
+      if (r = r && n.call(l.childNodes), a = (y = i.props || c$1).dangerouslySetInnerHTML, h = d.dangerouslySetInnerHTML, !e) {
+        if (null != r) for (y = {}, k = 0; k < l.attributes.length; k++) y[l.attributes[k].name] = l.attributes[k].value;
         (h || a) && (h && (a && h.__html == a.__html || h.__html === l.innerHTML) || (l.innerHTML = h && h.__html || ""));
       }
-      if (H$1(l, p, y, r, e), h) u.__k = [];else if (_ = u.props.children, x$1(l, Array.isArray(_) ? _ : [_], u, i, t, r && "foreignObject" !== d, o, f, o ? o[0] : i.__k && b$1(i, 0), e), null != o) for (_ = o.length; _--;) null != o[_] && v$1(o[_]);
-      e || ("value" in p && void 0 !== (_ = p.value) && (_ !== l.value || "progress" === d && !_ || "option" === d && _ !== y.value) && T$2(l, "value", _, y.value, !1), "checked" in p && void 0 !== (_ = p.checked) && _ !== l.checked && T$2(l, "checked", _, y.checked, !1));
+      if (H$1(l, d, y, o, e), h) u.__k = [];else if (P(l, v$1(k = u.props.children) ? k : [k], u, i, t, o && "foreignObject" !== _, r, f, r ? r[0] : i.__k && g$2(i, 0), e), null != r) for (k = r.length; k--;) null != r[k] && p$1(r[k]);
+      e || ("value" in d && void 0 !== (k = d.value) && (k !== l.value || "progress" === _ && !k || "option" === _ && k !== y.value) && T$2(l, "value", k, y.value, !1), "checked" in d && void 0 !== (k = d.checked) && k !== l.checked && T$2(l, "checked", k, y.checked, !1));
     }
     return l;
   }
@@ -244,8 +245,8 @@
       l$1.__e(n, i);
     }
   }
-  function S(n, u, i) {
-    var t, r;
+  function q$2(n, u, i) {
+    var t, o;
     if (l$1.unmount && l$1.unmount(n), (t = n.ref) && (t.current && t.current !== n.__e || O(t, null, u)), null != (t = n.__c)) {
       if (t.componentWillUnmount) try {
         t.componentWillUnmount();
@@ -254,25 +255,26 @@
       }
       t.base = t.__P = null, n.__c = void 0;
     }
-    if (t = n.__k) for (r = 0; r < t.length; r++) t[r] && S(t[r], u, i || "function" != typeof n.type);
-    i || null == n.__e || v$1(n.__e), n.__ = n.__e = n.__d = void 0;
+    if (t = n.__k) for (o = 0; o < t.length; o++) t[o] && q$2(t[o], u, i || "function" != typeof n.type);
+    i || null == n.__e || p$1(n.__e), n.__ = n.__e = n.__d = void 0;
   }
-  function q$2(n, l, u) {
+  function B$2(n, l, u) {
     return this.constructor(n, u);
   }
-  function B$2(u, i, t) {
-    var r, o, f;
-    l$1.__ && l$1.__(u, i), o = (r = "function" == typeof t) ? null : t && t.__k || i.__k, f = [], L$1(i, u = (!r && t || i).__k = y$1(_$2, null, [u]), o || c$1, c$1, void 0 !== i.ownerSVGElement, !r && t ? [t] : o ? null : i.firstChild ? n.call(i.childNodes) : null, f, !r && t ? t : o ? o.__e : i.firstChild, r), M(f, u);
+  function D$1(u, i, t) {
+    var o, r, f;
+    l$1.__ && l$1.__(u, i), r = (o = "function" == typeof t) ? null : t && t.__k || i.__k, f = [], L$1(i, u = (!o && t || i).__k = y$1(k$2, null, [u]), r || c$1, c$1, void 0 !== i.ownerSVGElement, !o && t ? [t] : r ? null : i.firstChild ? n.call(i.childNodes) : null, f, !o && t ? t : r ? r.__e : i.firstChild, o), M(f, u);
   }
-  function E(l, u, i) {
+  function F$2(l, u, i) {
     var t,
-      r,
       o,
-      f = h$1({}, l.props);
-    for (o in u) "key" == o ? t = u[o] : "ref" == o ? r = u[o] : f[o] = u[o];
-    return arguments.length > 2 && (f.children = arguments.length > 3 ? n.call(arguments, 2) : i), p$1(l.type, f, t || l.key, r || l.ref, null);
+      r,
+      f,
+      e = h$1({}, l.props);
+    for (r in l.type && l.type.defaultProps && (f = l.type.defaultProps), u) "key" == r ? t = u[r] : "ref" == r ? o = u[r] : e[r] = void 0 === u[r] && void 0 !== f ? f[r] : u[r];
+    return arguments.length > 2 && (e.children = arguments.length > 3 ? n.call(arguments, 2) : i), d$1(l.type, e, t || l.key, o || l.ref, null);
   }
-  function F$2(n, l) {
+  function G(n, l) {
     var u = {
       __c: l = "__cC" + e$1++,
       __: n,
@@ -285,7 +287,7 @@
           return i;
         }, this.shouldComponentUpdate = function (n) {
           this.props.value !== n.value && u.some(function (n) {
-            n.__e = !0, m$1(n);
+            n.__e = !0, w$2(n);
           });
         }, this.sub = function (n) {
           u.push(n);
@@ -300,21 +302,21 @@
   }
   n = s$1.slice, l$1 = {
     __e: function (n, l, u, i) {
-      for (var t, r, o; l = l.__;) if ((t = l.__c) && !t.__) try {
-        if ((r = t.constructor) && null != r.getDerivedStateFromError && (t.setState(r.getDerivedStateFromError(n)), o = t.__d), null != t.componentDidCatch && (t.componentDidCatch(n, i || {}), o = t.__d), o) return t.__E = t;
+      for (var t, o, r; l = l.__;) if ((t = l.__c) && !t.__) try {
+        if ((o = t.constructor) && null != o.getDerivedStateFromError && (t.setState(o.getDerivedStateFromError(n)), r = t.__d), null != t.componentDidCatch && (t.componentDidCatch(n, i || {}), r = t.__d), r) return t.__E = t;
       } catch (l) {
         n = l;
       }
       throw n;
     }
-  }, u$1 = 0, k$2.prototype.setState = function (n, l) {
+  }, u$1 = 0, b$1.prototype.setState = function (n, l) {
     var u;
-    u = null != this.__s && this.__s !== this.state ? this.__s : this.__s = h$1({}, this.state), "function" == typeof n && (n = n(h$1({}, u), this.props)), n && h$1(u, n), null != n && this.__v && (l && this._sb.push(l), m$1(this));
-  }, k$2.prototype.forceUpdate = function (n) {
-    this.__v && (this.__e = !0, n && this.__h.push(n), m$1(this));
-  }, k$2.prototype.render = _$2, t$1 = [], o$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function (n, l) {
+    u = null != this.__s && this.__s !== this.state ? this.__s : this.__s = h$1({}, this.state), "function" == typeof n && (n = n(h$1({}, u), this.props)), n && h$1(u, n), null != n && this.__v && (l && this._sb.push(l), w$2(this));
+  }, b$1.prototype.forceUpdate = function (n) {
+    this.__v && (this.__e = !0, n && this.__h.push(n), w$2(this));
+  }, b$1.prototype.render = k$2, t$1 = [], r$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function (n, l) {
     return n.__v.__b - l.__v.__b;
-  }, w$2.__r = 0, e$1 = 0;
+  }, x$1.__r = 0, e$1 = 0;
   var _$1 = 0;
   function o$1(o, e, n, t, f, l) {
     var s,
@@ -454,7 +456,7 @@
     var i = (r$1 = n.__c).__H;
     i && (u === r$1 ? (i.__h = [], r$1.__h = [], i.__.forEach(function (n) {
       n.__N && (n.__ = n.__N), n.__V = c, n.__N = n.i = void 0;
-    })) : (i.__h.forEach(k$1), i.__h.forEach(w$1), i.__h = [])), u = r$1;
+    })) : (i.__h.forEach(k$1), i.__h.forEach(w$1), i.__h = [], t = 0)), u = r$1;
   }, l$1.diffed = function (t) {
     v && v(t);
     var o = t.__c;
@@ -542,8 +544,7 @@
     }
   }
   function getBuildMode() {
-    var _cached;
-    return (_cached = cached) !== null && _cached !== void 0 ? _cached : cached = getBuildModeUnmemoized();
+    return cached || (cached = getBuildModeUnmemoized());
   }
 
   /** Detect free variable `global` from Node.js. */
@@ -1338,7 +1339,6 @@
   function callCountU(hook) {
     return;
   }
-  new Set();
   getBuildMode() == "development" ? callCountU : noop;
 
   /**
@@ -1507,7 +1507,7 @@
     } else if (rhs == null) {
       return lhs;
     } else {
-      return y$1(_$2, {}, lhs, rhs);
+      return y$1(k$2, {}, lhs, rhs);
     }
   }
 
@@ -1629,19 +1629,10 @@
       return ref.current;
     }, []);
   }
-  /**
-   * Like `useStableGetter`, but ***requires*** that everything in the object is also stable,
-   * and in turn returns an object that itself is stable.
-   * @param t
-   * @returns
-   */
-  function useStableObject(t) {
-    const e = Object.entries(t);
-    useEnsureStability("useStableObject", e.length, ...e.map(_ref => {
-      let [_k, v] = _ref;
-      return v;
-    }));
-    return _(t).current;
+  function useMemoObject(t) {
+    return F$1(() => {
+      return t;
+    }, Object.values(t));
   }
 
   /**
@@ -1836,6 +1827,24 @@
       if (lv instanceof Promise || rv instanceof Promise) return Promise.all([lv, rv]);
     };
   }
+  function generateStack() {
+    if (getBuildMode() === 'development') {
+      try {
+        throw new Error();
+      } catch (e) {
+        return e.stack;
+      }
+    }
+    return undefined;
+  }
+  /**
+   * @returns A function that retrieves the stack at the time this hook was called (in development mode only).
+   */
+  function useStack() {
+    const stack = F$1(generateStack, []);
+    const getStack = T$1(() => stack, []);
+    return getStack;
+  }
 
   /**
    * Allows a parent component to access information about certain
@@ -1949,7 +1958,7 @@
       }
       hasRemoteULEChildMounted.current[mounted ? "mounts" : "unmounts"].add(index);
     }, [/* Must remain stable */]);
-    const managedChildren = useStableObject({
+    const managedChildren = useMemoObject({
       ...{
         _: managedChildrenArray.current
       },
@@ -1969,8 +1978,8 @@
     });
     const getChildren = T$1(() => managedChildren, []);
     return {
-      context: useStableObject({
-        managedChildContext: useStableObject({
+      context: useMemoObject({
+        managedChildContext: useMemoObject({
           managedChildrenArray: managedChildrenArray.current,
           remoteULEChildMounted,
           remoteULEChildChanged,
@@ -1982,11 +1991,11 @@
       }
     };
   }
-  function useManagedChild(_ref2) {
+  function useManagedChild(_ref) {
     let {
       context,
       info
-    } = _ref2;
+    } = _ref;
     const {
       managedChildContext: {
         getChildren,
@@ -2048,7 +2057,7 @@
    * @param param0
    * @returns
    */
-  function useChildrenFlag(_ref3) {
+  function useChildrenFlag(_ref2) {
     let {
       getChildren,
       initialIndex,
@@ -2057,7 +2066,7 @@
       getAt,
       setAt,
       isValid
-    } = _ref3;
+    } = _ref2;
     useEnsureStability("useChildrenFlag", onIndexChange, getAt, setAt, isValid);
     // TODO (maybe?): Even if there is an initial index, it's not set until mount. Is that fine?
     const [getCurrentIndex, setCurrentIndex] = usePassiveState(onIndexChange);
@@ -2153,24 +2162,40 @@
    * Slightly enhanced version of `useState` that includes a getter that remains constant
    * (i.e. you can use it in `useEffect` and friends without it being a dependency).
    *
+   * If `getBuildMode()` returns `"development"`, then any calls to `setState` will also
+   * take the stack at the time the hook was called and save it to `window._setState_stack`.
+   * Useful if you want to trace whose state is being updated.
+   *
    * @param initialState
    * @returns
    */
   function useState(initialState) {
+    const getStack = useStack();
     // We keep both, but overrride the `setState` functionality
     const [state, setStateP] = h(initialState);
     const ref = _(state);
     // Hijack the normal setter function 
     // to also set our ref to the new value
     const setState = T$1(value => {
+      if (getBuildMode() === 'development') {
+        window._setState_stack = getStack();
+      }
       if (typeof value === "function") {
         const callback = value;
         setStateP(prevValue => {
           const nextValue = callback(prevValue);
+          if (ref.current !== nextValue) {
+            // put a breakpoint here if you want
+            ref.current = nextValue;
+          }
           ref.current = nextValue;
           return nextValue;
         });
       } else {
+        if (ref.current !== value) {
+          // put a breakpoint here if you want
+          ref.current = value;
+        }
         ref.current = value;
         setStateP(value);
       }
@@ -2180,7 +2205,6 @@
     }, []);
     return [state, setState, getState];
   }
-  new Map();
 
   /*
   export function useRefElementProps<E extends Element>(r: UseRefElementReturnType<E>, ...otherProps: ElementProps<E>[]): ElementProps<E>[] {
@@ -2196,6 +2220,13 @@
    * @returns The element, and the sub-hook that makes it retrievable.
    */
   function useRefElement(args) {
+    const nonElementWarn = _(false);
+    if (nonElementWarn.current) {
+      nonElementWarn.current = false;
+      // There are two of these to catch the problem in the two most useful areas --
+      // when it initially happens, and also in the component stack.
+      console.assert(false, "useRefElement was used on a component that didn't forward its ref onto a DOM element, so it's attached to that component's VNode instead.");
+    }
     const {
       onElementChange,
       onMount,
@@ -2204,6 +2235,10 @@
     useEnsureStability("useRefElement", onElementChange, onMount, onUnmount);
     // Called (indirectly) by the ref that the element receives.
     const handler = T$1((e, prevValue) => {
+      if (!(e == null || e instanceof Element)) {
+        console.assert(e == null || e instanceof Element, "useRefElement was used on a component that didn't forward its ref onto a DOM element, so it's attached to that component's VNode instead.");
+        nonElementWarn.current = true;
+      }
       const cleanup = onElementChange === null || onElementChange === void 0 ? void 0 : onElementChange(e, prevValue);
       if (prevValue) onUnmount === null || onUnmount === void 0 ? void 0 : onUnmount(prevValue);
       if (e) onMount === null || onMount === void 0 ? void 0 : onMount(e);
@@ -2223,10 +2258,6 @@
       }
     };
   }
-  new Map();
-  new Map();
-  new Map();
-  new Map();
 
   /**
    * @license
@@ -3397,7 +3428,7 @@
     }
     return u.displayName = "Memo(" + (n.displayName || n.name) + ")", u.prototype.isReactComponent = !0, u.__f = !0, u;
   }
-  (w.prototype = new k$2()).isPureReactComponent = !0, w.prototype.shouldComponentUpdate = function (n, t) {
+  (w.prototype = new b$1()).isPureReactComponent = !0, w.prototype.shouldComponentUpdate = function (n, t) {
     return C(this.props, n) || C(this.state, t);
   };
   var R = l$1.__b;
@@ -3443,7 +3474,7 @@
   l$1.unmount = function (n) {
     var t = n.__c;
     t && t.__R && t.__R(), t && !0 === n.__h && (n.type = null), I && I(n);
-  }, (D.prototype = new k$2()).__c = function (n, t) {
+  }, (D.prototype = new b$1()).__c = function (n, t) {
     var e = t.__c,
       r = this;
     null == r.t && (r.t = []), r.t.push(e);
@@ -3480,8 +3511,8 @@
       }
       this.__b = null;
     }
-    var i = e.__a && y$1(_$2, null, n.fallback);
-    return i && (i.__h = null), [y$1(_$2, null, e.__a ? null : n.children), i];
+    var i = e.__a && y$1(k$2, null, n.fallback);
+    return i && (i.__h = null), [y$1(k$2, null, e.__a ? null : n.children), i];
   };
   var W = function (n, t, e) {
     if (++e[1] === e[0] && n.o.delete(t), n.props.revealOrder && ("t" !== n.props.revealOrder[0] || !n.o.size)) for (e = n.u; e;) {
@@ -3490,7 +3521,7 @@
       n.u = e = e[2];
     }
   };
-  (V.prototype = new k$2()).__a = function (n) {
+  (V.prototype = new b$1()).__a = function (n) {
     var t = this,
       e = F(t.__v),
       r = t.o.get(n);
@@ -3502,7 +3533,7 @@
     };
   }, V.prototype.render = function (n) {
     this.u = null, this.o = new Map();
-    var t = P(n.children);
+    var t = S(n.children);
     n.revealOrder && "b" === n.revealOrder[0] && t.reverse();
     for (var e = t.length; e--;) this.o.set(t[e], this.u = [1, 0, this.u]);
     return n.children;
@@ -3513,15 +3544,15 @@
     });
   };
   var B = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.element") || 60103,
-    H = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/,
+    H = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image(!S)|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/,
     Z = /^on(Ani|Tra|Tou|BeforeInp|Compo)/,
     Y = /[A-Z0-9]/g,
     $ = "undefined" != typeof document,
     q = function (n) {
       return ("undefined" != typeof Symbol && "symbol" == typeof Symbol() ? /fil|che|rad/ : /fil|che|ra/).test(n);
     };
-  k$2.prototype.isReactComponent = {}, ["componentWillMount", "componentWillReceiveProps", "componentWillUpdate"].forEach(function (t) {
-    Object.defineProperty(k$2.prototype, t, {
+  b$1.prototype.isReactComponent = {}, ["componentWillMount", "componentWillReceiveProps", "componentWillUpdate"].forEach(function (t) {
+    Object.defineProperty(b$1.prototype, t, {
       configurable: !0,
       get: function () {
         return this["UNSAFE_" + t];
@@ -3547,6 +3578,7 @@
     return K && (n = K(n)), n.persist = Q, n.isPropagationStopped = X, n.isDefaultPrevented = nn, n.nativeEvent = n;
   };
   var en = {
+      enumerable: !1,
       configurable: !0,
       get: function () {
         return this.class;
@@ -3554,24 +3586,23 @@
     },
     rn = l$1.vnode;
   l$1.vnode = function (n) {
-    var t = n.type,
-      e = n.props,
-      u = e;
-    if ("string" == typeof t) {
-      for (var o in u = {}, e) {
-        var i = e[o];
-        if (!("value" === o && "defaultValue" in e && null == i || $ && "children" === o && "noscript" === t)) {
+    "string" == typeof n.type && function (n) {
+      var t = n.props,
+        e = n.type,
+        u = {};
+      for (var o in t) {
+        var i = t[o];
+        if (!("value" === o && "defaultValue" in t && null == i || $ && "children" === o && "noscript" === e || "class" === o || "className" === o)) {
           var l = o.toLowerCase();
-          "defaultValue" === o && "value" in e && null == e.value ? o = "value" : "download" === o && !0 === i ? i = "" : "ondoubleclick" === l ? o = "ondblclick" : "onchange" !== l || "input" !== t && "textarea" !== t || q(e.type) ? "onfocus" === l ? o = "onfocusin" : "onblur" === l ? o = "onfocusout" : Z.test(o) ? o = l : -1 === t.indexOf("-") && H.test(o) ? o = o.replace(Y, "-$&").toLowerCase() : null === i && (i = void 0) : l = o = "oninput", "oninput" === l && u[o = l] && (o = "oninputCapture"), u[o] = i;
+          "defaultValue" === o && "value" in t && null == t.value ? o = "value" : "download" === o && !0 === i ? i = "" : "ondoubleclick" === l ? o = "ondblclick" : "onchange" !== l || "input" !== e && "textarea" !== e || q(t.type) ? "onfocus" === l ? o = "onfocusin" : "onblur" === l ? o = "onfocusout" : Z.test(o) ? o = l : -1 === e.indexOf("-") && H.test(o) ? o = o.replace(Y, "-$&").toLowerCase() : null === i && (i = void 0) : l = o = "oninput", "oninput" === l && u[o = l] && (o = "oninputCapture"), u[o] = i;
         }
       }
-      "select" == t && u.multiple && Array.isArray(u.value) && (u.value = P(e.children).forEach(function (n) {
+      "select" == e && u.multiple && Array.isArray(u.value) && (u.value = S(t.children).forEach(function (n) {
         n.props.selected = -1 != u.value.indexOf(n.props.value);
-      })), "select" == t && null != u.defaultValue && (u.value = P(e.children).forEach(function (n) {
+      })), "select" == e && null != u.defaultValue && (u.value = S(t.children).forEach(function (n) {
         n.props.selected = u.multiple ? -1 != u.defaultValue.indexOf(n.props.value) : u.defaultValue == n.props.value;
-      })), n.props = u, e.class != e.className && (en.enumerable = "className" in e, null != e.className && (u.class = e.className), Object.defineProperty(u, "className", en));
-    }
-    n.$$typeof = B, rn && rn(n);
+      })), t.class && !t.className ? (u.class = t.class, Object.defineProperty(u, "className", en)) : (t.className && !t.class || t.class && t.className) && (u.class = u.className = t.className), n.props = u;
+    }(n), n.$$typeof = B, rn && rn(n);
   };
   var un = l$1.__r;
   l$1.__r = function (n) {
@@ -3600,12 +3631,12 @@
    * The `handle` prop should be e.g. `useRef<ImperativeHandle<HTMLDivElement>>(null)`
    */
   x(k(ImperativeElementU));
-  function useImperativeProps(_ref4) {
+  function useImperativeProps(_ref3) {
     let {
       refElementReturn: {
         getElement
       }
-    } = _ref4;
+    } = _ref3;
     const currentImperativeProps = _({
       className: new Set(),
       style: {},
@@ -3713,12 +3744,12 @@
       }, currentImperativeProps.current.others)
     };
   }
-  function ImperativeElementU(_ref5, ref) {
+  function ImperativeElementU(_ref4, ref) {
     let {
       tag: Tag,
       handle,
       ...props
-    } = _ref5;
+    } = _ref4;
     const {
       propsStable,
       refElementReturn
@@ -3818,12 +3849,12 @@
     waiting: "onWaiting",
     wheel: "onWheel"
   };
-  F$2(null);
+  G(null);
   function getExclusiveTransitionContextPrememoization(exclusivityKey) {
     if (exclusivityKey == null) return null;
-    return F$2(null);
+    return G(null);
   }
-  const SwappableContext = F$2({
+  const SwappableContext = G({
     getAnimateOnMount: () => false
   });
   /**
@@ -3832,7 +3863,7 @@
    * If
    */
   const GetExclusiveTransitionContext = memoize(getExclusiveTransitionContextPrememoization);
-  const CssClassContext = F$2({
+  const CssClassContext = G({
     GetBaseClass: () => "ptl",
     GetEnterClass: () => "n",
     GetExitClass: () => "x",
@@ -3884,11 +3915,11 @@
     };
   }
   let globalCount = -1;
-  function ExclusiveTransitionProvider(_ref6) {
+  function ExclusiveTransitionProvider(_ref5) {
     let {
       exclusivityKey,
       children
-    } = _ref6;
+    } = _ref5;
     useEnsureStability("ExclusiveTransitionProvider", exclusivityKey);
     const [getNextIndexInLine, setNextIndexInLine] = usePassiveState(null);
     const {
@@ -3947,9 +3978,9 @@
         }
       }
     }, []);
-    const context2 = useStableObject({
+    const context2 = useMemoObject({
       ...context,
-      exclusiveTransitionContext: useStableObject({
+      exclusiveTransitionContext: useMemoObject({
         exclusivityKey,
         onVisibilityChange
       })
@@ -3960,7 +3991,7 @@
       children: children
     });
   }
-  function useExclusiveTransition(_ref7) {
+  function useExclusiveTransition(_ref6) {
     let {
       transitionParameters: {
         show
@@ -3969,7 +4000,7 @@
         forceClose,
         exclusivityKey
       }
-    } = _ref7;
+    } = _ref6;
     const c = GetExclusiveTransitionContext(exclusivityKey);
     useEnsureStability("useExclusiveTransition", c == null);
     const context = c ? q$1(c) : null;
@@ -4034,10 +4065,10 @@
    * Creates a set of props that implement a swap container.
    * Be sure to merge these returned props with whatever the user passed in.
    */
-  function useCreateSwappableProps(_ref8, otherProps) {
+  function useCreateSwappableProps(_ref7, otherProps) {
     let {
       inline
-    } = _ref8;
+    } = _ref7;
     const {
       GetBaseClass
     } = useCssClasses();
@@ -4054,7 +4085,7 @@
    * @param param0
    * @returns
    */
-  const Swappable = x(forwardElementRef(function Swappable(_ref9, ref) {
+  const Swappable = x(forwardElementRef(function Swappable(_ref8, ref) {
     var _inline;
     let {
       children: c,
@@ -4062,7 +4093,7 @@
       childrenAnimateOnMount,
       exclusivityKey,
       ...p$1
-    } = _ref9;
+    } = _ref8;
     let children = c;
     if (!children.type) children = !inline ? o$1("div", {
       children: children
@@ -4086,7 +4117,7 @@
         return animateOnMount.current;
       }
     });
-    let ret = E(children, mergedWithChildren);
+    let ret = F$2(children, mergedWithChildren);
     ret = o$1(SwappableContext.Provider, {
       value: contextValue.current,
       children: ret
@@ -4118,7 +4149,7 @@
    * @param param0
    * @returns
    */
-  function useTransition(_ref10) {
+  function useTransition(_ref9) {
     var _animateOnMount, _measure, _easingIn, _easingOut;
     let {
       transitionParameters: {
@@ -4140,7 +4171,7 @@
       exclusiveTransitionParameters: {
         exclusivityKey
       }
-    } = _ref10;
+    } = _ref9;
     useEnsureStability("useTransition", onVisibilityChange);
     const {
       getAnimateOnMount
@@ -4386,7 +4417,7 @@
     if (childrenIsVnode) {
       modifiedChildren = o$1(SwappableContext.Provider, {
         value: resetContext,
-        children: E(children, finalProps)
+        children: F$2(children, finalProps)
       });
     } else {
       modifiedChildren = o$1(SwappableContext.Provider, {
@@ -4414,13 +4445,13 @@
    * Creates a set of props that implement a Fade transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
    * Be sure to merge these returned props with whatever the user passed in.
    */
-  function useBasePropsFade(_ref11) {
+  function useBasePropsFade(_ref10) {
     let {
       fadeParameters: {
         fadeMin,
         fadeMax
       }
-    } = _ref11;
+    } = _ref10;
     const {
       GetBaseClass
     } = useCssClasses();
@@ -4442,7 +4473,7 @@
    *
    * @see `Transitionable`
    */
-  const Fade = x(forwardElementRef(function Fade(_ref12, ref) {
+  const Fade = x(forwardElementRef(function Fade(_ref11, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4457,7 +4488,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref12;
+    } = _ref11;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -4482,8 +4513,8 @@
       }
     });
   }));
-  function useBasePropsClip(_ref13) {
-    var _ref14, _ref15, _ref16, _ref17;
+  function useBasePropsClip(_ref12) {
+    var _ref13, _ref14, _ref15, _ref16;
     let {
       clipParameters: {
         clipMin,
@@ -4493,21 +4524,21 @@
         clipOriginBlock,
         clipOriginInline
       }
-    } = _ref13;
+    } = _ref12;
     const {
       GetBaseClass
     } = useCssClasses();
     return {
       className: clsx("".concat(GetBaseClass(), "-clip")),
       style: {
-        ["--".concat(GetBaseClass(), "-clip-origin-inline")]: (_ref14 = clipOriginInline !== null && clipOriginInline !== void 0 ? clipOriginInline : clipOrigin) !== null && _ref14 !== void 0 ? _ref14 : 0.5,
-        ["--".concat(GetBaseClass(), "-clip-origin-block")]: (_ref15 = clipOriginBlock !== null && clipOriginBlock !== void 0 ? clipOriginBlock : clipOrigin) !== null && _ref15 !== void 0 ? _ref15 : 0,
-        ["--".concat(GetBaseClass(), "-clip-min-inline")]: (_ref16 = clipMinInline !== null && clipMinInline !== void 0 ? clipMinInline : clipMin) !== null && _ref16 !== void 0 ? _ref16 : 1,
-        ["--".concat(GetBaseClass(), "-clip-min-block")]: (_ref17 = clipMinBlock !== null && clipMinBlock !== void 0 ? clipMinBlock : clipMin) !== null && _ref17 !== void 0 ? _ref17 : 0
+        ["--".concat(GetBaseClass(), "-clip-origin-inline")]: (_ref13 = clipOriginInline !== null && clipOriginInline !== void 0 ? clipOriginInline : clipOrigin) !== null && _ref13 !== void 0 ? _ref13 : 0.5,
+        ["--".concat(GetBaseClass(), "-clip-origin-block")]: (_ref14 = clipOriginBlock !== null && clipOriginBlock !== void 0 ? clipOriginBlock : clipOrigin) !== null && _ref14 !== void 0 ? _ref14 : 0,
+        ["--".concat(GetBaseClass(), "-clip-min-inline")]: (_ref15 = clipMinInline !== null && clipMinInline !== void 0 ? clipMinInline : clipMin) !== null && _ref15 !== void 0 ? _ref15 : 1,
+        ["--".concat(GetBaseClass(), "-clip-min-block")]: (_ref16 = clipMinBlock !== null && clipMinBlock !== void 0 ? clipMinBlock : clipMin) !== null && _ref16 !== void 0 ? _ref16 : 0
       }
     };
   }
-  const Clip = x(forwardElementRef(function Clip(_ref18, ref) {
+  const Clip = x(forwardElementRef(function Clip(_ref17, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4526,7 +4557,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref18;
+    } = _ref17;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -4558,7 +4589,7 @@
       }
     });
   }));
-  const ClipFade = x(forwardElementRef(function ClipFade(_ref19, ref) {
+  const ClipFade = x(forwardElementRef(function ClipFade(_ref18, ref) {
     let {
       delayMountUntilShown,
       exclusivityKey,
@@ -4579,7 +4610,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref19;
+    } = _ref18;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -4625,12 +4656,12 @@
    *
    * @example <Transitionable measure {...useCreateCollapseProps(...)} />
    */
-  function useBasePropsCollapse(_ref20) {
+  function useBasePropsCollapse(_ref19) {
     let {
       collapseParameters: {
         minBlockSize
       }
-    } = _ref20;
+    } = _ref19;
     const {
       GetBaseClass
     } = useCssClasses();
@@ -4650,7 +4681,7 @@
    *
    * @see `Transitionable`
    */
-  const Collapse = x(forwardElementRef(function Collapse(_ref21, ref) {
+  const Collapse = x(forwardElementRef(function Collapse(_ref20, ref) {
     let {
       show,
       exclusivityKey,
@@ -4664,7 +4695,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref21;
+    } = _ref20;
     return useTransition({
       transitionParameters: {
         measure: true,
@@ -4691,7 +4722,7 @@
       }
     });
   }));
-  const CollapseFade = x(forwardElementRef(function CollapseFade(_ref22, ref) {
+  const CollapseFade = x(forwardElementRef(function CollapseFade(_ref21, ref) {
     let {
       show,
       exclusivityKey,
@@ -4707,7 +4738,7 @@
       minBlockSize,
       onVisibilityChange,
       ...rest
-    } = _ref22;
+    } = _ref21;
     return useTransition({
       transitionParameters: {
         measure: true,
@@ -4743,7 +4774,7 @@
   /**
    * Creates a set of props that implement a Flip transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
    */
-  function useBasePropsFlip(_ref23) {
+  function useBasePropsFlip(_ref22) {
     var _useLastNonNullValue, _useLastNonNullValue2;
     let {
       flipParameters: {
@@ -4751,7 +4782,7 @@
         flipAngleInline,
         flipPerspective
       }
-    } = _ref23;
+    } = _ref22;
     const {
       GetBaseClass
     } = useCssClasses();
@@ -4776,7 +4807,7 @@
    *
    * @see `Transitionable`
    */
-  const Flip = x(forwardElementRef(function Flip(_ref24, ref) {
+  const Flip = x(forwardElementRef(function Flip(_ref23, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4792,7 +4823,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref24;
+    } = _ref23;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -4825,14 +4856,14 @@
   /**
    * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
    */
-  function useBasePropsSlide(_ref25) {
+  function useBasePropsSlide(_ref24) {
     var _slideTargetInline, _slideTargetBlock;
     let {
       slideParameters: {
         slideTargetInline,
         slideTargetBlock
       }
-    } = _ref25;
+    } = _ref24;
     slideTargetInline = useLastNonNullValue(slideTargetInline);
     slideTargetBlock = useLastNonNullValue(slideTargetBlock);
     const {
@@ -4858,7 +4889,7 @@
    *
    * @see `Transitionable`
    */
-  const Slide = x(forwardElementRef(function Slide(_ref26, ref) {
+  const Slide = x(forwardElementRef(function Slide(_ref25, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4873,7 +4904,7 @@
       exitVisibility,
       delayMountUntilShown,
       ...rest
-    } = _ref26;
+    } = _ref25;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -4901,7 +4932,7 @@
       }
     });
   }));
-  const SlideFade = x(forwardElementRef(function SlideFade(_ref27, ref) {
+  const SlideFade = x(forwardElementRef(function SlideFade(_ref26, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4918,7 +4949,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref27;
+    } = _ref26;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -4955,8 +4986,8 @@
   /**
    * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
    */
-  function useBasePropsZoom(_ref28) {
-    var _ref29, _ref30, _ref31, _ref32;
+  function useBasePropsZoom(_ref27) {
+    var _ref28, _ref29, _ref30, _ref31;
     let {
       zoomParameters: {
         zoomOrigin,
@@ -4966,17 +4997,17 @@
         zoomMinInline,
         zoomMinBlock
       }
-    } = _ref28;
+    } = _ref27;
     const {
       GetBaseClass
     } = useCssClasses();
     return {
       className: "".concat(GetBaseClass(), "-zoom"),
       style: {
-        ["--".concat(GetBaseClass(), "-zoom-origin-inline")]: "".concat((_ref29 = zoomOriginInline !== null && zoomOriginInline !== void 0 ? zoomOriginInline : zoomOrigin) !== null && _ref29 !== void 0 ? _ref29 : 0.5),
-        ["--".concat(GetBaseClass(), "-zoom-origin-block")]: "".concat((_ref30 = zoomOriginBlock !== null && zoomOriginBlock !== void 0 ? zoomOriginBlock : zoomOrigin) !== null && _ref30 !== void 0 ? _ref30 : 0.5),
-        ["--".concat(GetBaseClass(), "-zoom-min-inline")]: "".concat((_ref31 = zoomMinInline !== null && zoomMinInline !== void 0 ? zoomMinInline : zoomMin) !== null && _ref31 !== void 0 ? _ref31 : 0),
-        ["--".concat(GetBaseClass(), "-zoom-min-block")]: "".concat((_ref32 = zoomMinBlock !== null && zoomMinBlock !== void 0 ? zoomMinBlock : zoomMin) !== null && _ref32 !== void 0 ? _ref32 : 0)
+        ["--".concat(GetBaseClass(), "-zoom-origin-inline")]: "".concat((_ref28 = zoomOriginInline !== null && zoomOriginInline !== void 0 ? zoomOriginInline : zoomOrigin) !== null && _ref28 !== void 0 ? _ref28 : 0.5),
+        ["--".concat(GetBaseClass(), "-zoom-origin-block")]: "".concat((_ref29 = zoomOriginBlock !== null && zoomOriginBlock !== void 0 ? zoomOriginBlock : zoomOrigin) !== null && _ref29 !== void 0 ? _ref29 : 0.5),
+        ["--".concat(GetBaseClass(), "-zoom-min-inline")]: "".concat((_ref30 = zoomMinInline !== null && zoomMinInline !== void 0 ? zoomMinInline : zoomMin) !== null && _ref30 !== void 0 ? _ref30 : 0),
+        ["--".concat(GetBaseClass(), "-zoom-min-block")]: "".concat((_ref31 = zoomMinBlock !== null && zoomMinBlock !== void 0 ? zoomMinBlock : zoomMin) !== null && _ref31 !== void 0 ? _ref31 : 0)
       }
     };
   }
@@ -4984,7 +5015,7 @@
    * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
    * @see `Transitionable` `ZoomFade`
    */
-  const Zoom = x(forwardElementRef(function Zoom(_ref33, ref) {
+  const Zoom = x(forwardElementRef(function Zoom(_ref32, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5003,7 +5034,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref33;
+    } = _ref32;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -5035,7 +5066,7 @@
       }
     });
   }));
-  const SlideZoom = x(forwardElementRef(function SlideZoom(_ref34, ref) {
+  const SlideZoom = x(forwardElementRef(function SlideZoom(_ref33, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5056,7 +5087,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref34;
+    } = _ref33;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -5093,7 +5124,7 @@
       }
     });
   }));
-  const SlideZoomFade = x(forwardElementRef(function SlideZoomFade(_ref35, ref) {
+  const SlideZoomFade = x(forwardElementRef(function SlideZoomFade(_ref34, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5116,7 +5147,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref35;
+    } = _ref34;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -5158,7 +5189,7 @@
       }
     });
   }));
-  const ZoomFade = x(forwardElementRef(function ZoomFade(_ref36, ref) {
+  const ZoomFade = x(forwardElementRef(function ZoomFade(_ref35, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5179,7 +5210,7 @@
       exitVisibility,
       onVisibilityChange,
       ...rest
-    } = _ref36;
+    } = _ref35;
     return useTransition({
       transitionParameters: {
         measure: false,
@@ -5288,7 +5319,7 @@
       setShow3(null);
       e.preventDefault();
     }, []);
-    return o$1(_$2, {
+    return o$1(k$2, {
       children: [o$1("div", {
         id: "controls",
         children: [o$1("h1", {
@@ -5549,7 +5580,7 @@
       }, writingMode)]
     });
   }
-  function FadeDemo(_ref37) {
+  function FadeDemo(_ref36) {
     let {
       cardShow,
       contentIndex,
@@ -5557,7 +5588,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref37;
+    } = _ref36;
     const [min, setMin] = h(0);
     const [max, setMax] = h(1);
     const onMinInput = T$1(e => {
@@ -5634,7 +5665,7 @@
       })]
     });
   }
-  function ClipDemo(_ref38) {
+  function ClipDemo(_ref37) {
     let {
       cardShow,
       contentIndex,
@@ -5642,7 +5673,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref38;
+    } = _ref37;
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(1);
@@ -5763,7 +5794,7 @@
       })]
     });
   }
-  function ZoomSlideDemo(_ref39) {
+  function ZoomSlideDemo(_ref38) {
     let {
       cardShow,
       contentIndex,
@@ -5771,7 +5802,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref39;
+    } = _ref38;
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(0.75);
@@ -5923,7 +5954,7 @@
       })]
     });
   }
-  function ZoomDemo(_ref40) {
+  function ZoomDemo(_ref39) {
     let {
       cardShow,
       contentIndex,
@@ -5931,7 +5962,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref40;
+    } = _ref39;
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(0.75);
@@ -6051,7 +6082,7 @@
       })]
     });
   }
-  function SlideDemo(_ref41) {
+  function SlideDemo(_ref40) {
     let {
       cardShow,
       contentIndex,
@@ -6059,7 +6090,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref41;
+    } = _ref40;
     const [slideX, setSlideX] = h(0.25);
     const [slideY, setSlideY] = h(0);
     const [withFade, setWithFade] = h(true);
@@ -6149,7 +6180,7 @@
       })]
     });
   }
-  function CollapseDemo(_ref42) {
+  function CollapseDemo(_ref41) {
     let {
       cardShow,
       contentIndex,
@@ -6157,7 +6188,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref42;
+    } = _ref41;
     const [minBlockSize, setMinBlockSize] = h("0px");
     const onWithFadeInput = T$1(e => {
       setWithFade(e.target.checked);
@@ -6238,7 +6269,7 @@
       })]
     });
   }
-  function FlipDemo(_ref43) {
+  function FlipDemo(_ref42) {
     let {
       cardShow,
       contentIndex,
@@ -6246,7 +6277,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref43;
+    } = _ref42;
     const [flipX, setFlipX] = h(0);
     const [flipY, setFlipY] = h(180);
     const onFlipXInput = T$1(e => {
@@ -6318,7 +6349,7 @@
     });
   }
   requestAnimationFrame(() => {
-    B$2(o$1(Demo, {}), document.getElementById("root"));
+    D$1(o$1(Demo, {}), document.getElementById("root"));
   });
 })();
 //# sourceMappingURL=bundle.js.map
