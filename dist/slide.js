@@ -4,7 +4,7 @@ import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
 import { forwardElementRef, useLastNonNullValue } from "./util/util.js";
 /**
- * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+ * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
  */
 export function useBasePropsSlide({ slideParameters: { slideTargetInline, slideTargetBlock } }) {
     slideTargetInline = useLastNonNullValue(slideTargetInline);
@@ -31,8 +31,9 @@ export function useBasePropsSlide({ slideParameters: { slideTargetInline, slideT
  *
  * @see `Transitionable`
  */
-export const Slide = memo(forwardElementRef(function Slide({ duration, exclusivityKey, easing, easingIn, easingOut, onVisibilityChange, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, ...rest }, ref) {
+export const Slide = memo(forwardElementRef(function Slide({ duration, exclusivityKey, easing, easingIn, easingOut, onVisibilityChange, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, onElementChange, onMount, onUnmount, ...rest }, ref) {
     return useTransition({
+        refElementParameters: { onElementChange, onMount, onUnmount },
         transitionParameters: {
             measure: false,
             show,

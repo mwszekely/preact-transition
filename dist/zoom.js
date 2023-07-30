@@ -4,7 +4,7 @@ import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
 import { forwardElementRef } from "./util/util.js";
 /**
- * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+ * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
  */
 export function useBasePropsZoom({ zoomParameters: { zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock } }) {
     const { GetBaseClass } = useCssClasses();
@@ -23,8 +23,9 @@ export function useBasePropsZoom({ zoomParameters: { zoomOrigin, zoomOriginInlin
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
  * @see `Transitionable` `ZoomFade`
  */
-export const Zoom = memo(forwardElementRef(function Zoom({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }, ref) {
+export const Zoom = memo(forwardElementRef(function Zoom({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }, ref) {
     return (useTransition({
+        refElementParameters: { onElementChange, onMount, onUnmount },
         transitionParameters: {
             measure: false,
             show,

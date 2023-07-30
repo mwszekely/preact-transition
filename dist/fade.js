@@ -4,7 +4,7 @@ import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
 import { forwardElementRef } from "./util/util.js";
 /**
- * Creates a set of props that implement a Fade transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+ * Creates a set of props that implement a Fade transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
  * Be sure to merge these returned props with whatever the user passed in.
  */
 export function useBasePropsFade({ fadeParameters: { fadeMin, fadeMax } }) {
@@ -28,8 +28,9 @@ export function useBasePropsFade({ fadeParameters: { fadeMin, fadeMax } }) {
  *
  * @see `Transitionable`
  */
-export const Fade = memo(forwardElementRef(function Fade({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }, ref) {
+export const Fade = memo(forwardElementRef(function Fade({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }, ref) {
     return useTransition({
+        refElementParameters: { onElementChange, onMount, onUnmount },
         transitionParameters: {
             measure: false,
             show,

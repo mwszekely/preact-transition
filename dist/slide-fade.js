@@ -5,8 +5,9 @@ import { useBasePropsSlide } from "./slide.js";
 import { useTransition } from "./transitionable.js";
 import { forwardElementRef } from "./util/util.js";
 ;
-export const SlideFade = memo(forwardElementRef(function SlideFade({ duration, exclusivityKey, easing, easingIn, easingOut, fadeMin, fadeMax, show, animateOnMount, delayMountUntilShown, slideTargetBlock, slideTargetInline, exitVisibility, onVisibilityChange, ...rest }, ref) {
+export const SlideFade = memo(forwardElementRef(function SlideFade({ duration, exclusivityKey, easing, easingIn, easingOut, fadeMin, fadeMax, show, animateOnMount, delayMountUntilShown, slideTargetBlock, slideTargetInline, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }, ref) {
     return useTransition({
+        refElementParameters: { onElementChange, onMount, onUnmount },
         transitionParameters: {
             measure: false,
             show,

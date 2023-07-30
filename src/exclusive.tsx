@@ -1,5 +1,4 @@
-import { Fragment, h, RenderableProps, VNode } from "preact";
-import { useChildrenFlag, useEnsureStability, useManagedChild, UseManagedChildParameters, useManagedChildren, usePassiveState, useMemoObject, useState } from "preact-prop-helpers";
+import { RenderableProps, UseManagedChildParameters, VNode, useChildrenFlag, useEnsureStability, useManagedChild, useManagedChildren, useMemoObject, usePassiveState, useState } from "preact-prop-helpers";
 import { useCallback, useContext, useLayoutEffect, useMemo } from "preact/hooks";
 import { GetExclusiveTransitionContext } from "./util/context.js";
 import { ExclusiveContextType, ExclusiveInfo, OmitStrong, TransitionParametersBase } from "./util/types.js";
@@ -22,6 +21,7 @@ export function ExclusiveTransitionProvider({ exclusivityKey, children }: Render
         setAt: useCallback((m, v) => { m.setExclusivelyOpen(v); }, []),
         getAt: useCallback((m) => m.getExclusivelyOpen(), []),
         isValid: useCallback((m) => { return true }, []),
+        onClosestFit: null
     })
 
     const onVisibilityChange = useCallback((index: string, visible: "show" | "hidden") => {

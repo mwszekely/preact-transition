@@ -4,7 +4,7 @@ import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
 import { forwardElementRef } from "./util/util.js";
 /**
- * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+ * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
  * Be sure to merge these returned props with whatever the user passed in.
  *
  * IMPORTANT: If used outside of a `<Collapse />`, you must include the `measure` prop on the `<Transitionable>` that you use.
@@ -30,8 +30,9 @@ export function useBasePropsCollapse({ collapseParameters: { minBlockSize } }) {
  *
  * @see `Transitionable`
  */
-export const Collapse = memo(forwardElementRef(function Collapse({ show, exclusivityKey, easing, easingIn, easingOut, duration, delayMountUntilShown, minBlockSize, animateOnMount, exitVisibility, onVisibilityChange, ...rest }, ref) {
+export const Collapse = memo(forwardElementRef(function Collapse({ show, exclusivityKey, easing, easingIn, easingOut, duration, delayMountUntilShown, minBlockSize, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }, ref) {
     return useTransition({
+        refElementParameters: { onElementChange, onMount, onUnmount },
         transitionParameters: {
             measure: true,
             show,

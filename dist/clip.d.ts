@@ -1,4 +1,5 @@
 import { h, Ref } from "preact";
+import { UseRefElementParameters } from "preact-prop-helpers";
 import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types.js";
 export interface UseBasePropsClipParameters<E extends Element> extends UseBasePropsBaseParameters<E> {
     clipParameters: {
@@ -38,7 +39,7 @@ export declare function useBasePropsClip<E extends Element>({ clipParameters: { 
     className: string;
     style: h.JSX.CSSProperties;
 };
-export interface ClipProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsClipParameters<E>, "clipParameters">> {
+export interface ClipProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsClipParameters<E>, "clipParameters">>, Partial<Get<UseRefElementParameters<E>, "refElementParameters">> {
 }
-export declare const Clip: <E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: ClipProps<E>, ref: Ref<E>) => import("preact").VNode<h.JSX.HTMLAttributes<E>> | null;
+export declare const Clip: <E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: ClipProps<E>, ref: Ref<E>) => import("preact").VNode<h.JSX.HTMLAttributes<E>> | null;
 //# sourceMappingURL=clip.d.ts.map

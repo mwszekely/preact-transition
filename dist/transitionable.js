@@ -1,11 +1,9 @@
 import { jsx as _jsx } from "preact/jsx-runtime";
 import { cloneElement } from "preact";
-import { returnNull, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableCallback, useStableGetter } from "preact-prop-helpers";
-import { returnFalse, runImmediately } from "preact-prop-helpers";
+import { assertEmptyObject, returnFalse, returnNull, runImmediately, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableCallback, useStableGetter } from "preact-prop-helpers";
 import { useCallback, useContext, useEffect, useLayoutEffect, useRef } from "preact/hooks";
 import { useExclusiveTransition } from "./exclusive.js";
-import { useCssClasses } from "./util/context.js";
-import { SwappableContext } from "./util/context.js";
+import { SwappableContext, useCssClasses } from "./util/context.js";
 function getTimeoutDuration(element) {
     return Math.max(...(window.getComputedStyle(element || document.body).getPropertyValue(`transition-duration`)).split(",").map(str => {
         if (str.endsWith("ms"))
@@ -21,11 +19,13 @@ function parseState(nextState) {
 /**
  * Provide props that can be used to animate a transition.
  *
- * @param param0
- * @returns
+ * @compositeParams
  */
-export function useTransition({ transitionParameters: { propsIncoming: { children, ...p }, show, animateOnMount, measure, exitVisibility, duration, delayMountUntilShown, easing, easingIn, easingOut, onVisibilityChange }, exclusiveTransitionParameters: { exclusivityKey } }) {
+export function useTransition({ transitionParameters: { propsIncoming: { children, ...p }, show, animateOnMount, measure, exitVisibility, duration, delayMountUntilShown, easing, easingIn, easingOut, onVisibilityChange, ...void2 }, exclusiveTransitionParameters: { exclusivityKey, ...void3 }, refElementParameters, ...void1 }) {
     useEnsureStability("useTransition", onVisibilityChange);
+    assertEmptyObject(void1);
+    assertEmptyObject(void2);
+    assertEmptyObject(void3);
     const { getAnimateOnMount } = useContext(SwappableContext);
     exitVisibility ||= "hidden";
     animateOnMount ??= getAnimateOnMount();
@@ -40,7 +40,7 @@ export function useTransition({ transitionParameters: { propsIncoming: { childre
     if (isExclusive) {
         show = (show && exclusivelyOpen);
     }
-    const { refElementReturn: { getElement }, propsStable } = useRefElement({});
+    const { refElementReturn: { getElement }, propsStable } = useRefElement({ refElementParameters });
     const cssProperties = useRef({});
     const classNames = useRef(new Set([
         // This is removed during useLayoutEffect on the first render

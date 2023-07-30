@@ -1,11 +1,9 @@
 import { cloneElement, h, VNode } from "preact";
-import { OnPassiveStateChange, returnNull, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableCallback, useStableGetter } from "preact-prop-helpers";
-import { returnFalse, runImmediately } from "preact-prop-helpers";
+import { assertEmptyObject, OnPassiveStateChange, returnFalse, returnNull, runImmediately, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableCallback, useStableGetter } from "preact-prop-helpers";
 import { useCallback, useContext, useEffect, useLayoutEffect, useRef } from "preact/hooks";
 import { useExclusiveTransition } from "./exclusive.js";
-import { GetExclusiveTransitionContext, useCssClasses } from "./util/context.js";
+import { SwappableContext, useCssClasses } from "./util/context.js";
 import { SwappableContextType, TransitionDirection, TransitionPhase, TransitionState, UseTransitionParameters } from "./util/types.js";
-import { SwappableContext } from "./util/context.js";
 
 
 function getTimeoutDuration<E extends HTMLElement>(element: E | null) {
@@ -25,12 +23,34 @@ function parseState(nextState: TransitionState) {
 /**
  * Provide props that can be used to animate a transition.
  * 
- * @param param0 
- * @returns 
+ * @compositeParams
  */
-export function useTransition<E extends HTMLElement>({ transitionParameters: { propsIncoming: { children, ...p }, show, animateOnMount, measure, exitVisibility, duration, delayMountUntilShown, easing, easingIn, easingOut, onVisibilityChange }, exclusiveTransitionParameters: { exclusivityKey } }: UseTransitionParameters<E>): VNode<h.JSX.HTMLAttributes<E>> | null {
+export function useTransition<E extends HTMLElement>({
+    transitionParameters: {
+        propsIncoming: { children, ...p },
+        show,
+        animateOnMount,
+        measure,
+        exitVisibility,
+        duration,
+        delayMountUntilShown,
+        easing,
+        easingIn,
+        easingOut,
+        onVisibilityChange,
+        ...void2
+    },
+    exclusiveTransitionParameters: {
+        exclusivityKey,
+        ...void3
+    },
+    refElementParameters,
+    ...void1
+}: UseTransitionParameters<E>): VNode<h.JSX.HTMLAttributes<E>> | null {
     useEnsureStability("useTransition", onVisibilityChange);
-
+    assertEmptyObject(void1);
+    assertEmptyObject(void2);
+    assertEmptyObject(void3);
     const { getAnimateOnMount } = useContext(SwappableContext);
     exitVisibility ||= "hidden"
     animateOnMount ??= getAnimateOnMount();
@@ -48,7 +68,7 @@ export function useTransition<E extends HTMLElement>({ transitionParameters: { p
         show = (show && exclusivelyOpen);
     }
 
-    const { refElementReturn: { getElement }, propsStable } = useRefElement<E>({})
+    const { refElementReturn: { getElement }, propsStable } = useRefElement<E>({ refElementParameters })
     const cssProperties = useRef<h.JSX.CSSProperties>({});
     const classNames = useRef(new Set<string>([
         // This is removed during useLayoutEffect on the first render

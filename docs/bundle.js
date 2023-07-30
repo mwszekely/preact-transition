@@ -1,11 +1,10 @@
-(function () {
+(function (_process, _globalThis$_process, _globalThis$process, _env, _globalThis$process$_, _globalThis$process$e, _NODE_ENV, _globalThis$process$e2, _window, _window$requestIdleCa) {
   'use strict';
 
-  var _window, _window$requestIdleCa;
   var n,
     l$1,
     u$1,
-    t$1,
+    i$1,
     o$2,
     r$2,
     f$1,
@@ -13,8 +12,8 @@
     c$1 = {},
     s$1 = [],
     a$1 = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i,
-    v$1 = Array.isArray;
-  function h$1(n, l) {
+    h$1 = Array.isArray;
+  function v$1(n, l) {
     for (var u in l) n[u] = l[u];
     return n;
   }
@@ -22,20 +21,20 @@
     var l = n.parentNode;
     l && l.removeChild(n);
   }
-  function y$1(l, u, i) {
-    var t,
+  function y$1(l, u, t) {
+    var i,
       o,
       r,
       f = {};
-    for (r in u) "key" == r ? t = u[r] : "ref" == r ? o = u[r] : f[r] = u[r];
-    if (arguments.length > 2 && (f.children = arguments.length > 3 ? n.call(arguments, 2) : i), "function" == typeof l && null != l.defaultProps) for (r in l.defaultProps) void 0 === f[r] && (f[r] = l.defaultProps[r]);
-    return d$1(l, f, t, o, null);
+    for (r in u) "key" == r ? i = u[r] : "ref" == r ? o = u[r] : f[r] = u[r];
+    if (arguments.length > 2 && (f.children = arguments.length > 3 ? n.call(arguments, 2) : t), "function" == typeof l && null != l.defaultProps) for (r in l.defaultProps) void 0 === f[r] && (f[r] = l.defaultProps[r]);
+    return d$1(l, f, i, o, null);
   }
-  function d$1(n, i, t, o, r) {
+  function d$1(n, t, i, o, r) {
     var f = {
       type: n,
-      props: i,
-      key: t,
+      props: t,
+      key: i,
       ref: o,
       __k: null,
       __: null,
@@ -71,78 +70,82 @@
     }
   }
   function w$2(n) {
-    (!n.__d && (n.__d = !0) && t$1.push(n) && !x$1.__r++ || o$2 !== l$1.debounceRendering) && ((o$2 = l$1.debounceRendering) || r$2)(x$1);
+    (!n.__d && (n.__d = !0) && i$1.push(n) && !x$1.__r++ || o$2 !== l$1.debounceRendering) && ((o$2 = l$1.debounceRendering) || r$2)(x$1);
   }
   function x$1() {
-    var n, l, u, i, o, r, e, c;
-    for (t$1.sort(f$1); n = t$1.shift();) n.__d && (l = t$1.length, i = void 0, o = void 0, e = (r = (u = n).__v).__e, (c = u.__P) && (i = [], (o = h$1({}, r)).__v = r.__v + 1, L$1(c, r, o, u.__n, void 0 !== c.ownerSVGElement, null != r.__h ? [e] : null, i, null == e ? g$2(r) : e, r.__h), M(i, r), r.__e != e && m$1(r)), t$1.length > l && t$1.sort(f$1));
+    var n, l, u, t, o, r, e, c, s;
+    for (i$1.sort(f$1); n = i$1.shift();) n.__d && (l = i$1.length, t = void 0, o = void 0, r = void 0, c = (e = (u = n).__v).__e, (s = u.__P) && (t = [], o = [], (r = v$1({}, e)).__v = e.__v + 1, L$1(s, e, r, u.__n, void 0 !== s.ownerSVGElement, null != e.__h ? [c] : null, t, null == c ? g$2(e) : c, e.__h, o), M(t, e, o), e.__e != c && m$1(e)), i$1.length > l && i$1.sort(f$1));
     x$1.__r = 0;
   }
-  function P(n, l, u, i, t, o, r, f, e, a) {
-    var h,
-      p,
+  function P(n, l, u, t, i, o, r, f, e, a, v) {
+    var p,
       y,
       _,
       b,
+      g,
       m,
       w,
-      x = i && i.__k || s$1,
-      P = x.length;
-    for (u.__k = [], h = 0; h < l.length; h++) if (null != (_ = u.__k[h] = null == (_ = l[h]) || "boolean" == typeof _ || "function" == typeof _ ? null : "string" == typeof _ || "number" == typeof _ || "bigint" == typeof _ ? d$1(null, _, null, null, _) : v$1(_) ? d$1(k$2, {
-      children: _
-    }, null, null, null) : _.__b > 0 ? d$1(_.type, _.props, _.key, _.ref ? _.ref : null, _.__v) : _)) {
-      if (_.__ = u, _.__b = u.__b + 1, null === (y = x[h]) || y && _.key == y.key && _.type === y.type) x[h] = void 0;else for (p = 0; p < P; p++) {
-        if ((y = x[p]) && _.key == y.key && _.type === y.type) {
-          x[p] = void 0;
-          break;
-        }
-        y = null;
-      }
-      L$1(n, _, y = y || c$1, t, o, r, f, e, a), b = _.__e, (p = _.ref) && y.ref != p && (w || (w = []), y.ref && w.push(y.ref, null, _), w.push(p, _.__c || b, _)), null != b ? (null == m && (m = b), "function" == typeof _.type && _.__k === y.__k ? _.__d = e = C$1(_, e, n) : e = $$1(n, _, y, x, b, e), "function" == typeof u.type && (u.__d = e)) : e && y.__e == e && e.parentNode != n && (e = g$2(y));
-    }
-    for (u.__e = m, h = P; h--;) null != x[h] && ("function" == typeof u.type && null != x[h].__e && x[h].__e == u.__d && (u.__d = A$1(i).nextSibling), q$2(x[h], x[h]));
-    if (w) for (h = 0; h < w.length; h++) O(w[h], w[++h], w[++h]);
+      x,
+      P,
+      S,
+      H = 0,
+      I = t && t.__k || s$1,
+      T = I.length,
+      j = T,
+      z = l.length;
+    for (u.__k = [], p = 0; p < z; p++) null != (b = u.__k[p] = null == (b = l[p]) || "boolean" == typeof b || "function" == typeof b ? null : "string" == typeof b || "number" == typeof b || "bigint" == typeof b ? d$1(null, b, null, null, b) : h$1(b) ? d$1(k$2, {
+      children: b
+    }, null, null, null) : b.__b > 0 ? d$1(b.type, b.props, b.key, b.ref ? b.ref : null, b.__v) : b) && (b.__ = u, b.__b = u.__b + 1, -1 === (x = A$1(b, I, w = p + H, j)) ? _ = c$1 : (_ = I[x] || c$1, I[x] = void 0, j--), L$1(n, b, _, i, o, r, f, e, a, v), g = b.__e, (y = b.ref) && _.ref != y && (_.ref && O(_.ref, null, b), v.push(y, b.__c || g, b)), null != g && (null == m && (m = g), S = !(P = _ === c$1 || null === _.__v) && x === w, P ? -1 == x && H-- : x !== w && (x === w + 1 ? (H++, S = !0) : x > w ? j > z - w ? (H += x - w, S = !0) : H-- : H = x < w && x == w - 1 ? x - w : 0), w = p + H, S = S || x == p && !P, "function" != typeof b.type || x === w && _.__k !== b.__k ? "function" == typeof b.type || S ? void 0 !== b.__d ? (e = b.__d, b.__d = void 0) : e = g.nextSibling : e = $$1(n, g, e) : e = C$1(b, e, n), "function" == typeof u.type && (u.__d = e)));
+    for (u.__e = m, p = T; p--;) null != I[p] && ("function" == typeof u.type && null != I[p].__e && I[p].__e == u.__d && (u.__d = I[p].__e.nextSibling), q$2(I[p], I[p]));
   }
   function C$1(n, l, u) {
-    for (var i, t = n.__k, o = 0; t && o < t.length; o++) (i = t[o]) && (i.__ = n, l = "function" == typeof i.type ? C$1(i, l, u) : $$1(u, i, i, t, i.__e, l));
+    for (var t, i = n.__k, o = 0; i && o < i.length; o++) (t = i[o]) && (t.__ = n, l = "function" == typeof t.type ? C$1(t, l, u) : $$1(u, t.__e, l));
     return l;
   }
   function S(n, l) {
-    return l = l || [], null == n || "boolean" == typeof n || (v$1(n) ? n.some(function (n) {
+    return l = l || [], null == n || "boolean" == typeof n || (h$1(n) ? n.some(function (n) {
       S(n, l);
     }) : l.push(n)), l;
   }
-  function $$1(n, l, u, i, t, o) {
-    var r, f, e;
-    if (void 0 !== l.__d) r = l.__d, l.__d = void 0;else if (null == u || t != o || null == t.parentNode) n: if (null == o || o.parentNode !== n) n.appendChild(t), r = null;else {
-      for (f = o, e = 0; (f = f.nextSibling) && e < i.length; e += 1) if (f == t) break n;
-      n.insertBefore(t, o), r = o;
+  function $$1(n, l, u) {
+    return null == u || u.parentNode !== n ? n.insertBefore(l, null) : l == u && null != l.parentNode || n.insertBefore(l, u), l.nextSibling;
+  }
+  function A$1(n, l, u, t) {
+    var i = n.key,
+      o = n.type,
+      r = u - 1,
+      f = u + 1,
+      e = l[u];
+    if (null === e || e && i == e.key && o === e.type) return u;
+    if (t > (null != e ? 1 : 0)) for (; r >= 0 || f < l.length;) {
+      if (r >= 0) {
+        if ((e = l[r]) && i == e.key && o === e.type) return r;
+        r--;
+      }
+      if (f < l.length) {
+        if ((e = l[f]) && i == e.key && o === e.type) return f;
+        f++;
+      }
     }
-    return void 0 !== r ? r : t.nextSibling;
+    return -1;
   }
-  function A$1(n) {
-    var l, u, i;
-    if (null == n.type || "string" == typeof n.type) return n.__e;
-    if (n.__k) for (l = n.__k.length - 1; l >= 0; l--) if ((u = n.__k[l]) && (i = A$1(u))) return i;
-    return null;
-  }
-  function H$1(n, l, u, i, t) {
+  function H$1(n, l, u, t, i) {
     var o;
-    for (o in u) "children" === o || "key" === o || o in l || T$2(n, o, null, u[o], i);
-    for (o in l) t && "function" != typeof l[o] || "children" === o || "key" === o || "value" === o || "checked" === o || u[o] === l[o] || T$2(n, o, l[o], u[o], i);
+    for (o in u) "children" === o || "key" === o || o in l || T$2(n, o, null, u[o], t);
+    for (o in l) i && "function" != typeof l[o] || "children" === o || "key" === o || "value" === o || "checked" === o || u[o] === l[o] || T$2(n, o, l[o], u[o], t);
   }
   function I$1(n, l, u) {
     "-" === l[0] ? n.setProperty(l, null == u ? "" : u) : n[l] = null == u ? "" : "number" != typeof u || a$1.test(l) ? u : u + "px";
   }
-  function T$2(n, l, u, i, t) {
+  function T$2(n, l, u, t, i) {
     var o;
     n: if ("style" === l) {
       if ("string" == typeof u) n.style.cssText = u;else {
-        if ("string" == typeof i && (n.style.cssText = i = ""), i) for (l in i) u && l in u || I$1(n.style, l, "");
-        if (u) for (l in u) i && u[l] === i[l] || I$1(n.style, l, u[l]);
+        if ("string" == typeof t && (n.style.cssText = t = ""), t) for (l in t) u && l in u || I$1(n.style, l, "");
+        if (u) for (l in u) t && u[l] === t[l] || I$1(n.style, l, u[l]);
       }
-    } else if ("o" === l[0] && "n" === l[1]) o = l !== (l = l.replace(/Capture$/, "")), l = l.toLowerCase() in n ? l.toLowerCase().slice(2) : l.slice(2), n.l || (n.l = {}), n.l[l + o] = u, u ? i || n.addEventListener(l, o ? z$1 : j$1, o) : n.removeEventListener(l, o ? z$1 : j$1, o);else if ("dangerouslySetInnerHTML" !== l) {
-      if (t) l = l.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");else if ("width" !== l && "height" !== l && "href" !== l && "list" !== l && "form" !== l && "tabIndex" !== l && "download" !== l && "rowSpan" !== l && "colSpan" !== l && l in n) try {
+    } else if ("o" === l[0] && "n" === l[1]) o = l !== (l = l.replace(/Capture$/, "")), l = l.toLowerCase() in n ? l.toLowerCase().slice(2) : l.slice(2), n.l || (n.l = {}), n.l[l + o] = u, u ? t || n.addEventListener(l, o ? z$1 : j$1, o) : n.removeEventListener(l, o ? z$1 : j$1, o);else if ("dangerouslySetInnerHTML" !== l) {
+      if (i) l = l.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");else if ("width" !== l && "height" !== l && "href" !== l && "list" !== l && "form" !== l && "tabIndex" !== l && "download" !== l && "rowSpan" !== l && "colSpan" !== l && l in n) try {
         n[l] = null == u ? "" : u;
         break n;
       } catch (n) {}
@@ -155,9 +158,8 @@
   function z$1(n) {
     return this.l[n.type + !0](l$1.event ? l$1.event(n) : n);
   }
-  function L$1(n, u, i, t, o, r, f, e, c) {
-    var s,
-      a,
+  function L$1(n, u, t, i, o, r, f, e, c, s) {
+    var a,
       p,
       y,
       d,
@@ -171,37 +173,39 @@
       $,
       A,
       H,
-      I = u.type;
+      I,
+      T = u.type;
     if (void 0 !== u.constructor) return null;
-    null != i.__h && (c = i.__h, e = u.__e = i.__e, u.__h = null, r = [e]), (s = l$1.__b) && s(u);
+    null != t.__h && (c = t.__h, e = u.__e = t.__e, u.__h = null, r = [e]), (a = l$1.__b) && a(u);
     try {
-      n: if ("function" == typeof I) {
-        if (m = u.props, w = (s = I.contextType) && t[s.__c], x = s ? w ? w.props.value : s.__ : t, i.__c ? g = (a = u.__c = i.__c).__ = a.__E : ("prototype" in I && I.prototype.render ? u.__c = a = new I(m, x) : (u.__c = a = new b$1(m, x), a.constructor = I, a.render = B$2), w && w.sub(a), a.props = m, a.state || (a.state = {}), a.context = x, a.__n = t, p = a.__d = !0, a.__h = [], a._sb = []), null == a.__s && (a.__s = a.state), null != I.getDerivedStateFromProps && (a.__s == a.state && (a.__s = h$1({}, a.__s)), h$1(a.__s, I.getDerivedStateFromProps(m, a.__s))), y = a.props, d = a.state, a.__v = u, p) null == I.getDerivedStateFromProps && null != a.componentWillMount && a.componentWillMount(), null != a.componentDidMount && a.__h.push(a.componentDidMount);else {
-          if (null == I.getDerivedStateFromProps && m !== y && null != a.componentWillReceiveProps && a.componentWillReceiveProps(m, x), !a.__e && null != a.shouldComponentUpdate && !1 === a.shouldComponentUpdate(m, a.__s, x) || u.__v === i.__v) {
-            for (u.__v !== i.__v && (a.props = m, a.state = a.__s, a.__d = !1), a.__e = !1, u.__e = i.__e, u.__k = i.__k, u.__k.forEach(function (n) {
+      n: if ("function" == typeof T) {
+        if (w = u.props, x = (a = T.contextType) && i[a.__c], C = a ? x ? x.props.value : a.__ : i, t.__c ? m = (p = u.__c = t.__c).__ = p.__E : ("prototype" in T && T.prototype.render ? u.__c = p = new T(w, C) : (u.__c = p = new b$1(w, C), p.constructor = T, p.render = B$2), x && x.sub(p), p.props = w, p.state || (p.state = {}), p.context = C, p.__n = i, y = p.__d = !0, p.__h = [], p._sb = []), null == p.__s && (p.__s = p.state), null != T.getDerivedStateFromProps && (p.__s == p.state && (p.__s = v$1({}, p.__s)), v$1(p.__s, T.getDerivedStateFromProps(w, p.__s))), d = p.props, _ = p.state, p.__v = u, y) null == T.getDerivedStateFromProps && null != p.componentWillMount && p.componentWillMount(), null != p.componentDidMount && p.__h.push(p.componentDidMount);else {
+          if (null == T.getDerivedStateFromProps && w !== d && null != p.componentWillReceiveProps && p.componentWillReceiveProps(w, C), !p.__e && (null != p.shouldComponentUpdate && !1 === p.shouldComponentUpdate(w, p.__s, C) || u.__v === t.__v)) {
+            for (u.__v !== t.__v && (p.props = w, p.state = p.__s, p.__d = !1), u.__e = t.__e, u.__k = t.__k, u.__k.forEach(function (n) {
               n && (n.__ = u);
-            }), C = 0; C < a._sb.length; C++) a.__h.push(a._sb[C]);
-            a._sb = [], a.__h.length && f.push(a);
+            }), S = 0; S < p._sb.length; S++) p.__h.push(p._sb[S]);
+            p._sb = [], p.__h.length && f.push(p);
             break n;
           }
-          null != a.componentWillUpdate && a.componentWillUpdate(m, a.__s, x), null != a.componentDidUpdate && a.__h.push(function () {
-            a.componentDidUpdate(y, d, _);
+          null != p.componentWillUpdate && p.componentWillUpdate(w, p.__s, C), null != p.componentDidUpdate && p.__h.push(function () {
+            p.componentDidUpdate(d, _, g);
           });
         }
-        if (a.context = x, a.props = m, a.__P = n, S = l$1.__r, $ = 0, "prototype" in I && I.prototype.render) {
-          for (a.state = a.__s, a.__d = !1, S && S(u), s = a.render(a.props, a.state, a.context), A = 0; A < a._sb.length; A++) a.__h.push(a._sb[A]);
-          a._sb = [];
+        if (p.context = C, p.props = w, p.__P = n, p.__e = !1, $ = l$1.__r, A = 0, "prototype" in T && T.prototype.render) {
+          for (p.state = p.__s, p.__d = !1, $ && $(u), a = p.render(p.props, p.state, p.context), H = 0; H < p._sb.length; H++) p.__h.push(p._sb[H]);
+          p._sb = [];
         } else do {
-          a.__d = !1, S && S(u), s = a.render(a.props, a.state, a.context), a.state = a.__s;
-        } while (a.__d && ++$ < 25);
-        a.state = a.__s, null != a.getChildContext && (t = h$1(h$1({}, t), a.getChildContext())), p || null == a.getSnapshotBeforeUpdate || (_ = a.getSnapshotBeforeUpdate(y, d)), P(n, v$1(H = null != s && s.type === k$2 && null == s.key ? s.props.children : s) ? H : [H], u, i, t, o, r, f, e, c), a.base = u.__e, u.__h = null, a.__h.length && f.push(a), g && (a.__E = a.__ = null), a.__e = !1;
-      } else null == r && u.__v === i.__v ? (u.__k = i.__k, u.__e = i.__e) : u.__e = N$1(i.__e, u, i, t, o, r, f, c);
-      (s = l$1.diffed) && s(u);
+          p.__d = !1, $ && $(u), a = p.render(p.props, p.state, p.context), p.state = p.__s;
+        } while (p.__d && ++A < 25);
+        p.state = p.__s, null != p.getChildContext && (i = v$1(v$1({}, i), p.getChildContext())), y || null == p.getSnapshotBeforeUpdate || (g = p.getSnapshotBeforeUpdate(d, _)), P(n, h$1(I = null != a && a.type === k$2 && null == a.key ? a.props.children : a) ? I : [I], u, t, i, o, r, f, e, c, s), p.base = u.__e, u.__h = null, p.__h.length && f.push(p), m && (p.__E = p.__ = null);
+      } else null == r && u.__v === t.__v ? (u.__k = t.__k, u.__e = t.__e) : u.__e = N$1(t.__e, u, t, i, o, r, f, c, s);
+      (a = l$1.diffed) && a(u);
     } catch (n) {
-      u.__v = null, (c || null != r) && (u.__e = e, u.__h = !!c, r[r.indexOf(e)] = null), l$1.__e(n, u, i);
+      u.__v = null, (c || null != r) && (u.__e = e, u.__h = !!c, r[r.indexOf(e)] = null), l$1.__e(n, u, t);
     }
   }
-  function M(n, u) {
+  function M(n, u, t) {
+    for (var i = 0; i < t.length; i++) O(t[i], t[++i], t[++i]);
     l$1.__c && l$1.__c(u, n), n.some(function (u) {
       try {
         n = u.__h, u.__h = [], n.some(function (n) {
@@ -212,67 +216,67 @@
       }
     });
   }
-  function N$1(l, u, i, t, o, r, f, e) {
-    var s,
-      a,
-      h,
-      y = i.props,
-      d = u.props,
-      _ = u.type,
-      k = 0;
-    if ("svg" === _ && (o = !0), null != r) for (; k < r.length; k++) if ((s = r[k]) && "setAttribute" in s == !!_ && (_ ? s.localName === _ : 3 === s.nodeType)) {
-      l = s, r[k] = null;
+  function N$1(l, u, t, i, o, r, f, e, s) {
+    var a,
+      v,
+      y,
+      d = t.props,
+      _ = u.props,
+      k = u.type,
+      b = 0;
+    if ("svg" === k && (o = !0), null != r) for (; b < r.length; b++) if ((a = r[b]) && "setAttribute" in a == !!k && (k ? a.localName === k : 3 === a.nodeType)) {
+      l = a, r[b] = null;
       break;
     }
     if (null == l) {
-      if (null === _) return document.createTextNode(d);
-      l = o ? document.createElementNS("http://www.w3.org/2000/svg", _) : document.createElement(_, d.is && d), r = null, e = !1;
+      if (null === k) return document.createTextNode(_);
+      l = o ? document.createElementNS("http://www.w3.org/2000/svg", k) : document.createElement(k, _.is && _), r = null, e = !1;
     }
-    if (null === _) y === d || e && l.data === d || (l.data = d);else {
-      if (r = r && n.call(l.childNodes), a = (y = i.props || c$1).dangerouslySetInnerHTML, h = d.dangerouslySetInnerHTML, !e) {
-        if (null != r) for (y = {}, k = 0; k < l.attributes.length; k++) y[l.attributes[k].name] = l.attributes[k].value;
-        (h || a) && (h && (a && h.__html == a.__html || h.__html === l.innerHTML) || (l.innerHTML = h && h.__html || ""));
+    if (null === k) d === _ || e && l.data === _ || (l.data = _);else {
+      if (r = r && n.call(l.childNodes), v = (d = t.props || c$1).dangerouslySetInnerHTML, y = _.dangerouslySetInnerHTML, !e) {
+        if (null != r) for (d = {}, b = 0; b < l.attributes.length; b++) d[l.attributes[b].name] = l.attributes[b].value;
+        (y || v) && (y && (v && y.__html == v.__html || y.__html === l.innerHTML) || (l.innerHTML = y && y.__html || ""));
       }
-      if (H$1(l, d, y, o, e), h) u.__k = [];else if (P(l, v$1(k = u.props.children) ? k : [k], u, i, t, o && "foreignObject" !== _, r, f, r ? r[0] : i.__k && g$2(i, 0), e), null != r) for (k = r.length; k--;) null != r[k] && p$1(r[k]);
-      e || ("value" in d && void 0 !== (k = d.value) && (k !== l.value || "progress" === _ && !k || "option" === _ && k !== y.value) && T$2(l, "value", k, y.value, !1), "checked" in d && void 0 !== (k = d.checked) && k !== l.checked && T$2(l, "checked", k, y.checked, !1));
+      if (H$1(l, _, d, o, e), y) u.__k = [];else if (P(l, h$1(b = u.props.children) ? b : [b], u, t, i, o && "foreignObject" !== k, r, f, r ? r[0] : t.__k && g$2(t, 0), e, s), null != r) for (b = r.length; b--;) null != r[b] && p$1(r[b]);
+      e || ("value" in _ && void 0 !== (b = _.value) && (b !== l.value || "progress" === k && !b || "option" === k && b !== d.value) && T$2(l, "value", b, d.value, !1), "checked" in _ && void 0 !== (b = _.checked) && b !== l.checked && T$2(l, "checked", b, d.checked, !1));
     }
     return l;
   }
-  function O(n, u, i) {
+  function O(n, u, t) {
     try {
       "function" == typeof n ? n(u) : n.current = u;
     } catch (n) {
-      l$1.__e(n, i);
+      l$1.__e(n, t);
     }
   }
-  function q$2(n, u, i) {
-    var t, o;
-    if (l$1.unmount && l$1.unmount(n), (t = n.ref) && (t.current && t.current !== n.__e || O(t, null, u)), null != (t = n.__c)) {
-      if (t.componentWillUnmount) try {
-        t.componentWillUnmount();
+  function q$2(n, u, t) {
+    var i, o;
+    if (l$1.unmount && l$1.unmount(n), (i = n.ref) && (i.current && i.current !== n.__e || O(i, null, u)), null != (i = n.__c)) {
+      if (i.componentWillUnmount) try {
+        i.componentWillUnmount();
       } catch (n) {
         l$1.__e(n, u);
       }
-      t.base = t.__P = null, n.__c = void 0;
+      i.base = i.__P = null, n.__c = void 0;
     }
-    if (t = n.__k) for (o = 0; o < t.length; o++) t[o] && q$2(t[o], u, i || "function" != typeof n.type);
-    i || null == n.__e || p$1(n.__e), n.__ = n.__e = n.__d = void 0;
+    if (i = n.__k) for (o = 0; o < i.length; o++) i[o] && q$2(i[o], u, t || "function" != typeof n.type);
+    t || null == n.__e || p$1(n.__e), n.__ = n.__e = n.__d = void 0;
   }
   function B$2(n, l, u) {
     return this.constructor(n, u);
   }
-  function D$1(u, i, t) {
-    var o, r, f;
-    l$1.__ && l$1.__(u, i), r = (o = "function" == typeof t) ? null : t && t.__k || i.__k, f = [], L$1(i, u = (!o && t || i).__k = y$1(k$2, null, [u]), r || c$1, c$1, void 0 !== i.ownerSVGElement, !o && t ? [t] : r ? null : i.firstChild ? n.call(i.childNodes) : null, f, !o && t ? t : r ? r.__e : i.firstChild, o), M(f, u);
+  function D$1(u, t, i) {
+    var o, r, f, e;
+    l$1.__ && l$1.__(u, t), r = (o = "function" == typeof i) ? null : i && i.__k || t.__k, f = [], e = [], L$1(t, u = (!o && i || t).__k = y$1(k$2, null, [u]), r || c$1, c$1, void 0 !== t.ownerSVGElement, !o && i ? [i] : r ? null : t.firstChild ? n.call(t.childNodes) : null, f, !o && i ? i : r ? r.__e : t.firstChild, o, e), M(f, u, e);
   }
-  function F$2(l, u, i) {
-    var t,
+  function F$2(l, u, t) {
+    var i,
       o,
       r,
       f,
-      e = h$1({}, l.props);
-    for (r in l.type && l.type.defaultProps && (f = l.type.defaultProps), u) "key" == r ? t = u[r] : "ref" == r ? o = u[r] : e[r] = void 0 === u[r] && void 0 !== f ? f[r] : u[r];
-    return arguments.length > 2 && (e.children = arguments.length > 3 ? n.call(arguments, 2) : i), d$1(l.type, e, t || l.key, o || l.ref, null);
+      e = v$1({}, l.props);
+    for (r in l.type && l.type.defaultProps && (f = l.type.defaultProps), u) "key" == r ? i = u[r] : "ref" == r ? o = u[r] : e[r] = void 0 === u[r] && void 0 !== f ? f[r] : u[r];
+    return arguments.length > 2 && (e.children = arguments.length > 3 ? n.call(arguments, 2) : t), d$1(l.type, e, i || l.key, o || l.ref, null);
   }
   function G(n, l) {
     var u = {
@@ -282,9 +286,9 @@
         return n.children(l);
       },
       Provider: function (n) {
-        var u, i;
-        return this.getChildContext || (u = [], (i = {})[l] = this, this.getChildContext = function () {
-          return i;
+        var u, t;
+        return this.getChildContext || (u = [], (t = {})[l] = this, this.getChildContext = function () {
+          return t;
         }, this.shouldComponentUpdate = function (n) {
           this.props.value !== n.value && u.some(function (n) {
             n.__e = !0, w$2(n);
@@ -301,9 +305,9 @@
     return u.Provider.__ = u.Consumer.contextType = u;
   }
   n = s$1.slice, l$1 = {
-    __e: function (n, l, u, i) {
-      for (var t, o, r; l = l.__;) if ((t = l.__c) && !t.__) try {
-        if ((o = t.constructor) && null != o.getDerivedStateFromError && (t.setState(o.getDerivedStateFromError(n)), r = t.__d), null != t.componentDidCatch && (t.componentDidCatch(n, i || {}), r = t.__d), r) return t.__E = t;
+    __e: function (n, l, u, t) {
+      for (var i, o, r; l = l.__;) if ((i = l.__c) && !i.__) try {
+        if ((o = i.constructor) && null != o.getDerivedStateFromError && (i.setState(o.getDerivedStateFromError(n)), r = i.__d), null != i.componentDidCatch && (i.componentDidCatch(n, t || {}), r = i.__d), r) return i.__E = i;
       } catch (l) {
         n = l;
       }
@@ -311,10 +315,10 @@
     }
   }, u$1 = 0, b$1.prototype.setState = function (n, l) {
     var u;
-    u = null != this.__s && this.__s !== this.state ? this.__s : this.__s = h$1({}, this.state), "function" == typeof n && (n = n(h$1({}, u), this.props)), n && h$1(u, n), null != n && this.__v && (l && this._sb.push(l), w$2(this));
+    u = null != this.__s && this.__s !== this.state ? this.__s : this.__s = v$1({}, this.state), "function" == typeof n && (n = n(v$1({}, u), this.props)), n && v$1(u, n), null != n && this.__v && (l && this._sb.push(l), w$2(this));
   }, b$1.prototype.forceUpdate = function (n) {
     this.__v && (this.__e = !0, n && this.__h.push(n), w$2(this));
-  }, b$1.prototype.render = k$2, t$1 = [], r$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function (n, l) {
+  }, b$1.prototype.render = k$2, i$1 = [], r$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function (n, l) {
     return n.__v.__b - l.__v.__b;
   }, x$1.__r = 0, e$1 = 0;
   var _$1 = 0;
@@ -524,27 +528,700 @@
     for (var e, t, f = 0, n = ""; f < arguments.length;) (e = arguments[f++]) && (t = r(e)) && (n && (n += " "), n += t);
     return n;
   }
-  let cached = null;
-  function getBuildModeUnmemoized() {
-    try {
-      if ("development" === "development") return "development";
-      return "production";
-    } catch (_e) {
-      // As long as we're returning "production" due to it being unspecified, 
-      // try to make sure anyone else who tries does too for consistency.
-      // TODO: Good/bad idea?
-      try {
-        var _process, _globalThis$_process, _globalThis$process, _env, _globalThis$process$_, _globalThis$process$e, _NODE_ENV, _globalThis$process$e2;
-        (_globalThis$_process = globalThis[_process = "process"]) !== null && _globalThis$_process !== void 0 ? _globalThis$_process : globalThis[_process] = {};
-        (_globalThis$process$_ = (_globalThis$process = globalThis["process"])[_env = "env"]) !== null && _globalThis$process$_ !== void 0 ? _globalThis$process$_ : _globalThis$process[_env] = {};
-        (_globalThis$process$e2 = (_globalThis$process$e = globalThis["process"]["env"])[_NODE_ENV = "NODE_ENV"]) !== null && _globalThis$process$e2 !== void 0 ? _globalThis$process$e2 : _globalThis$process$e[_NODE_ENV] = "production";
-      } finally {
-        return "production";
+  function g(n, t) {
+    for (var e in t) n[e] = t[e];
+    return n;
+  }
+  function C(n, t) {
+    for (var e in n) if ("__source" !== e && !(e in t)) return !0;
+    for (var r in t) if ("__source" !== r && n[r] !== t[r]) return !0;
+    return !1;
+  }
+  function w(n) {
+    this.props = n;
+  }
+  function x(n, e) {
+    function r(n) {
+      var t = this.props.ref,
+        r = t == n.ref;
+      return !r && t && (t.call ? t(null) : t.current = null), e ? !e(this.props, n) || !r : C(this.props, n);
+    }
+    function u(e) {
+      return this.shouldComponentUpdate = r, y$1(n, e);
+    }
+    return u.displayName = "Memo(" + (n.displayName || n.name) + ")", u.prototype.isReactComponent = !0, u.__f = !0, u;
+  }
+  (w.prototype = new b$1()).isPureReactComponent = !0, w.prototype.shouldComponentUpdate = function (n, t) {
+    return C(this.props, n) || C(this.state, t);
+  };
+  var R = l$1.__b;
+  l$1.__b = function (n) {
+    n.type && n.type.__f && n.ref && (n.props.ref = n.ref, n.ref = null), R && R(n);
+  };
+  var N = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.forward_ref") || 3911;
+  function k(n) {
+    function t(t) {
+      var e = g({}, t);
+      return delete e.ref, n(e, t.ref || null);
+    }
+    return t.$$typeof = N, t.render = t, t.prototype.isReactComponent = t.__f = !0, t.displayName = "ForwardRef(" + (n.displayName || n.name) + ")", t;
+  }
+  var T = l$1.__e;
+  l$1.__e = function (n, t, e, r) {
+    if (n.then) for (var u, o = t; o = o.__;) if ((u = o.__c) && u.__c) return null == t.__e && (t.__e = e.__e, t.__k = e.__k), u.__c(n, t);
+    T(n, t, e, r);
+  };
+  var I = l$1.unmount;
+  function L(n, t, e) {
+    return n && (n.__c && n.__c.__H && (n.__c.__H.__.forEach(function (n) {
+      "function" == typeof n.__c && n.__c();
+    }), n.__c.__H = null), null != (n = g({}, n)).__c && (n.__c.__P === e && (n.__c.__P = t), n.__c = null), n.__k = n.__k && n.__k.map(function (n) {
+      return L(n, t, e);
+    })), n;
+  }
+  function U(n, t, e) {
+    return n && (n.__v = null, n.__k = n.__k && n.__k.map(function (n) {
+      return U(n, t, e);
+    }), n.__c && n.__c.__P === t && (n.__e && e.insertBefore(n.__e, n.__d), n.__c.__e = !0, n.__c.__P = e)), n;
+  }
+  function D() {
+    this.__u = 0, this.t = null, this.__b = null;
+  }
+  function F(n) {
+    var t = n.__.__c;
+    return t && t.__a && t.__a(n);
+  }
+  function V() {
+    this.u = null, this.o = null;
+  }
+  l$1.unmount = function (n) {
+    var t = n.__c;
+    t && t.__R && t.__R(), t && !0 === n.__h && (n.type = null), I && I(n);
+  }, (D.prototype = new b$1()).__c = function (n, t) {
+    var e = t.__c,
+      r = this;
+    null == r.t && (r.t = []), r.t.push(e);
+    var u = F(r.__v),
+      o = !1,
+      i = function () {
+        o || (o = !0, e.__R = null, u ? u(l) : l());
+      };
+    e.__R = i;
+    var l = function () {
+        if (! --r.__u) {
+          if (r.state.__a) {
+            var n = r.state.__a;
+            r.__v.__k[0] = U(n, n.__c.__P, n.__c.__O);
+          }
+          var t;
+          for (r.setState({
+            __a: r.__b = null
+          }); t = r.t.pop();) t.forceUpdate();
+        }
+      },
+      c = !0 === t.__h;
+    r.__u++ || c || r.setState({
+      __a: r.__b = r.__v.__k[0]
+    }), n.then(i, i);
+  }, D.prototype.componentWillUnmount = function () {
+    this.t = [];
+  }, D.prototype.render = function (n, e) {
+    if (this.__b) {
+      if (this.__v.__k) {
+        var r = document.createElement("div"),
+          o = this.__v.__k[0].__c;
+        this.__v.__k[0] = L(this.__b, r, o.__O = o.__P);
+      }
+      this.__b = null;
+    }
+    var i = e.__a && y$1(k$2, null, n.fallback);
+    return i && (i.__h = null), [y$1(k$2, null, e.__a ? null : n.children), i];
+  };
+  var W = function (n, t, e) {
+    if (++e[1] === e[0] && n.o.delete(t), n.props.revealOrder && ("t" !== n.props.revealOrder[0] || !n.o.size)) for (e = n.u; e;) {
+      for (; e.length > 3;) e.pop()();
+      if (e[1] < e[0]) break;
+      n.u = e = e[2];
+    }
+  };
+  (V.prototype = new b$1()).__a = function (n) {
+    var t = this,
+      e = F(t.__v),
+      r = t.o.get(n);
+    return r[0]++, function (u) {
+      var o = function () {
+        t.props.revealOrder ? (r.push(u), W(t, n, r)) : u();
+      };
+      e ? e(o) : o();
+    };
+  }, V.prototype.render = function (n) {
+    this.u = null, this.o = new Map();
+    var t = S(n.children);
+    n.revealOrder && "b" === n.revealOrder[0] && t.reverse();
+    for (var e = t.length; e--;) this.o.set(t[e], this.u = [1, 0, this.u]);
+    return n.children;
+  }, V.prototype.componentDidUpdate = V.prototype.componentDidMount = function () {
+    var n = this;
+    this.o.forEach(function (t, e) {
+      W(n, e, t);
+    });
+  };
+  var B = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.element") || 60103,
+    H = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image(!S)|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/,
+    Z = /^on(Ani|Tra|Tou|BeforeInp|Compo)/,
+    Y = /[A-Z0-9]/g,
+    $ = "undefined" != typeof document,
+    q = function (n) {
+      return ("undefined" != typeof Symbol && "symbol" == typeof Symbol() ? /fil|che|rad/ : /fil|che|ra/).test(n);
+    };
+  b$1.prototype.isReactComponent = {}, ["componentWillMount", "componentWillReceiveProps", "componentWillUpdate"].forEach(function (t) {
+    Object.defineProperty(b$1.prototype, t, {
+      configurable: !0,
+      get: function () {
+        return this["UNSAFE_" + t];
+      },
+      set: function (n) {
+        Object.defineProperty(this, t, {
+          configurable: !0,
+          writable: !0,
+          value: n
+        });
+      }
+    });
+  });
+  var K = l$1.event;
+  function Q() {}
+  function X() {
+    return this.cancelBubble;
+  }
+  function nn() {
+    return this.defaultPrevented;
+  }
+  l$1.event = function (n) {
+    return K && (n = K(n)), n.persist = Q, n.isPropagationStopped = X, n.isDefaultPrevented = nn, n.nativeEvent = n;
+  };
+  var en = {
+      enumerable: !1,
+      configurable: !0,
+      get: function () {
+        return this.class;
+      }
+    },
+    rn = l$1.vnode;
+  l$1.vnode = function (n) {
+    "string" == typeof n.type && function (n) {
+      var t = n.props,
+        e = n.type,
+        u = {};
+      for (var o in t) {
+        var i = t[o];
+        if (!("value" === o && "defaultValue" in t && null == i || $ && "children" === o && "noscript" === e || "class" === o || "className" === o)) {
+          var l = o.toLowerCase();
+          "defaultValue" === o && "value" in t && null == t.value ? o = "value" : "download" === o && !0 === i ? i = "" : "ondoubleclick" === l ? o = "ondblclick" : "onchange" !== l || "input" !== e && "textarea" !== e || q(t.type) ? "onfocus" === l ? o = "onfocusin" : "onblur" === l ? o = "onfocusout" : Z.test(o) ? o = l : -1 === e.indexOf("-") && H.test(o) ? o = o.replace(Y, "-$&").toLowerCase() : null === i && (i = void 0) : l = o = "oninput", "oninput" === l && u[o = l] && (o = "oninputCapture"), u[o] = i;
+        }
+      }
+      "select" == e && u.multiple && Array.isArray(u.value) && (u.value = S(t.children).forEach(function (n) {
+        n.props.selected = -1 != u.value.indexOf(n.props.value);
+      })), "select" == e && null != u.defaultValue && (u.value = S(t.children).forEach(function (n) {
+        n.props.selected = u.multiple ? -1 != u.defaultValue.indexOf(n.props.value) : u.defaultValue == n.props.value;
+      })), t.class && !t.className ? (u.class = t.class, Object.defineProperty(u, "className", en)) : (t.className && !t.class || t.class && t.className) && (u.class = u.className = t.className), n.props = u;
+    }(n), n.$$typeof = B, rn && rn(n);
+  };
+  var un = l$1.__r;
+  l$1.__r = function (n) {
+    un && un(n), n.__c;
+  };
+  var on = l$1.diffed;
+  l$1.diffed = function (n) {
+    on && on(n);
+    var t = n.props,
+      e = n.__e;
+    null != e && "textarea" === n.type && "value" in t && t.value !== e.value && (e.value = null == t.value ? "" : t.value);
+  };
+
+  /** These are all the event mappings that are shared between Preact/React */
+  const EventMapping$1 = {
+    abort: "onAbort",
+    animationend: "onAnimationEnd",
+    animationstart: "onAnimationStart",
+    animationiteration: "onAnimationIteration",
+    beforeinput: "onBeforeInput",
+    blur: "onBlur",
+    canplay: "onCanPlay",
+    canplaythrough: "onCanPlayThrough",
+    change: "onChange",
+    click: "onClick",
+    compositionend: "onCompositionEnd",
+    compositionstart: "onCompositionStart",
+    compositionupdate: "onCompositionUpdate",
+    contextmenu: "onContextMenu",
+    cut: "onCut",
+    drag: "onDrag",
+    dragend: "onDragEnd",
+    dragenter: "onDragEnter",
+    dragleave: "onDragLeave",
+    dragover: "onDragOver",
+    dragstart: "onDragStart",
+    drop: "onDrop",
+    durationchange: "onDurationChange",
+    emptied: "onEmptied",
+    ended: "onEnded",
+    error: "onError",
+    focus: "onFocus",
+    gotpointercapture: "onGotPointerCapture",
+    input: "onInput",
+    invalid: "onInvalid",
+    keydown: "onKeyDown",
+    keypress: "onKeyPress",
+    keyup: "onKeyUp",
+    load: "onLoad",
+    loadeddata: "onLoadedData",
+    loadedmetadata: "onLoadedMetadata",
+    loadstart: "onLoadStart",
+    lostpointercapture: "onLostPointerCapture",
+    mousedown: "onMouseDown",
+    mouseenter: "onMouseEnter",
+    mouseleave: "onMouseLeave",
+    mousemove: "onMouseMove",
+    mouseout: "onMouseOut",
+    mouseover: "onMouseOver",
+    mouseup: "onMouseUp",
+    paste: "onPaste",
+    pause: "onPause",
+    play: "onPlay",
+    playing: "onPlaying",
+    pointercancel: "onPointerCancel",
+    pointerdown: "onPointerDown",
+    pointerenter: "onPointerEnter",
+    pointerleave: "onPointerLeave",
+    pointermove: "onPointerMove",
+    pointerout: "onPointerOut",
+    pointerover: "onPointerOver",
+    pointerup: "onPointerUp",
+    progress: "onProgress",
+    reset: "onReset",
+    scroll: "onScroll",
+    seeked: "onSeeked",
+    seeking: "onSeeking",
+    select: "onSelect",
+    stalled: "onStalled",
+    submit: "onSubmit",
+    suspend: "onSuspend",
+    timeupdate: "onTimeUpdate",
+    touchcancel: "onTouchCancel",
+    touchend: "onTouchEnd",
+    touchmove: "onTouchMove",
+    touchstart: "onTouchStart",
+    transitionend: "onTransitionEnd",
+    volumechange: "onVolumeChange",
+    waiting: "onWaiting",
+    wheel: "onWheel",
+    fullscreenchange: null,
+    animationcancel: null,
+    auxclick: null,
+    cancel: null,
+    close: null,
+    copy: null,
+    cuechange: null,
+    fullscreenerror: null,
+    ratechange: null,
+    resize: null,
+    securitypolicyviolation: null,
+    selectionchange: null,
+    selectstart: null,
+    slotchange: null,
+    transitioncancel: null,
+    transitionrun: null,
+    transitionstart: null,
+    webkitanimationend: null,
+    webkitanimationiteration: null,
+    webkitanimationstart: null,
+    webkittransitionend: null
+  };
+
+  // Get the value of process?.env?.NODE_ENV delicately (also fun fact @rollup/plugin-replace works in comments!)
+  // (i.e. in a way that doesn't throw an error but has isDevMode be a constant)
+  (_globalThis$_process = globalThis[_process = "process"]) !== null && _globalThis$_process !== void 0 ? _globalThis$_process : globalThis[_process] = {};
+  (_globalThis$process$_ = (_globalThis$process = globalThis["process"])[_env = "env"]) !== null && _globalThis$process$_ !== void 0 ? _globalThis$process$_ : _globalThis$process[_env] = {};
+  (_globalThis$process$e2 = (_globalThis$process$e = globalThis["process"]["env"])[_NODE_ENV = "NODE_ENV"]) !== null && _globalThis$process$e2 !== void 0 ? _globalThis$process$e2 : _globalThis$process$e[_NODE_ENV] = "production";
+
+  // TODO: This shouldn't be in every build, I don't think it's in core-js? I think?
+  // And it's extremely small anyway and basically does nothing.
+  (_window$requestIdleCa = (_window = window).requestIdleCallback) !== null && _window$requestIdleCa !== void 0 ? _window$requestIdleCa : _window.requestIdleCallback = callback => {
+    return setTimeout(() => {
+      callback({
+        didTimeout: false,
+        timeRemaining: () => {
+          return 0;
+        }
+      });
+    }, 5);
+  };
+  let timeoutHandle = null;
+  /**
+   * When called inside a hook, monitors each call of that hook and prints the results to a table once things settle.
+   *
+   * @remarks Re-renders and such are all collected together when the table is printed to the console with `requestIdleCallback`.
+   */
+  function monitorCallCount(hook) {
+    var _window2, _window2$_hookCallCou, _window$_hookCallCoun, _window$_hookCallCoun2;
+    const name = hook.name;
+    if (filters.has(name)) return;
+    console.assert(name.length > 0);
+    (_window2$_hookCallCou = (_window2 = window)._hookCallCount) !== null && _window2$_hookCallCou !== void 0 ? _window2$_hookCallCou : _window2._hookCallCount = {
+      callCounts: {}
+    };
+    (_window$_hookCallCoun2 = (_window$_hookCallCoun = window._hookCallCount.callCounts)[name]) !== null && _window$_hookCallCoun2 !== void 0 ? _window$_hookCallCoun2 : _window$_hookCallCoun[name] = {
+      moment: 0,
+      total: 0
+    };
+    window._hookCallCount.callCounts[name].moment += 1;
+    window._hookCallCount.callCounts[name].total += 1;
+    if (timeoutHandle == null) {
+      timeoutHandle = requestIdleCallback(() => {
+        //console.log((window as WindowWithHookCallCount)._hookCallCount.callCountsMoment);
+        //(window as WindowWithHookCallCount)._hookCallCount.callCountsMoment = {};
+        const o = Object.entries(window._hookCallCount.callCounts).map(_ref => {
+          let [hook, counts] = _ref;
+          return {
+            Hook: hook || "?",
+            Now: (counts === null || counts === void 0 ? void 0 : counts.moment) || 0,
+            Total: (counts === null || counts === void 0 ? void 0 : counts.total) || 0
+          };
+        }).filter(_ref2 => {
+          let {
+            Now
+          } = _ref2;
+          return !!Now;
+        }).sort((_ref3, _ref4) => {
+          let {
+            Now: lhsM
+          } = _ref3;
+          let {
+            Now: rhsM
+          } = _ref4;
+          if (!lhsM && !rhsM) return 0;
+          lhsM || (lhsM = Infinity);
+          rhsM || (rhsM = Infinity);
+          return lhsM - rhsM;
+        });
+        console.table(o, ['Hook', 'Now', 'Total']);
+        Object.entries(window._hookCallCount.callCounts).forEach(_ref5 => {
+          let [, counts] = _ref5;
+          counts.moment = 0;
+        });
+        timeoutHandle = null;
+      });
+    }
+  }
+  const filters = new Set();
+  const toRun = new Map();
+  // TODO: Whether this goes in options.diffed or options._commit
+  // is a post-suspense question.
+  // Right now, using options._commit has the problem of running
+  // *after* refs are applied, but we need to come before even that
+  // so `ref={someStableFunction}` works.
+  // 
+  // Also it's private.
+  //
+  // ...
+  // Well, useEvent or whatever is finally, finally 4 years later finally here
+  // which is cool and means we won't need this at all soon.
+  // So for now we'll stick with diff to prevent any weirdness with
+  // commit being private and all.
+  //
+  // Also, in theory this could be replaced with `useInsertionEffect`,
+  // but that probably won't be available in Preact for awhile.
+  const commitName = "diffed";
+  const newCommit = function (vnode) {
+    for (const [id, effectInfo] of toRun) {
+      const oldInputs = effectInfo.prevInputs;
+      if (argsChanged(oldInputs, effectInfo.inputs)) {
+        var _effectInfo$cleanup;
+        (_effectInfo$cleanup = effectInfo.cleanup) === null || _effectInfo$cleanup === void 0 ? void 0 : _effectInfo$cleanup.call(effectInfo);
+        effectInfo.cleanup = effectInfo.effect();
+        effectInfo.prevInputs = effectInfo.inputs;
+      }
+    }
+    toRun.clear();
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+    originalCommit === null || originalCommit === void 0 ? void 0 : originalCommit(vnode, ...args);
+  };
+  const originalCommit = l$1[commitName];
+  l$1[commitName] = newCommit;
+  let incrementingId = 0;
+  function nextId() {
+    let next = ++incrementingId;
+    // TODO: This seems reasonable, but is is necessary or are we orders of magnitude from having to worry about overflow?
+    if (incrementingId >= Number.MAX_SAFE_INTEGER) incrementingId = -Number.MAX_SAFE_INTEGER;
+    return next;
+  }
+  /**
+   * Semi-private function to allow stable callbacks even within `useLayoutEffect` and ref assignment.
+   *
+   * @remarks Every render, we send the arguments to be evaluated after diffing has completed,
+   * which happens before.
+   *
+   * @param effect
+   * @param inputs
+   */
+  function useBeforeLayoutEffect(effect, inputs) {
+    var _ref$current;
+    monitorCallCount(useBeforeLayoutEffect);
+    // Note to self: This is by far the most called hook by sheer volume of dependencies.
+    // So it should ideally be as quick as possible.
+    const ref = _(null);
+    (_ref$current = ref.current) !== null && _ref$current !== void 0 ? _ref$current : ref.current = nextId();
+    const id = ref.current;
+    if (effect) toRun.set(id, {
+      effect,
+      inputs,
+      cleanup: null
+    });else toRun.delete(id);
+    // Not needed, because the insertion cleanup would run before useEffect anyway, I think?
+    /*useEffect(() => {
+        return () => {
+            toRun.delete(id);
+        }
+    }, [id])*/
+  }
+
+  function argsChanged(oldArgs, newArgs) {
+    return !!(!oldArgs || oldArgs.length !== (newArgs === null || newArgs === void 0 ? void 0 : newArgs.length) || newArgs !== null && newArgs !== void 0 && newArgs.some((arg, index) => arg !== oldArgs[index]));
+  }
+  function debounceRendering(f) {
+    var _l$1$debounceRenderin;
+    ((_l$1$debounceRenderin = l$1.debounceRendering) !== null && _l$1$debounceRenderin !== void 0 ? _l$1$debounceRenderin : queueMicrotask)(f);
+  }
+  const EventMapping = {
+    dblclick: "onDblClick",
+    focusin: "onfocusin",
+    focusout: "onfocusout",
+    formdata: "onFormData",
+    toggle: "onToggle",
+    ...EventMapping$1
+  };
+
+  /**
+   * Debug hook. Given a value or set of values, emits a console error if any of them change from one render to the next.
+   *
+   * @remarks Eventually, when useEvent lands, we hopefully won't need this.
+   */
+  function useEnsureStability(parentHookName) {
+    for (var _len2 = arguments.length, values = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+      values[_key2 - 1] = arguments[_key2];
+    }
+    const helperToEnsureStability = _([]);
+    const shownError = _([]);
+    useHelper(values.length, -1);
+    values.forEach(useHelper);
+    return;
+    function useHelper(value, i) {
+      const index = i + 1;
+      // Make sure that the provided functions are perfectly stable across renders
+      if (helperToEnsureStability.current[index] === undefined) helperToEnsureStability.current[index] = value;
+      if (helperToEnsureStability.current[index] != value) {
+        if (!shownError.current[index]) {
+          /* eslint-disable no-debugger */
+          debugger;
+          console.error("The hook ".concat(parentHookName, " requires some or all of its arguments remain stable across each render; please check the ").concat(i, "-indexed argument (").concat(i >= 0 ? JSON.stringify(values[i]) : "the number of supposedly stable elements", ")."));
+          shownError.current[index] = true;
+        }
       }
     }
   }
-  function getBuildMode() {
-    return cached || (cached = getBuildModeUnmemoized());
+  /**
+   * Similar to `useState`, but for values that aren't "render-important" &ndash; updates don't cause a re-render and so the value shouldn't be used during render (though it certainly can, at least by re-rendering again).
+   *
+   * @remarks To compensate for this, you should pass a `useEffect`-esque callback that is run whenever the value changes.  Just like `useEffect`, this callback can return a cleanup function that's run before the value changes.  If you would like to re-render when the value changes (or, say, when the value meets some criteria), this is where you'll want to put in a call to a `setState` function.
+   *
+   * To summarize, it's like a `useState`-`useEffect` mashup:
+   *
+   * 1. It's like `useState`, except this version of `setState` doesn't re-render the whole component
+   * 2. It's like `useState`, except you can run a function when the value changes that optionally returns a cleanup function
+   * 3. It's like `useEffect`, except you trigger the effect function "remotely" instead of it running after rendering
+   * 4. It's like `useEffect`, except the single "dependency" is based on your calls to `setState`
+   *
+   * Note that while calling `setState` doesn't cause any re-renders, you can do that within your `onChange` function, called whenever the value changes via that `setState`.
+   *
+   * {@include } {@link OnPassiveStateChange}
+   *
+   * @param onChange - The "effect" function to run when the value changes. Effectively the same as `useEffect`'s "effect" function.  MUST BE STABLE, either because it has no dependencies, or because it's from useStableCallback, but this will mean you cannot use getState or setState during render.
+   * @param getInitialValue - If provided, the effect will be invoked once with this value on mount. MUST BE STABLE, either because it has no dependencies, or because it's from useStableCallback, but this will mean you cannot use getState or setState during render.
+   * @param customDebounceRendering - By default, changes to passive state are delayed by one tick so that we only check for changes in a similar way to Preact. You can override this to, for example, always run immediately instead.
+   * @returns
+   */
+  function usePassiveState(onChange, getInitialValue, customDebounceRendering) {
+    monitorCallCount(usePassiveState);
+    //let [id, ,getId] = useState(() => generateRandomId());
+    const valueRef = _(Unset$1);
+    const reasonRef = _(Unset$1);
+    const warningRef = _(false);
+    const dependencyToCompareAgainst = _(Unset$1);
+    const cleanupCallbackRef = _(undefined);
+    // Make sure that the provided functions are perfectly stable across renders
+    useEnsureStability("usePassiveState", onChange, getInitialValue, customDebounceRendering);
+    // Shared between "dependency changed" and "component unmounted".
+    const onShouldCleanUp = T$1(() => {
+      const cleanupCallback = cleanupCallbackRef.current;
+      if (cleanupCallback) cleanupCallback();
+    }, []);
+    // There are a couple places where we'd like to use our initial
+    // value in place of having no value at all yet.
+    // This is the shared code for that, used on mount and whenever
+    // getValue is called.
+    const tryEnsureValue = T$1(() => {
+      if (valueRef.current === Unset$1 && getInitialValue != undefined) {
+        try {
+          var _onChange;
+          const initialValue = getInitialValue();
+          valueRef.current = initialValue;
+          cleanupCallbackRef.current = (_onChange = onChange === null || onChange === void 0 ? void 0 : onChange(initialValue, undefined, undefined)) !== null && _onChange !== void 0 ? _onChange : undefined;
+        } catch (ex) {
+          // Exceptions are intentional to allow bailout (without exposing the Unset symbol)
+        }
+      }
+    }, [/* getInitialValue and onChange intentionally omitted */]);
+    const getValue = T$1(() => {
+      if (warningRef.current) console.warn("During onChange, prefer using the (value, prevValue) arguments instead of getValue -- it's ambiguous as to if you're asking for the old or new value at this point in time for this component.");
+      // The first time we call getValue, if we haven't been given a value yet,
+      // (and we were given an initial value to use)
+      // return the initial value instead of nothing.
+      if (valueRef.current === Unset$1) tryEnsureValue();
+      return valueRef.current === Unset$1 ? undefined : valueRef.current;
+    }, []);
+    y(() => {
+      // Make sure we've run our effect at least once on mount.
+      // (If we have an initial value, of course)
+      tryEnsureValue();
+    }, []);
+    // The actual code the user calls to (possibly) run a new effect.
+    const setValue = T$1((arg, reason) => {
+      // Regardless of anything else, figure out what our next value is about to be.
+      const nextValue = arg instanceof Function ? arg(valueRef.current === Unset$1 ? undefined : valueRef.current) : arg;
+      //let id = getId();
+      //console.log((nextValue !== valueRef.current? "" : "NOT ") + "Scheduling effect ", id, " with value ", nextValue);
+      if ( /*dependencyToCompareAgainst.current === Unset &&*/nextValue !== valueRef.current) {
+        // This is the first request to change this value.
+        // Evaluate the request immediately, then queue up the onChange function
+        // Save our current value so that we can compare against it later
+        // (if we flip back to this state, then we won't send the onChange function)
+        dependencyToCompareAgainst.current = valueRef.current;
+        // It's important to update this here (as well as below) in case customDebounceRendering invokes this immediately
+        valueRef.current = nextValue;
+        reasonRef.current = reason;
+        // Schedule the actual check and invocation of onChange later to let effects settle
+        (customDebounceRendering !== null && customDebounceRendering !== void 0 ? customDebounceRendering : debounceRendering)(() => {
+          const nextReason = reasonRef.current;
+          const nextDep = valueRef.current;
+          const prevDep = dependencyToCompareAgainst.current;
+          //let id = getId();
+          //console.log(((dependencyToCompareAgainst.current != valueRef.current)? "" : "NOT ") + "Running effect ", id, " with value ", nextDep);
+          if (dependencyToCompareAgainst.current != valueRef.current) {
+            // TODO: This needs to happen here in order to make recursive onChanges work
+            // but it feels better to have it happen after onChange...
+            valueRef.current = dependencyToCompareAgainst.current = Unset$1;
+            warningRef.current = true;
+            try {
+              var _onChange2;
+              // Call any registered cleanup function
+              onShouldCleanUp();
+              valueRef.current = nextDep; // Needs to happen before onChange in case onChange is recursive (e.g. focusing causing a focus causing a focus)
+              cleanupCallbackRef.current = (_onChange2 = onChange === null || onChange === void 0 ? void 0 : onChange(nextDep, prevDep === Unset$1 ? undefined : prevDep, nextReason)) !== null && _onChange2 !== void 0 ? _onChange2 : undefined;
+            } finally {
+              // Allow the user to normally call getValue again
+              warningRef.current = false;
+            }
+          }
+          // We've finished with everything, so mark us as being on a clean slate again.
+          dependencyToCompareAgainst.current = Unset$1;
+        });
+      }
+      // Update the value immediately.
+      // This will be checked against prevDep to see if we should actually call onChange
+      //valueRef.current = nextValue;
+    }, []);
+    return [getValue, setValue];
+  }
+  const Unset$1 = Symbol();
+  function returnFalse() {
+    return false;
+  }
+  function returnNull() {
+    return null;
+  }
+  /**
+   * An alternative to use for `customDebounceRendering` that causes `usePassiveState` to run changes without waiting a tick.
+   */
+  function runImmediately(f) {
+    f();
+  }
+  const Unset = Symbol("unset");
+  /**
+   * Given an input value, returns a constant getter function that can be used
+   * inside of `useEffect` and friends without including it in the dependency array.
+   *
+   * @remarks This uses `options.diffed` in order to run before everything, even
+   * ref assignment. This means this getter is safe to use anywhere ***except the render phase***.
+   */
+  function useStableGetter(value) {
+    monitorCallCount(useStableGetter);
+    const ref = _(Unset);
+    useBeforeLayoutEffect(() => {
+      ref.current = value;
+    }, [value]);
+    return T$1(() => {
+      if (ref.current === Unset) {
+        throw new Error('Value retrieved from useStableGetter() cannot be called during render.');
+      }
+      return ref.current;
+    }, []);
+  }
+  function useMemoObject(t) {
+    return F$1(() => {
+      return t;
+    }, Object.values(t));
+  }
+
+  /**
+   * We keep track of which callbacks are stable with a WeakMap instead of, say, a symbol because
+   * `useCallback` will return a function that's stable across *all* renders, meaning
+   * we can't use our funny "`if` only works here because it doesn't break the rules of hooks" trick then.
+   */
+  const map = new WeakMap();
+  function isStableGetter(obj) {
+    var _map$get;
+    return (_map$get = map.get(obj)) !== null && _map$get !== void 0 ? _map$get : false;
+  }
+  function setIsStableGetter(obj) {
+    map.set(obj, true);
+    return obj;
+  }
+  /**
+   * Alternate useCallback() which always returns the same (wrapped) function reference
+   * so that it can be excluded from the dependency arrays of `useEffect` and friends.
+   *
+   * @remarks In general, just pass the function you want to be stable (but you can't use it during render,
+   * so be careful!).  Alternatively, if you need a stable callback that **can** be used
+   * during render, pass an empty dependency array and it'll act like `useCallback` with an
+   * empty dependency array, but with the associated stable typing. In this case, you ***must*** ensure that it
+   * truly has no dependencies/only stable dependencies!!
+   */
+  function useStableCallback(fn, noDeps) {
+    monitorCallCount(useStableCallback);
+    useEnsureStability("useStableCallback", noDeps == null, noDeps === null || noDeps === void 0 ? void 0 : noDeps.length, isStableGetter(fn));
+    if (isStableGetter(fn)) return fn;
+    if (noDeps == null) {
+      const currentCallbackGetter = useStableGetter(fn);
+      return setIsStableGetter(T$1(function () {
+        return currentCallbackGetter()(...arguments);
+      }, []));
+    } else {
+      console.assert(noDeps.length === 0);
+      return setIsStableGetter(T$1(fn, []));
+    }
   }
 
   /** Detect free variable `global` from Node.js. */
@@ -815,22 +1492,6 @@
   function getNative(object, key) {
     var value = getValue(object, key);
     return baseIsNative(value) ? value : undefined;
-  }
-
-  /**
-   * This method returns `undefined`.
-   *
-   * @static
-   * @memberOf _
-   * @since 2.3.0
-   * @category Util
-   * @example
-   *
-   * _.times(2, _.noop);
-   * // => [undefined, undefined]
-   */
-  function noop() {
-    // No operation performed.
   }
 
   /**
@@ -1324,182 +1985,15 @@
   // Expose `MapCache`.
   memoize.Cache = MapCache;
 
-  // TODO: This shouldn't be in every build, I don't think it's in core-js? I think?
-  // And it's extremely small anyway and basically does nothing.
-  (_window$requestIdleCa = (_window = window).requestIdleCallback) !== null && _window$requestIdleCa !== void 0 ? _window$requestIdleCa : _window.requestIdleCallback = callback => {
-    return setTimeout(() => {
-      callback({
-        didTimeout: false,
-        timeRemaining: () => {
-          return 0;
-        }
-      });
-    }, 5);
-  };
-  function callCountU(hook) {
-    return;
-  }
-  getBuildMode() == "development" ? callCountU : noop;
-
   /**
-   * Debug hook.
+   * Combines two `children`.
    *
-   * Given a value or set of values, emits a console error if any of them change from one render to the next.
+   * @remarks This is fairly trivial and not even technically a hook, as it doesn't use any other hooks, but is this way for consistency.
    *
-   * Eventually, when useEvent lands, we hopefully won't need this.
+   * TODO: This could accept a variable number of arguments to be consistent with useMergedProps, but I feel like it might be a performance hit.
    */
-  function useEnsureStability(parentHookName) {
-    for (var _len = arguments.length, values = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      values[_key - 1] = arguments[_key];
-    }
-    if (getBuildMode() == 'production') return;
-    const helperToEnsureStability = _([]);
-    const shownError = _([]);
-    useHelper(values.length, -1);
-    values.forEach(useHelper);
-    return;
-    function useHelper(value, i) {
-      const index = i + 1;
-      // Make sure that the provided functions are perfectly stable across renders
-      if (helperToEnsureStability.current[index] === undefined) helperToEnsureStability.current[index] = value;
-      if (helperToEnsureStability.current[index] != value) {
-        if (!shownError.current[index]) {
-          /* eslint-disable no-debugger */
-          debugger;
-          console.error("The hook ".concat(parentHookName, " requires some or all of its arguments remain stable across each render; please check the ").concat(i, "-indexed argument (").concat(i >= 0 ? JSON.stringify(values[i]) : "the number of supposedly stable elements", ")."));
-          shownError.current[index] = true;
-        }
-      }
-    }
-  }
-  function debounceRendering(f) {
-    var _l$1$debounceRenderin;
-    ((_l$1$debounceRenderin = l$1.debounceRendering) !== null && _l$1$debounceRenderin !== void 0 ? _l$1$debounceRenderin : queueMicrotask)(f);
-  }
-  /**
-   * Similar to `useState`, but for values that aren't "render-important" &ndash; updates don't cause a re-render and so the value shouldn't be used during render (though it certainly can, at least by re-rendering again).
-   *
-   * To compensate for this, you should pass a `useEffect`-esque callback that is run whenever the value changes.  Just like `useEffect`, this callback can return a cleanup function that's run before the value changes.  If you would like to re-render when the value changes (or, say, when the value meets some criteria), this is where you'll want to put in a call to a `setState` function.
-   *
-   * To summarize, it's like a `useState`-`useEffect` mashup:
-   *
-   * 1. It's like `useState`, except this version of `setState` doesn't re-render the whole component
-   * 2. It's like `useState`, except you can run a function when the value changes that optionally returns a cleanup function
-   * 3. It's like `useEffect`, except you trigger the effect function "remotely" instead of it running after rendering
-   * 4. It's like `useEffect`, except the single "dependency" is based on your calls to `setState`
-   *
-   * Note that while calling `setState` doesn't cause any re-renders, you can do that within your `onChange` function, called whenever the value changes via that `setState`.
-   *
-   * @param onChange The "effect" function to run when the value changes. Effectively the same as `useEffect`'s "effect" function.  MUST BE STABLE, either because it has no dependencies, or because it's from useStableCallback, but this will mean you cannot use getState or setState during render.
-   * @param getInitialValue If provided, the effect will be invoked once with this value on mount. MUST BE STABLE, either because it has no dependencies, or because it's from useStableCallback, but this will mean you cannot use getState or setState during render.
-   * @param customDebounceRendering By default, changes to passive state are delayed by one tick so that we only check for changes in a similar way to Preact. You can override this to, for example, always run immediately instead.
-   * @returns
-   */
-  function usePassiveState(onChange, getInitialValue, customDebounceRendering) {
-    //let [id, ,getId] = useState(() => generateRandomId());
-    const valueRef = _(Unset$1);
-    const reasonRef = _(Unset$1);
-    const warningRef = _(false);
-    const dependencyToCompareAgainst = _(Unset$1);
-    const cleanupCallbackRef = _(undefined);
-    // Make sure that the provided functions are perfectly stable across renders
-    useEnsureStability("usePassiveState", onChange, getInitialValue, customDebounceRendering);
-    // Shared between "dependency changed" and "component unmounted".
-    const onShouldCleanUp = T$1(() => {
-      const cleanupCallback = cleanupCallbackRef.current;
-      if (cleanupCallback) cleanupCallback();
-    }, []);
-    // There are a couple places where we'd like to use our initial
-    // value in place of having no value at all yet.
-    // This is the shared code for that, used on mount and whenever
-    // getValue is called.
-    const tryEnsureValue = T$1(() => {
-      if (valueRef.current === Unset$1 && getInitialValue != undefined) {
-        try {
-          var _onChange;
-          const initialValue = getInitialValue();
-          valueRef.current = initialValue;
-          cleanupCallbackRef.current = (_onChange = onChange === null || onChange === void 0 ? void 0 : onChange(initialValue, undefined, undefined)) !== null && _onChange !== void 0 ? _onChange : undefined;
-        } catch (ex) {
-          // Exceptions are intentional to allow bailout (without exposing the Unset symbol)
-        }
-      }
-    }, [/* getInitialValue and onChange intentionally omitted */]);
-    const getValue = T$1(() => {
-      if (warningRef.current) console.warn("During onChange, prefer using the (value, prevValue) arguments instead of getValue -- it's ambiguous as to if you're asking for the old or new value at this point in time for this component.");
-      // The first time we call getValue, if we haven't been given a value yet,
-      // (and we were given an initial value to use)
-      // return the initial value instead of nothing.
-      if (valueRef.current === Unset$1) tryEnsureValue();
-      return valueRef.current === Unset$1 ? undefined : valueRef.current;
-    }, []);
-    y(() => {
-      // Make sure we've run our effect at least once on mount.
-      // (If we have an initial value, of course)
-      tryEnsureValue();
-    }, []);
-    // The actual code the user calls to (possibly) run a new effect.
-    const setValue = T$1((arg, reason) => {
-      // Regardless of anything else, figure out what our next value is about to be.
-      const nextValue = arg instanceof Function ? arg(valueRef.current === Unset$1 ? undefined : valueRef.current) : arg;
-      //let id = getId();
-      //console.log((nextValue !== valueRef.current? "" : "NOT ") + "Scheduling effect ", id, " with value ", nextValue);
-      if ( /*dependencyToCompareAgainst.current === Unset &&*/nextValue !== valueRef.current) {
-        // This is the first request to change this value.
-        // Evaluate the request immediately, then queue up the onChange function
-        // Save our current value so that we can compare against it later
-        // (if we flip back to this state, then we won't send the onChange function)
-        dependencyToCompareAgainst.current = valueRef.current;
-        // It's important to update this here (as well as below) in case customDebounceRendering invokes this immediately
-        valueRef.current = nextValue;
-        reasonRef.current = reason;
-        // Schedule the actual check and invocation of onChange later to let effects settle
-        (customDebounceRendering !== null && customDebounceRendering !== void 0 ? customDebounceRendering : debounceRendering)(() => {
-          const nextReason = reasonRef.current;
-          const nextDep = valueRef.current;
-          const prevDep = dependencyToCompareAgainst.current;
-          //let id = getId();
-          //console.log(((dependencyToCompareAgainst.current != valueRef.current)? "" : "NOT ") + "Running effect ", id, " with value ", nextDep);
-          if (dependencyToCompareAgainst.current != valueRef.current) {
-            // TODO: This needs to happen here in order to make recursive onChanges work
-            // but it feels better to have it happen after onChange...
-            valueRef.current = dependencyToCompareAgainst.current = Unset$1;
-            warningRef.current = true;
-            try {
-              var _onChange2;
-              // Call any registered cleanup function
-              onShouldCleanUp();
-              valueRef.current = nextDep; // Needs to happen before onChange in case onChange is recursive (e.g. focusing causing a focus causing a focus)
-              cleanupCallbackRef.current = (_onChange2 = onChange === null || onChange === void 0 ? void 0 : onChange(nextDep, prevDep === Unset$1 ? undefined : prevDep, nextReason)) !== null && _onChange2 !== void 0 ? _onChange2 : undefined;
-            } finally {
-              // Allow the user to normally call getValue again
-              warningRef.current = false;
-            }
-          }
-          // We've finished with everything, so mark us as being on a clean slate again.
-          dependencyToCompareAgainst.current = Unset$1;
-        });
-      }
-      // Update the value immediately.
-      // This will be checked against prevDep to see if we should actually call onChange
-      //valueRef.current = nextValue;
-    }, []);
-    return [getValue, setValue];
-  }
-  const Unset$1 = Symbol();
-  function returnFalse() {
-    return false;
-  }
-  function returnNull() {
-    return null;
-  }
-  /**
-   * An alternative to use for `customDebounceRendering` that causes `usePassiveState` to run changes without waiting a tick.
-   */
-  function runImmediately(f) {
-    f();
-  }
   function useMergedChildren(lhs, rhs) {
+    monitorCallCount(useMergedChildren);
     if (lhs == null && rhs == null) {
       return undefined;
     } else if (lhs == null) {
@@ -1512,164 +2006,25 @@
   }
 
   /**
-   * Given two sets of props, merges their `class` and `className` properties.
-   * Duplicate classes are removed (order doesn't matter anyway).
+   * Merged the `class` and `className` properties of two sets of props into a single string.
    *
-   * @param lhs Classes of the first component
-   * @param rhs Classes of the second component
-   * @returns A string representing all combined classes from both arguments.
+   * @remarks Duplicate classes are removed (order doesn't matter anyway).
    */
-  function useMergedClasses(lhsClass, lhsClassName, rhsClass, rhsClassName) {
+  function useMergedClasses() {
+    monitorCallCount(useMergedClasses);
     // Note: For the sake of forward compatibility, this function is labelled as
     // a hook, but as it uses no other hooks it technically isn't one.
-    if (lhsClass || rhsClass || lhsClassName || rhsClassName) {
-      const lhsClasses = clsx(lhsClass, lhsClassName).split(" ");
-      const rhsClasses = clsx(rhsClass, rhsClassName).split(" ");
-      const allClasses = new Set([...Array.from(lhsClasses), ...Array.from(rhsClasses)]);
-      return Array.from(allClasses).join(" ");
+    let classesSet = new Set();
+    for (var _len3 = arguments.length, classes = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+      classes[_key3] = arguments[_key3];
+    }
+    for (let c of classes) {
+      if (typeof c == "string" && c.trim()) classesSet.add(c);
+    }
+    if (classesSet.size) {
+      return Array.from(classesSet).join(" ");
     } else {
       return undefined;
-    }
-  }
-  const toRun = new Map();
-  // TODO: Whether this goes in options.diffed or options._commit
-  // is a post-suspense question.
-  // Right now, using options._commit has the problem of running
-  // *after* refs are applied, but we need to come before even that
-  // so `ref={someStableFunction}` works.
-  // 
-  // Also it's private.
-  //
-  // ...
-  // Well, useEvent or whatever is finally, finally 4 years later finally here
-  // which is cool and means we won't need this at all soon.
-  // So for now we'll stick with diff to prevent any weirdness with
-  // commit being private and all.
-  //
-  // Also, in theory this could be replaced with `useInsertionEffect`,
-  // but that probably won't be available in Preact for awhile.
-  const commitName = "diffed";
-  const newCommit = function (vnode) {
-    for (const [id, effectInfo] of toRun) {
-      const oldInputs = effectInfo.prevInputs;
-      if (argsChanged(oldInputs, effectInfo.inputs)) {
-        var _effectInfo$cleanup;
-        (_effectInfo$cleanup = effectInfo.cleanup) === null || _effectInfo$cleanup === void 0 ? void 0 : _effectInfo$cleanup.call(effectInfo);
-        effectInfo.cleanup = effectInfo.effect();
-        effectInfo.prevInputs = effectInfo.inputs;
-      }
-    }
-    toRun.clear();
-    for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-      args[_key2 - 1] = arguments[_key2];
-    }
-    originalCommit === null || originalCommit === void 0 ? void 0 : originalCommit(vnode, ...args);
-  };
-  const originalCommit = l$1[commitName];
-  l$1[commitName] = newCommit;
-  let incrementingId = 0;
-  function nextId() {
-    let next = ++incrementingId;
-    // TODO: This seems reasonable, but is is necessary or are we orders of magnitude from having to worry about overflow?
-    if (incrementingId >= Number.MAX_SAFE_INTEGER) incrementingId = -Number.MAX_SAFE_INTEGER;
-    return next;
-  }
-  /**
-   * Semi-private function to allow stable callbacks even within `useLayoutEffect` and ref assignment.
-   *
-   * Every render, we send the arguments to be evaluated after diffing has completed,
-   * which happens before.
-   *
-   * @param effect
-   * @param inputs
-   */
-  function useBeforeLayoutEffect(effect, inputs) {
-    var _ref$current;
-    // Note to self: This is by far the most called hook by sheer volume of dependencies.
-    // So it should ideally be as quick as possible.
-    const ref = _(null);
-    (_ref$current = ref.current) !== null && _ref$current !== void 0 ? _ref$current : ref.current = nextId();
-    const id = ref.current;
-    if (effect) toRun.set(id, {
-      effect,
-      inputs,
-      cleanup: null
-    });else toRun.delete(id);
-    // Not needed, because the insertion cleanup would run before useEffect anyway, I think?
-    /*useEffect(() => {
-        return () => {
-            toRun.delete(id);
-        }
-    }, [id])*/
-  }
-
-  function argsChanged(oldArgs, newArgs) {
-    return !!(!oldArgs || oldArgs.length !== (newArgs === null || newArgs === void 0 ? void 0 : newArgs.length) || newArgs !== null && newArgs !== void 0 && newArgs.some((arg, index) => arg !== oldArgs[index]));
-  }
-  const Unset = Symbol("unset");
-  /**
-   * Given an input value, returns a constant getter function that can be used
-   * inside of `useEffect` and friends without including it in the dependency array.
-   *
-   * This uses `options.diffed` in order to run before everything, even
-   * ref assignment. This means this getter is safe to use anywhere ***except the render phase***.
-   *
-   * @param value
-   * @returns
-   */
-  function useStableGetter(value) {
-    const ref = _(Unset);
-    useBeforeLayoutEffect(() => {
-      ref.current = value;
-    }, [value]);
-    return T$1(() => {
-      if (ref.current === Unset) {
-        throw new Error('Value retrieved from useStableGetter() cannot be called during render.');
-      }
-      return ref.current;
-    }, []);
-  }
-  function useMemoObject(t) {
-    return F$1(() => {
-      return t;
-    }, Object.values(t));
-  }
-
-  /**
-   * We keep track of which callbacks are stable with a WeakMap instead of, say, a symbol because
-   * `useCallback` will return a function that's stable across *all* renders, meaning
-   * we can't use our funny "`if` only works here because it doesn't break the rules of hooks" trick then.
-   */
-  const map = new WeakMap();
-  function isStableGetter(obj) {
-    var _map$get;
-    return (_map$get = map.get(obj)) !== null && _map$get !== void 0 ? _map$get : false;
-  }
-  function setIsStableGetter(obj) {
-    map.set(obj, true);
-    return obj;
-  }
-  /**
-   * Alternate useCallback() which always returns the same (wrapped) function reference
-   * so that it can be excluded from the dependency arrays of `useEffect` and friends.
-   *
-   * In general, just pass the function you want to be stable (but you can't use it during render,
-   * so be careful!).  Alternatively, if you need a stable callback that **can** be used
-   * during render, pass an empty dependency array and it'll act like `useCallback` with an
-   * empty dependency array, but with the associated stable typing. In this case, you ***must*** ensure that it
-   * truly has no dependencies/only stable dependencies!!
-   */
-  function useStableCallback(fn, noDeps) {
-    useEnsureStability("useStableCallback", noDeps == null, noDeps === null || noDeps === void 0 ? void 0 : noDeps.length, isStableGetter(fn));
-    if (isStableGetter(fn)) return fn;
-    if (noDeps == null) {
-      const currentCallbackGetter = useStableGetter(fn);
-      return setIsStableGetter(T$1(function () {
-        return currentCallbackGetter()(...arguments);
-      }, []));
-    } else {
-      console.assert(noDeps.length === 0);
-      return setIsStableGetter(T$1(fn, []));
     }
   }
   function processRef(instance, ref) {
@@ -1685,11 +2040,11 @@
   }
   /**
    * Combines two refs into one. This allows a component to both use its own ref *and* forward a ref that was given to it.
-   * @param lhs
-   * @param rhs
-   * @returns
+   *
+   * @remarks Or just use {@link useMergedProps}
    */
   function useMergedRefs(rhs, lhs) {
+    monitorCallCount(useMergedRefs);
     // This *must* be stable in order to prevent repeated reset `null` calls after every render.
     const combined = useStableCallback(function combined(current) {
       processRef(current, lhs);
@@ -1712,11 +2067,12 @@
   /**
    * Merges two style objects, returning the result.
    *
-   * @param style The user-given style prop for this component
-   * @param obj The CSS properties you want added to the user-given style
+   * @param style - The user-given style prop for this component
+   * @param obj - The CSS properties you want added to the user-given style
    * @returns A CSS object containing the properties of both objects.
    */
   function useMergedStyles(lhs, rhs) {
+    monitorCallCount(useMergedStyles);
     // Easy case, when there are no styles to merge return nothing.
     if (!lhs && !rhs) return undefined;
     if (typeof lhs != typeof rhs) {
@@ -1747,14 +2103,25 @@
   /**
    * Given two sets of props, merges them and returns the result.
    *
-   * The hook is aware of and can intelligently merge `className`, `class`, `style`, `ref`, and all event handlers.
-   * @param lhs2
-   * @param rhs2
-   * @returns
+   * @remarks The hook is aware of and can intelligently merge `className`, `class`, `style`, `ref`, `children`, and all event handlers.
+   *
+   * If two sets of props both specify the same attribute, e.g. both specify two different `id`s, then an error will be printed to the console (customize this with {@link enableLoggingPropConflicts}), as this conflict needs to be arbitrated on by you.
+   *
+   * {@include } {@link enableLoggingPropConflicts}
+   *
+   * @see {@link useMergedRefs}
+   * @see {@link useMergedStyles}
+   * @see {@link useMergedClasses}
+   * @see {@link useMergedChildren}
+   *
+   * @param allProps - A variadic number of props to merge into one
+   *
+   * @returns A single object with all the provided props merged into one.
    */
   function useMergedProps() {
-    for (var _len3 = arguments.length, allProps = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-      allProps[_key3] = arguments[_key3];
+    monitorCallCount(useMergedProps);
+    for (var _len4 = arguments.length, allProps = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+      allProps[_key4] = arguments[_key4];
     }
     useEnsureStability("useMergedProps", allProps.length);
     let ret = {};
@@ -1771,7 +2138,7 @@
       const merged = mergeFunctions(lhsValue, rhsValue);
       return merged;
     } else {
-      // Uh...we're here because one of them's null, right?
+      // Uh...they're not both functions so we're here because one of them's null, right?
       if (lhsValue == null && rhsValue == null) {
         if (rhsValue === null && lhsValue === undefined) return rhsValue;else return lhsValue;
       }
@@ -1828,7 +2195,7 @@
     };
   }
   function generateStack() {
-    if (getBuildMode() === 'development') {
+    if (window._generate_setState_stacks) {
       try {
         throw new Error();
       } catch (e) {
@@ -1838,25 +2205,124 @@
     return undefined;
   }
   /**
-   * @returns A function that retrieves the stack at the time this hook was called (in development mode only).
+   * Returns a function that retrieves the stack at the time this hook was called (in development mode only).
+   *
+   *
    */
   function useStack() {
-    const stack = F$1(generateStack, []);
-    const getStack = T$1(() => stack, []);
-    return getStack;
+    {
+      const stack = F$1(generateStack, []);
+      const getStack = T$1(() => stack, []);
+      return getStack;
+    }
+  }
+
+  /**
+   * Runs a function the specified number of milliseconds after the component renders.
+   *
+   * @remarks This is particularly useful to function as "useEffect on a delay".
+   *
+   * @remarks
+   * {@include } {@link UseTimeoutParameters}
+   */
+  function useTimeout(_ref6) {
+    let {
+      timeout,
+      callback,
+      triggerIndex
+    } = _ref6;
+    monitorCallCount(useTimeout);
+    const stableCallback = useStableCallback(() => {
+      startTimeRef.current = null;
+      callback();
+    });
+    const getTimeout = useStableGetter(timeout);
+    // Set any time we start timeout.
+    // Unset any time the timeout completes
+    const startTimeRef = _(null);
+    const timeoutIsNull = timeout == null;
+    // Any time the triggerIndex changes (including on mount)
+    // restart the timeout.  The timeout does NOT reset
+    // when the duration or callback changes, only triggerIndex.
+    p(() => {
+      if (!timeoutIsNull) {
+        const timeout = getTimeout();
+        console.assert(timeoutIsNull == (timeout == null));
+        if (timeout != null) {
+          startTimeRef.current = +new Date();
+          const handle = setTimeout(stableCallback, timeout);
+          return () => clearTimeout(handle);
+        }
+      }
+    }, [triggerIndex, timeoutIsNull]);
+    const getElapsedTime = T$1(() => {
+      var _startTimeRef$current;
+      return +new Date() - +((_startTimeRef$current = startTimeRef.current) !== null && _startTimeRef$current !== void 0 ? _startTimeRef$current : new Date());
+    }, []);
+    const getRemainingTime = T$1(() => {
+      const timeout = getTimeout();
+      return timeout == null ? null : Math.max(0, timeout - getElapsedTime());
+    }, []);
+    return {
+      getElapsedTime,
+      getRemainingTime
+    };
+  }
+  let idIndex = 0;
+  /**
+   * Debug function that yells at you if your forgot to use the props a hook returns.
+   *
+   * @remarks Like other debug hooks, only has any effect IFF there is a global variable called `"development"` and it contains the value `"development"`.
+   *
+   * @param props - The props to return a modified copy of
+   * @param tag - Should be unique
+   * @returns A modified copy of the given props
+   */
+  function useTagProps(props, tag) {
+    {
+      const [id] = h(() => ++idIndex);
+      const propsIdTag = "data-props-".concat(tag, "-").concat(id);
+      const getStack = useStack();
+      // Don't have multiple tags of the same type on the same props, means a hook has been called twice!
+      console.assert(!(props && typeof props == "object" && tag in props));
+      useTimeout({
+        callback: () => {
+          let element = document.querySelectorAll("[".concat(propsIdTag, "]"));
+          if (element.length != 1) {
+            console.error("A hook returned props that were not properly spread to any HTMLElement:");
+            console.log(getStack());
+            /* eslint-disable no-debugger */
+            debugger;
+          }
+        },
+        timeout: 250,
+        triggerIndex: tag
+      });
+      return F$1(() => {
+        return {
+          ...props,
+          [propsIdTag]: true /*, [tag as never]: true*/
+        };
+      }, [props, tag]);
+    }
   }
 
   /**
    * Allows a parent component to access information about certain
    * child components once they have rendered.
    *
-   * This hook is designed to be lightweight, in that the parent keeps no state
+   * @remarks This hook is designed to be lightweight, in that the parent keeps no state
    * and runs no effects.  Each child *does* run an effect, but with no state
    * changes unless you explicitly request them.
    *
+   * {@include } {@link ManagedChildren}
    *
+   * @hasChild {@link useManagedChild}
+   *
+   * @compositeParams
    */
   function useManagedChildren(parentParameters) {
+    monitorCallCount(useManagedChildren);
     const {
       managedChildrenParameters: {
         onAfterChildLayoutEffect,
@@ -1866,9 +2332,11 @@
       ...rest
     } = parentParameters;
     useEnsureStability("useManagedChildren", onAfterChildLayoutEffect, onChildrenMountChange, onChildrenCountChange);
-    //const [getMountCount, setMountCount] = usePassiveState(onChildrenCountChange, returnZero, runImmediately);
     const getHighestIndex = T$1(() => {
       return managedChildrenArray.current.highestIndex;
+    }, []);
+    const getLowestIndex = T$1(() => {
+      return managedChildrenArray.current.lowestIndex;
     }, []);
     // All the information we have about our children is stored in this **stable** array.
     // Any mutations to this array **DO NOT** trigger any sort of a re-render.
@@ -1930,33 +2398,43 @@
       return () => {};
     }, [/* Must remain stable */]);
     const remoteULEChildMounted = T$1((index, mounted) => {
+      var _hasRemoteULEChildMou, _hasRemoteULEChildMou2;
       if (!hasRemoteULEChildMounted.current) {
         hasRemoteULEChildMounted.current = {
           mounts: new Set(),
           unmounts: new Set()
         };
-        if (onChildrenCountChange || onChildrenMountChange) {
-          debounceRendering(() => {
+        debounceRendering(() => {
+          if (onChildrenCountChange || onChildrenMountChange) {
             onChildrenMountChange === null || onChildrenMountChange === void 0 ? void 0 : onChildrenMountChange(hasRemoteULEChildMounted.current.mounts, hasRemoteULEChildMounted.current.unmounts);
             onChildrenCountChange === null || onChildrenCountChange === void 0 ? void 0 : onChildrenCountChange(getChildren().getHighestIndex() + 1);
             hasRemoteULEChildMounted.current = null;
-          });
-        }
+          }
+        });
       }
       if (mounted) {
-        if (typeof index == "number") managedChildrenArray.current.highestIndex = Math.max(managedChildrenArray.current.highestIndex, index);
+        if (typeof index == "number") {
+          managedChildrenArray.current.highestIndex = Math.max(managedChildrenArray.current.highestIndex, index);
+          managedChildrenArray.current.lowestIndex = Math.min(managedChildrenArray.current.lowestIndex, index);
+        }
       } else {
         if (typeof index == "number") {
           delete managedChildrenArray.current.arr[index];
           let shave = 0;
-          while (shave <= managedChildrenArray.current.arr.length && managedChildrenArray.current.arr[managedChildrenArray.current.arr.length - 1 - shave] === undefined) {
+          while (shave <= managedChildrenArray.current.arr.length && managedChildrenArray.current.arr[managedChildrenArray.current.arr.length - 1 - shave] == undefined) {
             ++shave;
           }
           managedChildrenArray.current.arr.splice(managedChildrenArray.current.arr.length - shave, shave);
         } else delete managedChildrenArray.current.rec[index];
-        if (typeof index == "number") managedChildrenArray.current.highestIndex = managedChildrenArray.current.arr.length - 1;
+        if (typeof index == "number") {
+          managedChildrenArray.current.highestIndex = managedChildrenArray.current.arr.length - 1;
+          // TODO: length automatically adjusts to give us the highest index,
+          // but there's no corresponding property to get the lowest index when it changes...
+          // managedChildrenArray.current.lowestIndex = managedChildrenArray.current.arr.length - 1;
+        }
       }
-      hasRemoteULEChildMounted.current[mounted ? "mounts" : "unmounts"].add(index);
+
+      hasRemoteULEChildMounted === null || hasRemoteULEChildMounted === void 0 || (_hasRemoteULEChildMou = hasRemoteULEChildMounted.current) === null || _hasRemoteULEChildMou === void 0 || (_hasRemoteULEChildMou = _hasRemoteULEChildMou[mounted ? "mounts" : "unmounts"]) === null || _hasRemoteULEChildMou === void 0 || (_hasRemoteULEChildMou2 = _hasRemoteULEChildMou.add) === null || _hasRemoteULEChildMou2 === void 0 ? void 0 : _hasRemoteULEChildMou2.call(_hasRemoteULEChildMou, index);
     }, [/* Must remain stable */]);
     const managedChildren = useMemoObject({
       ...{
@@ -1965,7 +2443,8 @@
       forEach: forEachChild,
       getAt: getManagedChildInfo,
       getHighestIndex: getHighestIndex,
-      arraySlice: T$1(() => {
+      getLowestIndex: getLowestIndex,
+      _arraySlice: T$1(() => {
         let ret = managedChildrenArray.current.arr.slice();
         const max = getHighestIndex();
         for (let i = 0; i <= max; ++i) {
@@ -1991,11 +2470,15 @@
       }
     };
   }
-  function useManagedChild(_ref) {
+  /**
+   * @compositeParams
+   */
+  function useManagedChild(_ref7) {
     let {
       context,
       info
-    } = _ref;
+    } = _ref7;
+    monitorCallCount(useManagedChild);
     const {
       managedChildContext: {
         getChildren,
@@ -2053,20 +2536,18 @@
    *
    * Also because of that, the types of this function are rather odd.  It's better to start off using a hook that already uses a flag, such as `useRovingTabIndex`, as an example.
    *
-   *
-   * @param param0
-   * @returns
    */
-  function useChildrenFlag(_ref2) {
+  function useChildrenFlag(_ref8) {
     let {
       getChildren,
       initialIndex,
       closestFit,
+      onClosestFit,
       onIndexChange,
       getAt,
       setAt,
       isValid
-    } = _ref2;
+    } = _ref8;
     useEnsureStability("useChildrenFlag", onIndexChange, getAt, setAt, isValid);
     // TODO (maybe?): Even if there is an initial index, it's not set until mount. Is that fine?
     const [getCurrentIndex, setCurrentIndex] = usePassiveState(onIndexChange);
@@ -2089,6 +2570,9 @@
       });
       return closestIndex;
     }, [/* Must remain stable! */]);
+    if (closestFit) {
+      console.assert(onClosestFit != null, "When closestFit is used, onClosestFit must be provided");
+    }
     // Any time a child mounts/unmounts, we need to double-check to see if that affects 
     // the "currently selected" (or whatever) index.  The two cases we're looking for:
     // 1. The currently selected child unmounted
@@ -2107,6 +2591,9 @@
           const closestFitChild = children.getAt(closestFitIndex);
           console.assert(closestFitChild != null, "Internal logic???");
           setAt(closestFitChild, true, closestFitIndex, currentIndex);
+          onClosestFit(closestFitIndex);
+        } else {
+          onClosestFit(null);
         }
       }
     });
@@ -2162,22 +2649,22 @@
    * Slightly enhanced version of `useState` that includes a getter that remains constant
    * (i.e. you can use it in `useEffect` and friends without it being a dependency).
    *
-   * If `getBuildMode()` returns `"development"`, then any calls to `setState` will also
+   * @remarks If `getBuildMode()` returns `"development"`, then any calls to `setState` will also
    * take the stack at the time the hook was called and save it to `window._setState_stack`.
    * Useful if you want to trace whose state is being updated.
    *
-   * @param initialState
-   * @returns
+   * @param initialState - Same as the built-in `setState`'s
    */
   function useState(initialState) {
     const getStack = useStack();
-    // We keep both, but overrride the `setState` functionality
+    monitorCallCount(useState);
+    // We keep both, but override the `setState` functionality
     const [state, setStateP] = h(initialState);
     const ref = _(state);
     // Hijack the normal setter function 
     // to also set our ref to the new value
     const setState = T$1(value => {
-      if (getBuildMode() === 'development') {
+      {
         window._setState_stack = getStack();
       }
       if (typeof value === "function") {
@@ -2206,20 +2693,43 @@
     return [state, setState, getState];
   }
 
-  /*
-  export function useRefElementProps<E extends Element>(r: UseRefElementReturnType<E>, ...otherProps: ElementProps<E>[]): ElementProps<E>[] {
-      return [r.refElementReturn.propsStable, ...otherProps];
-  }*/
   /**
-   * Allows accessing the element a ref references as soon as it does so.
-   * *This hook itself returns a hook*--useRefElementProps modifies the props that you were going to pass to an HTMLElement,
-   * adding a RefCallback and merging it with any existing ref that existed on the props.
+   * Access `HTMLElement` rendered by this hook/these props, either as soon as it's available (as a callback), or whenever you need it (as a getter function).
    *
-   * Don't forget to provide the Element as the type argument!
+   * @remarks
    *
-   * @returns The element, and the sub-hook that makes it retrievable.
+   * This hook, like many others, works with either `useState` or {@link usePassiveState}. Why use one over the other?
+   *
+   * ```md-literal
+   * * `useState` is familiar and easy to use, but calling `setState` causes a re-render, which you might not need/want
+   * * `usePassiveState` is faster and more scalable, but its state can't be accessed during render and it's more complex.
+   * ```
+   *
+   * Suppose we want to call the `HTMLElement`'s `doSomethingFunny` method as soon as the element has been created:
+   *
+   * @example
+   * Easiest way to use (but setElement causes an extra re-render when it's called...)
+   * ```typescript
+   * const [element, setElement] = useState<HTMLButtonElement | null>(null);
+   * const { propsStable } = useRefElement({ onElementChange: setElement });
+   * useEffect(() => {
+   *     element.doSomethingFunny();
+   * }, [element])
+   * ```
+   *
+   * @example
+   * Fastest (but slightly more verbose)
+   * ```typescript
+   * // The code in useEffect is moved into this callback, but runs at the same time
+   * const onElementChange = useCallback(element => element.doSomethingFunny(), []);
+   * const [getElement, setElement] = usePassiveState<HTMLButtonElement | null>(onElementChange, returnNull);
+   * const { propsStable } = useRefElement({ onElementChange: setElement });
+   * ```
+   *
+   * @compositeParams
    */
   function useRefElement(args) {
+    monitorCallCount(useRefElement);
     const nonElementWarn = _(false);
     if (nonElementWarn.current) {
       nonElementWarn.current = false;
@@ -2246,9 +2756,9 @@
     }, []);
     // Let us store the actual (reference to) the element we capture
     const [getElement, setElement] = usePassiveState(handler, returnNull, runImmediately);
-    const propsStable = _({
+    const propsStable = _(useTagProps({
       ref: setElement
-    });
+    }, "data-use-ref-element"));
     // Return both the element and the hook that modifies 
     // the props and allows us to actually find the element
     return {
@@ -3405,216 +3915,6 @@
       });
     }
   })();
-  function g(n, t) {
-    for (var e in t) n[e] = t[e];
-    return n;
-  }
-  function C(n, t) {
-    for (var e in n) if ("__source" !== e && !(e in t)) return !0;
-    for (var r in t) if ("__source" !== r && n[r] !== t[r]) return !0;
-    return !1;
-  }
-  function w(n) {
-    this.props = n;
-  }
-  function x(n, e) {
-    function r(n) {
-      var t = this.props.ref,
-        r = t == n.ref;
-      return !r && t && (t.call ? t(null) : t.current = null), e ? !e(this.props, n) || !r : C(this.props, n);
-    }
-    function u(e) {
-      return this.shouldComponentUpdate = r, y$1(n, e);
-    }
-    return u.displayName = "Memo(" + (n.displayName || n.name) + ")", u.prototype.isReactComponent = !0, u.__f = !0, u;
-  }
-  (w.prototype = new b$1()).isPureReactComponent = !0, w.prototype.shouldComponentUpdate = function (n, t) {
-    return C(this.props, n) || C(this.state, t);
-  };
-  var R = l$1.__b;
-  l$1.__b = function (n) {
-    n.type && n.type.__f && n.ref && (n.props.ref = n.ref, n.ref = null), R && R(n);
-  };
-  var N = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.forward_ref") || 3911;
-  function k(n) {
-    function t(t) {
-      var e = g({}, t);
-      return delete e.ref, n(e, t.ref || null);
-    }
-    return t.$$typeof = N, t.render = t, t.prototype.isReactComponent = t.__f = !0, t.displayName = "ForwardRef(" + (n.displayName || n.name) + ")", t;
-  }
-  var T = l$1.__e;
-  l$1.__e = function (n, t, e, r) {
-    if (n.then) for (var u, o = t; o = o.__;) if ((u = o.__c) && u.__c) return null == t.__e && (t.__e = e.__e, t.__k = e.__k), u.__c(n, t);
-    T(n, t, e, r);
-  };
-  var I = l$1.unmount;
-  function L(n, t, e) {
-    return n && (n.__c && n.__c.__H && (n.__c.__H.__.forEach(function (n) {
-      "function" == typeof n.__c && n.__c();
-    }), n.__c.__H = null), null != (n = g({}, n)).__c && (n.__c.__P === e && (n.__c.__P = t), n.__c = null), n.__k = n.__k && n.__k.map(function (n) {
-      return L(n, t, e);
-    })), n;
-  }
-  function U(n, t, e) {
-    return n && (n.__v = null, n.__k = n.__k && n.__k.map(function (n) {
-      return U(n, t, e);
-    }), n.__c && n.__c.__P === t && (n.__e && e.insertBefore(n.__e, n.__d), n.__c.__e = !0, n.__c.__P = e)), n;
-  }
-  function D() {
-    this.__u = 0, this.t = null, this.__b = null;
-  }
-  function F(n) {
-    var t = n.__.__c;
-    return t && t.__a && t.__a(n);
-  }
-  function V() {
-    this.u = null, this.o = null;
-  }
-  l$1.unmount = function (n) {
-    var t = n.__c;
-    t && t.__R && t.__R(), t && !0 === n.__h && (n.type = null), I && I(n);
-  }, (D.prototype = new b$1()).__c = function (n, t) {
-    var e = t.__c,
-      r = this;
-    null == r.t && (r.t = []), r.t.push(e);
-    var u = F(r.__v),
-      o = !1,
-      i = function () {
-        o || (o = !0, e.__R = null, u ? u(l) : l());
-      };
-    e.__R = i;
-    var l = function () {
-        if (! --r.__u) {
-          if (r.state.__a) {
-            var n = r.state.__a;
-            r.__v.__k[0] = U(n, n.__c.__P, n.__c.__O);
-          }
-          var t;
-          for (r.setState({
-            __a: r.__b = null
-          }); t = r.t.pop();) t.forceUpdate();
-        }
-      },
-      c = !0 === t.__h;
-    r.__u++ || c || r.setState({
-      __a: r.__b = r.__v.__k[0]
-    }), n.then(i, i);
-  }, D.prototype.componentWillUnmount = function () {
-    this.t = [];
-  }, D.prototype.render = function (n, e) {
-    if (this.__b) {
-      if (this.__v.__k) {
-        var r = document.createElement("div"),
-          o = this.__v.__k[0].__c;
-        this.__v.__k[0] = L(this.__b, r, o.__O = o.__P);
-      }
-      this.__b = null;
-    }
-    var i = e.__a && y$1(k$2, null, n.fallback);
-    return i && (i.__h = null), [y$1(k$2, null, e.__a ? null : n.children), i];
-  };
-  var W = function (n, t, e) {
-    if (++e[1] === e[0] && n.o.delete(t), n.props.revealOrder && ("t" !== n.props.revealOrder[0] || !n.o.size)) for (e = n.u; e;) {
-      for (; e.length > 3;) e.pop()();
-      if (e[1] < e[0]) break;
-      n.u = e = e[2];
-    }
-  };
-  (V.prototype = new b$1()).__a = function (n) {
-    var t = this,
-      e = F(t.__v),
-      r = t.o.get(n);
-    return r[0]++, function (u) {
-      var o = function () {
-        t.props.revealOrder ? (r.push(u), W(t, n, r)) : u();
-      };
-      e ? e(o) : o();
-    };
-  }, V.prototype.render = function (n) {
-    this.u = null, this.o = new Map();
-    var t = S(n.children);
-    n.revealOrder && "b" === n.revealOrder[0] && t.reverse();
-    for (var e = t.length; e--;) this.o.set(t[e], this.u = [1, 0, this.u]);
-    return n.children;
-  }, V.prototype.componentDidUpdate = V.prototype.componentDidMount = function () {
-    var n = this;
-    this.o.forEach(function (t, e) {
-      W(n, e, t);
-    });
-  };
-  var B = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.element") || 60103,
-    H = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image(!S)|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/,
-    Z = /^on(Ani|Tra|Tou|BeforeInp|Compo)/,
-    Y = /[A-Z0-9]/g,
-    $ = "undefined" != typeof document,
-    q = function (n) {
-      return ("undefined" != typeof Symbol && "symbol" == typeof Symbol() ? /fil|che|rad/ : /fil|che|ra/).test(n);
-    };
-  b$1.prototype.isReactComponent = {}, ["componentWillMount", "componentWillReceiveProps", "componentWillUpdate"].forEach(function (t) {
-    Object.defineProperty(b$1.prototype, t, {
-      configurable: !0,
-      get: function () {
-        return this["UNSAFE_" + t];
-      },
-      set: function (n) {
-        Object.defineProperty(this, t, {
-          configurable: !0,
-          writable: !0,
-          value: n
-        });
-      }
-    });
-  });
-  var K = l$1.event;
-  function Q() {}
-  function X() {
-    return this.cancelBubble;
-  }
-  function nn() {
-    return this.defaultPrevented;
-  }
-  l$1.event = function (n) {
-    return K && (n = K(n)), n.persist = Q, n.isPropagationStopped = X, n.isDefaultPrevented = nn, n.nativeEvent = n;
-  };
-  var en = {
-      enumerable: !1,
-      configurable: !0,
-      get: function () {
-        return this.class;
-      }
-    },
-    rn = l$1.vnode;
-  l$1.vnode = function (n) {
-    "string" == typeof n.type && function (n) {
-      var t = n.props,
-        e = n.type,
-        u = {};
-      for (var o in t) {
-        var i = t[o];
-        if (!("value" === o && "defaultValue" in t && null == i || $ && "children" === o && "noscript" === e || "class" === o || "className" === o)) {
-          var l = o.toLowerCase();
-          "defaultValue" === o && "value" in t && null == t.value ? o = "value" : "download" === o && !0 === i ? i = "" : "ondoubleclick" === l ? o = "ondblclick" : "onchange" !== l || "input" !== e && "textarea" !== e || q(t.type) ? "onfocus" === l ? o = "onfocusin" : "onblur" === l ? o = "onfocusout" : Z.test(o) ? o = l : -1 === e.indexOf("-") && H.test(o) ? o = o.replace(Y, "-$&").toLowerCase() : null === i && (i = void 0) : l = o = "oninput", "oninput" === l && u[o = l] && (o = "oninputCapture"), u[o] = i;
-        }
-      }
-      "select" == e && u.multiple && Array.isArray(u.value) && (u.value = S(t.children).forEach(function (n) {
-        n.props.selected = -1 != u.value.indexOf(n.props.value);
-      })), "select" == e && null != u.defaultValue && (u.value = S(t.children).forEach(function (n) {
-        n.props.selected = u.multiple ? -1 != u.defaultValue.indexOf(n.props.value) : u.defaultValue == n.props.value;
-      })), t.class && !t.className ? (u.class = t.class, Object.defineProperty(u, "className", en)) : (t.className && !t.class || t.class && t.className) && (u.class = u.className = t.className), n.props = u;
-    }(n), n.$$typeof = B, rn && rn(n);
-  };
-  var un = l$1.__r;
-  l$1.__r = function (n) {
-    un && un(n), n.__c;
-  };
-  var on = l$1.diffed;
-  l$1.diffed = function (n) {
-    on && on(n);
-    var t = n.props,
-      e = n.__e;
-    null != e && "textarea" === n.type && "value" in t && t.value !== e.value && (e.value = null == t.value ? "" : t.value);
-  };
   let templateElement = null;
   function htmlToElement(parent, html) {
     var _templateElement;
@@ -3631,12 +3931,22 @@
    * The `handle` prop should be e.g. `useRef<ImperativeHandle<HTMLDivElement>>(null)`
    */
   x(k(ImperativeElementU));
-  function useImperativeProps(_ref3) {
+  /**
+   * Allows controlling an element's `class`, `style`, etc. with functions like `setStyle` in addition to being reactive to incoming props.
+   *
+   * @remarks If the component is re-rendered after the element is modified in some way, those changes are remembered and included in the returned `props` that are meant to be spread to the element in question.
+   *
+   * This is extremely useful for integrating with 3rd party libraries that expect to be able to directly manipulate the DOM because it keeps everything syncced together.
+   *
+   * @compositeParams
+   */
+  function useImperativeProps(_ref9) {
     let {
       refElementReturn: {
         getElement
       }
-    } = _ref3;
+    } = _ref9;
+    monitorCallCount(useImperativeProps);
     const currentImperativeProps = _({
       className: new Set(),
       style: {},
@@ -3678,8 +3988,8 @@
     const dangerouslySetInnerHTML = T$1(children => {
       let e = getElement();
       if (e && currentImperativeProps.current.html != children) {
-        currentImperativeProps.current.html = children;
         currentImperativeProps.current.children = null;
+        currentImperativeProps.current.html = children;
         e.innerHTML = children;
       }
     }, []);
@@ -3689,6 +3999,10 @@
         const newChild = htmlToElement(e, children);
         console.assert(newChild && newChild instanceof Node);
         if (newChild && newChild instanceof Node) {
+          var _currentImperativePro;
+          currentImperativeProps.current.children = null;
+          (_currentImperativePro = currentImperativeProps.current).html || (_currentImperativePro.html = "");
+          currentImperativeProps.current.html += children;
           e.appendChild(newChild);
           return newChild;
         }
@@ -3727,7 +4041,7 @@
       }
     }, []);
     return {
-      imperativeHandle: _({
+      imperativePropsReturn: _({
         hasClass,
         setClass,
         setStyle,
@@ -3741,15 +4055,21 @@
       props: useMergedProps({
         className: [...currentImperativeProps.current.className].join(" "),
         style: currentImperativeProps.current.style
+      }, currentImperativeProps.current.html ? {
+        dangerouslySetInnerHTML: {
+          __html: currentImperativeProps.current.html
+        }
+      } : {}, {
+        children: currentImperativeProps.current.children
       }, currentImperativeProps.current.others)
     };
   }
-  function ImperativeElementU(_ref4, ref) {
+  function ImperativeElementU(_ref10, ref) {
     let {
       tag: Tag,
       handle,
       ...props
-    } = _ref4;
+    } = _ref10;
     const {
       propsStable,
       refElementReturn
@@ -3757,98 +4077,16 @@
       refElementParameters: {}
     });
     const {
-      props: iprops,
-      imperativeHandle
+      props: imperativeProps,
+      imperativePropsReturn: imperativeHandle
     } = useImperativeProps({
       refElementReturn
     });
     A(handle, () => imperativeHandle);
-    return y$1(Tag, useMergedProps(propsStable, iprops, props, {
+    return y$1(Tag, useMergedProps(propsStable, imperativeProps, props, {
       ref
     }));
   }
-  const EventMapping = {
-    abort: "onAbort",
-    animationend: "onAnimationEnd",
-    animationstart: "onAnimationStart",
-    animationiteration: "onAnimationIteration",
-    beforeinput: "onBeforeInput",
-    blur: "onBlur",
-    canplay: "onCanPlay",
-    canplaythrough: "onCanPlayThrough",
-    change: "onChange",
-    click: "onClick",
-    compositionend: "onCompositionEnd",
-    compositionstart: "onCompositionStart",
-    compositionupdate: "onCompositionUpdate",
-    contextmenu: "onContextMenu",
-    cut: "onCut",
-    dblclick: "onDblClick",
-    drag: "onDrag",
-    dragend: "onDragEnd",
-    dragenter: "onDragEnter",
-    dragleave: "onDragLeave",
-    dragover: "onDragOver",
-    dragstart: "onDragStart",
-    drop: "onDrop",
-    durationchange: "onDurationChange",
-    emptied: "onEmptied",
-    ended: "onEnded",
-    error: "onError",
-    focus: "onFocus",
-    focusin: "onfocusin",
-    focusout: "onfocusout",
-    formdata: "onFormData",
-    gotpointercapture: "onGotPointerCapture",
-    input: "onInput",
-    invalid: "onInvalid",
-    keydown: "onKeyDown",
-    keypress: "onKeyPress",
-    keyup: "onKeyUp",
-    load: "onLoad",
-    loadeddata: "onLoadedData",
-    loadedmetadata: "onLoadedMetadata",
-    loadstart: "onLoadStart",
-    lostpointercapture: "onLostPointerCapture",
-    mousedown: "onMouseDown",
-    mouseenter: "onMouseEnter",
-    mouseleave: "onMouseLeave",
-    mousemove: "onMouseMove",
-    mouseout: "onMouseOut",
-    mouseover: "onMouseOver",
-    mouseup: "onMouseUp",
-    paste: "onPaste",
-    pause: "onPause",
-    play: "onPlay",
-    playing: "onPlaying",
-    pointercancel: "onPointerCancel",
-    pointerdown: "onPointerDown",
-    pointerenter: "onPointerEnter",
-    pointerleave: "onPointerLeave",
-    pointermove: "onPointerMove",
-    pointerout: "onPointerOut",
-    pointerover: "onPointerOver",
-    pointerup: "onPointerUp",
-    progress: "onProgress",
-    reset: "onReset",
-    scroll: "onScroll",
-    seeked: "onSeeked",
-    seeking: "onSeeking",
-    select: "onSelect",
-    stalled: "onStalled",
-    submit: "onSubmit",
-    suspend: "onSuspend",
-    timeupdate: "onTimeUpdate",
-    toggle: "onToggle",
-    touchcancel: "onTouchCancel",
-    touchend: "onTouchEnd",
-    touchmove: "onTouchMove",
-    touchstart: "onTouchStart",
-    transitionend: "onTransitionEnd",
-    volumechange: "onVolumeChange",
-    waiting: "onWaiting",
-    wheel: "onWheel"
-  };
   G(null);
   function getExclusiveTransitionContextPrememoization(exclusivityKey) {
     if (exclusivityKey == null) return null;
@@ -3915,11 +4153,11 @@
     };
   }
   let globalCount = -1;
-  function ExclusiveTransitionProvider(_ref5) {
+  function ExclusiveTransitionProvider(_ref11) {
     let {
       exclusivityKey,
       children
-    } = _ref5;
+    } = _ref11;
     useEnsureStability("ExclusiveTransitionProvider", exclusivityKey);
     const [getNextIndexInLine, setNextIndexInLine] = usePassiveState(null);
     const {
@@ -3945,7 +4183,8 @@
       getAt: T$1(m => m.getExclusivelyOpen(), []),
       isValid: T$1(m => {
         return true;
-      }, [])
+      }, []),
+      onClosestFit: null
     });
     const onVisibilityChange = T$1((index, visible) => {
       const nextInLine = getNextIndexInLine();
@@ -3961,7 +4200,7 @@
           changeIndex(index);
         } else {
           var _getChildren$getAt, _getChildren$getAt$fo;
-          (_getChildren$getAt = getChildren().getAt(currentInLine)) === null || _getChildren$getAt === void 0 ? void 0 : (_getChildren$getAt$fo = _getChildren$getAt.forceClose) === null || _getChildren$getAt$fo === void 0 ? void 0 : _getChildren$getAt$fo.call(_getChildren$getAt);
+          (_getChildren$getAt = getChildren().getAt(currentInLine)) === null || _getChildren$getAt === void 0 || (_getChildren$getAt$fo = _getChildren$getAt.forceClose) === null || _getChildren$getAt$fo === void 0 ? void 0 : _getChildren$getAt$fo.call(_getChildren$getAt);
           setNextIndexInLine(index);
         }
       } else if (visible == "hidden") {
@@ -3991,7 +4230,7 @@
       children: children
     });
   }
-  function useExclusiveTransition(_ref6) {
+  function useExclusiveTransition(_ref12) {
     let {
       transitionParameters: {
         show
@@ -4000,7 +4239,7 @@
         forceClose,
         exclusivityKey
       }
-    } = _ref6;
+    } = _ref12;
     const c = GetExclusiveTransitionContext(exclusivityKey);
     useEnsureStability("useExclusiveTransition", c == null);
     const context = c ? q$1(c) : null;
@@ -4065,10 +4304,10 @@
    * Creates a set of props that implement a swap container.
    * Be sure to merge these returned props with whatever the user passed in.
    */
-  function useCreateSwappableProps(_ref7, otherProps) {
+  function useCreateSwappableProps(_ref13, otherProps) {
     let {
       inline
-    } = _ref7;
+    } = _ref13;
     const {
       GetBaseClass
     } = useCssClasses();
@@ -4085,7 +4324,7 @@
    * @param param0
    * @returns
    */
-  const Swappable = x(forwardElementRef(function Swappable(_ref8, ref) {
+  const Swappable = x(forwardElementRef(function Swappable(_ref14, ref) {
     var _inline;
     let {
       children: c,
@@ -4093,7 +4332,7 @@
       childrenAnimateOnMount,
       exclusivityKey,
       ...p$1
-    } = _ref8;
+    } = _ref14;
     let children = c;
     if (!children.type) children = !inline ? o$1("div", {
       children: children
@@ -4146,10 +4385,9 @@
   /**
    * Provide props that can be used to animate a transition.
    *
-   * @param param0
-   * @returns
+   * @compositeParams
    */
-  function useTransition(_ref9) {
+  function useTransition(_ref15) {
     var _animateOnMount, _measure, _easingIn, _easingOut;
     let {
       transitionParameters: {
@@ -4166,12 +4404,16 @@
         easing,
         easingIn,
         easingOut,
-        onVisibilityChange
+        onVisibilityChange,
+        ...void2
       },
       exclusiveTransitionParameters: {
-        exclusivityKey
-      }
-    } = _ref9;
+        exclusivityKey,
+        ...void3
+      },
+      refElementParameters,
+      ...void1
+    } = _ref15;
     useEnsureStability("useTransition", onVisibilityChange);
     const {
       getAnimateOnMount
@@ -4217,7 +4459,9 @@
         getElement
       },
       propsStable
-    } = useRefElement({});
+    } = useRefElement({
+      refElementParameters
+    });
     const cssProperties = _({});
     const classNames = _(new Set([// This is removed during useLayoutEffect on the first render
     // (at least once `show` is non-null)
@@ -4442,16 +4686,16 @@
   }
 
   /**
-   * Creates a set of props that implement a Fade transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+   * Creates a set of props that implement a Fade transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    * Be sure to merge these returned props with whatever the user passed in.
    */
-  function useBasePropsFade(_ref10) {
+  function useBasePropsFade(_ref16) {
     let {
       fadeParameters: {
         fadeMin,
         fadeMax
       }
-    } = _ref10;
+    } = _ref16;
     const {
       GetBaseClass
     } = useCssClasses();
@@ -4473,7 +4717,7 @@
    *
    * @see `Transitionable`
    */
-  const Fade = x(forwardElementRef(function Fade(_ref11, ref) {
+  const Fade = x(forwardElementRef(function Fade(_ref17, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4487,9 +4731,17 @@
       animateOnMount,
       exitVisibility,
       onVisibilityChange,
+      onElementChange,
+      onMount,
+      onUnmount,
       ...rest
-    } = _ref11;
+    } = _ref17;
     return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
       transitionParameters: {
         measure: false,
         show,
@@ -4513,8 +4765,8 @@
       }
     });
   }));
-  function useBasePropsClip(_ref12) {
-    var _ref13, _ref14, _ref15, _ref16;
+  function useBasePropsClip(_ref18) {
+    var _ref19, _ref20, _ref21, _ref22;
     let {
       clipParameters: {
         clipMin,
@@ -4524,21 +4776,21 @@
         clipOriginBlock,
         clipOriginInline
       }
-    } = _ref12;
+    } = _ref18;
     const {
       GetBaseClass
     } = useCssClasses();
     return {
       className: clsx("".concat(GetBaseClass(), "-clip")),
       style: {
-        ["--".concat(GetBaseClass(), "-clip-origin-inline")]: (_ref13 = clipOriginInline !== null && clipOriginInline !== void 0 ? clipOriginInline : clipOrigin) !== null && _ref13 !== void 0 ? _ref13 : 0.5,
-        ["--".concat(GetBaseClass(), "-clip-origin-block")]: (_ref14 = clipOriginBlock !== null && clipOriginBlock !== void 0 ? clipOriginBlock : clipOrigin) !== null && _ref14 !== void 0 ? _ref14 : 0,
-        ["--".concat(GetBaseClass(), "-clip-min-inline")]: (_ref15 = clipMinInline !== null && clipMinInline !== void 0 ? clipMinInline : clipMin) !== null && _ref15 !== void 0 ? _ref15 : 1,
-        ["--".concat(GetBaseClass(), "-clip-min-block")]: (_ref16 = clipMinBlock !== null && clipMinBlock !== void 0 ? clipMinBlock : clipMin) !== null && _ref16 !== void 0 ? _ref16 : 0
+        ["--".concat(GetBaseClass(), "-clip-origin-inline")]: (_ref19 = clipOriginInline !== null && clipOriginInline !== void 0 ? clipOriginInline : clipOrigin) !== null && _ref19 !== void 0 ? _ref19 : 0.5,
+        ["--".concat(GetBaseClass(), "-clip-origin-block")]: (_ref20 = clipOriginBlock !== null && clipOriginBlock !== void 0 ? clipOriginBlock : clipOrigin) !== null && _ref20 !== void 0 ? _ref20 : 0,
+        ["--".concat(GetBaseClass(), "-clip-min-inline")]: (_ref21 = clipMinInline !== null && clipMinInline !== void 0 ? clipMinInline : clipMin) !== null && _ref21 !== void 0 ? _ref21 : 1,
+        ["--".concat(GetBaseClass(), "-clip-min-block")]: (_ref22 = clipMinBlock !== null && clipMinBlock !== void 0 ? clipMinBlock : clipMin) !== null && _ref22 !== void 0 ? _ref22 : 0
       }
     };
   }
-  const Clip = x(forwardElementRef(function Clip(_ref17, ref) {
+  const Clip = x(forwardElementRef(function Clip(_ref23, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4556,9 +4808,17 @@
       animateOnMount,
       exitVisibility,
       onVisibilityChange,
+      onElementChange,
+      onMount,
+      onUnmount,
       ...rest
-    } = _ref17;
+    } = _ref23;
     return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
       transitionParameters: {
         measure: false,
         show,
@@ -4589,7 +4849,7 @@
       }
     });
   }));
-  const ClipFade = x(forwardElementRef(function ClipFade(_ref18, ref) {
+  const ClipFade = x(forwardElementRef(function ClipFade(_ref24, ref) {
     let {
       delayMountUntilShown,
       exclusivityKey,
@@ -4609,9 +4869,17 @@
       clipOriginInline,
       exitVisibility,
       onVisibilityChange,
+      onElementChange,
+      onMount,
+      onUnmount,
       ...rest
-    } = _ref18;
+    } = _ref24;
     return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
       transitionParameters: {
         measure: false,
         show,
@@ -4649,19 +4917,19 @@
   }));
 
   /**
-   * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+   * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    * Be sure to merge these returned props with whatever the user passed in.
    *
    * IMPORTANT: If used outside of a `<Collapse />`, you must include the `measure` prop on the `<Transitionable>` that you use.
    *
    * @example <Transitionable measure {...useCreateCollapseProps(...)} />
    */
-  function useBasePropsCollapse(_ref19) {
+  function useBasePropsCollapse(_ref25) {
     let {
       collapseParameters: {
         minBlockSize
       }
-    } = _ref19;
+    } = _ref25;
     const {
       GetBaseClass
     } = useCssClasses();
@@ -4681,7 +4949,7 @@
    *
    * @see `Transitionable`
    */
-  const Collapse = x(forwardElementRef(function Collapse(_ref20, ref) {
+  const Collapse = x(forwardElementRef(function Collapse(_ref26, ref) {
     let {
       show,
       exclusivityKey,
@@ -4694,9 +4962,17 @@
       animateOnMount,
       exitVisibility,
       onVisibilityChange,
+      onElementChange,
+      onMount,
+      onUnmount,
       ...rest
-    } = _ref20;
+    } = _ref26;
     return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
       transitionParameters: {
         measure: true,
         show,
@@ -4722,7 +4998,7 @@
       }
     });
   }));
-  const CollapseFade = x(forwardElementRef(function CollapseFade(_ref21, ref) {
+  const CollapseFade = x(forwardElementRef(function CollapseFade(_ref27, ref) {
     let {
       show,
       exclusivityKey,
@@ -4737,9 +5013,17 @@
       exitVisibility,
       minBlockSize,
       onVisibilityChange,
+      onElementChange,
+      onMount,
+      onUnmount,
       ...rest
-    } = _ref21;
+    } = _ref27;
     return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
       transitionParameters: {
         measure: true,
         show,
@@ -4772,9 +5056,9 @@
   }));
 
   /**
-   * Creates a set of props that implement a Flip transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+   * Creates a set of props that implement a Flip transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    */
-  function useBasePropsFlip(_ref22) {
+  function useBasePropsFlip(_ref28) {
     var _useLastNonNullValue, _useLastNonNullValue2;
     let {
       flipParameters: {
@@ -4782,7 +5066,7 @@
         flipAngleInline,
         flipPerspective
       }
-    } = _ref22;
+    } = _ref28;
     const {
       GetBaseClass
     } = useCssClasses();
@@ -4807,7 +5091,7 @@
    *
    * @see `Transitionable`
    */
-  const Flip = x(forwardElementRef(function Flip(_ref23, ref) {
+  const Flip = x(forwardElementRef(function Flip(_ref29, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4822,9 +5106,17 @@
       animateOnMount,
       exitVisibility,
       onVisibilityChange,
+      onElementChange,
+      onMount,
+      onUnmount,
       ...rest
-    } = _ref23;
+    } = _ref29;
     return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
       transitionParameters: {
         measure: false,
         show,
@@ -4854,16 +5146,16 @@
   }));
 
   /**
-   * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+   * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    */
-  function useBasePropsSlide(_ref24) {
+  function useBasePropsSlide(_ref30) {
     var _slideTargetInline, _slideTargetBlock;
     let {
       slideParameters: {
         slideTargetInline,
         slideTargetBlock
       }
-    } = _ref24;
+    } = _ref30;
     slideTargetInline = useLastNonNullValue(slideTargetInline);
     slideTargetBlock = useLastNonNullValue(slideTargetBlock);
     const {
@@ -4889,7 +5181,7 @@
    *
    * @see `Transitionable`
    */
-  const Slide = x(forwardElementRef(function Slide(_ref25, ref) {
+  const Slide = x(forwardElementRef(function Slide(_ref31, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4903,9 +5195,17 @@
       animateOnMount,
       exitVisibility,
       delayMountUntilShown,
+      onElementChange,
+      onMount,
+      onUnmount,
       ...rest
-    } = _ref25;
+    } = _ref31;
     return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
       transitionParameters: {
         measure: false,
         show,
@@ -4932,7 +5232,7 @@
       }
     });
   }));
-  const SlideFade = x(forwardElementRef(function SlideFade(_ref26, ref) {
+  const SlideFade = x(forwardElementRef(function SlideFade(_ref32, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4948,9 +5248,17 @@
       slideTargetInline,
       exitVisibility,
       onVisibilityChange,
+      onElementChange,
+      onMount,
+      onUnmount,
       ...rest
-    } = _ref26;
+    } = _ref32;
     return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
       transitionParameters: {
         measure: false,
         show,
@@ -4984,10 +5292,10 @@
   }));
 
   /**
-   * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+   * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    */
-  function useBasePropsZoom(_ref27) {
-    var _ref28, _ref29, _ref30, _ref31;
+  function useBasePropsZoom(_ref33) {
+    var _ref34, _ref35, _ref36, _ref37;
     let {
       zoomParameters: {
         zoomOrigin,
@@ -4997,17 +5305,17 @@
         zoomMinInline,
         zoomMinBlock
       }
-    } = _ref27;
+    } = _ref33;
     const {
       GetBaseClass
     } = useCssClasses();
     return {
       className: "".concat(GetBaseClass(), "-zoom"),
       style: {
-        ["--".concat(GetBaseClass(), "-zoom-origin-inline")]: "".concat((_ref28 = zoomOriginInline !== null && zoomOriginInline !== void 0 ? zoomOriginInline : zoomOrigin) !== null && _ref28 !== void 0 ? _ref28 : 0.5),
-        ["--".concat(GetBaseClass(), "-zoom-origin-block")]: "".concat((_ref29 = zoomOriginBlock !== null && zoomOriginBlock !== void 0 ? zoomOriginBlock : zoomOrigin) !== null && _ref29 !== void 0 ? _ref29 : 0.5),
-        ["--".concat(GetBaseClass(), "-zoom-min-inline")]: "".concat((_ref30 = zoomMinInline !== null && zoomMinInline !== void 0 ? zoomMinInline : zoomMin) !== null && _ref30 !== void 0 ? _ref30 : 0),
-        ["--".concat(GetBaseClass(), "-zoom-min-block")]: "".concat((_ref31 = zoomMinBlock !== null && zoomMinBlock !== void 0 ? zoomMinBlock : zoomMin) !== null && _ref31 !== void 0 ? _ref31 : 0)
+        ["--".concat(GetBaseClass(), "-zoom-origin-inline")]: "".concat((_ref34 = zoomOriginInline !== null && zoomOriginInline !== void 0 ? zoomOriginInline : zoomOrigin) !== null && _ref34 !== void 0 ? _ref34 : 0.5),
+        ["--".concat(GetBaseClass(), "-zoom-origin-block")]: "".concat((_ref35 = zoomOriginBlock !== null && zoomOriginBlock !== void 0 ? zoomOriginBlock : zoomOrigin) !== null && _ref35 !== void 0 ? _ref35 : 0.5),
+        ["--".concat(GetBaseClass(), "-zoom-min-inline")]: "".concat((_ref36 = zoomMinInline !== null && zoomMinInline !== void 0 ? zoomMinInline : zoomMin) !== null && _ref36 !== void 0 ? _ref36 : 0),
+        ["--".concat(GetBaseClass(), "-zoom-min-block")]: "".concat((_ref37 = zoomMinBlock !== null && zoomMinBlock !== void 0 ? zoomMinBlock : zoomMin) !== null && _ref37 !== void 0 ? _ref37 : 0)
       }
     };
   }
@@ -5015,7 +5323,7 @@
    * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
    * @see `Transitionable` `ZoomFade`
    */
-  const Zoom = x(forwardElementRef(function Zoom(_ref32, ref) {
+  const Zoom = x(forwardElementRef(function Zoom(_ref38, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5033,9 +5341,17 @@
       animateOnMount,
       exitVisibility,
       onVisibilityChange,
+      onElementChange,
+      onMount,
+      onUnmount,
       ...rest
-    } = _ref32;
+    } = _ref38;
     return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
       transitionParameters: {
         measure: false,
         show,
@@ -5066,7 +5382,7 @@
       }
     });
   }));
-  const SlideZoom = x(forwardElementRef(function SlideZoom(_ref33, ref) {
+  const SlideZoom = x(forwardElementRef(function SlideZoom(_ref39, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5086,9 +5402,17 @@
       slideTargetInline,
       exitVisibility,
       onVisibilityChange,
+      onElementChange,
+      onMount,
+      onUnmount,
       ...rest
-    } = _ref33;
+    } = _ref39;
     return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
       transitionParameters: {
         measure: false,
         show,
@@ -5124,7 +5448,7 @@
       }
     });
   }));
-  const SlideZoomFade = x(forwardElementRef(function SlideZoomFade(_ref34, ref) {
+  const SlideZoomFade = x(forwardElementRef(function SlideZoomFade(_ref40, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5146,9 +5470,17 @@
       fadeMin,
       exitVisibility,
       onVisibilityChange,
+      onElementChange,
+      onMount,
+      onUnmount,
       ...rest
-    } = _ref34;
+    } = _ref40;
     return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
       transitionParameters: {
         measure: false,
         show,
@@ -5189,7 +5521,7 @@
       }
     });
   }));
-  const ZoomFade = x(forwardElementRef(function ZoomFade(_ref35, ref) {
+  const ZoomFade = x(forwardElementRef(function ZoomFade(_ref41, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5209,9 +5541,17 @@
       zoomOriginInline,
       exitVisibility,
       onVisibilityChange,
+      onElementChange,
+      onMount,
+      onUnmount,
       ...rest
-    } = _ref35;
+    } = _ref41;
     return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
       transitionParameters: {
         measure: false,
         show,
@@ -5580,7 +5920,7 @@
       }, writingMode)]
     });
   }
-  function FadeDemo(_ref36) {
+  function FadeDemo(_ref42) {
     let {
       cardShow,
       contentIndex,
@@ -5588,7 +5928,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref36;
+    } = _ref42;
     const [min, setMin] = h(0);
     const [max, setMax] = h(1);
     const onMinInput = T$1(e => {
@@ -5665,7 +6005,7 @@
       })]
     });
   }
-  function ClipDemo(_ref37) {
+  function ClipDemo(_ref43) {
     let {
       cardShow,
       contentIndex,
@@ -5673,7 +6013,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref37;
+    } = _ref43;
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(1);
@@ -5794,7 +6134,7 @@
       })]
     });
   }
-  function ZoomSlideDemo(_ref38) {
+  function ZoomSlideDemo(_ref44) {
     let {
       cardShow,
       contentIndex,
@@ -5802,7 +6142,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref38;
+    } = _ref44;
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(0.75);
@@ -5954,7 +6294,7 @@
       })]
     });
   }
-  function ZoomDemo(_ref39) {
+  function ZoomDemo(_ref45) {
     let {
       cardShow,
       contentIndex,
@@ -5962,7 +6302,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref39;
+    } = _ref45;
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(0.75);
@@ -6082,7 +6422,7 @@
       })]
     });
   }
-  function SlideDemo(_ref40) {
+  function SlideDemo(_ref46) {
     let {
       cardShow,
       contentIndex,
@@ -6090,7 +6430,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref40;
+    } = _ref46;
     const [slideX, setSlideX] = h(0.25);
     const [slideY, setSlideY] = h(0);
     const [withFade, setWithFade] = h(true);
@@ -6180,7 +6520,7 @@
       })]
     });
   }
-  function CollapseDemo(_ref41) {
+  function CollapseDemo(_ref47) {
     let {
       cardShow,
       contentIndex,
@@ -6188,7 +6528,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref41;
+    } = _ref47;
     const [minBlockSize, setMinBlockSize] = h("0px");
     const onWithFadeInput = T$1(e => {
       setWithFade(e.target.checked);
@@ -6269,7 +6609,7 @@
       })]
     });
   }
-  function FlipDemo(_ref42) {
+  function FlipDemo(_ref48) {
     let {
       cardShow,
       contentIndex,
@@ -6277,7 +6617,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref42;
+    } = _ref48;
     const [flipX, setFlipX] = h(0);
     const [flipY, setFlipY] = h(180);
     const onFlipXInput = T$1(e => {

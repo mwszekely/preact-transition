@@ -1,5 +1,5 @@
 import { h, Ref } from "preact";
-import { useMergedProps } from "preact-prop-helpers";
+import { useMergedProps, UseRefElementParameters } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
@@ -28,7 +28,7 @@ export interface UseBasePropsSlideParameters<E extends Element> extends UseBaseP
 }
 
 /**
- * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+ * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
  */
 export function useBasePropsSlide<E extends Element>({ slideParameters: { slideTargetInline, slideTargetBlock } }: UseBasePropsSlideParameters<E>) {
     slideTargetInline = useLastNonNullValue(slideTargetInline);
@@ -44,7 +44,10 @@ export function useBasePropsSlide<E extends Element>({ slideParameters: { slideT
     };
 }
 
-export interface SlideProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsSlideParameters<E>, "slideParameters">> { };
+export interface SlideProps<E extends HTMLElement> extends
+    TransitionParametersBase<E>,
+    Partial<Get<UseBasePropsSlideParameters<E>, "slideParameters">>,
+    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Slide effect.
@@ -58,8 +61,9 @@ export interface SlideProps<E extends HTMLElement> extends TransitionParametersB
  * 
  * @see `Transitionable`
  */
-export const Slide = memo(forwardElementRef(function Slide<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, onVisibilityChange, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, ...rest }: SlideProps<E>, ref: Ref<E>) {
+export const Slide = memo(forwardElementRef(function Slide<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, onVisibilityChange, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, onElementChange, onMount, onUnmount, ...rest }: SlideProps<E>, ref: Ref<E>) {
     return useTransition({
+        refElementParameters: { onElementChange, onMount, onUnmount },
         transitionParameters: {
             measure: false,
             show,

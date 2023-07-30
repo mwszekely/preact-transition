@@ -1,5 +1,5 @@
 import { h, Ref } from "preact";
-import { useMergedProps } from "preact-prop-helpers";
+import { useMergedProps, UseRefElementParameters } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
@@ -26,7 +26,7 @@ export interface UseBasePropsFadeParameters<E extends Element> extends UseBasePr
 }
 
 /**
- * Creates a set of props that implement a Fade transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+ * Creates a set of props that implement a Fade transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
  * Be sure to merge these returned props with whatever the user passed in.
  */
 export function useBasePropsFade<E extends Element>({ fadeParameters: { fadeMin, fadeMax } }: UseBasePropsFadeParameters<E>) {
@@ -40,7 +40,10 @@ export function useBasePropsFade<E extends Element>({ fadeParameters: { fadeMin,
     };
 }
 
-export interface FadeProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFadeParameters<E>, "fadeParameters">> { };
+export interface FadeProps<E extends HTMLElement> extends
+    TransitionParametersBase<E>,
+    Partial<Get<UseBasePropsFadeParameters<E>, "fadeParameters">>,
+    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Fade effect.
@@ -52,8 +55,9 @@ export interface FadeProps<E extends HTMLElement> extends TransitionParametersBa
  * 
  * @see `Transitionable`
  */
-export const Fade = memo(forwardElementRef(function Fade<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: FadeProps<E>, ref: Ref<E>) {
+export const Fade = memo(forwardElementRef(function Fade<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: FadeProps<E>, ref: Ref<E>) {
     return useTransition({
+        refElementParameters: { onElementChange, onMount, onUnmount },
         transitionParameters: {
             measure: false,
             show,

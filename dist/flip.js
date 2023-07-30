@@ -4,7 +4,7 @@ import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
 import { forwardElementRef, useLastNonNullValue } from "./util/util.js";
 /**
- * Creates a set of props that implement a Flip transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+ * Creates a set of props that implement a Flip transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
  */
 export function useBasePropsFlip({ flipParameters: { flipAngleBlock, flipAngleInline, flipPerspective } }) {
     const { GetBaseClass } = useCssClasses();
@@ -30,8 +30,9 @@ export function useBasePropsFlip({ flipParameters: { flipAngleBlock, flipAngleIn
  *
  * @see `Transitionable`
  */
-export const Flip = memo(forwardElementRef(function Flip({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, flipAngleInline, flipAngleBlock, flipPerspective, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }, ref) {
+export const Flip = memo(forwardElementRef(function Flip({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, flipAngleInline, flipAngleBlock, flipPerspective, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }, ref) {
     return useTransition({
+        refElementParameters: { onElementChange, onMount, onUnmount },
         transitionParameters: {
             measure: false,
             show,

@@ -1,4 +1,5 @@
 import { h, Ref } from "preact";
+import { UseRefElementParameters } from "preact-prop-helpers";
 import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types.js";
 /**
  * Properties that allow adjusting the direction and extent of the slide effect.
@@ -20,13 +21,13 @@ export interface UseBasePropsSlideParameters<E extends Element> extends UseBaseP
     };
 }
 /**
- * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+ * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
  */
 export declare function useBasePropsSlide<E extends Element>({ slideParameters: { slideTargetInline, slideTargetBlock } }: UseBasePropsSlideParameters<E>): {
     className: string;
     style: h.JSX.CSSProperties;
 };
-export interface SlideProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsSlideParameters<E>, "slideParameters">> {
+export interface SlideProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsSlideParameters<E>, "slideParameters">>, Partial<Get<UseRefElementParameters<E>, "refElementParameters">> {
 }
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Slide effect.
@@ -40,5 +41,5 @@ export interface SlideProps<E extends HTMLElement> extends TransitionParametersB
  *
  * @see `Transitionable`
  */
-export declare const Slide: <E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, onVisibilityChange, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, ...rest }: SlideProps<E>, ref: Ref<E>) => import("preact").VNode<h.JSX.HTMLAttributes<E>> | null;
+export declare const Slide: <E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, onVisibilityChange, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, onElementChange, onMount, onUnmount, ...rest }: SlideProps<E>, ref: Ref<E>) => import("preact").VNode<h.JSX.HTMLAttributes<E>> | null;
 //# sourceMappingURL=slide.d.ts.map

@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "preact/jsx-runtime";
-import { useChildrenFlag, useEnsureStability, useManagedChild, useManagedChildren, usePassiveState, useMemoObject, useState } from "preact-prop-helpers";
+import { useChildrenFlag, useEnsureStability, useManagedChild, useManagedChildren, useMemoObject, usePassiveState, useState } from "preact-prop-helpers";
 import { useCallback, useContext, useLayoutEffect, useMemo } from "preact/hooks";
 import { GetExclusiveTransitionContext } from "./util/context.js";
 let globalCount = -1;
@@ -15,6 +15,7 @@ export function ExclusiveTransitionProvider({ exclusivityKey, children }) {
         setAt: useCallback((m, v) => { m.setExclusivelyOpen(v); }, []),
         getAt: useCallback((m) => m.getExclusivelyOpen(), []),
         isValid: useCallback((m) => { return true; }, []),
+        onClosestFit: null
     });
     const onVisibilityChange = useCallback((index, visible) => {
         const nextInLine = getNextIndexInLine();

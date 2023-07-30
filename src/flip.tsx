@@ -1,5 +1,5 @@
 import { h, Ref } from "preact";
-import { useMergedProps } from "preact-prop-helpers";
+import { useMergedProps, UseRefElementParameters } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
@@ -34,7 +34,7 @@ export interface UseBasePropsFlipParameters<E extends Element> extends UseBasePr
 }
 
 /**
- * Creates a set of props that implement a Flip transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+ * Creates a set of props that implement a Flip transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
  */
 export function useBasePropsFlip<E extends Element>({ flipParameters: { flipAngleBlock, flipAngleInline, flipPerspective } }: UseBasePropsFlipParameters<E>) {
     const { GetBaseClass } = useCssClasses();
@@ -48,7 +48,10 @@ export function useBasePropsFlip<E extends Element>({ flipParameters: { flipAngl
     }
 }
 
-export interface FlipProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFlipParameters<E>, "flipParameters">> { };
+export interface FlipProps<E extends HTMLElement> extends
+    TransitionParametersBase<E>,
+    Partial<Get<UseBasePropsFlipParameters<E>, "flipParameters">>,
+    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Flip effect.
@@ -62,8 +65,9 @@ export interface FlipProps<E extends HTMLElement> extends TransitionParametersBa
  * 
  * @see `Transitionable`
  */
-export const Flip = memo(forwardElementRef(function Flip<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, flipAngleInline, flipAngleBlock, flipPerspective, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: FlipProps<E>, ref: Ref<E>) {
+export const Flip = memo(forwardElementRef(function Flip<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, flipAngleInline, flipAngleBlock, flipPerspective, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: FlipProps<E>, ref: Ref<E>) {
     return useTransition({
+        refElementParameters: { onElementChange, onMount, onUnmount },
         transitionParameters: {
             measure: false,
             show,

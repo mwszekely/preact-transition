@@ -1,5 +1,5 @@
 import { h, Ref } from "preact";
-import { useMergedProps } from "preact-prop-helpers";
+import { useMergedProps, UseRefElementParameters } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
@@ -50,7 +50,7 @@ export interface UseBasePropsZoomParameters<E extends Element> extends UseBasePr
 }
 
 /**
- * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tamdem with a `Transitionable` component (or `useCreateTransitionableProps`).
+ * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
  */
 export function useBasePropsZoom<E extends Element>({ zoomParameters: { zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock } }: UseBasePropsZoomParameters<E>) {
     const { GetBaseClass } = useCssClasses();
@@ -65,16 +65,20 @@ export function useBasePropsZoom<E extends Element>({ zoomParameters: { zoomOrig
     });
 }
 
-export interface ZoomProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsZoomParameters<E>, "zoomParameters">> { };
+export interface ZoomProps<E extends HTMLElement> extends
+    TransitionParametersBase<E>,
+    Partial<Get<UseBasePropsZoomParameters<E>, "zoomParameters">>,
+    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { };
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
  * @see `Transitionable` `ZoomFade`
  */
-export const Zoom = memo(forwardElementRef(function Zoom<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, ...rest }: ZoomProps<E>, ref: Ref<E>) {
+export const Zoom = memo(forwardElementRef(function Zoom<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: ZoomProps<E>, ref: Ref<E>) {
 
     return (
         useTransition({
+            refElementParameters: { onElementChange, onMount, onUnmount },
             transitionParameters: {
                 measure: false,
                 show,
