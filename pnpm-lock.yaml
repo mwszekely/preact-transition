@@ -12,7 +12,7 @@ dependencies:
     version: 10.16.0
   preact-prop-helpers:
     specifier: github:mwszekely/preact-prop-helpers
-    version: github.com/mwszekely/preact-prop-helpers/29f63aee10bbd2b3360a3ce9f5e2e15b24721063(preact@10.16.0)(react-dom@18.2.0)(react@18.2.0)
+    version: github.com/mwszekely/preact-prop-helpers/2ea368d90053373a9cd501a81b2dfc92f32d5b52(preact@10.16.0)(react-dom@18.2.0)(react@18.2.0)
 
 devDependencies:
   '@types/lodash':
@@ -375,8 +375,8 @@ packages:
     resolution: {integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==}
     dev: true
 
-  /immutable@4.3.1:
-    resolution: {integrity: sha512-lj9cnmB/kVS0QHsJnYKD1uo3o39nrbKxszjnqS9Fr6NB7bZzW45U6WSGBPKXDL/CvDKqDNPA4r3DoDQ8GTxo2A==}
+  /immutable@4.3.2:
+    resolution: {integrity: sha512-oGXzbEDem9OOpDWZu88jGiYCvIsLHMvGw+8OXlpsvTFvIQplQbjg1B1cvKg8f7Hoch6+NGjpPsH1Fr+Mc2D1aA==}
     dev: true
 
   /internal-slot@1.0.5:
@@ -426,8 +426,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /is-core-module@2.12.1:
-    resolution: {integrity: sha512-Q4ZuBAe2FUsKtyQJoQHlvP8OvBERxO3jEmy1I7hcRXcJBGGHFh/aJBswbXuS9sgrDH2QUO8ilkwNPHvHMd8clg==}
+  /is-core-module@2.13.0:
+    resolution: {integrity: sha512-Z7dk6Qo8pOCp3l4tsX2C5ZVas4V+UxwQodwZhLopL91TX8UyyHEXafPcyoeeWuLrwzHcr3igO78wNLwHJHsMCQ==}
     dependencies:
       has: 1.0.3
     dev: true
@@ -565,7 +565,7 @@ packages:
     resolution: {integrity: sha512-/5CMN3T0R4XTj4DcGaexo+roZSdSFW/0AOOTROrjxzCG1wrWXEsGbRKevjlIL+ZDE4sZlJr5ED4YW0yqmkK+eA==}
     dependencies:
       hosted-git-info: 2.8.9
-      resolve: 1.22.2
+      resolve: 1.22.4
       semver: 5.7.2
       validate-npm-package-license: 3.0.4
     dev: true
@@ -696,11 +696,11 @@ packages:
       functions-have-names: 1.2.3
     dev: true
 
-  /resolve@1.22.2:
-    resolution: {integrity: sha512-Sb+mjNHOULsBv818T40qSPeRiuWLyaGMa5ewydRLFimneixmVy2zdivRl+AF6jaYPC8ERxGDmFSiqui6SfPd+g==}
+  /resolve@1.22.4:
+    resolution: {integrity: sha512-PXNdCiPqDqeUou+w1C2eTQbNfxKSuMxqTCuvlmmMsk1NWHL5fRrhY6Pl0qEYYc6+QqGClco1Qj8XnjPego4wfg==}
     hasBin: true
     dependencies:
-      is-core-module: 2.12.1
+      is-core-module: 2.13.0
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
     dev: true
@@ -729,7 +729,7 @@ packages:
     hasBin: true
     dependencies:
       chokidar: 3.5.3
-      immutable: 4.3.1
+      immutable: 4.3.2
       source-map-js: 1.0.2
     dev: true
 
@@ -963,9 +963,9 @@ packages:
     version: 1.0.0
     dev: false
 
-  github.com/mwszekely/preact-prop-helpers/29f63aee10bbd2b3360a3ce9f5e2e15b24721063(preact@10.16.0)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {tarball: https://codeload.github.com/mwszekely/preact-prop-helpers/tar.gz/29f63aee10bbd2b3360a3ce9f5e2e15b24721063}
-    id: github.com/mwszekely/preact-prop-helpers/29f63aee10bbd2b3360a3ce9f5e2e15b24721063
+  github.com/mwszekely/preact-prop-helpers/2ea368d90053373a9cd501a81b2dfc92f32d5b52(preact@10.16.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {tarball: https://codeload.github.com/mwszekely/preact-prop-helpers/tar.gz/2ea368d90053373a9cd501a81b2dfc92f32d5b52}
+    id: github.com/mwszekely/preact-prop-helpers/2ea368d90053373a9cd501a81b2dfc92f32d5b52
     name: preact-prop-helpers
     version: 0.0.1
     peerDependencies:
