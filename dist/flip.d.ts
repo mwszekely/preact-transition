@@ -23,12 +23,24 @@ export interface UseBasePropsFlipParameters<E extends Element> extends UseBasePr
          * @default 800px
          */
         flipPerspective: string | number | undefined;
+        /**
+         * The origin for both block and inline at once
+         */
+        flipOrigin: number | null | undefined;
+        /**
+         * The block-level transform origin
+         */
+        flipOriginBlock: number | null | undefined;
+        /**
+         * The inline-level transform origin
+         */
+        flipOriginInline: number | null | undefined;
     };
 }
 /**
  * Creates a set of props that implement a Flip transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
  */
-export declare function useBasePropsFlip<E extends Element>({ flipParameters: { flipAngleBlock, flipAngleInline, flipPerspective } }: UseBasePropsFlipParameters<E>): {
+export declare function useBasePropsFlip<E extends Element>({ flipParameters: { flipAngleBlock, flipAngleInline, flipPerspective, flipOrigin, flipOriginInline, flipOriginBlock } }: UseBasePropsFlipParameters<E>): {
     className: string;
     style: h.JSX.CSSProperties;
 };
@@ -46,5 +58,5 @@ export interface FlipProps<E extends HTMLElement> extends TransitionParametersBa
  *
  * @see `Transitionable`
  */
-export declare const Flip: <E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, flipAngleInline, flipAngleBlock, flipPerspective, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: FlipProps<E>, ref: Ref<E>) => import("preact").VNode<h.JSX.HTMLAttributes<E>> | null;
+export declare const Flip: <E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, flipAngleInline, flipAngleBlock, flipPerspective, flipOrigin, flipOriginInline, flipOriginBlock, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: FlipProps<E>, ref: Ref<E>) => import("preact").VNode<h.JSX.HTMLAttributes<E>> | null;
 //# sourceMappingURL=flip.d.ts.map

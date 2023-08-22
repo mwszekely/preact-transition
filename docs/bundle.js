@@ -1,4 +1,4 @@
-(function (_process, _globalThis$_process, _globalThis$process, _env, _globalThis$process$_, _globalThis$process$e, _NODE_ENV, _globalThis$process$e2, _window, _window$requestIdleCa) {
+(function (_process, _globalThis$_process, _globalThis$process, _env, _globalThis$process$_, _window, _window$requestIdleCa) {
   'use strict';
 
   var n,
@@ -843,7 +843,13 @@
   // (i.e. in a way that doesn't throw an error but has isDevMode be a constant)
   (_globalThis$_process = globalThis[_process = "process"]) !== null && _globalThis$_process !== void 0 ? _globalThis$_process : globalThis[_process] = {};
   (_globalThis$process$_ = (_globalThis$process = globalThis["process"])[_env = "env"]) !== null && _globalThis$process$_ !== void 0 ? _globalThis$process$_ : _globalThis$process[_env] = {};
-  (_globalThis$process$e2 = (_globalThis$process$e = globalThis["process"]["env"])[_NODE_ENV = "NODE_ENV"]) !== null && _globalThis$process$e2 !== void 0 ? _globalThis$process$e2 : _globalThis$process$e[_NODE_ENV] = "production";
+  /**
+   * Controls other development hooks by checking the value of a global variable called `"development"`.
+   *
+   * @remarks Bundlers like Rollup will actually no-op out development code if `"development" !== "development"`
+   * (which, of course, covers the default case where `"development"` just doesn't exist).
+   */
+  const BuildMode = globalThis["process"]["env"]["NODE_ENV"] = globalThis["process"]["env"]["NODE_ENV"] || "production";
 
   // TODO: This shouldn't be in every build, I don't think it's in core-js? I think?
   // And it's extremely small anyway and basically does nothing.
@@ -865,6 +871,7 @@
    */
   function monitorCallCount(hook) {
     var _window2, _window2$_hookCallCou, _window$_hookCallCoun, _window$_hookCallCoun2;
+    if (BuildMode !== 'development') return;
     const name = hook.name;
     if (filters.has(name)) return;
     console.assert(name.length > 0);
@@ -1013,6 +1020,7 @@
     for (var _len2 = arguments.length, values = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
       values[_key2 - 1] = arguments[_key2];
     }
+    if (BuildMode !== 'development') return;
     const helperToEnsureStability = _([]);
     const shownError = _([]);
     useHelper(values.length, -1);
@@ -2195,7 +2203,7 @@
     };
   }
   function generateStack() {
-    if (window._generate_setState_stacks) {
+    if (BuildMode === 'development' && window._generate_setState_stacks) {
       try {
         throw new Error();
       } catch (e) {
@@ -2207,14 +2215,19 @@
   /**
    * Returns a function that retrieves the stack at the time this hook was called (in development mode only).
    *
-   *
+   * @remarks The global variable `_generate_setState_stacks` must be true, or no stack will be generated.
    */
   function useStack() {
-    {
+    if (BuildMode === "development") {
       const stack = F$1(generateStack, []);
       const getStack = T$1(() => stack, []);
       return getStack;
+    } else {
+      return returnEmptyString;
     }
+  }
+  function returnEmptyString() {
+    return "";
   }
 
   /**
@@ -2272,14 +2285,14 @@
   /**
    * Debug function that yells at you if your forgot to use the props a hook returns.
    *
-   * @remarks Like other debug hooks, only has any effect IFF there is a global variable called `"development"` and it contains the value `"development"`.
+   * @remarks Like other debug hooks, only has any effect IFF there is a global variable called `"development"` and it contains the value `"development"`, AND there is a global variable called `_generate_useTagProps_tags` set to true, and stacks are only generated if `_generate_setState_stacks` is true..
    *
    * @param props - The props to return a modified copy of
    * @param tag - Should be unique
    * @returns A modified copy of the given props
    */
   function useTagProps(props, tag) {
-    {
+    if (BuildMode === 'development' && window._generate_useTagProps_tags) {
       const [id] = h(() => ++idIndex);
       const propsIdTag = "data-props-".concat(tag, "-").concat(id);
       const getStack = useStack();
@@ -2304,6 +2317,8 @@
           [propsIdTag]: true /*, [tag as never]: true*/
         };
       }, [props, tag]);
+    } else {
+      return props;
     }
   }
 
@@ -2577,7 +2592,7 @@
     // the "currently selected" (or whatever) index.  The two cases we're looking for:
     // 1. The currently selected child unmounted
     // 2. A child mounted, and it mounts with the index we're looking for
-    const reevaluateClosestFit = useStableCallback(() => {
+    const reevaluateClosestFit = useStableCallback(reason => {
       const children = getChildren();
       const requestedIndex = getRequestedIndex();
       const currentIndex = getCurrentIndex();
@@ -2585,7 +2600,7 @@
       if (requestedIndex != null && closestFit && (requestedIndex != currentIndex || currentChild == null || !isValid(currentChild))) {
         console.assert(typeof requestedIndex == "number", "closestFit can only be used when each child has a numeric index, and cannot be used when children use string indices instead.");
         const closestFitIndex = getClosestFit(requestedIndex);
-        setCurrentIndex(closestFitIndex, undefined);
+        setCurrentIndex(closestFitIndex, reason);
         if (currentChild) setAt(currentChild, false, closestFitIndex, currentIndex);
         if (closestFitIndex != null) {
           const closestFitChild = children.getAt(closestFitIndex);
@@ -2597,9 +2612,11 @@
         }
       }
     });
+    const reasonRef = _(undefined);
     const changeIndex = T$1((arg, reason) => {
       const children = getChildren();
       const requestedIndex = arg instanceof Function ? arg(getRequestedIndex()) : arg;
+      reasonRef.current = reason;
       setRequestedIndex(requestedIndex, reason);
       const currentIndex = getCurrentIndex();
       if (currentIndex == requestedIndex) return requestedIndex;
@@ -2618,6 +2635,7 @@
           if (newMatchingChild) setAt(newMatchingChild, true, requestedIndex, currentIndex);
           return requestedIndex;
         } else {
+          console.assert(closestFit);
           console.assert(typeof requestedIndex == "number", "closestFit can only be used when each child has a numeric index, and cannot be used when children use string indices instead.");
           const closestFitIndex = getClosestFit(requestedIndex);
           setCurrentIndex(closestFitIndex, reason);
@@ -2636,7 +2654,7 @@
     }, []);
     // Run once, on mount
     y(() => {
-      changeIndex(initialIndex !== null && initialIndex !== void 0 ? initialIndex : null, undefined);
+      changeIndex(initialIndex !== null && initialIndex !== void 0 ? initialIndex : null, reasonRef.current);
     }, []);
     return {
       changeIndex,
@@ -2664,7 +2682,7 @@
     // Hijack the normal setter function 
     // to also set our ref to the new value
     const setState = T$1(value => {
-      {
+      if (BuildMode === 'development') {
         window._setState_stack = getStack();
       }
       if (typeof value === "function") {
@@ -5059,12 +5077,15 @@
    * Creates a set of props that implement a Flip transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    */
   function useBasePropsFlip(_ref28) {
-    var _useLastNonNullValue, _useLastNonNullValue2;
+    var _ref29, _ref30, _useLastNonNullValue, _useLastNonNullValue2;
     let {
       flipParameters: {
         flipAngleBlock,
         flipAngleInline,
-        flipPerspective
+        flipPerspective,
+        flipOrigin,
+        flipOriginInline,
+        flipOriginBlock
       }
     } = _ref28;
     const {
@@ -5073,6 +5094,8 @@
     return {
       className: "".concat(GetBaseClass(), "-flip"),
       style: {
+        ["--".concat(GetBaseClass(), "-flip-origin-inline")]: "".concat((_ref29 = flipOriginInline !== null && flipOriginInline !== void 0 ? flipOriginInline : flipOrigin) !== null && _ref29 !== void 0 ? _ref29 : 0.5),
+        ["--".concat(GetBaseClass(), "-flip-origin-block")]: "".concat((_ref30 = flipOriginBlock !== null && flipOriginBlock !== void 0 ? flipOriginBlock : flipOrigin) !== null && _ref30 !== void 0 ? _ref30 : 0.5),
         ["--".concat(GetBaseClass(), "-flip-angle-inline")]: "".concat((_useLastNonNullValue = useLastNonNullValue(flipAngleInline)) !== null && _useLastNonNullValue !== void 0 ? _useLastNonNullValue : 0, "deg"),
         ["--".concat(GetBaseClass(), "-flip-angle-block")]: "".concat((_useLastNonNullValue2 = useLastNonNullValue(flipAngleBlock)) !== null && _useLastNonNullValue2 !== void 0 ? _useLastNonNullValue2 : 0, "deg"),
         ["--".concat(GetBaseClass(), "-perspective")]: "".concat(flipPerspective !== null && flipPerspective !== void 0 ? flipPerspective : 800, "px")
@@ -5091,7 +5114,7 @@
    *
    * @see `Transitionable`
    */
-  const Flip = x(forwardElementRef(function Flip(_ref29, ref) {
+  const Flip = x(forwardElementRef(function Flip(_ref31, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5102,6 +5125,9 @@
       flipAngleInline,
       flipAngleBlock,
       flipPerspective,
+      flipOrigin,
+      flipOriginInline,
+      flipOriginBlock,
       show,
       animateOnMount,
       exitVisibility,
@@ -5110,7 +5136,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref29;
+    } = _ref31;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5132,7 +5158,76 @@
           flipParameters: {
             flipAngleBlock,
             flipAngleInline,
-            flipPerspective
+            flipPerspective,
+            flipOrigin,
+            flipOriginInline,
+            flipOriginBlock
+          }
+        }), {
+          ref,
+          ...rest
+        })
+      },
+      exclusiveTransitionParameters: {
+        exclusivityKey
+      }
+    });
+  }));
+  const FlipFade = x(forwardElementRef(function FlipFade(_ref32, ref) {
+    let {
+      duration,
+      exclusivityKey,
+      easing,
+      easingIn,
+      easingOut,
+      fadeMin,
+      fadeMax,
+      show,
+      animateOnMount,
+      delayMountUntilShown,
+      flipAngleInline,
+      flipAngleBlock,
+      flipPerspective,
+      flipOrigin,
+      flipOriginInline,
+      flipOriginBlock,
+      exitVisibility,
+      onVisibilityChange,
+      onElementChange,
+      onMount,
+      onUnmount,
+      ...rest
+    } = _ref32;
+    return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
+      transitionParameters: {
+        measure: false,
+        show,
+        duration,
+        animateOnMount,
+        exitVisibility,
+        delayMountUntilShown,
+        onVisibilityChange,
+        easing,
+        easingIn,
+        easingOut,
+        propsIncoming: useMergedProps(useBasePropsFade({
+          fadeParameters: {
+            fadeMax,
+            fadeMin
+          }
+        }), useBasePropsFlip({
+          flipParameters: {
+            flipAngleInline,
+            flipAngleBlock,
+            flipPerspective,
+            flipOrigin,
+            flipOriginInline,
+            flipOriginBlock
           }
         }), {
           ref,
@@ -5148,14 +5243,14 @@
   /**
    * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    */
-  function useBasePropsSlide(_ref30) {
+  function useBasePropsSlide(_ref33) {
     var _slideTargetInline, _slideTargetBlock;
     let {
       slideParameters: {
         slideTargetInline,
         slideTargetBlock
       }
-    } = _ref30;
+    } = _ref33;
     slideTargetInline = useLastNonNullValue(slideTargetInline);
     slideTargetBlock = useLastNonNullValue(slideTargetBlock);
     const {
@@ -5181,7 +5276,7 @@
    *
    * @see `Transitionable`
    */
-  const Slide = x(forwardElementRef(function Slide(_ref31, ref) {
+  const Slide = x(forwardElementRef(function Slide(_ref34, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5199,7 +5294,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref31;
+    } = _ref34;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5232,7 +5327,7 @@
       }
     });
   }));
-  const SlideFade = x(forwardElementRef(function SlideFade(_ref32, ref) {
+  const SlideFade = x(forwardElementRef(function SlideFade(_ref35, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5252,7 +5347,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref32;
+    } = _ref35;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5294,8 +5389,8 @@
   /**
    * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    */
-  function useBasePropsZoom(_ref33) {
-    var _ref34, _ref35, _ref36, _ref37;
+  function useBasePropsZoom(_ref36) {
+    var _ref37, _ref38, _ref39, _ref40;
     let {
       zoomParameters: {
         zoomOrigin,
@@ -5305,17 +5400,17 @@
         zoomMinInline,
         zoomMinBlock
       }
-    } = _ref33;
+    } = _ref36;
     const {
       GetBaseClass
     } = useCssClasses();
     return {
       className: "".concat(GetBaseClass(), "-zoom"),
       style: {
-        ["--".concat(GetBaseClass(), "-zoom-origin-inline")]: "".concat((_ref34 = zoomOriginInline !== null && zoomOriginInline !== void 0 ? zoomOriginInline : zoomOrigin) !== null && _ref34 !== void 0 ? _ref34 : 0.5),
-        ["--".concat(GetBaseClass(), "-zoom-origin-block")]: "".concat((_ref35 = zoomOriginBlock !== null && zoomOriginBlock !== void 0 ? zoomOriginBlock : zoomOrigin) !== null && _ref35 !== void 0 ? _ref35 : 0.5),
-        ["--".concat(GetBaseClass(), "-zoom-min-inline")]: "".concat((_ref36 = zoomMinInline !== null && zoomMinInline !== void 0 ? zoomMinInline : zoomMin) !== null && _ref36 !== void 0 ? _ref36 : 0),
-        ["--".concat(GetBaseClass(), "-zoom-min-block")]: "".concat((_ref37 = zoomMinBlock !== null && zoomMinBlock !== void 0 ? zoomMinBlock : zoomMin) !== null && _ref37 !== void 0 ? _ref37 : 0)
+        ["--".concat(GetBaseClass(), "-zoom-origin-inline")]: "".concat((_ref37 = zoomOriginInline !== null && zoomOriginInline !== void 0 ? zoomOriginInline : zoomOrigin) !== null && _ref37 !== void 0 ? _ref37 : 0.5),
+        ["--".concat(GetBaseClass(), "-zoom-origin-block")]: "".concat((_ref38 = zoomOriginBlock !== null && zoomOriginBlock !== void 0 ? zoomOriginBlock : zoomOrigin) !== null && _ref38 !== void 0 ? _ref38 : 0.5),
+        ["--".concat(GetBaseClass(), "-zoom-min-inline")]: "".concat((_ref39 = zoomMinInline !== null && zoomMinInline !== void 0 ? zoomMinInline : zoomMin) !== null && _ref39 !== void 0 ? _ref39 : 0),
+        ["--".concat(GetBaseClass(), "-zoom-min-block")]: "".concat((_ref40 = zoomMinBlock !== null && zoomMinBlock !== void 0 ? zoomMinBlock : zoomMin) !== null && _ref40 !== void 0 ? _ref40 : 0)
       }
     };
   }
@@ -5323,7 +5418,7 @@
    * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
    * @see `Transitionable` `ZoomFade`
    */
-  const Zoom = x(forwardElementRef(function Zoom(_ref38, ref) {
+  const Zoom = x(forwardElementRef(function Zoom(_ref41, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5345,7 +5440,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref38;
+    } = _ref41;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5382,73 +5477,7 @@
       }
     });
   }));
-  const SlideZoom = x(forwardElementRef(function SlideZoom(_ref39, ref) {
-    let {
-      duration,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      zoomMin,
-      zoomMinBlock,
-      zoomMinInline,
-      zoomOrigin,
-      zoomOriginBlock,
-      zoomOriginInline,
-      show,
-      animateOnMount,
-      delayMountUntilShown,
-      slideTargetBlock,
-      slideTargetInline,
-      exitVisibility,
-      onVisibilityChange,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref39;
-    return useTransition({
-      refElementParameters: {
-        onElementChange,
-        onMount,
-        onUnmount
-      },
-      transitionParameters: {
-        measure: false,
-        show,
-        duration,
-        animateOnMount,
-        exitVisibility,
-        delayMountUntilShown,
-        onVisibilityChange,
-        easing,
-        easingIn,
-        easingOut,
-        propsIncoming: useMergedProps({
-          ref,
-          ...rest
-        }, useBasePropsZoom({
-          zoomParameters: {
-            zoomMin,
-            zoomMinBlock,
-            zoomMinInline,
-            zoomOrigin,
-            zoomOriginBlock,
-            zoomOriginInline
-          }
-        }), useBasePropsSlide({
-          slideParameters: {
-            slideTargetBlock,
-            slideTargetInline
-          }
-        }))
-      },
-      exclusiveTransitionParameters: {
-        exclusivityKey
-      }
-    });
-  }));
-  const SlideZoomFade = x(forwardElementRef(function SlideZoomFade(_ref40, ref) {
+  const SlideZoomFade = x(forwardElementRef(function SlideZoomFade(_ref42, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5474,7 +5503,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref40;
+    } = _ref42;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5521,7 +5550,73 @@
       }
     });
   }));
-  const ZoomFade = x(forwardElementRef(function ZoomFade(_ref41, ref) {
+  const SlideZoom = x(forwardElementRef(function SlideZoom(_ref43, ref) {
+    let {
+      duration,
+      exclusivityKey,
+      easing,
+      easingIn,
+      easingOut,
+      zoomMin,
+      zoomMinBlock,
+      zoomMinInline,
+      zoomOrigin,
+      zoomOriginBlock,
+      zoomOriginInline,
+      show,
+      animateOnMount,
+      delayMountUntilShown,
+      slideTargetBlock,
+      slideTargetInline,
+      exitVisibility,
+      onVisibilityChange,
+      onElementChange,
+      onMount,
+      onUnmount,
+      ...rest
+    } = _ref43;
+    return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
+      transitionParameters: {
+        measure: false,
+        show,
+        duration,
+        animateOnMount,
+        exitVisibility,
+        delayMountUntilShown,
+        onVisibilityChange,
+        easing,
+        easingIn,
+        easingOut,
+        propsIncoming: useMergedProps({
+          ref,
+          ...rest
+        }, useBasePropsZoom({
+          zoomParameters: {
+            zoomMin,
+            zoomMinBlock,
+            zoomMinInline,
+            zoomOrigin,
+            zoomOriginBlock,
+            zoomOriginInline
+          }
+        }), useBasePropsSlide({
+          slideParameters: {
+            slideTargetBlock,
+            slideTargetInline
+          }
+        }))
+      },
+      exclusiveTransitionParameters: {
+        exclusivityKey
+      }
+    });
+  }));
+  const ZoomFade = x(forwardElementRef(function ZoomFade(_ref44, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5545,7 +5640,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref41;
+    } = _ref44;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5895,13 +5990,6 @@
           contentIndex: show3,
           exitVisibility: reflow,
           text: text
-        }), o$1(FlipDemo, {
-          cardShow: show1,
-          animateOnMount: animateOnMount,
-          exclusive: exclusive,
-          contentIndex: show3,
-          exitVisibility: reflow,
-          text: text
         }), o$1(ZoomSlideDemo, {
           cardShow: show1,
           animateOnMount: animateOnMount,
@@ -5916,11 +6004,18 @@
           contentIndex: show3,
           exitVisibility: reflow,
           text: text
+        }), o$1(FlipDemo, {
+          cardShow: show1,
+          animateOnMount: animateOnMount,
+          exclusive: exclusive,
+          contentIndex: show3,
+          exitVisibility: reflow,
+          text: text
         })]
       }, writingMode)]
     });
   }
-  function FadeDemo(_ref42) {
+  function FadeDemo(_ref45) {
     let {
       cardShow,
       contentIndex,
@@ -5928,7 +6023,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref42;
+    } = _ref45;
     const [min, setMin] = h(0);
     const [max, setMax] = h(1);
     const onMinInput = T$1(e => {
@@ -6005,7 +6100,7 @@
       })]
     });
   }
-  function ClipDemo(_ref43) {
+  function ClipDemo(_ref46) {
     let {
       cardShow,
       contentIndex,
@@ -6013,7 +6108,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref43;
+    } = _ref46;
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(1);
@@ -6134,7 +6229,7 @@
       })]
     });
   }
-  function ZoomSlideDemo(_ref44) {
+  function ZoomSlideDemo(_ref47) {
     let {
       cardShow,
       contentIndex,
@@ -6142,7 +6237,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref44;
+    } = _ref47;
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(0.75);
@@ -6294,7 +6389,7 @@
       })]
     });
   }
-  function ZoomDemo(_ref45) {
+  function ZoomDemo(_ref48) {
     let {
       cardShow,
       contentIndex,
@@ -6302,7 +6397,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref45;
+    } = _ref48;
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(0.75);
@@ -6422,7 +6517,7 @@
       })]
     });
   }
-  function SlideDemo(_ref46) {
+  function SlideDemo(_ref49) {
     let {
       cardShow,
       contentIndex,
@@ -6430,7 +6525,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref46;
+    } = _ref49;
     const [slideX, setSlideX] = h(0.25);
     const [slideY, setSlideY] = h(0);
     const [withFade, setWithFade] = h(true);
@@ -6520,7 +6615,7 @@
       })]
     });
   }
-  function CollapseDemo(_ref47) {
+  function CollapseDemo(_ref50) {
     let {
       cardShow,
       contentIndex,
@@ -6528,7 +6623,7 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref47;
+    } = _ref50;
     const [minBlockSize, setMinBlockSize] = h("0px");
     const onWithFadeInput = T$1(e => {
       setWithFade(e.target.checked);
@@ -6570,12 +6665,6 @@
               value: minBlockSize,
               onInput: onMinSize
             })]
-          }), o$1("label", {
-            children: ["With fade", o$1("input", {
-              checked: withFade,
-              onInput: onWithFadeInput,
-              type: "checkbox"
-            })]
           }), o$1("div", {
             children: "Direction cannot be directly controlled. Only the size along the block axis (Y-axis in horizontal languages) can be resized."
           }), o$1("div", {
@@ -6584,6 +6673,12 @@
             }), " need its reflow transitioning properties, because it's very taxing on, well, ", o$1("em", {
               children: "most"
             }), " devices, unless you take other precautions. If you want a \"disappear in place without zooming out\", consider a Clip effect."]
+          }), o$1("label", {
+            children: ["With fade", o$1("input", {
+              checked: withFade,
+              onInput: onWithFadeInput,
+              type: "checkbox"
+            })]
           })]
         }), o$1("div", {
           children: cardShow != "unmounted" && o$1(C, {
@@ -6609,7 +6704,7 @@
       })]
     });
   }
-  function FlipDemo(_ref48) {
+  function FlipDemo(_ref51) {
     let {
       cardShow,
       contentIndex,
@@ -6617,9 +6712,19 @@
       text,
       animateOnMount,
       exclusive
-    } = _ref48;
+    } = _ref51;
+    const [originX, setOriginX] = h(0.5);
+    const [originY, setOriginY] = h(0.5);
     const [flipX, setFlipX] = h(0);
     const [flipY, setFlipY] = h(180);
+    const onOriginXInput = T$1(e => {
+      setOriginX(e.target.valueAsNumber);
+      e.preventDefault();
+    }, []);
+    const onOriginYInput = T$1(e => {
+      setOriginY(e.target.valueAsNumber);
+      e.preventDefault();
+    }, []);
     const onFlipXInput = T$1(e => {
       setFlipX(e.target.valueAsNumber);
       e.preventDefault();
@@ -6628,8 +6733,13 @@
       setFlipY(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const C = Flip;
-    const CS = "Flip";
+    const onWithFadeInput = T$1(e => {
+      setWithFade(e.target.checked);
+      e.preventDefault();
+    }, []);
+    const [withFade, setWithFade] = h(true);
+    const C = withFade ? FlipFade : Flip;
+    const CS = withFade ? "FlipFade" : "Flip";
     const E = exclusive ? "e" : null;
     const makeChild = i => o$1(C, {
       show: contentIndex === i,
@@ -6637,6 +6747,8 @@
       exitVisibility: exitVisibility,
       flipAngleInline: flipX * Math.sign(i - (contentIndex !== null && contentIndex !== void 0 ? contentIndex : 0)) || null,
       flipAngleBlock: flipY * Math.sign(i - (contentIndex !== null && contentIndex !== void 0 ? contentIndex : 0)) || null,
+      flipOriginInline: originX,
+      flipOriginBlock: flipY,
       children: o$1("div", {
         className: "card-contents",
         children: [halfText(text, i), o$1("div", {
@@ -6655,6 +6767,24 @@
         children: [o$1("div", {
           className: "demo-controls",
           children: [o$1("label", {
+            children: ["Transform origin on the inline-axis position (X-axis in English, etc.) ", o$1("input", {
+              onInput: onOriginXInput,
+              value: originX,
+              type: "number",
+              step: 0.125,
+              min: -2,
+              max: 2
+            })]
+          }), o$1("label", {
+            children: ["Transform origin on the block-axis position (Y-axis in English, etc.)  ", o$1("input", {
+              onInput: onOriginYInput,
+              value: originY,
+              type: "number",
+              step: 0.125,
+              min: -2,
+              max: 2
+            })]
+          }), o$1("label", {
             children: ["Rotate on inline axis ", o$1("input", {
               type: "number",
               onInput: onFlipXInput,
@@ -6666,6 +6796,12 @@
               onInput: onFlipYInput,
               value: flipY
             })]
+          }), o$1("label", {
+            children: ["With fade", o$1("input", {
+              checked: withFade,
+              onInput: onWithFadeInput,
+              type: "checkbox"
+            })]
           })]
         }), cardShow != "unmounted" && o$1(C, {
           show: cardShow == "pending" ? null : cardShow == "showing",
@@ -6673,6 +6809,8 @@
           exitVisibility: exitVisibility,
           flipAngleInline: flipX,
           flipAngleBlock: flipY,
+          flipOriginInline: originX,
+          flipOriginBlock: originY,
           children: o$1(Swappable, {
             exclusivityKey: E,
             children: o$1("div", {

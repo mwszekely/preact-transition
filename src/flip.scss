@@ -7,6 +7,8 @@
     backface-visibility: hidden;
     --#{$transition-class-base}-properties: transform;
 
+    // Set the transform origin regardless of what phase we're in
+    transform-origin: calc(var(--#{$transition-class-base}-flip-origin-x) * 100%) calc(var(--#{$transition-class-base}-flip-origin-y) * 100%);
 
     &.#{$transition-class-base}-#{$transition-class-enter}-#{$transition-class-init},
     &.#{$transition-class-base}-#{$transition-class-exit}-#{$transition-class-transition},
@@ -33,8 +35,8 @@
 
 
     // Handle converting all our inline and block values to the X and Y coordinates most other CSS expects
-    --#{$transition-class-base}-origin-x: calc(0 + var(--#{$transition-class-base}-origin-inline));
-    --#{$transition-class-base}-origin-y: calc(0 + var(--#{$transition-class-base}-origin-block));
+    --#{$transition-class-base}-flip-origin-x: calc(0 + var(--#{$transition-class-base}-flip-origin-inline));
+    --#{$transition-class-base}-flip-origin-y: calc(0 + var(--#{$transition-class-base}-flip-origin-block));
 
     &.#{$transition-class-base}-inline-direction-ltr {
       --#{$transition-class-base}-flip-angle-x: calc(1 * var(--#{$transition-class-base}-flip-angle-inline));

@@ -1,0 +1,9 @@
+@use "./flip.scss";
+@use "./fade.scss";
+@use "./_variables" as *;
+
+.#{$transition-class-base} {
+    &.#{$transition-class-base}-flip.#{$transition-class-base}-fade {
+        --#{$transition-class-base}-properties: transform, opacity;
+    }
+}

@@ -12,7 +12,7 @@ dependencies:
     version: 10.16.0
   preact-prop-helpers:
     specifier: github:mwszekely/preact-prop-helpers
-    version: github.com/mwszekely/preact-prop-helpers/2ea368d90053373a9cd501a81b2dfc92f32d5b52(preact@10.16.0)(react-dom@18.2.0)(react@18.2.0)
+    version: github.com/mwszekely/preact-prop-helpers/e8909ca75a37f657d8266df7b735d976cedeb6d1(preact@10.16.0)(react-dom@18.2.0)(react@18.2.0)
 
 devDependencies:
   '@types/lodash':
@@ -137,7 +137,7 @@ packages:
       normalize-path: 3.0.0
       readdirp: 3.6.0
     optionalDependencies:
-      fsevents: 2.3.2
+      fsevents: 2.3.3
     dev: true
 
   /clsx@2.0.0:
@@ -265,8 +265,8 @@ packages:
       is-callable: 1.2.7
     dev: true
 
-  /fsevents@2.3.2:
-    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
+  /fsevents@2.3.3:
+    resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
@@ -957,15 +957,15 @@ packages:
       lodash-es: 4.17.21
     dev: false
 
-  github.com/mwszekely/map-and-set-extensions/f0a9758a5dbccc8fe88f4bfc928166c84d86ac6b:
-    resolution: {tarball: https://codeload.github.com/mwszekely/map-and-set-extensions/tar.gz/f0a9758a5dbccc8fe88f4bfc928166c84d86ac6b}
+  github.com/mwszekely/map-and-set-extensions/2e76da9cceee046d57d83eaacf46e602a97a9f63:
+    resolution: {tarball: https://codeload.github.com/mwszekely/map-and-set-extensions/tar.gz/2e76da9cceee046d57d83eaacf46e602a97a9f63}
     name: map-and-set-extensions
     version: 1.0.0
     dev: false
 
-  github.com/mwszekely/preact-prop-helpers/2ea368d90053373a9cd501a81b2dfc92f32d5b52(preact@10.16.0)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {tarball: https://codeload.github.com/mwszekely/preact-prop-helpers/tar.gz/2ea368d90053373a9cd501a81b2dfc92f32d5b52}
-    id: github.com/mwszekely/preact-prop-helpers/2ea368d90053373a9cd501a81b2dfc92f32d5b52
+  github.com/mwszekely/preact-prop-helpers/e8909ca75a37f657d8266df7b735d976cedeb6d1(preact@10.16.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {tarball: https://codeload.github.com/mwszekely/preact-prop-helpers/tar.gz/e8909ca75a37f657d8266df7b735d976cedeb6d1}
+    id: github.com/mwszekely/preact-prop-helpers/e8909ca75a37f657d8266df7b735d976cedeb6d1
     name: preact-prop-helpers
     version: 0.0.1
     peerDependencies:
@@ -977,7 +977,7 @@ packages:
       blocking-elements: 0.1.1
       clsx: 2.0.0
       lodash-es: 4.17.21
-      map-and-set-extensions: github.com/mwszekely/map-and-set-extensions/f0a9758a5dbccc8fe88f4bfc928166c84d86ac6b
+      map-and-set-extensions: github.com/mwszekely/map-and-set-extensions/2e76da9cceee046d57d83eaacf46e602a97a9f63
       preact: 10.16.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)

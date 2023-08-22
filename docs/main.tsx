@@ -1,7 +1,7 @@
 
 import { h, render } from "preact";
 import { useCallback, useLayoutEffect, useState } from "preact/hooks";
-import { Clip, ClipFade, Collapse, CollapseFade, ExitVisibility as EV, Fade, Flip, Slide, SlideFade, SlideZoom, SlideZoomFade, Swappable, useCssClasses, Zoom, ZoomFade } from "../dist/index.js";
+import { Clip, ClipFade, Collapse, CollapseFade, ExitVisibility as EV, Fade, Flip, FlipFade, Slide, SlideFade, SlideZoom, SlideZoomFade, Swappable, Zoom, ZoomFade, useCssClasses } from "../dist/index.js";
 
 function halfText(input: string, times: number): string {
   if (times <= 0)
@@ -106,9 +106,9 @@ function Demo() {
         <SlideDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ZoomDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ClipDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
-        <FlipDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
         <ZoomSlideDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
         <CollapseDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
+        <FlipDemo cardShow={show1} animateOnMount={animateOnMount} exclusive={exclusive} contentIndex={show3} exitVisibility={reflow} text={text} />
       </div>
     </>
   )
@@ -456,9 +456,9 @@ function CollapseDemo({ cardShow, contentIndex, exitVisibility, text, animateOnM
       <div className="demo">
         <div className="demo-controls">
           <label>Minimum size: <input type="text" value={minBlockSize} onInput={onMinSize} /></label>
-          <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
           <div>Direction cannot be directly controlled. Only the size along the block axis (Y-axis in horizontal languages) can be resized.</div>
           <div>In general, only use this component if you <em>specifically</em> need its reflow transitioning properties, because it's very taxing on, well, <em>most</em> devices, unless you take other precautions. If you want a "disappear in place without zooming out", consider a Clip effect.</div>
+          <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
         </div>
         <div>
           {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} minBlockSize={minBlockSize}>
@@ -505,24 +505,33 @@ function CollapseDemo({ cardShow, contentIndex, exitVisibility, text, animateOnM
 
 
 function FlipDemo({ cardShow, contentIndex, exitVisibility, text, animateOnMount, exclusive }: { animateOnMount: boolean, exclusive: boolean, cardShow: Showing, contentIndex: number | null, exitVisibility: EV, text: string }) {
+  const [originX, setOriginX] = useState(0.5);
+  const [originY, setOriginY] = useState(0.5);
   const [flipX, setFlipX] = useState(0);
   const [flipY, setFlipY] = useState(180);
+  const onOriginXInput = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setOriginX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+  const onOriginYInput = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setOriginY(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
   const onFlipXInput = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setFlipX(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
   const onFlipYInput = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setFlipY(((e.target) as HTMLInputElement).valueAsNumber); e.preventDefault(); }, []);
+  const onWithFadeInput = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setWithFade(((e.target) as HTMLInputElement).checked); e.preventDefault(); }, []);
+  const [withFade, setWithFade] = useState(true);
 
-  const C = Flip;
-  const CS = "Flip";
+  const C = withFade ? FlipFade : Flip;
+  const CS = withFade ? "FlipFade" : "Flip";
   const E = (exclusive ? "e" : null);
-  const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} flipAngleInline={(flipX * Math.sign(i - (contentIndex ?? 0))) || null} flipAngleBlock={(flipY * Math.sign(i - (contentIndex ?? 0))) || null}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
+  const makeChild = (i: number) => <C show={contentIndex === i} exclusivityKey={E} exitVisibility={exitVisibility} flipAngleInline={(flipX * Math.sign(i - (contentIndex ?? 0))) || null} flipAngleBlock={(flipY * Math.sign(i - (contentIndex ?? 0))) || null} flipOriginInline={originX} flipOriginBlock={flipY}><div className="card-contents">{halfText(text, i)}<div><button>Focusable element</button></div></div></C>
 
   return <div className="demo-section">
     <h2>Flip</h2>
     <div className="demo">
       <div className="demo-controls">
+        <label>Transform origin on the inline-axis position (X-axis in English, etc.) <input onInput={onOriginXInput} value={originX} type="number" step={0.125} min={-2} max={2} /></label>
+        <label>Transform origin on the block-axis position (Y-axis in English, etc.)  <input onInput={onOriginYInput} value={originY} type="number" step={0.125} min={-2} max={2} /></label>
         <label>Rotate on inline axis <input type="number" onInput={onFlipXInput} value={flipX} /></label>
         <label>Rotate along block axis <input type="number" onInput={onFlipYInput} value={flipY} /></label>
+        <label>With fade<input checked={withFade} onInput={onWithFadeInput} type="checkbox" /></label>
       </div>
-      {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} flipAngleInline={flipX} flipAngleBlock={flipY}>
+      {cardShow != "unmounted" && <C show={cardShow == "pending" ? null : (cardShow == "showing")} animateOnMount={animateOnMount} exitVisibility={exitVisibility} flipAngleInline={flipX} flipAngleBlock={flipY} flipOriginInline={originX} flipOriginBlock={originY}>
         <Swappable exclusivityKey={E}>
           <div className="card">
             {makeChild(0)}

@@ -6,11 +6,13 @@ import { forwardElementRef, useLastNonNullValue } from "./util/util.js";
 /**
  * Creates a set of props that implement a Flip transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
  */
-export function useBasePropsFlip({ flipParameters: { flipAngleBlock, flipAngleInline, flipPerspective } }) {
+export function useBasePropsFlip({ flipParameters: { flipAngleBlock, flipAngleInline, flipPerspective, flipOrigin, flipOriginInline, flipOriginBlock } }) {
     const { GetBaseClass } = useCssClasses();
     return {
         className: `${GetBaseClass()}-flip`,
         style: {
+            [`--${GetBaseClass()}-flip-origin-inline`]: `${(flipOriginInline ?? flipOrigin ?? 0.5)}`,
+            [`--${GetBaseClass()}-flip-origin-block`]: `${(flipOriginBlock ?? flipOrigin ?? 0.5)}`,
             [`--${GetBaseClass()}-flip-angle-inline`]: `${(useLastNonNullValue(flipAngleInline) ?? 0)}deg`,
             [`--${GetBaseClass()}-flip-angle-block`]: `${(useLastNonNullValue(flipAngleBlock) ?? 0)}deg`,
             [`--${GetBaseClass()}-perspective`]: `${(flipPerspective ?? 800)}px`
@@ -30,7 +32,7 @@ export function useBasePropsFlip({ flipParameters: { flipAngleBlock, flipAngleIn
  *
  * @see `Transitionable`
  */
-export const Flip = memo(forwardElementRef(function Flip({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, flipAngleInline, flipAngleBlock, flipPerspective, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }, ref) {
+export const Flip = memo(forwardElementRef(function Flip({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, flipAngleInline, flipAngleBlock, flipPerspective, flipOrigin, flipOriginInline, flipOriginBlock, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }, ref) {
     return useTransition({
         refElementParameters: { onElementChange, onMount, onUnmount },
         transitionParameters: {
@@ -44,7 +46,7 @@ export const Flip = memo(forwardElementRef(function Flip({ duration, exclusivity
             easing,
             easingIn,
             easingOut,
-            propsIncoming: useMergedProps(useBasePropsFlip({ flipParameters: { flipAngleBlock, flipAngleInline, flipPerspective } }), { ref, ...rest })
+            propsIncoming: useMergedProps(useBasePropsFlip({ flipParameters: { flipAngleBlock, flipAngleInline, flipPerspective, flipOrigin, flipOriginInline, flipOriginBlock } }), { ref, ...rest })
         },
         exclusiveTransitionParameters: { exclusivityKey }
     });
