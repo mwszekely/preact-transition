@@ -42,6 +42,6 @@
   "dependencies": {
     "clsx": "^2.0.0",
     "lodash-es": "^4.17.21",
-    "preact-prop-helpers": "github:mwszekely/preact-prop-helpers"
+    "preact-prop-helpers": "github:mwszekely/preact-prop-helpers#betterer-lists"
   }
 }
