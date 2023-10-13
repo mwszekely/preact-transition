@@ -20,7 +20,7 @@ To use a transition, simply wrap the content you want to transition in/out:
 </Fade>
 ```
 
-![An animated image showing examples of a card and its contents transitioning in and out in place](collapse.gif?raw=true "Collapse demo image")
+![An animation showing examples of a card and its contents transitioning in and out](collapse.gif?raw=true "Collapse demo image")
 
 ## Basics
 

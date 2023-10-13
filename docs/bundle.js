@@ -4,7 +4,7 @@
   var n,
     l$1,
     u$1,
-    i$1,
+    i$2,
     o$2,
     r$2,
     f$1,
@@ -12,8 +12,8 @@
     c$1 = {},
     s$1 = [],
     a$1 = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i,
-    h$1 = Array.isArray;
-  function v$1(n, l) {
+    v$1 = Array.isArray;
+  function h$1(n, l) {
     for (var u in l) n[u] = l[u];
     return n;
   }
@@ -56,7 +56,7 @@
   }
   function g$2(n, l) {
     if (null == l) return n.__ ? g$2(n.__, n.__.__k.indexOf(n) + 1) : null;
-    for (var u; l < n.__k.length; l++) if (null != (u = n.__k[l]) && null != u.__e) return u.__e;
+    for (var u; l < n.__k.length; l++) if (null != (u = n.__k[l]) && null != u.__e) return u.__d || u.__e;
     return "function" == typeof n.type ? g$2(n) : null;
   }
   function m$1(n) {
@@ -70,44 +70,43 @@
     }
   }
   function w$2(n) {
-    (!n.__d && (n.__d = !0) && i$1.push(n) && !x$1.__r++ || o$2 !== l$1.debounceRendering) && ((o$2 = l$1.debounceRendering) || r$2)(x$1);
+    (!n.__d && (n.__d = !0) && i$2.push(n) && !x$1.__r++ || o$2 !== l$1.debounceRendering) && ((o$2 = l$1.debounceRendering) || r$2)(x$1);
   }
   function x$1() {
     var n, l, u, t, o, r, e, c, s;
-    for (i$1.sort(f$1); n = i$1.shift();) n.__d && (l = i$1.length, t = void 0, o = void 0, r = void 0, c = (e = (u = n).__v).__e, (s = u.__P) && (t = [], o = [], (r = v$1({}, e)).__v = e.__v + 1, L$1(s, e, r, u.__n, void 0 !== s.ownerSVGElement, null != e.__h ? [c] : null, t, null == c ? g$2(e) : c, e.__h, o), M(t, e, o), e.__e != c && m$1(e)), i$1.length > l && i$1.sort(f$1));
+    for (i$2.sort(f$1); n = i$2.shift();) n.__d && (l = i$2.length, t = void 0, o = void 0, r = void 0, c = (e = (u = n).__v).__e, (s = u.__P) && (t = [], o = [], (r = h$1({}, e)).__v = e.__v + 1, z$1(s, e, r, u.__n, void 0 !== s.ownerSVGElement, null != e.__h ? [c] : null, t, null == c ? g$2(e) : c, e.__h, o), L$1(t, e, o), e.__e != c && m$1(e)), i$2.length > l && i$2.sort(f$1));
     x$1.__r = 0;
   }
-  function P(n, l, u, t, i, o, r, f, e, a, v) {
+  function P(n, l, u, t, i, o, r, f, e, a, h) {
     var p,
       y,
       _,
       b,
-      g,
       m,
       w,
       x,
       P,
-      S,
-      H = 0,
-      I = t && t.__k || s$1,
-      T = I.length,
-      j = T,
-      z = l.length;
-    for (u.__k = [], p = 0; p < z; p++) null != (b = u.__k[p] = null == (b = l[p]) || "boolean" == typeof b || "function" == typeof b ? null : "string" == typeof b || "number" == typeof b || "bigint" == typeof b ? d$1(null, b, null, null, b) : h$1(b) ? d$1(k$2, {
+      C,
+      D = 0,
+      H = t && t.__k || s$1,
+      I = H.length,
+      T = I,
+      j = l.length;
+    for (u.__k = [], p = 0; p < j; p++) null != (b = u.__k[p] = null == (b = l[p]) || "boolean" == typeof b || "function" == typeof b ? null : "string" == typeof b || "number" == typeof b || "bigint" == typeof b ? d$1(null, b, null, null, b) : v$1(b) ? d$1(k$2, {
       children: b
-    }, null, null, null) : b.__b > 0 ? d$1(b.type, b.props, b.key, b.ref ? b.ref : null, b.__v) : b) && (b.__ = u, b.__b = u.__b + 1, -1 === (x = A$1(b, I, w = p + H, j)) ? _ = c$1 : (_ = I[x] || c$1, I[x] = void 0, j--), L$1(n, b, _, i, o, r, f, e, a, v), g = b.__e, (y = b.ref) && _.ref != y && (_.ref && O(_.ref, null, b), v.push(y, b.__c || g, b)), null != g && (null == m && (m = g), S = !(P = _ === c$1 || null === _.__v) && x === w, P ? -1 == x && H-- : x !== w && (x === w + 1 ? (H++, S = !0) : x > w ? j > z - w ? (H += x - w, S = !0) : H-- : H = x < w && x == w - 1 ? x - w : 0), w = p + H, S = S || x == p && !P, "function" != typeof b.type || x === w && _.__k !== b.__k ? "function" == typeof b.type || S ? void 0 !== b.__d ? (e = b.__d, b.__d = void 0) : e = g.nextSibling : e = $$1(n, g, e) : e = C$1(b, e, n), "function" == typeof u.type && (u.__d = e)));
-    for (u.__e = m, p = T; p--;) null != I[p] && ("function" == typeof u.type && null != I[p].__e && I[p].__e == u.__d && (u.__d = I[p].__e.nextSibling), q$2(I[p], I[p]));
-  }
-  function C$1(n, l, u) {
-    for (var t, i = n.__k, o = 0; i && o < i.length; o++) (t = i[o]) && (t.__ = n, l = "function" == typeof t.type ? C$1(t, l, u) : $$1(u, t.__e, l));
-    return l;
-  }
-  function S(n, l) {
-    return l = l || [], null == n || "boolean" == typeof n || (h$1(n) ? n.some(function (n) {
-      S(n, l);
-    }) : l.push(n)), l;
+    }, null, null, null) : b.__b > 0 ? d$1(b.type, b.props, b.key, b.ref ? b.ref : null, b.__v) : b) ? (b.__ = u, b.__b = u.__b + 1, -1 === (P = A$1(b, H, x = p + D, T)) ? _ = c$1 : (_ = H[P] || c$1, H[P] = void 0, T--), z$1(n, b, _, i, o, r, f, e, a, h), m = b.__e, (y = b.ref) && _.ref != y && (_.ref && N$1(_.ref, null, b), h.push(y, b.__c || m, b)), null != m && (null == w && (w = m), (C = _ === c$1 || null === _.__v) ? -1 == P && D-- : P !== x && (P === x + 1 ? D++ : P > x ? T > j - x ? D += P - x : D-- : D = P < x && P == x - 1 ? P - x : 0), x = p + D, "function" != typeof b.type || P === x && _.__k !== b.__k ? "function" == typeof b.type || P === x && !C ? void 0 !== b.__d ? (e = b.__d, b.__d = void 0) : e = m.nextSibling : e = S(n, m, e) : e = $$1(b, e, n), "function" == typeof u.type && (u.__d = e))) : (_ = H[p]) && null == _.key && _.__e && (_.__e == e && (_.__ = t, e = g$2(_)), O(_, _, !1), H[p] = null);
+    for (u.__e = w, p = I; p--;) null != H[p] && ("function" == typeof u.type && null != H[p].__e && H[p].__e == u.__d && (u.__d = H[p].__e.nextSibling), O(H[p], H[p]));
   }
   function $$1(n, l, u) {
+    for (var t, i = n.__k, o = 0; i && o < i.length; o++) (t = i[o]) && (t.__ = n, l = "function" == typeof t.type ? $$1(t, l, u) : S(u, t.__e, l));
+    return l;
+  }
+  function C$1(n, l) {
+    return l = l || [], null == n || "boolean" == typeof n || (v$1(n) ? n.some(function (n) {
+      C$1(n, l);
+    }) : l.push(n)), l;
+  }
+  function S(n, l, u) {
     return null == u || u.parentNode !== n ? n.insertBefore(l, null) : l == u && null != l.parentNode || n.insertBefore(l, u), l.nextSibling;
   }
   function A$1(n, l, u, t) {
@@ -129,36 +128,40 @@
     }
     return -1;
   }
-  function H$1(n, l, u, t, i) {
+  function D$1(n, l, u, t, i) {
     var o;
-    for (o in u) "children" === o || "key" === o || o in l || T$2(n, o, null, u[o], t);
-    for (o in l) i && "function" != typeof l[o] || "children" === o || "key" === o || "value" === o || "checked" === o || u[o] === l[o] || T$2(n, o, l[o], u[o], t);
+    for (o in u) "children" === o || "key" === o || o in l || I$1(n, o, null, u[o], t);
+    for (o in l) i && "function" != typeof l[o] || "children" === o || "key" === o || "value" === o || "checked" === o || u[o] === l[o] || I$1(n, o, l[o], u[o], t);
   }
-  function I$1(n, l, u) {
+  function H$1(n, l, u) {
     "-" === l[0] ? n.setProperty(l, null == u ? "" : u) : n[l] = null == u ? "" : "number" != typeof u || a$1.test(l) ? u : u + "px";
   }
-  function T$2(n, l, u, t, i) {
+  function I$1(n, l, u, t, i) {
     var o;
     n: if ("style" === l) {
       if ("string" == typeof u) n.style.cssText = u;else {
-        if ("string" == typeof t && (n.style.cssText = t = ""), t) for (l in t) u && l in u || I$1(n.style, l, "");
-        if (u) for (l in u) t && u[l] === t[l] || I$1(n.style, l, u[l]);
+        if ("string" == typeof t && (n.style.cssText = t = ""), t) for (l in t) u && l in u || H$1(n.style, l, "");
+        if (u) for (l in u) t && u[l] === t[l] || H$1(n.style, l, u[l]);
       }
-    } else if ("o" === l[0] && "n" === l[1]) o = l !== (l = l.replace(/Capture$/, "")), l = l.toLowerCase() in n ? l.toLowerCase().slice(2) : l.slice(2), n.l || (n.l = {}), n.l[l + o] = u, u ? t || n.addEventListener(l, o ? z$1 : j$1, o) : n.removeEventListener(l, o ? z$1 : j$1, o);else if ("dangerouslySetInnerHTML" !== l) {
-      if (i) l = l.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");else if ("width" !== l && "height" !== l && "href" !== l && "list" !== l && "form" !== l && "tabIndex" !== l && "download" !== l && "rowSpan" !== l && "colSpan" !== l && l in n) try {
+    } else if ("o" === l[0] && "n" === l[1]) o = l !== (l = l.replace(/(PointerCapture)$|Capture$/, "$1")), l = l.toLowerCase() in n ? l.toLowerCase().slice(2) : l.slice(2), n.l || (n.l = {}), n.l[l + o] = u, u ? t ? u.u = t.u : (u.u = Date.now(), n.addEventListener(l, o ? j$1 : T$2, o)) : n.removeEventListener(l, o ? j$1 : T$2, o);else if ("dangerouslySetInnerHTML" !== l) {
+      if (i) l = l.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");else if ("width" !== l && "height" !== l && "href" !== l && "list" !== l && "form" !== l && "tabIndex" !== l && "download" !== l && "rowSpan" !== l && "colSpan" !== l && "role" !== l && l in n) try {
         n[l] = null == u ? "" : u;
         break n;
       } catch (n) {}
       "function" == typeof u || (null == u || !1 === u && "-" !== l[4] ? n.removeAttribute(l) : n.setAttribute(l, u));
     }
   }
-  function j$1(n) {
-    return this.l[n.type + !1](l$1.event ? l$1.event(n) : n);
+  function T$2(n) {
+    var u = this.l[n.type + !1];
+    if (n.t) {
+      if (n.t <= u.u) return;
+    } else n.t = Date.now();
+    return u(l$1.event ? l$1.event(n) : n);
   }
-  function z$1(n) {
+  function j$1(n) {
     return this.l[n.type + !0](l$1.event ? l$1.event(n) : n);
   }
-  function L$1(n, u, t, i, o, r, f, e, c, s) {
+  function z$1(n, u, t, i, o, r, f, e, c, s) {
     var a,
       p,
       y,
@@ -168,44 +171,42 @@
       m,
       w,
       x,
+      $,
       C,
       S,
-      $,
       A,
+      D,
       H,
-      I,
-      T = u.type;
+      I = u.type;
     if (void 0 !== u.constructor) return null;
     null != t.__h && (c = t.__h, e = u.__e = t.__e, u.__h = null, r = [e]), (a = l$1.__b) && a(u);
-    try {
-      n: if ("function" == typeof T) {
-        if (w = u.props, x = (a = T.contextType) && i[a.__c], C = a ? x ? x.props.value : a.__ : i, t.__c ? m = (p = u.__c = t.__c).__ = p.__E : ("prototype" in T && T.prototype.render ? u.__c = p = new T(w, C) : (u.__c = p = new b$1(w, C), p.constructor = T, p.render = B$2), x && x.sub(p), p.props = w, p.state || (p.state = {}), p.context = C, p.__n = i, y = p.__d = !0, p.__h = [], p._sb = []), null == p.__s && (p.__s = p.state), null != T.getDerivedStateFromProps && (p.__s == p.state && (p.__s = v$1({}, p.__s)), v$1(p.__s, T.getDerivedStateFromProps(w, p.__s))), d = p.props, _ = p.state, p.__v = u, y) null == T.getDerivedStateFromProps && null != p.componentWillMount && p.componentWillMount(), null != p.componentDidMount && p.__h.push(p.componentDidMount);else {
-          if (null == T.getDerivedStateFromProps && w !== d && null != p.componentWillReceiveProps && p.componentWillReceiveProps(w, C), !p.__e && (null != p.shouldComponentUpdate && !1 === p.shouldComponentUpdate(w, p.__s, C) || u.__v === t.__v)) {
-            for (u.__v !== t.__v && (p.props = w, p.state = p.__s, p.__d = !1), u.__e = t.__e, u.__k = t.__k, u.__k.forEach(function (n) {
-              n && (n.__ = u);
-            }), S = 0; S < p._sb.length; S++) p.__h.push(p._sb[S]);
-            p._sb = [], p.__h.length && f.push(p);
-            break n;
-          }
-          null != p.componentWillUpdate && p.componentWillUpdate(w, p.__s, C), null != p.componentDidUpdate && p.__h.push(function () {
-            p.componentDidUpdate(d, _, g);
-          });
+    n: if ("function" == typeof I) try {
+      if (w = u.props, x = (a = I.contextType) && i[a.__c], $ = a ? x ? x.props.value : a.__ : i, t.__c ? m = (p = u.__c = t.__c).__ = p.__E : ("prototype" in I && I.prototype.render ? u.__c = p = new I(w, $) : (u.__c = p = new b$1(w, $), p.constructor = I, p.render = q$2), x && x.sub(p), p.props = w, p.state || (p.state = {}), p.context = $, p.__n = i, y = p.__d = !0, p.__h = [], p._sb = []), null == p.__s && (p.__s = p.state), null != I.getDerivedStateFromProps && (p.__s == p.state && (p.__s = h$1({}, p.__s)), h$1(p.__s, I.getDerivedStateFromProps(w, p.__s))), d = p.props, _ = p.state, p.__v = u, y) null == I.getDerivedStateFromProps && null != p.componentWillMount && p.componentWillMount(), null != p.componentDidMount && p.__h.push(p.componentDidMount);else {
+        if (null == I.getDerivedStateFromProps && w !== d && null != p.componentWillReceiveProps && p.componentWillReceiveProps(w, $), !p.__e && (null != p.shouldComponentUpdate && !1 === p.shouldComponentUpdate(w, p.__s, $) || u.__v === t.__v)) {
+          for (u.__v !== t.__v && (p.props = w, p.state = p.__s, p.__d = !1), u.__e = t.__e, u.__k = t.__k, u.__k.forEach(function (n) {
+            n && (n.__ = u);
+          }), C = 0; C < p._sb.length; C++) p.__h.push(p._sb[C]);
+          p._sb = [], p.__h.length && f.push(p);
+          break n;
         }
-        if (p.context = C, p.props = w, p.__P = n, p.__e = !1, $ = l$1.__r, A = 0, "prototype" in T && T.prototype.render) {
-          for (p.state = p.__s, p.__d = !1, $ && $(u), a = p.render(p.props, p.state, p.context), H = 0; H < p._sb.length; H++) p.__h.push(p._sb[H]);
-          p._sb = [];
-        } else do {
-          p.__d = !1, $ && $(u), a = p.render(p.props, p.state, p.context), p.state = p.__s;
-        } while (p.__d && ++A < 25);
-        p.state = p.__s, null != p.getChildContext && (i = v$1(v$1({}, i), p.getChildContext())), y || null == p.getSnapshotBeforeUpdate || (g = p.getSnapshotBeforeUpdate(d, _)), P(n, h$1(I = null != a && a.type === k$2 && null == a.key ? a.props.children : a) ? I : [I], u, t, i, o, r, f, e, c, s), p.base = u.__e, u.__h = null, p.__h.length && f.push(p), m && (p.__E = p.__ = null);
-      } else null == r && u.__v === t.__v ? (u.__k = t.__k, u.__e = t.__e) : u.__e = N$1(t.__e, u, t, i, o, r, f, c, s);
-      (a = l$1.diffed) && a(u);
+        null != p.componentWillUpdate && p.componentWillUpdate(w, p.__s, $), null != p.componentDidUpdate && p.__h.push(function () {
+          p.componentDidUpdate(d, _, g);
+        });
+      }
+      if (p.context = $, p.props = w, p.__P = n, p.__e = !1, S = l$1.__r, A = 0, "prototype" in I && I.prototype.render) {
+        for (p.state = p.__s, p.__d = !1, S && S(u), a = p.render(p.props, p.state, p.context), D = 0; D < p._sb.length; D++) p.__h.push(p._sb[D]);
+        p._sb = [];
+      } else do {
+        p.__d = !1, S && S(u), a = p.render(p.props, p.state, p.context), p.state = p.__s;
+      } while (p.__d && ++A < 25);
+      p.state = p.__s, null != p.getChildContext && (i = h$1(h$1({}, i), p.getChildContext())), y || null == p.getSnapshotBeforeUpdate || (g = p.getSnapshotBeforeUpdate(d, _)), P(n, v$1(H = null != a && a.type === k$2 && null == a.key ? a.props.children : a) ? H : [H], u, t, i, o, r, f, e, c, s), p.base = u.__e, u.__h = null, p.__h.length && f.push(p), m && (p.__E = p.__ = null);
     } catch (n) {
       u.__v = null, (c || null != r) && (u.__e = e, u.__h = !!c, r[r.indexOf(e)] = null), l$1.__e(n, u, t);
-    }
+    } else null == r && u.__v === t.__v ? (u.__k = t.__k, u.__e = t.__e) : u.__e = M(t.__e, u, t, i, o, r, f, c, s);
+    (a = l$1.diffed) && a(u);
   }
-  function M(n, u, t) {
-    for (var i = 0; i < t.length; i++) O(t[i], t[++i], t[++i]);
+  function L$1(n, u, t) {
+    for (var i = 0; i < t.length; i++) N$1(t[i], t[++i], t[++i]);
     l$1.__c && l$1.__c(u, n), n.some(function (u) {
       try {
         n = u.__h, u.__h = [], n.some(function (n) {
@@ -216,9 +217,9 @@
       }
     });
   }
-  function N$1(l, u, t, i, o, r, f, e, s) {
+  function M(l, u, t, i, o, r, f, e, s) {
     var a,
-      v,
+      h,
       y,
       d = t.props,
       _ = u.props,
@@ -233,25 +234,25 @@
       l = o ? document.createElementNS("http://www.w3.org/2000/svg", k) : document.createElement(k, _.is && _), r = null, e = !1;
     }
     if (null === k) d === _ || e && l.data === _ || (l.data = _);else {
-      if (r = r && n.call(l.childNodes), v = (d = t.props || c$1).dangerouslySetInnerHTML, y = _.dangerouslySetInnerHTML, !e) {
+      if (r = r && n.call(l.childNodes), h = (d = t.props || c$1).dangerouslySetInnerHTML, y = _.dangerouslySetInnerHTML, !e) {
         if (null != r) for (d = {}, b = 0; b < l.attributes.length; b++) d[l.attributes[b].name] = l.attributes[b].value;
-        (y || v) && (y && (v && y.__html == v.__html || y.__html === l.innerHTML) || (l.innerHTML = y && y.__html || ""));
+        (y || h) && (y && (h && y.__html == h.__html || y.__html === l.innerHTML) || (l.innerHTML = y && y.__html || ""));
       }
-      if (H$1(l, _, d, o, e), y) u.__k = [];else if (P(l, h$1(b = u.props.children) ? b : [b], u, t, i, o && "foreignObject" !== k, r, f, r ? r[0] : t.__k && g$2(t, 0), e, s), null != r) for (b = r.length; b--;) null != r[b] && p$1(r[b]);
-      e || ("value" in _ && void 0 !== (b = _.value) && (b !== l.value || "progress" === k && !b || "option" === k && b !== d.value) && T$2(l, "value", b, d.value, !1), "checked" in _ && void 0 !== (b = _.checked) && b !== l.checked && T$2(l, "checked", b, d.checked, !1));
+      if (D$1(l, _, d, o, e), y) u.__k = [];else if (P(l, v$1(b = u.props.children) ? b : [b], u, t, i, o && "foreignObject" !== k, r, f, r ? r[0] : t.__k && g$2(t, 0), e, s), null != r) for (b = r.length; b--;) null != r[b] && p$1(r[b]);
+      e || ("value" in _ && void 0 !== (b = _.value) && (b !== l.value || "progress" === k && !b || "option" === k && b !== d.value) && I$1(l, "value", b, d.value, !1), "checked" in _ && void 0 !== (b = _.checked) && b !== l.checked && I$1(l, "checked", b, d.checked, !1));
     }
     return l;
   }
-  function O(n, u, t) {
+  function N$1(n, u, t) {
     try {
       "function" == typeof n ? n(u) : n.current = u;
     } catch (n) {
       l$1.__e(n, t);
     }
   }
-  function q$2(n, u, t) {
+  function O(n, u, t) {
     var i, o;
-    if (l$1.unmount && l$1.unmount(n), (i = n.ref) && (i.current && i.current !== n.__e || O(i, null, u)), null != (i = n.__c)) {
+    if (l$1.unmount && l$1.unmount(n), (i = n.ref) && (i.current && i.current !== n.__e || N$1(i, null, u)), null != (i = n.__c)) {
       if (i.componentWillUnmount) try {
         i.componentWillUnmount();
       } catch (n) {
@@ -259,22 +260,22 @@
       }
       i.base = i.__P = null, n.__c = void 0;
     }
-    if (i = n.__k) for (o = 0; o < i.length; o++) i[o] && q$2(i[o], u, t || "function" != typeof n.type);
+    if (i = n.__k) for (o = 0; o < i.length; o++) i[o] && O(i[o], u, t || "function" != typeof n.type);
     t || null == n.__e || p$1(n.__e), n.__ = n.__e = n.__d = void 0;
   }
-  function B$2(n, l, u) {
+  function q$2(n, l, u) {
     return this.constructor(n, u);
   }
-  function D$1(u, t, i) {
+  function B$2(u, t, i) {
     var o, r, f, e;
-    l$1.__ && l$1.__(u, t), r = (o = "function" == typeof i) ? null : i && i.__k || t.__k, f = [], e = [], L$1(t, u = (!o && i || t).__k = y$1(k$2, null, [u]), r || c$1, c$1, void 0 !== t.ownerSVGElement, !o && i ? [i] : r ? null : t.firstChild ? n.call(t.childNodes) : null, f, !o && i ? i : r ? r.__e : t.firstChild, o, e), M(f, u, e);
+    l$1.__ && l$1.__(u, t), r = (o = "function" == typeof i) ? null : i && i.__k || t.__k, f = [], e = [], z$1(t, u = (!o && i || t).__k = y$1(k$2, null, [u]), r || c$1, c$1, void 0 !== t.ownerSVGElement, !o && i ? [i] : r ? null : t.firstChild ? n.call(t.childNodes) : null, f, !o && i ? i : r ? r.__e : t.firstChild, o, e), L$1(f, u, e);
   }
   function F$2(l, u, t) {
     var i,
       o,
       r,
       f,
-      e = v$1({}, l.props);
+      e = h$1({}, l.props);
     for (r in l.type && l.type.defaultProps && (f = l.type.defaultProps), u) "key" == r ? i = u[r] : "ref" == r ? o = u[r] : e[r] = void 0 === u[r] && void 0 !== f ? f[r] : u[r];
     return arguments.length > 2 && (e.children = arguments.length > 3 ? n.call(arguments, 2) : t), d$1(l.type, e, i || l.key, o || l.ref, null);
   }
@@ -315,10 +316,10 @@
     }
   }, u$1 = 0, b$1.prototype.setState = function (n, l) {
     var u;
-    u = null != this.__s && this.__s !== this.state ? this.__s : this.__s = v$1({}, this.state), "function" == typeof n && (n = n(v$1({}, u), this.props)), n && v$1(u, n), null != n && this.__v && (l && this._sb.push(l), w$2(this));
+    u = null != this.__s && this.__s !== this.state ? this.__s : this.__s = h$1({}, this.state), "function" == typeof n && (n = n(h$1({}, u), this.props)), n && h$1(u, n), null != n && this.__v && (l && this._sb.push(l), w$2(this));
   }, b$1.prototype.forceUpdate = function (n) {
     this.__v && (this.__e = !0, n && this.__h.push(n), w$2(this));
-  }, b$1.prototype.render = k$2, i$1 = [], r$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function (n, l) {
+  }, b$1.prototype.render = k$2, i$2 = [], r$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function (n, l) {
     return n.__v.__b - l.__v.__b;
   }, x$1.__r = 0, e$1 = 0;
   var _$1 = 0;
@@ -350,7 +351,7 @@
   var t,
     r$1,
     u,
-    i,
+    i$1,
     o = 0,
     f = [],
     c = [],
@@ -464,7 +465,7 @@
   }, l$1.diffed = function (t) {
     v && v(t);
     var o = t.__c;
-    o && o.__H && (o.__H.__h.length && (1 !== f.push(o) && i === l$1.requestAnimationFrame || ((i = l$1.requestAnimationFrame) || j)(b)), o.__H.__.forEach(function (n) {
+    o && o.__H && (o.__H.__h.length && (1 !== f.push(o) && i$1 === l$1.requestAnimationFrame || ((i$1 = l$1.requestAnimationFrame) || j)(b)), o.__H.__.forEach(function (n) {
       n.i && (n.__H = n.i), n.__V !== c && (n.__ = n.__V), n.i = void 0, n.__V = c;
     })), u = r$1 = null;
   }, l$1.__c = function (t, r) {
@@ -517,17 +518,6 @@
   function B$1(n, t) {
     return "function" == typeof t ? t(n) : t;
   }
-  function r(e) {
-    var t,
-      f,
-      n = "";
-    if ("string" == typeof e || "number" == typeof e) n += e;else if ("object" == typeof e) if (Array.isArray(e)) for (t = 0; t < e.length; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);else for (t in e) e[t] && (n && (n += " "), n += t);
-    return n;
-  }
-  function clsx() {
-    for (var e, t, f = 0, n = ""; f < arguments.length;) (e = arguments[f++]) && (t = r(e)) && (n && (n += " "), n += t);
-    return n;
-  }
   function g(n, t) {
     for (var e in t) n[e] = t[e];
     return n;
@@ -571,23 +561,23 @@
     if (n.then) for (var u, o = t; o = o.__;) if ((u = o.__c) && u.__c) return null == t.__e && (t.__e = e.__e, t.__k = e.__k), u.__c(n, t);
     T(n, t, e, r);
   };
-  var I = l$1.unmount;
-  function L(n, t, e) {
+  var F = l$1.unmount;
+  function I(n, t, e) {
     return n && (n.__c && n.__c.__H && (n.__c.__H.__.forEach(function (n) {
       "function" == typeof n.__c && n.__c();
     }), n.__c.__H = null), null != (n = g({}, n)).__c && (n.__c.__P === e && (n.__c.__P = t), n.__c = null), n.__k = n.__k && n.__k.map(function (n) {
-      return L(n, t, e);
+      return I(n, t, e);
     })), n;
   }
-  function U(n, t, e) {
-    return n && (n.__v = null, n.__k = n.__k && n.__k.map(function (n) {
-      return U(n, t, e);
+  function L(n, t, e) {
+    return n && e && (n.__v = null, n.__k = n.__k && n.__k.map(function (n) {
+      return L(n, t, e);
     }), n.__c && n.__c.__P === t && (n.__e && e.insertBefore(n.__e, n.__d), n.__c.__e = !0, n.__c.__P = e)), n;
   }
-  function D() {
+  function U() {
     this.__u = 0, this.t = null, this.__b = null;
   }
-  function F(n) {
+  function D(n) {
     var t = n.__.__c;
     return t && t.__a && t.__a(n);
   }
@@ -596,12 +586,12 @@
   }
   l$1.unmount = function (n) {
     var t = n.__c;
-    t && t.__R && t.__R(), t && !0 === n.__h && (n.type = null), I && I(n);
-  }, (D.prototype = new b$1()).__c = function (n, t) {
+    t && t.__R && t.__R(), t && !0 === n.__h && (n.type = null), F && F(n);
+  }, (U.prototype = new b$1()).__c = function (n, t) {
     var e = t.__c,
       r = this;
     null == r.t && (r.t = []), r.t.push(e);
-    var u = F(r.__v),
+    var u = D(r.__v),
       o = !1,
       i = function () {
         o || (o = !0, e.__R = null, u ? u(l) : l());
@@ -611,7 +601,7 @@
         if (! --r.__u) {
           if (r.state.__a) {
             var n = r.state.__a;
-            r.__v.__k[0] = U(n, n.__c.__P, n.__c.__O);
+            r.__v.__k[0] = L(n, n.__c.__P, n.__c.__O);
           }
           var t;
           for (r.setState({
@@ -623,14 +613,14 @@
     r.__u++ || c || r.setState({
       __a: r.__b = r.__v.__k[0]
     }), n.then(i, i);
-  }, D.prototype.componentWillUnmount = function () {
+  }, U.prototype.componentWillUnmount = function () {
     this.t = [];
-  }, D.prototype.render = function (n, e) {
+  }, U.prototype.render = function (n, e) {
     if (this.__b) {
       if (this.__v.__k) {
         var r = document.createElement("div"),
           o = this.__v.__k[0].__c;
-        this.__v.__k[0] = L(this.__b, r, o.__O = o.__P);
+        this.__v.__k[0] = I(this.__b, r, o.__O = o.__P);
       }
       this.__b = null;
     }
@@ -646,7 +636,7 @@
   };
   (V.prototype = new b$1()).__a = function (n) {
     var t = this,
-      e = F(t.__v),
+      e = D(t.__v),
       r = t.o.get(n);
     return r[0]++, function (u) {
       var o = function () {
@@ -656,7 +646,7 @@
     };
   }, V.prototype.render = function (n) {
     this.u = null, this.o = new Map();
-    var t = S(n.children);
+    var t = C$1(n.children);
     n.revealOrder && "b" === n.revealOrder[0] && t.reverse();
     for (var e = t.length; e--;) this.o.set(t[e], this.u = [1, 0, this.u]);
     return n.children;
@@ -720,9 +710,9 @@
           "defaultValue" === o && "value" in t && null == t.value ? o = "value" : "download" === o && !0 === i ? i = "" : "ondoubleclick" === l ? o = "ondblclick" : "onchange" !== l || "input" !== e && "textarea" !== e || q(t.type) ? "onfocus" === l ? o = "onfocusin" : "onblur" === l ? o = "onfocusout" : Z.test(o) ? o = l : -1 === e.indexOf("-") && H.test(o) ? o = o.replace(Y, "-$&").toLowerCase() : null === i && (i = void 0) : l = o = "oninput", "oninput" === l && u[o = l] && (o = "oninputCapture"), u[o] = i;
         }
       }
-      "select" == e && u.multiple && Array.isArray(u.value) && (u.value = S(t.children).forEach(function (n) {
+      "select" == e && u.multiple && Array.isArray(u.value) && (u.value = C$1(t.children).forEach(function (n) {
         n.props.selected = -1 != u.value.indexOf(n.props.value);
-      })), "select" == e && null != u.defaultValue && (u.value = S(t.children).forEach(function (n) {
+      })), "select" == e && null != u.defaultValue && (u.value = C$1(t.children).forEach(function (n) {
         n.props.selected = u.multiple ? -1 != u.defaultValue.indexOf(n.props.value) : u.defaultValue == n.props.value;
       })), t.class && !t.className ? (u.class = t.class, Object.defineProperty(u, "className", en)) : (t.className && !t.class || t.class && t.className) && (u.class = u.className = t.className), n.props = u;
     }(n), n.$$typeof = B, rn && rn(n);
@@ -826,6 +816,7 @@
     fullscreenerror: null,
     ratechange: null,
     resize: null,
+    scrollend: null,
     securitypolicyviolation: null,
     selectionchange: null,
     selectstart: null,
@@ -838,90 +829,6 @@
     webkitanimationstart: null,
     webkittransitionend: null
   };
-
-  // Get the value of process?.env?.NODE_ENV delicately (also fun fact @rollup/plugin-replace works in comments!)
-  // (i.e. in a way that doesn't throw an error but has isDevMode be a constant)
-  (_globalThis$_process = globalThis[_process = "process"]) !== null && _globalThis$_process !== void 0 ? _globalThis$_process : globalThis[_process] = {};
-  (_globalThis$process$_ = (_globalThis$process = globalThis["process"])[_env = "env"]) !== null && _globalThis$process$_ !== void 0 ? _globalThis$process$_ : _globalThis$process[_env] = {};
-  /**
-   * Controls other development hooks by checking the value of a global variable called `"development"`.
-   *
-   * @remarks Bundlers like Rollup will actually no-op out development code if `"development" !== "development"`
-   * (which, of course, covers the default case where `"development"` just doesn't exist).
-   */
-  const BuildMode = globalThis["process"]["env"]["NODE_ENV"] = globalThis["process"]["env"]["NODE_ENV"] || "production";
-
-  // TODO: This shouldn't be in every build, I don't think it's in core-js? I think?
-  // And it's extremely small anyway and basically does nothing.
-  (_window$requestIdleCa = (_window = window).requestIdleCallback) !== null && _window$requestIdleCa !== void 0 ? _window$requestIdleCa : _window.requestIdleCallback = callback => {
-    return setTimeout(() => {
-      callback({
-        didTimeout: false,
-        timeRemaining: () => {
-          return 0;
-        }
-      });
-    }, 5);
-  };
-  let timeoutHandle = null;
-  /**
-   * When called inside a hook, monitors each call of that hook and prints the results to a table once things settle.
-   *
-   * @remarks Re-renders and such are all collected together when the table is printed to the console with `requestIdleCallback`.
-   */
-  function monitorCallCount(hook) {
-    var _window2, _window2$_hookCallCou, _window$_hookCallCoun, _window$_hookCallCoun2;
-    if (BuildMode !== 'development') return;
-    const name = hook.name;
-    if (filters.has(name)) return;
-    console.assert(name.length > 0);
-    (_window2$_hookCallCou = (_window2 = window)._hookCallCount) !== null && _window2$_hookCallCou !== void 0 ? _window2$_hookCallCou : _window2._hookCallCount = {
-      callCounts: {}
-    };
-    (_window$_hookCallCoun2 = (_window$_hookCallCoun = window._hookCallCount.callCounts)[name]) !== null && _window$_hookCallCoun2 !== void 0 ? _window$_hookCallCoun2 : _window$_hookCallCoun[name] = {
-      moment: 0,
-      total: 0
-    };
-    window._hookCallCount.callCounts[name].moment += 1;
-    window._hookCallCount.callCounts[name].total += 1;
-    if (timeoutHandle == null) {
-      timeoutHandle = requestIdleCallback(() => {
-        //console.log((window as WindowWithHookCallCount)._hookCallCount.callCountsMoment);
-        //(window as WindowWithHookCallCount)._hookCallCount.callCountsMoment = {};
-        const o = Object.entries(window._hookCallCount.callCounts).map(_ref => {
-          let [hook, counts] = _ref;
-          return {
-            Hook: hook || "?",
-            Now: (counts === null || counts === void 0 ? void 0 : counts.moment) || 0,
-            Total: (counts === null || counts === void 0 ? void 0 : counts.total) || 0
-          };
-        }).filter(_ref2 => {
-          let {
-            Now
-          } = _ref2;
-          return !!Now;
-        }).sort((_ref3, _ref4) => {
-          let {
-            Now: lhsM
-          } = _ref3;
-          let {
-            Now: rhsM
-          } = _ref4;
-          if (!lhsM && !rhsM) return 0;
-          lhsM || (lhsM = Infinity);
-          rhsM || (rhsM = Infinity);
-          return lhsM - rhsM;
-        });
-        console.table(o, ['Hook', 'Now', 'Total']);
-        Object.entries(window._hookCallCount.callCounts).forEach(_ref5 => {
-          let [, counts] = _ref5;
-          counts.moment = 0;
-        });
-        timeoutHandle = null;
-      });
-    }
-  }
-  const filters = new Set();
   const toRun = new Map();
   // TODO: Whether this goes in options.diffed or options._commit
   // is a post-suspense question.
@@ -945,7 +852,7 @@
       const oldInputs = effectInfo.prevInputs;
       if (argsChanged(oldInputs, effectInfo.inputs)) {
         var _effectInfo$cleanup;
-        (_effectInfo$cleanup = effectInfo.cleanup) === null || _effectInfo$cleanup === void 0 ? void 0 : _effectInfo$cleanup.call(effectInfo);
+        (_effectInfo$cleanup = effectInfo.cleanup) === null || _effectInfo$cleanup === void 0 || _effectInfo$cleanup.call(effectInfo);
         effectInfo.cleanup = effectInfo.effect();
         effectInfo.prevInputs = effectInfo.inputs;
       }
@@ -954,7 +861,7 @@
     for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
       args[_key - 1] = arguments[_key];
     }
-    originalCommit === null || originalCommit === void 0 ? void 0 : originalCommit(vnode, ...args);
+    originalCommit === null || originalCommit === void 0 || originalCommit(vnode, ...args);
   };
   const originalCommit = l$1[commitName];
   l$1[commitName] = newCommit;
@@ -974,9 +881,8 @@
    * @param effect
    * @param inputs
    */
-  function useBeforeLayoutEffect(effect, inputs) {
+  const useBeforeLayoutEffect = function useBeforeLayoutEffect(effect, inputs) {
     var _ref$current;
-    monitorCallCount(useBeforeLayoutEffect);
     // Note to self: This is by far the most called hook by sheer volume of dependencies.
     // So it should ideally be as quick as possible.
     const ref = _(null);
@@ -993,7 +899,7 @@
             toRun.delete(id);
         }
     }, [id])*/
-  }
+  };
 
   function argsChanged(oldArgs, newArgs) {
     return !!(!oldArgs || oldArgs.length !== (newArgs === null || newArgs === void 0 ? void 0 : newArgs.length) || newArgs !== null && newArgs !== void 0 && newArgs.some((arg, index) => arg !== oldArgs[index]));
@@ -1020,7 +926,6 @@
     for (var _len2 = arguments.length, values = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
       values[_key2 - 1] = arguments[_key2];
     }
-    if (BuildMode !== 'development') return;
     const helperToEnsureStability = _([]);
     const shownError = _([]);
     useHelper(values.length, -1);
@@ -1062,7 +967,6 @@
    * @returns
    */
   function usePassiveState(onChange, getInitialValue, customDebounceRendering) {
-    monitorCallCount(usePassiveState);
     //let [id, ,getId] = useState(() => generateRandomId());
     const valueRef = _(Unset$1);
     const reasonRef = _(Unset$1);
@@ -1174,8 +1078,7 @@
    * @remarks This uses `options.diffed` in order to run before everything, even
    * ref assignment. This means this getter is safe to use anywhere ***except the render phase***.
    */
-  function useStableGetter(value) {
-    monitorCallCount(useStableGetter);
+  const useStableGetter = function useStableGetter(value) {
     const ref = _(Unset);
     useBeforeLayoutEffect(() => {
       ref.current = value;
@@ -1186,25 +1089,16 @@
       }
       return ref.current;
     }, []);
-  }
+  };
   function useMemoObject(t) {
     return F$1(() => {
       return t;
     }, Object.values(t));
   }
-
-  /**
-   * We keep track of which callbacks are stable with a WeakMap instead of, say, a symbol because
-   * `useCallback` will return a function that's stable across *all* renders, meaning
-   * we can't use our funny "`if` only works here because it doesn't break the rules of hooks" trick then.
-   */
-  const map = new WeakMap();
   function isStableGetter(obj) {
-    var _map$get;
-    return (_map$get = map.get(obj)) !== null && _map$get !== void 0 ? _map$get : false;
+    return false;
   }
   function setIsStableGetter(obj) {
-    map.set(obj, true);
     return obj;
   }
   /**
@@ -1217,10 +1111,9 @@
    * empty dependency array, but with the associated stable typing. In this case, you ***must*** ensure that it
    * truly has no dependencies/only stable dependencies!!
    */
-  function useStableCallback(fn, noDeps) {
-    monitorCallCount(useStableCallback);
-    useEnsureStability("useStableCallback", noDeps == null, noDeps === null || noDeps === void 0 ? void 0 : noDeps.length, isStableGetter(fn));
-    if (isStableGetter(fn)) return fn;
+  const useStableCallback = function useStableCallback(fn, noDeps) {
+    useEnsureStability("useStableCallback", noDeps == null, noDeps === null || noDeps === void 0 ? void 0 : noDeps.length, isStableGetter());
+    if (isStableGetter()) return fn;
     if (noDeps == null) {
       const currentCallbackGetter = useStableGetter(fn);
       return setIsStableGetter(T$1(function () {
@@ -1230,7 +1123,115 @@
       console.assert(noDeps.length === 0);
       return setIsStableGetter(T$1(fn, []));
     }
+  };
+
+  // Get/set the value of process?.env?.NODE_ENV delicately (also fun fact @rollup/plugin-replace works in comments!)
+  // (i.e. in a way that doesn't throw an error)
+  (_globalThis$_process = globalThis[_process = "process"]) !== null && _globalThis$_process !== void 0 ? _globalThis$_process : globalThis[_process] = {};
+  (_globalThis$process$_ = (_globalThis$process = globalThis["process"])[_env = "env"]) !== null && _globalThis$process$_ !== void 0 ? _globalThis$process$_ : _globalThis$process[_env] = {};
+  globalThis["process"]["env"]["NODE_ENV"] = "development";
+  // The above statement looks redundant, but it ensures that manual
+  // reads to `"development"` work regardless of if the bundler 
+  // replaces `"development"` with the string `"development"` or not.
+
+  // TODO: This shouldn't be in every build, I don't think it's in core-js? I think?
+  // And it's extremely small anyway and basically does nothing.
+  (_window$requestIdleCa = (_window = window).requestIdleCallback) !== null && _window$requestIdleCa !== void 0 ? _window$requestIdleCa : _window.requestIdleCallback = callback => {
+    return setTimeout(() => {
+      callback({
+        didTimeout: false,
+        timeRemaining: () => {
+          return 0;
+        }
+      });
+    }, 5);
+  };
+  let timeoutHandle = null;
+  let i = 0;
+  /**
+   * Adds a function to your browser's Performance tab, under "markers", so you can watch the call stack more clearly than random interval sampling (only if "development" is "development").
+   *
+   * @remarks Some functions in this library are parenthesized but not wrapped in `monitored` --
+   * they are so small that their duration generally rounds down to 0 (or epsilon), so using
+   * this function usually makes no sense on them. The performance monitoring takes more time
+   * than the function itself.
+   *
+   * Important for Typescript: If passed a generic function its types may be slightly erased (see usePersistentState). No clue why or what's happening.
+   *
+   * @param hook
+   * @returns
+   */
+  function monitored(hook) {
+    const h = hook;
+    {
+      return function () {
+        const r = _(++i);
+        monitorCallCount(h);
+        const start = performance.mark("".concat(h.name, "-start-").concat(r.current));
+        const ret = h(...arguments);
+        const end = performance.mark("".concat(h.name, "-end-").concat(r.current));
+        performance.measure(h.name, start.name, end.name);
+        return ret;
+      };
+    }
   }
+  /**
+   * When called inside a hook, monitors each call of that hook and prints the results to a table once things settle.
+   *
+   * @remarks Re-renders and such are all collected together when the table is printed to the console with `requestIdleCallback`.
+   */
+  function monitorCallCount(hook) {
+    var _window2, _window2$_hookCallCou, _window$_hookCallCoun, _window$_hookCallCoun2;
+    const name = hook.name;
+    if (filters.has(name)) return;
+    console.assert(name.length > 0);
+    (_window2$_hookCallCou = (_window2 = window)._hookCallCount) !== null && _window2$_hookCallCou !== void 0 ? _window2$_hookCallCou : _window2._hookCallCount = {
+      callCounts: {}
+    };
+    (_window$_hookCallCoun2 = (_window$_hookCallCoun = window._hookCallCount.callCounts)[name]) !== null && _window$_hookCallCoun2 !== void 0 ? _window$_hookCallCoun2 : _window$_hookCallCoun[name] = {
+      moment: 0,
+      total: 0
+    };
+    window._hookCallCount.callCounts[name].moment += 1;
+    window._hookCallCount.callCounts[name].total += 1;
+    if (timeoutHandle == null) {
+      timeoutHandle = requestIdleCallback(() => {
+        //console.log((window as WindowWithHookCallCount)._hookCallCount.callCountsMoment);
+        //(window as WindowWithHookCallCount)._hookCallCount.callCountsMoment = {};
+        const o = Object.entries(window._hookCallCount.callCounts).map(_ref => {
+          let [hook, counts] = _ref;
+          return {
+            Hook: hook || "?",
+            Now: (counts === null || counts === void 0 ? void 0 : counts.moment) || 0,
+            Total: (counts === null || counts === void 0 ? void 0 : counts.total) || 0
+          };
+        }).filter(_ref2 => {
+          let {
+            Now
+          } = _ref2;
+          return !!Now;
+        }).sort((_ref3, _ref4) => {
+          let {
+            Now: lhsM
+          } = _ref3;
+          let {
+            Now: rhsM
+          } = _ref4;
+          if (!lhsM && !rhsM) return 0;
+          lhsM || (lhsM = Infinity);
+          rhsM || (rhsM = Infinity);
+          return lhsM - rhsM;
+        });
+        console.table(o, ['Hook', 'Now', 'Total']);
+        Object.entries(window._hookCallCount.callCounts).forEach(_ref5 => {
+          let [, counts] = _ref5;
+          counts.moment = 0;
+        });
+        timeoutHandle = null;
+      });
+    }
+  }
+  const filters = new Set();
 
   /** Detect free variable `global` from Node.js. */
   var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
@@ -2000,8 +2001,7 @@
    *
    * TODO: This could accept a variable number of arguments to be consistent with useMergedProps, but I feel like it might be a performance hit.
    */
-  function useMergedChildren(lhs, rhs) {
-    monitorCallCount(useMergedChildren);
+  const useMergedChildren = function useMergedChildren(lhs, rhs) {
     if (lhs == null && rhs == null) {
       return undefined;
     } else if (lhs == null) {
@@ -2011,15 +2011,14 @@
     } else {
       return y$1(k$2, {}, lhs, rhs);
     }
-  }
+  };
 
   /**
    * Merged the `class` and `className` properties of two sets of props into a single string.
    *
    * @remarks Duplicate classes are removed (order doesn't matter anyway).
    */
-  function useMergedClasses() {
-    monitorCallCount(useMergedClasses);
+  const useMergedClasses = function useMergedClasses() {
     // Note: For the sake of forward compatibility, this function is labelled as
     // a hook, but as it uses no other hooks it technically isn't one.
     let classesSet = new Set();
@@ -2034,7 +2033,7 @@
     } else {
       return undefined;
     }
-  }
+  };
   function processRef(instance, ref) {
     if (typeof ref === "function") {
       ref(instance);
@@ -2051,8 +2050,7 @@
    *
    * @remarks Or just use {@link useMergedProps}
    */
-  function useMergedRefs(rhs, lhs) {
-    monitorCallCount(useMergedRefs);
+  const useMergedRefs = function useMergedRefs(rhs, lhs) {
     // This *must* be stable in order to prevent repeated reset `null` calls after every render.
     const combined = useStableCallback(function combined(current) {
       processRef(current, lhs);
@@ -2061,13 +2059,15 @@
     if (lhs == null && rhs == null) {
       return undefined;
     } else if (lhs == null) {
+      console.assert(typeof rhs == "function" || "current" in rhs, "Unknown ref type found that was neither a RefCallback nor a RefObject");
       return rhs;
     } else if (rhs == null) {
+      console.assert(typeof lhs == "function" || "current" in lhs, "Unknown ref type found that was neither a RefCallback nor a RefObject");
       return lhs;
     } else {
       return combined;
     }
-  }
+  };
   function styleStringToObject(style) {
     // TODO: This sucks D:
     return Object.fromEntries(style.split(";").map(statement => statement.split(":")));
@@ -2079,8 +2079,7 @@
    * @param obj - The CSS properties you want added to the user-given style
    * @returns A CSS object containing the properties of both objects.
    */
-  function useMergedStyles(lhs, rhs) {
-    monitorCallCount(useMergedStyles);
+  const useMergedStyles = function useMergedStyles(lhs, rhs) {
     // Easy case, when there are no styles to merge return nothing.
     if (!lhs && !rhs) return undefined;
     if (typeof lhs != typeof rhs) {
@@ -2106,7 +2105,7 @@
       ...(lhs !== null && lhs !== void 0 ? lhs : {}),
       ...(rhs !== null && rhs !== void 0 ? rhs : {})
     };
-  }
+  };
   let log = console.warn;
   /**
    * Given two sets of props, merges them and returns the result.
@@ -2126,20 +2125,19 @@
    *
    * @returns A single object with all the provided props merged into one.
    */
-  function useMergedProps() {
-    monitorCallCount(useMergedProps);
+  const useMergedProps = function useMergedProps() {
     for (var _len4 = arguments.length, allProps = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
       allProps[_key4] = arguments[_key4];
     }
     useEnsureStability("useMergedProps", allProps.length);
     let ret = {};
     for (let nextProps of allProps) {
-      ret = useMergedProps2(ret, nextProps);
+      useMergedPropsHelper(ret, nextProps);
     }
     return ret;
-  }
+  };
   const knowns = new Set(["children", "ref", "className", "class", "style"]);
-  function mergeUnknown(key, lhsValue, rhsValue) {
+  const mergeUnknown = function mergeUnknown(key, lhsValue, rhsValue) {
     if (typeof lhsValue === "function" || typeof rhsValue === "function") {
       // They're both functions that can be merged (or one's a function and the other's null).
       // Not an *easy* case, but a well-defined one.
@@ -2158,42 +2156,34 @@
       } else {
         // Ugh.
         // No good strategies here, just log it if requested
-        log === null || log === void 0 ? void 0 : log("The prop \"".concat(key, "\" cannot simultaneously be the values ").concat(lhsValue, " and ").concat(rhsValue, ". One must be chosen outside of useMergedProps."));
+        log === null || log === void 0 || log("The prop \"".concat(key, "\" cannot simultaneously be the values ").concat(lhsValue, " and ").concat(rhsValue, ". One must be chosen outside of useMergedProps."));
         return rhsValue;
       }
     }
-  }
+  };
   /**
    * Helper function.
    *
    * This is one of the most commonly called functions in this and consumer libraries,
    * so it trades a bit of readability for speed (i.e. we don't decompose objects and just do regular property access, iterate with `for...in`, instead of `Object.entries`, etc.)
    */
-  function useMergedProps2(lhsAll, rhsAll) {
-    const ret = {
-      ref: useMergedRefs(lhsAll.ref, rhsAll.ref),
-      style: useMergedStyles(lhsAll.style, rhsAll.style),
-      className: useMergedClasses(lhsAll["class"], lhsAll.className, rhsAll["class"], rhsAll.className),
-      children: useMergedChildren(lhsAll.children, rhsAll.children)
-    };
-    if (ret.ref === undefined) delete ret.ref;
-    if (ret.style === undefined) delete ret.style;
-    if (ret.className === undefined) delete ret.className;
-    if (ret["class"] === undefined) delete ret["class"];
-    if (ret.children === undefined) delete ret.children;
-    for (const lhsKeyU in lhsAll) {
-      const lhsKey = lhsKeyU;
-      if (knowns.has(lhsKey)) continue;
-      ret[lhsKey] = lhsAll[lhsKey];
-    }
-    for (const rhsKeyU in rhsAll) {
+  const useMergedPropsHelper = function useMergedPropsHelper(target, mods) {
+    target.ref = useMergedRefs(target.ref, mods.ref);
+    target.style = useMergedStyles(target.style, mods.style);
+    target.className = useMergedClasses(target["class"], target.className, mods["class"], mods.className);
+    target.children = useMergedChildren(target.children, mods.children);
+    if (target.ref === undefined) delete target.ref;
+    if (target.style === undefined) delete target.style;
+    if (target.className === undefined) delete target.className;
+    if (target["class"] === undefined) delete target["class"];
+    if (target.children === undefined) delete target.children;
+    for (const rhsKeyU in mods) {
       const rhsKey = rhsKeyU;
       if (knowns.has(rhsKey)) continue;
-      ret[rhsKey] = mergeUnknown(rhsKey, ret[rhsKey], rhsAll[rhsKey]);
+      target[rhsKey] = mergeUnknown(rhsKey, target[rhsKey], mods[rhsKey]);
     }
-    return ret;
-  }
-  function mergeFunctions(lhs, rhs) {
+  };
+  const mergeFunctions = function mergeFunctions(lhs, rhs) {
     if (!lhs) return rhs;
     if (!rhs) return lhs;
     return function () {
@@ -2201,9 +2191,9 @@
       const rv = rhs(...arguments);
       if (lv instanceof Promise || rv instanceof Promise) return Promise.all([lv, rv]);
     };
-  }
+  };
   function generateStack() {
-    if (BuildMode === 'development' && window._generate_setState_stacks) {
+    if (window._generate_setState_stacks) {
       try {
         throw new Error();
       } catch (e) {
@@ -2218,16 +2208,11 @@
    * @remarks The global variable `_generate_setState_stacks` must be true, or no stack will be generated.
    */
   function useStack() {
-    if (BuildMode === "development") {
+    {
       const stack = F$1(generateStack, []);
       const getStack = T$1(() => stack, []);
       return getStack;
-    } else {
-      return returnEmptyString;
     }
-  }
-  function returnEmptyString() {
-    return "";
   }
 
   /**
@@ -2238,13 +2223,12 @@
    * @remarks
    * {@include } {@link UseTimeoutParameters}
    */
-  function useTimeout(_ref6) {
+  const useTimeout = monitored(function useTimeout(_ref6) {
     let {
       timeout,
       callback,
       triggerIndex
     } = _ref6;
-    monitorCallCount(useTimeout);
     const stableCallback = useStableCallback(() => {
       startTimeRef.current = null;
       callback();
@@ -2280,7 +2264,7 @@
       getElapsedTime,
       getRemainingTime
     };
-  }
+  });
   let idIndex = 0;
   /**
    * Debug function that yells at you if your forgot to use the props a hook returns.
@@ -2292,7 +2276,7 @@
    * @returns A modified copy of the given props
    */
   function useTagProps(props, tag) {
-    if (BuildMode === 'development' && window._generate_useTagProps_tags) {
+    if (window._generate_useTagProps_tags) {
       const [id] = h(() => ++idIndex);
       const propsIdTag = "data-props-".concat(tag, "-").concat(id);
       const getStack = useStack();
@@ -2336,8 +2320,7 @@
    *
    * @compositeParams
    */
-  function useManagedChildren(parentParameters) {
-    monitorCallCount(useManagedChildren);
+  const useManagedChildren = monitored(function useManagedChildren(parentParameters) {
     const {
       managedChildrenParameters: {
         onAfterChildLayoutEffect,
@@ -2399,19 +2382,6 @@
     // runs once. When it's done, hasRemoteULE is reset so it can run again if
     // more children mount/unmount.
     const hasRemoteULEChildMounted = _(null);
-    const remoteULEChildChangedCausers = _(new Set());
-    const remoteULEChildChanged = T$1(index => {
-      if (remoteULEChildChangedCausers.current.size == 0) {
-        if (onAfterChildLayoutEffect != null) {
-          debounceRendering(() => {
-            onAfterChildLayoutEffect === null || onAfterChildLayoutEffect === void 0 ? void 0 : onAfterChildLayoutEffect(remoteULEChildChangedCausers.current);
-            remoteULEChildChangedCausers.current.clear();
-          });
-        }
-      }
-      remoteULEChildChangedCausers.current.add(index);
-      return () => {};
-    }, [/* Must remain stable */]);
     const remoteULEChildMounted = T$1((index, mounted) => {
       var _hasRemoteULEChildMou, _hasRemoteULEChildMou2;
       if (!hasRemoteULEChildMounted.current) {
@@ -2421,8 +2391,8 @@
         };
         debounceRendering(() => {
           if (onChildrenCountChange || onChildrenMountChange) {
-            onChildrenMountChange === null || onChildrenMountChange === void 0 ? void 0 : onChildrenMountChange(hasRemoteULEChildMounted.current.mounts, hasRemoteULEChildMounted.current.unmounts);
-            onChildrenCountChange === null || onChildrenCountChange === void 0 ? void 0 : onChildrenCountChange(getChildren().getHighestIndex() + 1);
+            onChildrenMountChange === null || onChildrenMountChange === void 0 || onChildrenMountChange(hasRemoteULEChildMounted.current.mounts, hasRemoteULEChildMounted.current.unmounts);
+            onChildrenCountChange === null || onChildrenCountChange === void 0 || onChildrenCountChange(getChildren().getHighestIndex() + 1);
             hasRemoteULEChildMounted.current = null;
           }
         });
@@ -2449,7 +2419,7 @@
         }
       }
 
-      hasRemoteULEChildMounted === null || hasRemoteULEChildMounted === void 0 || (_hasRemoteULEChildMou = hasRemoteULEChildMounted.current) === null || _hasRemoteULEChildMou === void 0 || (_hasRemoteULEChildMou = _hasRemoteULEChildMou[mounted ? "mounts" : "unmounts"]) === null || _hasRemoteULEChildMou === void 0 || (_hasRemoteULEChildMou2 = _hasRemoteULEChildMou.add) === null || _hasRemoteULEChildMou2 === void 0 ? void 0 : _hasRemoteULEChildMou2.call(_hasRemoteULEChildMou, index);
+      hasRemoteULEChildMounted === null || hasRemoteULEChildMounted === void 0 || (_hasRemoteULEChildMou = hasRemoteULEChildMounted.current) === null || _hasRemoteULEChildMou === void 0 || (_hasRemoteULEChildMou = _hasRemoteULEChildMou[mounted ? "mounts" : "unmounts"]) === null || _hasRemoteULEChildMou === void 0 || (_hasRemoteULEChildMou2 = _hasRemoteULEChildMou.add) === null || _hasRemoteULEChildMou2 === void 0 || _hasRemoteULEChildMou2.call(_hasRemoteULEChildMou, index);
     }, [/* Must remain stable */]);
     const managedChildren = useMemoObject({
       ...{
@@ -2476,7 +2446,7 @@
         managedChildContext: useMemoObject({
           managedChildrenArray: managedChildrenArray.current,
           remoteULEChildMounted,
-          remoteULEChildChanged,
+          //remoteULEChildChanged,
           getChildren
         })
       }),
@@ -2484,22 +2454,20 @@
         getChildren
       }
     };
-  }
+  });
   /**
    * @compositeParams
    */
-  function useManagedChild(_ref7) {
+  const useManagedChild = monitored(function useManagedChild(_ref7) {
     let {
       context,
       info
     } = _ref7;
-    monitorCallCount(useManagedChild);
     const {
       managedChildContext: {
         getChildren,
         managedChildrenArray,
-        remoteULEChildMounted,
-        remoteULEChildChanged
+        remoteULEChildMounted
       }
     } = context !== null && context !== void 0 ? context : {
       managedChildContext: {}
@@ -2510,7 +2478,7 @@
     // The parent can listen for all updates and only act on the ones it cares about,
     // and multiple children updating in the same tick will all be sent at once.
     y(() => {
-      if (managedChildrenArray == null || remoteULEChildChanged == null) return;
+      if (managedChildrenArray == null) return;
       // Insert this information in-place
       if (typeof index == "number") {
         managedChildrenArray.arr[index] = {
@@ -2521,15 +2489,15 @@
           ...info
         };
       }
-      return remoteULEChildChanged(index);
-    }, [...Object.entries(info).flat(9)]); // 9 is infinity, right? Sure. Unrelated: TODO.
+      //return remoteULEChildChanged(index as IndexType);
+    });
     // When we mount, notify the parent via queueMicrotask
     // (every child does this, so everything's coordinated to only queue a single microtask per tick)
     // Do the same on unmount.
     // Note: It's important that this comes AFTER remoteULEChildChanged
     // so that remoteULEChildMounted has access to all the info on mount.
     y(() => {
-      remoteULEChildMounted === null || remoteULEChildMounted === void 0 ? void 0 : remoteULEChildMounted(index, true);
+      remoteULEChildMounted === null || remoteULEChildMounted === void 0 || remoteULEChildMounted(index, true);
       return () => remoteULEChildMounted === null || remoteULEChildMounted === void 0 ? void 0 : remoteULEChildMounted(index, false);
     }, [index]);
     return {
@@ -2537,7 +2505,7 @@
         getChildren: getChildren
       }
     };
-  }
+  });
   /**
    * An extension to useManagedChildren that handles the following common case:
    * 1. You have a bunch of children
@@ -2673,16 +2641,15 @@
    *
    * @param initialState - Same as the built-in `setState`'s
    */
-  function useState(initialState) {
+  const useState = function useState(initialState) {
     const getStack = useStack();
-    monitorCallCount(useState);
     // We keep both, but override the `setState` functionality
     const [state, setStateP] = h(initialState);
     const ref = _(state);
     // Hijack the normal setter function 
     // to also set our ref to the new value
-    const setState = T$1(value => {
-      if (BuildMode === 'development') {
+    const setState = _(value => {
+      {
         window._setState_stack = getStack();
       }
       if (typeof value === "function") {
@@ -2704,12 +2671,12 @@
         ref.current = value;
         setStateP(value);
       }
-    }, []);
+    });
     const getState = T$1(() => {
       return ref.current;
     }, []);
-    return [state, setState, getState];
-  }
+    return [state, setState.current, getState];
+  };
 
   /**
    * Access `HTMLElement` rendered by this hook/these props, either as soon as it's available (as a callback), or whenever you need it (as a getter function).
@@ -2746,8 +2713,7 @@
    *
    * @compositeParams
    */
-  function useRefElement(args) {
-    monitorCallCount(useRefElement);
+  const useRefElement = function useRefElement(args) {
     const nonElementWarn = _(false);
     if (nonElementWarn.current) {
       nonElementWarn.current = false;
@@ -2768,8 +2734,8 @@
         nonElementWarn.current = true;
       }
       const cleanup = onElementChange === null || onElementChange === void 0 ? void 0 : onElementChange(e, prevValue);
-      if (prevValue) onUnmount === null || onUnmount === void 0 ? void 0 : onUnmount(prevValue);
-      if (e) onMount === null || onMount === void 0 ? void 0 : onMount(e);
+      if (prevValue) onUnmount === null || onUnmount === void 0 || onUnmount(prevValue);
+      if (e) onMount === null || onMount === void 0 || onMount(e);
       return cleanup;
     }, []);
     // Let us store the actual (reference to) the element we capture
@@ -2785,7 +2751,7 @@
         getElement
       }
     };
-  }
+  };
 
   /**
    * @license
@@ -3933,6 +3899,20 @@
       });
     }
   })();
+  function r(e) {
+    var t,
+      f,
+      n = "";
+    if ("string" == typeof e || "number" == typeof e) n += e;else if ("object" == typeof e) if (Array.isArray(e)) for (t = 0; t < e.length; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);else for (t in e) e[t] && (n && (n += " "), n += t);
+    return n;
+  }
+  function clsx() {
+    for (var e, t, f = 0, n = ""; f < arguments.length;) (e = arguments[f++]) && (t = r(e)) && (n && (n += " "), n += t);
+    return n;
+  }
+  document.addEventListener("click", e => {}, {
+    capture: true
+  });
   let templateElement = null;
   function htmlToElement(parent, html) {
     var _templateElement;
@@ -3958,13 +3938,12 @@
    *
    * @compositeParams
    */
-  function useImperativeProps(_ref9) {
+  const useImperativeProps = monitored(function useImperativeProps(_ref9) {
     let {
       refElementReturn: {
         getElement
       }
     } = _ref9;
-    monitorCallCount(useImperativeProps);
     const currentImperativeProps = _({
       className: new Set(),
       style: {},
@@ -3978,7 +3957,7 @@
     const setClass = T$1((cls, enabled) => {
       if (hasClass(cls) == !enabled) {
         var _getElement;
-        (_getElement = getElement()) === null || _getElement === void 0 ? void 0 : _getElement.classList[enabled ? "add" : "remove"](cls);
+        (_getElement = getElement()) === null || _getElement === void 0 || _getElement.classList[enabled ? "add" : "remove"](cls);
         currentImperativeProps.current.className[enabled ? "add" : "delete"](cls);
       }
     }, []);
@@ -4035,13 +4014,13 @@
         if (getAttribute(prop) != value) {
           var _getElement2;
           currentImperativeProps.current.others[prop] = value;
-          (_getElement2 = getElement()) === null || _getElement2 === void 0 ? void 0 : _getElement2.setAttribute(prop, value);
+          (_getElement2 = getElement()) === null || _getElement2 === void 0 || _getElement2.setAttribute(prop, value);
         }
       } else {
         if (getAttribute(prop) != undefined) {
           var _getElement3;
           delete currentImperativeProps.current.others[prop];
-          (_getElement3 = getElement()) === null || _getElement3 === void 0 ? void 0 : _getElement3.removeAttribute(prop);
+          (_getElement3 = getElement()) === null || _getElement3 === void 0 || _getElement3.removeAttribute(prop);
         }
       }
     }, []);
@@ -4081,7 +4060,7 @@
         children: currentImperativeProps.current.children
       }, currentImperativeProps.current.others)
     };
-  }
+  });
   function ImperativeElementU(_ref10, ref) {
     let {
       tag: Tag,
@@ -4218,7 +4197,7 @@
           changeIndex(index);
         } else {
           var _getChildren$getAt, _getChildren$getAt$fo;
-          (_getChildren$getAt = getChildren().getAt(currentInLine)) === null || _getChildren$getAt === void 0 || (_getChildren$getAt$fo = _getChildren$getAt.forceClose) === null || _getChildren$getAt$fo === void 0 ? void 0 : _getChildren$getAt$fo.call(_getChildren$getAt);
+          (_getChildren$getAt = getChildren().getAt(currentInLine)) === null || _getChildren$getAt === void 0 || (_getChildren$getAt$fo = _getChildren$getAt.forceClose) === null || _getChildren$getAt$fo === void 0 || _getChildren$getAt$fo.call(_getChildren$getAt);
           setNextIndexInLine(index);
         }
       } else if (visible == "hidden") {
@@ -4277,10 +4256,10 @@
     });
     const parentOnVisChange = context === null || context === void 0 ? void 0 : context.exclusiveTransitionContext.onVisibilityChange;
     const onVisibilityChange = T$1(visible => {
-      parentOnVisChange === null || parentOnVisChange === void 0 ? void 0 : parentOnVisChange(index, visible == false ? "hidden" : "show");
+      parentOnVisChange === null || parentOnVisChange === void 0 || parentOnVisChange(index, visible == false ? "hidden" : "show");
     }, [parentOnVisChange, index]);
     y(() => {
-      if (show) parentOnVisChange === null || parentOnVisChange === void 0 ? void 0 : parentOnVisChange(index, "show");
+      if (show) parentOnVisChange === null || parentOnVisChange === void 0 || parentOnVisChange(index, "show");
     }, [show, parentOnVisChange, index]);
     return {
       exclusiveTransitionReturn: {
@@ -4292,104 +4271,6 @@
       }
     };
   }
-
-  /**
-   * Shortcut for preact/compat's `forwardRef` that auto-assumes some things that are useful for forwarding refs to `HTMLElements` specifically.
-   * Namely it involves de-gunking the type system by letting us return *generic* function and playing nice with React. In all other respects, it acts like `forwardRef`.
-   *
-   * TODO: Still needed?
-   */
-  function forwardElementRef(Component) {
-    const ForwardedComponent = k(Component);
-    return ForwardedComponent;
-  }
-  /**
-   * Useful in particular for Slides with a Tab Panel --
-   * if we do Math.sign(currentIndex - slideIndex), it
-   * transitions nicely in the expected direction,
-   * but we need to "remember" which direction to use
-   * when it's the current panel (and the difference is 0)
-   */
-  function useLastNonNullValue(value) {
-    const lastNonNullValue = _(null);
-    p(() => {
-      if (value != null) lastNonNullValue.current = value;
-    }, [value]);
-    return value !== null && value !== void 0 ? value : lastNonNullValue.current;
-  }
-
-  /**
-   * Creates a set of props that implement a swap container.
-   * Be sure to merge these returned props with whatever the user passed in.
-   */
-  function useCreateSwappableProps(_ref13, otherProps) {
-    let {
-      inline
-    } = _ref13;
-    const {
-      GetBaseClass
-    } = useCssClasses();
-    return useMergedProps({
-      className: clsx("".concat(GetBaseClass(), "-swap-container"), inline && "".concat(GetBaseClass(), "-swap-container-inline"))
-    }, otherProps);
-  }
-  /**
-   * Allows a set of child <Transitionable> components to animate in & out in-place. Very useful for, e.g., tab panels.
-   *
-   * You must manage each child `<Transitionable>` component's `show` prop -- this component *does not* manage any sort of state in that regard.
-   *
-   * If you pass a regular element (like a div) or other single component, then thee props and ref will be forwarded onto that element. Otherwise, all the children will be wrapped in a div or span depending on the `inline` prop.
-   * @param param0
-   * @returns
-   */
-  const Swappable = x(forwardElementRef(function Swappable(_ref14, ref) {
-    var _inline;
-    let {
-      children: c,
-      inline,
-      childrenAnimateOnMount,
-      exclusivityKey,
-      ...p$1
-    } = _ref14;
-    let children = c;
-    if (!children.type) children = !inline ? o$1("div", {
-      children: children
-    }) : o$1("span", {
-      children: children
-    });
-    (_inline = inline) !== null && _inline !== void 0 ? _inline : inline = typeof children.type === "string" && inlineElements.has(children.type);
-    const transitionProps = useCreateSwappableProps({
-      inline
-    }, {
-      ...p$1,
-      ref
-    });
-    const mergedWithChildren = useMergedProps(transitionProps, children.props);
-    const animateOnMount = _(childrenAnimateOnMount !== null && childrenAnimateOnMount !== void 0 ? childrenAnimateOnMount : false);
-    p(() => {
-      animateOnMount.current = true;
-    }, []);
-    const contextValue = _({
-      getAnimateOnMount: () => {
-        return animateOnMount.current;
-      }
-    });
-    let ret = F$2(children, mergedWithChildren);
-    ret = o$1(SwappableContext.Provider, {
-      value: contextValue.current,
-      children: ret
-    });
-    if (exclusivityKey) {
-      ret = o$1(ExclusiveTransitionProvider, {
-        exclusivityKey: exclusivityKey,
-        children: ret
-      }, exclusivityKey);
-    }
-    return ret;
-  }));
-  // If "inline" isn't explicitly provided, we try to implicitly do it based on the child's tag.
-  // Not perfect, but it's not supposed to be. `inline` is for perfect.
-  const inlineElements = new Set(["a", "abbr", "acronym", "audio", "b", "bdi", "bdo", "big", "br", "button", "canvas", "cite", "code", "data", "datalist", "del", "dfn", "em", "embed", "i", "iframe", "img", "input", "ins", "kbd", "label", "map", "mark", "meter", "noscript", "object", "output", "picture", "progress", "q", "ruby", "s", "samp", "script", "select", "slot", "small", "span", "strong", "sub", "sup", "svg", "template", "textarea", "time", "u", "tt", "var", "video", "wbr"]);
   function getTimeoutDuration(element) {
     return Math.max(...window.getComputedStyle(element || document.body).getPropertyValue("transition-duration").split(",").map(str => {
       if (str.endsWith("ms")) return +str.substring(0, str.length - 2);
@@ -4405,7 +4286,7 @@
    *
    * @compositeParams
    */
-  function useTransition(_ref15) {
+  function useTransition(_ref13) {
     var _animateOnMount, _measure, _easingIn, _easingOut;
     let {
       transitionParameters: {
@@ -4431,7 +4312,7 @@
       },
       refElementParameters,
       ...void1
-    } = _ref15;
+    } = _ref13;
     useEnsureStability("useTransition", onVisibilityChange);
     const {
       getAnimateOnMount
@@ -4493,7 +4374,7 @@
           setState("".concat(direction, "-finalize"));
           if (timeoutHandle.current > 0) {
             var _timeoutClearFunction;
-            (_timeoutClearFunction = timeoutClearFunction.current) === null || _timeoutClearFunction === void 0 ? void 0 : _timeoutClearFunction.call(timeoutClearFunction, timeoutHandle.current);
+            (_timeoutClearFunction = timeoutClearFunction.current) === null || _timeoutClearFunction === void 0 || _timeoutClearFunction.call(timeoutClearFunction, timeoutHandle.current);
             timeoutHandle.current = -1;
           }
         }
@@ -4582,8 +4463,8 @@
         if (element) element.inert = inert || false;
       }
       const isBeingPainted = nextDirection == "enter" || nextDirection == "exit" && nextPhase != "finalize";
-      onVisibilityChange === null || onVisibilityChange === void 0 ? void 0 : onVisibilityChange(isBeingPainted);
-      exclusiveTransitionVisibilityChange === null || exclusiveTransitionVisibilityChange === void 0 ? void 0 : exclusiveTransitionVisibilityChange(isBeingPainted);
+      onVisibilityChange === null || onVisibilityChange === void 0 || onVisibilityChange(isBeingPainted);
+      exclusiveTransitionVisibilityChange === null || exclusiveTransitionVisibilityChange === void 0 || exclusiveTransitionVisibilityChange(isBeingPainted);
       updateClasses(element, nextDirection, nextPhase);
       if (element && (nextPhase == "init" || nextPhase == "transition")) forceReflow(element);
       switch (nextPhase) {
@@ -4704,87 +4585,31 @@
   }
 
   /**
-   * Creates a set of props that implement a Fade transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
-   * Be sure to merge these returned props with whatever the user passed in.
+   * Shortcut for preact/compat's `forwardRef` that auto-assumes some things that are useful for forwarding refs to `HTMLElements` specifically.
+   * Namely it involves de-gunking the type system by letting us return *generic* function and playing nice with React. In all other respects, it acts like `forwardRef`.
+   *
+   * TODO: Still needed?
    */
-  function useBasePropsFade(_ref16) {
-    let {
-      fadeParameters: {
-        fadeMin,
-        fadeMax
-      }
-    } = _ref16;
-    const {
-      GetBaseClass
-    } = useCssClasses();
-    return {
-      className: "".concat(GetBaseClass(), "-fade"),
-      style: {
-        ["--".concat(GetBaseClass(), "-fade-min")]: fadeMin !== null && fadeMin !== void 0 ? fadeMin : 0,
-        ["--".concat(GetBaseClass(), "-fade-max")]: fadeMax !== null && fadeMax !== void 0 ? fadeMax : 1
-      }
-    };
+  function forwardElementRef(Component) {
+    const ForwardedComponent = k(Component);
+    return ForwardedComponent;
   }
   /**
-   * Wraps a div (etc.) and allows it to transition in/out smoothly with a Fade effect.
-   *
-   * Note that while it is absolutely possible to wrap another transition with `<Fade>`,
-   * there will be some duplicate code run as two `<Transitionable>` components end up operating on the same element.
-   * It's generally recommended to either use the components that include a combined fade effect,
-   * or just directly a `<Transitionable>` on your own.
-   *
-   * @see `Transitionable`
+   * Useful in particular for Slides with a Tab Panel --
+   * if we do Math.sign(currentIndex - slideIndex), it
+   * transitions nicely in the expected direction,
+   * but we need to "remember" which direction to use
+   * when it's the current panel (and the difference is 0)
    */
-  const Fade = x(forwardElementRef(function Fade(_ref17, ref) {
-    let {
-      duration,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      delayMountUntilShown,
-      fadeMin,
-      fadeMax,
-      show,
-      animateOnMount,
-      exitVisibility,
-      onVisibilityChange,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref17;
-    return useTransition({
-      refElementParameters: {
-        onElementChange,
-        onMount,
-        onUnmount
-      },
-      transitionParameters: {
-        measure: false,
-        show,
-        duration,
-        animateOnMount,
-        exitVisibility,
-        delayMountUntilShown,
-        onVisibilityChange,
-        propsIncoming: useMergedProps({
-          ref,
-          ...rest
-        }, useBasePropsFade({
-          fadeParameters: {
-            fadeMax,
-            fadeMin
-          }
-        }))
-      },
-      exclusiveTransitionParameters: {
-        exclusivityKey
-      }
-    });
-  }));
-  function useBasePropsClip(_ref18) {
-    var _ref19, _ref20, _ref21, _ref22;
+  function useLastNonNullValue(value) {
+    const lastNonNullValue = _(null);
+    p(() => {
+      if (value != null) lastNonNullValue.current = value;
+    }, [value]);
+    return value !== null && value !== void 0 ? value : lastNonNullValue.current;
+  }
+  function useBasePropsClip(_ref14) {
+    var _ref15, _ref16, _ref17, _ref18;
     let {
       clipParameters: {
         clipMin,
@@ -4794,21 +4619,21 @@
         clipOriginBlock,
         clipOriginInline
       }
-    } = _ref18;
+    } = _ref14;
     const {
       GetBaseClass
     } = useCssClasses();
     return {
       className: clsx("".concat(GetBaseClass(), "-clip")),
       style: {
-        ["--".concat(GetBaseClass(), "-clip-origin-inline")]: (_ref19 = clipOriginInline !== null && clipOriginInline !== void 0 ? clipOriginInline : clipOrigin) !== null && _ref19 !== void 0 ? _ref19 : 0.5,
-        ["--".concat(GetBaseClass(), "-clip-origin-block")]: (_ref20 = clipOriginBlock !== null && clipOriginBlock !== void 0 ? clipOriginBlock : clipOrigin) !== null && _ref20 !== void 0 ? _ref20 : 0,
-        ["--".concat(GetBaseClass(), "-clip-min-inline")]: (_ref21 = clipMinInline !== null && clipMinInline !== void 0 ? clipMinInline : clipMin) !== null && _ref21 !== void 0 ? _ref21 : 1,
-        ["--".concat(GetBaseClass(), "-clip-min-block")]: (_ref22 = clipMinBlock !== null && clipMinBlock !== void 0 ? clipMinBlock : clipMin) !== null && _ref22 !== void 0 ? _ref22 : 0
+        ["--".concat(GetBaseClass(), "-clip-origin-inline")]: (_ref15 = clipOriginInline !== null && clipOriginInline !== void 0 ? clipOriginInline : clipOrigin) !== null && _ref15 !== void 0 ? _ref15 : 0.5,
+        ["--".concat(GetBaseClass(), "-clip-origin-block")]: (_ref16 = clipOriginBlock !== null && clipOriginBlock !== void 0 ? clipOriginBlock : clipOrigin) !== null && _ref16 !== void 0 ? _ref16 : 0,
+        ["--".concat(GetBaseClass(), "-clip-min-inline")]: (_ref17 = clipMinInline !== null && clipMinInline !== void 0 ? clipMinInline : clipMin) !== null && _ref17 !== void 0 ? _ref17 : 1,
+        ["--".concat(GetBaseClass(), "-clip-min-block")]: (_ref18 = clipMinBlock !== null && clipMinBlock !== void 0 ? clipMinBlock : clipMin) !== null && _ref18 !== void 0 ? _ref18 : 0
       }
     };
   }
-  const Clip = x(forwardElementRef(function Clip(_ref23, ref) {
+  const Clip = x(forwardElementRef(function Clip(_ref19, ref) {
     let {
       duration,
       exclusivityKey,
@@ -4830,7 +4655,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref23;
+    } = _ref19;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -4867,7 +4692,88 @@
       }
     });
   }));
-  const ClipFade = x(forwardElementRef(function ClipFade(_ref24, ref) {
+
+  /**
+   * Creates a set of props that implement a Fade transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
+   * Be sure to merge these returned props with whatever the user passed in.
+   */
+  function useBasePropsFade(_ref20) {
+    let {
+      fadeParameters: {
+        fadeMin,
+        fadeMax
+      }
+    } = _ref20;
+    const {
+      GetBaseClass
+    } = useCssClasses();
+    return {
+      className: "".concat(GetBaseClass(), "-fade"),
+      style: {
+        ["--".concat(GetBaseClass(), "-fade-min")]: fadeMin !== null && fadeMin !== void 0 ? fadeMin : 0,
+        ["--".concat(GetBaseClass(), "-fade-max")]: fadeMax !== null && fadeMax !== void 0 ? fadeMax : 1
+      }
+    };
+  }
+  /**
+   * Wraps a div (etc.) and allows it to transition in/out smoothly with a Fade effect.
+   *
+   * Note that while it is absolutely possible to wrap another transition with `<Fade>`,
+   * there will be some duplicate code run as two `<Transitionable>` components end up operating on the same element.
+   * It's generally recommended to either use the components that include a combined fade effect,
+   * or just directly a `<Transitionable>` on your own.
+   *
+   * @see `Transitionable`
+   */
+  const Fade = x(forwardElementRef(function Fade(_ref21, ref) {
+    let {
+      duration,
+      exclusivityKey,
+      easing,
+      easingIn,
+      easingOut,
+      delayMountUntilShown,
+      fadeMin,
+      fadeMax,
+      show,
+      animateOnMount,
+      exitVisibility,
+      onVisibilityChange,
+      onElementChange,
+      onMount,
+      onUnmount,
+      ...rest
+    } = _ref21;
+    return useTransition({
+      refElementParameters: {
+        onElementChange,
+        onMount,
+        onUnmount
+      },
+      transitionParameters: {
+        measure: false,
+        show,
+        duration,
+        animateOnMount,
+        exitVisibility,
+        delayMountUntilShown,
+        onVisibilityChange,
+        propsIncoming: useMergedProps({
+          ref,
+          ...rest
+        }, useBasePropsFade({
+          fadeParameters: {
+            fadeMax,
+            fadeMin
+          }
+        }))
+      },
+      exclusiveTransitionParameters: {
+        exclusivityKey
+      }
+    });
+  }));
+  const ClipFade = x(forwardElementRef(function ClipFade(_ref22, ref) {
     let {
       delayMountUntilShown,
       exclusivityKey,
@@ -4891,7 +4797,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref24;
+    } = _ref22;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -4942,12 +4848,12 @@
    *
    * @example <Transitionable measure {...useCreateCollapseProps(...)} />
    */
-  function useBasePropsCollapse(_ref25) {
+  function useBasePropsCollapse(_ref23) {
     let {
       collapseParameters: {
         minBlockSize
       }
-    } = _ref25;
+    } = _ref23;
     const {
       GetBaseClass
     } = useCssClasses();
@@ -4967,7 +4873,7 @@
    *
    * @see `Transitionable`
    */
-  const Collapse = x(forwardElementRef(function Collapse(_ref26, ref) {
+  const Collapse = x(forwardElementRef(function Collapse(_ref24, ref) {
     let {
       show,
       exclusivityKey,
@@ -4984,7 +4890,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref26;
+    } = _ref24;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5016,7 +4922,7 @@
       }
     });
   }));
-  const CollapseFade = x(forwardElementRef(function CollapseFade(_ref27, ref) {
+  const CollapseFade = x(forwardElementRef(function CollapseFade(_ref25, ref) {
     let {
       show,
       exclusivityKey,
@@ -5035,7 +4941,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref27;
+    } = _ref25;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5076,8 +4982,8 @@
   /**
    * Creates a set of props that implement a Flip transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    */
-  function useBasePropsFlip(_ref28) {
-    var _ref29, _ref30, _useLastNonNullValue, _useLastNonNullValue2;
+  function useBasePropsFlip(_ref26) {
+    var _ref27, _ref28, _useLastNonNullValue, _useLastNonNullValue2;
     let {
       flipParameters: {
         flipAngleBlock,
@@ -5087,15 +4993,15 @@
         flipOriginInline,
         flipOriginBlock
       }
-    } = _ref28;
+    } = _ref26;
     const {
       GetBaseClass
     } = useCssClasses();
     return {
       className: "".concat(GetBaseClass(), "-flip"),
       style: {
-        ["--".concat(GetBaseClass(), "-flip-origin-inline")]: "".concat((_ref29 = flipOriginInline !== null && flipOriginInline !== void 0 ? flipOriginInline : flipOrigin) !== null && _ref29 !== void 0 ? _ref29 : 0.5),
-        ["--".concat(GetBaseClass(), "-flip-origin-block")]: "".concat((_ref30 = flipOriginBlock !== null && flipOriginBlock !== void 0 ? flipOriginBlock : flipOrigin) !== null && _ref30 !== void 0 ? _ref30 : 0.5),
+        ["--".concat(GetBaseClass(), "-flip-origin-inline")]: "".concat((_ref27 = flipOriginInline !== null && flipOriginInline !== void 0 ? flipOriginInline : flipOrigin) !== null && _ref27 !== void 0 ? _ref27 : 0.5),
+        ["--".concat(GetBaseClass(), "-flip-origin-block")]: "".concat((_ref28 = flipOriginBlock !== null && flipOriginBlock !== void 0 ? flipOriginBlock : flipOrigin) !== null && _ref28 !== void 0 ? _ref28 : 0.5),
         ["--".concat(GetBaseClass(), "-flip-angle-inline")]: "".concat((_useLastNonNullValue = useLastNonNullValue(flipAngleInline)) !== null && _useLastNonNullValue !== void 0 ? _useLastNonNullValue : 0, "deg"),
         ["--".concat(GetBaseClass(), "-flip-angle-block")]: "".concat((_useLastNonNullValue2 = useLastNonNullValue(flipAngleBlock)) !== null && _useLastNonNullValue2 !== void 0 ? _useLastNonNullValue2 : 0, "deg"),
         ["--".concat(GetBaseClass(), "-perspective")]: "".concat(flipPerspective !== null && flipPerspective !== void 0 ? flipPerspective : 800, "px")
@@ -5114,7 +5020,7 @@
    *
    * @see `Transitionable`
    */
-  const Flip = x(forwardElementRef(function Flip(_ref31, ref) {
+  const Flip = x(forwardElementRef(function Flip(_ref29, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5136,7 +5042,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref31;
+    } = _ref29;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5173,7 +5079,7 @@
       }
     });
   }));
-  const FlipFade = x(forwardElementRef(function FlipFade(_ref32, ref) {
+  const FlipFade = x(forwardElementRef(function FlipFade(_ref30, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5197,7 +5103,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref32;
+    } = _ref30;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5243,14 +5149,14 @@
   /**
    * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    */
-  function useBasePropsSlide(_ref33) {
+  function useBasePropsSlide(_ref31) {
     var _slideTargetInline, _slideTargetBlock;
     let {
       slideParameters: {
         slideTargetInline,
         slideTargetBlock
       }
-    } = _ref33;
+    } = _ref31;
     slideTargetInline = useLastNonNullValue(slideTargetInline);
     slideTargetBlock = useLastNonNullValue(slideTargetBlock);
     const {
@@ -5276,7 +5182,7 @@
    *
    * @see `Transitionable`
    */
-  const Slide = x(forwardElementRef(function Slide(_ref34, ref) {
+  const Slide = x(forwardElementRef(function Slide(_ref32, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5294,7 +5200,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref34;
+    } = _ref32;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5327,7 +5233,7 @@
       }
     });
   }));
-  const SlideFade = x(forwardElementRef(function SlideFade(_ref35, ref) {
+  const SlideFade = x(forwardElementRef(function SlideFade(_ref33, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5347,7 +5253,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref35;
+    } = _ref33;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5389,8 +5295,8 @@
   /**
    * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    */
-  function useBasePropsZoom(_ref36) {
-    var _ref37, _ref38, _ref39, _ref40;
+  function useBasePropsZoom(_ref34) {
+    var _ref35, _ref36, _ref37, _ref38;
     let {
       zoomParameters: {
         zoomOrigin,
@@ -5400,17 +5306,17 @@
         zoomMinInline,
         zoomMinBlock
       }
-    } = _ref36;
+    } = _ref34;
     const {
       GetBaseClass
     } = useCssClasses();
     return {
       className: "".concat(GetBaseClass(), "-zoom"),
       style: {
-        ["--".concat(GetBaseClass(), "-zoom-origin-inline")]: "".concat((_ref37 = zoomOriginInline !== null && zoomOriginInline !== void 0 ? zoomOriginInline : zoomOrigin) !== null && _ref37 !== void 0 ? _ref37 : 0.5),
-        ["--".concat(GetBaseClass(), "-zoom-origin-block")]: "".concat((_ref38 = zoomOriginBlock !== null && zoomOriginBlock !== void 0 ? zoomOriginBlock : zoomOrigin) !== null && _ref38 !== void 0 ? _ref38 : 0.5),
-        ["--".concat(GetBaseClass(), "-zoom-min-inline")]: "".concat((_ref39 = zoomMinInline !== null && zoomMinInline !== void 0 ? zoomMinInline : zoomMin) !== null && _ref39 !== void 0 ? _ref39 : 0),
-        ["--".concat(GetBaseClass(), "-zoom-min-block")]: "".concat((_ref40 = zoomMinBlock !== null && zoomMinBlock !== void 0 ? zoomMinBlock : zoomMin) !== null && _ref40 !== void 0 ? _ref40 : 0)
+        ["--".concat(GetBaseClass(), "-zoom-origin-inline")]: "".concat((_ref35 = zoomOriginInline !== null && zoomOriginInline !== void 0 ? zoomOriginInline : zoomOrigin) !== null && _ref35 !== void 0 ? _ref35 : 0.5),
+        ["--".concat(GetBaseClass(), "-zoom-origin-block")]: "".concat((_ref36 = zoomOriginBlock !== null && zoomOriginBlock !== void 0 ? zoomOriginBlock : zoomOrigin) !== null && _ref36 !== void 0 ? _ref36 : 0.5),
+        ["--".concat(GetBaseClass(), "-zoom-min-inline")]: "".concat((_ref37 = zoomMinInline !== null && zoomMinInline !== void 0 ? zoomMinInline : zoomMin) !== null && _ref37 !== void 0 ? _ref37 : 0),
+        ["--".concat(GetBaseClass(), "-zoom-min-block")]: "".concat((_ref38 = zoomMinBlock !== null && zoomMinBlock !== void 0 ? zoomMinBlock : zoomMin) !== null && _ref38 !== void 0 ? _ref38 : 0)
       }
     };
   }
@@ -5418,7 +5324,7 @@
    * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
    * @see `Transitionable` `ZoomFade`
    */
-  const Zoom = x(forwardElementRef(function Zoom(_ref41, ref) {
+  const Zoom = x(forwardElementRef(function Zoom(_ref39, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5440,7 +5346,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref41;
+    } = _ref39;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5477,7 +5383,7 @@
       }
     });
   }));
-  const SlideZoomFade = x(forwardElementRef(function SlideZoomFade(_ref42, ref) {
+  const SlideZoomFade = x(forwardElementRef(function SlideZoomFade(_ref40, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5503,7 +5409,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref42;
+    } = _ref40;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5550,7 +5456,7 @@
       }
     });
   }));
-  const SlideZoom = x(forwardElementRef(function SlideZoom(_ref43, ref) {
+  const SlideZoom = x(forwardElementRef(function SlideZoom(_ref41, ref) {
     let {
       duration,
       exclusivityKey,
@@ -5574,7 +5480,7 @@
       onMount,
       onUnmount,
       ...rest
-    } = _ref43;
+    } = _ref41;
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5616,6 +5522,79 @@
       }
     });
   }));
+
+  /**
+   * Creates a set of props that implement a swap container.
+   * Be sure to merge these returned props with whatever the user passed in.
+   */
+  function useCreateSwappableProps(_ref42, otherProps) {
+    let {
+      inline
+    } = _ref42;
+    const {
+      GetBaseClass
+    } = useCssClasses();
+    return useMergedProps({
+      className: clsx("".concat(GetBaseClass(), "-swap-container"), inline && "".concat(GetBaseClass(), "-swap-container-inline"))
+    }, otherProps);
+  }
+  /**
+   * Allows a set of child <Transitionable> components to animate in & out in-place. Very useful for, e.g., tab panels.
+   *
+   * You must manage each child `<Transitionable>` component's `show` prop -- this component *does not* manage any sort of state in that regard.
+   *
+   * If you pass a regular element (like a div) or other single component, then thee props and ref will be forwarded onto that element. Otherwise, all the children will be wrapped in a div or span depending on the `inline` prop.
+   * @param param0
+   * @returns
+   */
+  const Swappable = x(forwardElementRef(function Swappable(_ref43, ref) {
+    var _inline;
+    let {
+      children: c,
+      inline,
+      childrenAnimateOnMount,
+      exclusivityKey,
+      ...p$1
+    } = _ref43;
+    let children = c;
+    if (!children.type) children = !inline ? o$1("div", {
+      children: children
+    }) : o$1("span", {
+      children: children
+    });
+    (_inline = inline) !== null && _inline !== void 0 ? _inline : inline = typeof children.type === "string" && inlineElements.has(children.type);
+    const transitionProps = useCreateSwappableProps({
+      inline
+    }, {
+      ...p$1,
+      ref
+    });
+    const mergedWithChildren = useMergedProps(transitionProps, children.props);
+    const animateOnMount = _(childrenAnimateOnMount !== null && childrenAnimateOnMount !== void 0 ? childrenAnimateOnMount : false);
+    p(() => {
+      animateOnMount.current = true;
+    }, []);
+    const contextValue = _({
+      getAnimateOnMount: () => {
+        return animateOnMount.current;
+      }
+    });
+    let ret = F$2(children, mergedWithChildren);
+    ret = o$1(SwappableContext.Provider, {
+      value: contextValue.current,
+      children: ret
+    });
+    if (exclusivityKey) {
+      ret = o$1(ExclusiveTransitionProvider, {
+        exclusivityKey: exclusivityKey,
+        children: ret
+      }, exclusivityKey);
+    }
+    return ret;
+  }));
+  // If "inline" isn't explicitly provided, we try to implicitly do it based on the child's tag.
+  // Not perfect, but it's not supposed to be. `inline` is for perfect.
+  const inlineElements = new Set(["a", "abbr", "acronym", "audio", "b", "bdi", "bdo", "big", "br", "button", "canvas", "cite", "code", "data", "datalist", "del", "dfn", "em", "embed", "i", "iframe", "img", "input", "ins", "kbd", "label", "map", "mark", "meter", "noscript", "object", "output", "picture", "progress", "q", "ruby", "s", "samp", "script", "select", "slot", "small", "span", "strong", "sub", "sup", "svg", "template", "textarea", "time", "u", "tt", "var", "video", "wbr"]);
   const ZoomFade = x(forwardElementRef(function ZoomFade(_ref44, ref) {
     let {
       duration,
@@ -6827,7 +6806,7 @@
     });
   }
   requestAnimationFrame(() => {
-    D$1(o$1(Demo, {}), document.getElementById("root"));
+    B$2(o$1(Demo, {}), document.getElementById("root"));
   });
 })();
 //# sourceMappingURL=bundle.js.map

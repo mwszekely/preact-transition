@@ -4,24 +4,32 @@
   "version": "0.1.0",
   "description": "Easy management of CSS transition classes and in-place swappable content.",
   "source": "src/index.tsx",
-  "module": "/dist/index.js",
-  "types": "/dist/index.d.ts",
+  "module": "/dist/preact/index.js",
+  "types": "/dist/preact/index.d.ts",
+  "typings": "./dist/preact/index.d.ts",
   "packageManager": "pnpm@8.5.1",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "browser": "./dist/index.js",
-      "import": "./dist/index.js"
+      "types": "./dist/preact/index.d.ts",
+      "browser": "./dist/preact/index.js",
+      "import": "./dist/preact/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "browser": "./dist/react/index.js",
+      "import": "./dist/react/index.js"
     },
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "npx npm-run-all --npm-path npm -sc build:sass build:ts",
-    "watch": "npx npm-run-all --npm-path npm -pc watch:*",
-    "watch:sass": "sass --watch --load-path=\"../node_modules\" ./sass/index.scss:./dist/index.css",
-    "watch:ts": "tsc --watch",
-    "build:sass": "sass --load-path=\"../node_modules\" ./sass/index.scss:./dist/index.css",
-    "build:ts": "tsc --build",
+    "build": "npx npm-run-all --npm-path npm -pc clean build:*",
+    "watch": "npx npm-run-all --npm-path npm -pc clean watch:*",
+    "build:preact": "tsc",
+    "watch:preact": "tsc --watch",
+    "build:react": "tsc --project ./tsconfig.react.json",
+    "watch:react": "tsc --project ./tsconfig.react.json --watch",
+    "build:sass": "sass --load-path=\"../node_modules\" ./sass/preact-transition/index.scss:./dist/index.css",
+    "watch:sass": "sass --watch --load-path=\"../node_modules\" ./sass/preact-transition/index.scss:./dist/index.css",
     "test": "jest",
     "clean": "tsc --build --clean",
     "rebuild": "rm \"./pnpm-lock.yaml\" && rm -R \"./node_modules\" && pnpm install && pnpm run build"
@@ -29,15 +37,14 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "preact": "^10.16.0"
+    "preact": "^10.18.1"
   },
-  "typings": "./dist/index.d.ts",
   "devDependencies": {
-    "@types/lodash": "^4.14.196",
-    "@types/lodash-es": "^4.17.7",
+    "@types/lodash": "^4.14.199",
+    "@types/lodash-es": "^4.17.9",
     "npm-run-all": "^4.1.5",
-    "sass": "^1.64.1",
-    "typescript": "^5.1.6"
+    "sass": "^1.69.3",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "clsx": "^2.0.0",
