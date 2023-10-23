@@ -18,7 +18,7 @@ export type Get<T, K extends keyof T> = Pick<T, K>[K];
  *
  * All of them need the transition's `classBase`, and some also inspect `show`.
  */
-export interface UseBasePropsBaseParameters<E extends Element> {
+export interface UseBasePropsBaseParameters {
 }
 export interface UseTransitionParametersSelf<E extends Element> {
     /**

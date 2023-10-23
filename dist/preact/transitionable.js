@@ -145,7 +145,7 @@ export function useTransition({ transitionParameters: { propsIncoming: { childre
      *
      * Any change in state or classes/styles does not implicitly cause a re-render.
      */
-    const onStateChange = useCallback((nextState, prevState, reason) => {
+    const onStateChange = useCallback((nextState, prevState, _reason) => {
         if (nextState == null)
             return;
         const [nextDirection, nextPhase] = parseState(nextState);
@@ -179,6 +179,7 @@ export function useTransition({ transitionParameters: { propsIncoming: { childre
                 if (element)
                     forceReflow(element);
                 // !!Intentional fall-through!!
+                /* eslint-disable no-fallthrough */
             }
             case "init": {
                 timeoutHandle.current = requestAnimationFrame(() => { setState(`${nextDirection}-transition`); });
@@ -198,6 +199,7 @@ export function useTransition({ transitionParameters: { propsIncoming: { childre
                 break;
             }
             default: {
+                /* eslint-disable no-debugger */
                 debugger; // Intentional
                 console.log(`Invalid state used in transition: ${nextState}. Previous state was ${prevState ?? "null"}`);
                 break;
@@ -217,7 +219,7 @@ export function useTransition({ transitionParameters: { propsIncoming: { childre
         const currentState = getState();
         let nextPhase = measure ? "measure" : "init";
         if (currentState) {
-            const [currentDirection, currentPhase] = parseState(currentState);
+            const [_currentDirection, currentPhase] = parseState(currentState);
             if (currentPhase != "finalize")
                 nextPhase = "transition";
         }

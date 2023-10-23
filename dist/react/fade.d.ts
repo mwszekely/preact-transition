@@ -1,32 +1,33 @@
 import { h, Ref } from "preact";
 import { UseRefElementParameters } from "preact-prop-helpers";
 import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types.js";
+export interface UseBasePropsFadeParametersSelf {
+    /**
+     * The opacity to use when faded out.
+     * @default 0
+     */
+    fadeMin: number | null | undefined;
+    /**
+     * The opacity to use when faded in.
+     * @default 1
+     */
+    fadeMax: number | null | undefined;
+}
 /**
  * Properties that allow adjusting the minimum or maximum opacity values to use for the fade effect.
  */
-export interface UseBasePropsFadeParameters<E extends Element> extends UseBasePropsBaseParameters<E> {
-    fadeParameters: {
-        /**
-         * The opacity to use when faded out.
-         * @default 0
-         */
-        fadeMin: number | null | undefined;
-        /**
-         * The opacity to use when faded in.
-         * @default 1
-         */
-        fadeMax: number | null | undefined;
-    };
+export interface UseBasePropsFadeParameters extends UseBasePropsBaseParameters {
+    fadeParameters: UseBasePropsFadeParametersSelf;
 }
 /**
  * Creates a set of props that implement a Fade transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
  * Be sure to merge these returned props with whatever the user passed in.
  */
-export declare function useBasePropsFade<E extends Element>({ fadeParameters: { fadeMin, fadeMax } }: UseBasePropsFadeParameters<E>): {
+export declare function useBasePropsFade({ fadeParameters: { fadeMin, fadeMax } }: UseBasePropsFadeParameters): {
     className: string;
     style: h.JSX.CSSProperties;
 };
-export interface FadeProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFadeParameters<E>, "fadeParameters">>, Partial<Get<UseRefElementParameters<E>, "refElementParameters">> {
+export interface FadeProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFadeParameters, "fadeParameters">>, Partial<Get<UseRefElementParameters<E>, "refElementParameters">> {
 }
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Fade effect.

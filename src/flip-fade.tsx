@@ -9,9 +9,9 @@ import { forwardElementRef } from "./util/util.js";
 
 export interface FlipFadeProps<E extends Element> extends
     TransitionParametersBase<E>,
-    Partial<Get<UseBasePropsFadeParameters<E>, "fadeParameters">>,
-    Partial<Get<UseBasePropsFlipParameters<E>, "flipParameters">>,
-    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { };
+    Partial<Get<UseBasePropsFadeParameters, "fadeParameters">>,
+    Partial<Get<UseBasePropsFlipParameters, "flipParameters">>,
+    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { }
 
 export const FlipFade = memo(forwardElementRef(function FlipFade<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, fadeMin, fadeMax, show, animateOnMount, delayMountUntilShown, flipAngleInline, flipAngleBlock, flipPerspective, flipOrigin, flipOriginInline, flipOriginBlock, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: FlipFadeProps<E>, ref: Ref<E>) {
     return (

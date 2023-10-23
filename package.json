@@ -30,7 +30,8 @@
     "watch:react": "tsc --project ./tsconfig.react.json --watch",
     "build:sass": "sass --load-path=\"../node_modules\" ./sass/preact-transition/index.scss:./dist/index.css",
     "watch:sass": "sass --watch --load-path=\"../node_modules\" ./sass/preact-transition/index.scss:./dist/index.css",
-    "test": "jest",
+    "test": "playwright test --ui",
+    "lint": "npx eslint ./src",
     "clean": "tsc --build --clean",
     "rebuild": "rm \"./pnpm-lock.yaml\" && rm -R \"./node_modules\" && pnpm install && pnpm run build"
   },
@@ -40,10 +41,13 @@
     "preact": "^10.18.1"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.199",
-    "@types/lodash-es": "^4.17.9",
+    "@types/lodash": "^4.14.200",
+    "@types/lodash-es": "^4.17.10",
+    "@typescript-eslint/eslint-plugin": "^6.9.0",
+    "@typescript-eslint/parser": "^6.9.0",
+    "eslint": "^8.52.0",
     "npm-run-all": "^4.1.5",
-    "sass": "^1.69.3",
+    "sass": "^1.69.4",
     "typescript": "^5.2.2"
   },
   "dependencies": {

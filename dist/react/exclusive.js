@@ -6,7 +6,7 @@ let globalCount = -1;
 export function ExclusiveTransitionProvider({ exclusivityKey, children }) {
     useEnsureStability("ExclusiveTransitionProvider", exclusivityKey);
     const [getNextIndexInLine, setNextIndexInLine] = usePassiveState(null);
-    const { context, managedChildrenReturn, managedChildrenReturn: { getChildren } } = useManagedChildren({ managedChildrenParameters: {} });
+    const { context, managedChildrenReturn: { getChildren } } = useManagedChildren({ managedChildrenParameters: {} });
     const { changeIndex, getCurrentIndex } = useChildrenFlag({
         getChildren,
         closestFit: false,
@@ -14,7 +14,7 @@ export function ExclusiveTransitionProvider({ exclusivityKey, children }) {
         onIndexChange: null,
         setAt: useCallback((m, v) => { m.setExclusivelyOpen(v); }, []),
         getAt: useCallback((m) => m.getExclusivelyOpen(), []),
-        isValid: useCallback((m) => { return true; }, []),
+        isValid: useCallback((_m) => { return true; }, []),
         onClosestFit: null
     });
     const onVisibilityChange = useCallback((index, visible) => {
@@ -66,7 +66,7 @@ export function useExclusiveTransition({ transitionParameters: { show }, exclusi
     const context = c ? useContext(c) : null;
     const index = useMemo(() => { globalCount += 1; return (globalCount).toString(); }, []);
     const [exclusivelyOpen, setExclusivelyOpen, getExclusivelyOpen] = useState(!!show);
-    const { managedChildReturn: { getChildren } } = useManagedChild({ context, info: { index, getExclusivelyOpen, setExclusivelyOpen, forceClose } });
+    const { managedChildReturn: { getChildren: _getChildren } } = useManagedChild({ context, info: { index, getExclusivelyOpen, setExclusivelyOpen, forceClose } });
     const parentOnVisChange = context?.exclusiveTransitionContext.onVisibilityChange;
     const onVisibilityChange = useCallback((visible) => {
         parentOnVisChange?.(index, visible == false ? "hidden" : "show");

@@ -187,7 +187,7 @@ export function useTransition<E extends HTMLElement>({
      * 
      * Any change in state or classes/styles does not implicitly cause a re-render.
      */
-    const onStateChange = useCallback<OnPassiveStateChange<TransitionState | null, undefined>>((nextState, prevState, reason) => {
+    const onStateChange = useCallback<OnPassiveStateChange<TransitionState | null, undefined>>((nextState, prevState, _reason) => {
         if (nextState == null)
             return;
 
@@ -231,6 +231,7 @@ export function useTransition<E extends HTMLElement>({
                     forceReflow(element);
 
                 // !!Intentional fall-through!!
+                /* eslint-disable no-fallthrough */
             }
             case "init": {
                 timeoutHandle.current = requestAnimationFrame(() => { setState(`${nextDirection}-transition`); });
@@ -251,6 +252,7 @@ export function useTransition<E extends HTMLElement>({
                 break;
             }
             default: {
+                /* eslint-disable no-debugger */
                 debugger; // Intentional
                 console.log(`Invalid state used in transition: ${nextState}. Previous state was ${prevState ?? "null"}`);
                 break;
@@ -278,7 +280,7 @@ export function useTransition<E extends HTMLElement>({
         const currentState = getState();
         let nextPhase: TransitionPhase = measure ? "measure" : "init";
         if (currentState) {
-            const [currentDirection, currentPhase] = parseState(currentState);
+            const [_currentDirection, currentPhase] = parseState(currentState);
             if (currentPhase != "finalize")
                 nextPhase = "transition";
         }

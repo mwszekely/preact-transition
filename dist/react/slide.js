@@ -18,7 +18,6 @@ export function useBasePropsSlide({ slideParameters: { slideTargetInline, slideT
         }
     };
 }
-;
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Slide effect.
  *

@@ -5,7 +5,7 @@ export { Collapse, useBasePropsCollapse } from "./collapse.js";
 export { ExclusiveTransitionProvider } from "./exclusive.js";
 export { Fade, useBasePropsFade } from "./fade.js";
 export { FlipFade } from "./flip-fade.js";
-export { Flip } from "./flip.js";
+export { Flip, useBasePropsFlip } from "./flip.js";
 export { SlideFade } from "./slide-fade.js";
 export { SlideZoomFade } from "./slide-zoom-fade.js";
 export { SlideZoom } from "./slide-zoom.js";

@@ -6,17 +6,17 @@ import { useCssClasses } from "./util/context.js";
 import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types.js";
 import { forwardElementRef } from "./util/util.js";
 
+export interface UseBasePropsCollapseParametersSelf {
+    /**
+    * The smallest size the component collapses to.
+    */
+    minBlockSize: string | null | undefined;
+}
 /**
  * Properties that allow adjusting the direction of the collapse effect.
  */
-export interface UseBasePropsCollapseParameters<E extends Element> extends UseBasePropsBaseParameters<E> {
-
-    collapseParameters: {
-        /**
-        * The smallest size the component collapses to.
-        */
-        minBlockSize: string | null | undefined;
-    }
+export interface UseBasePropsCollapseParameters extends UseBasePropsBaseParameters {
+    collapseParameters: UseBasePropsCollapseParametersSelf;
 }
 
 /**
@@ -27,7 +27,7 @@ export interface UseBasePropsCollapseParameters<E extends Element> extends UseBa
  * 
  * @example <Transitionable measure {...useCreateCollapseProps(...)} />
  */
-export function useBasePropsCollapse<E extends Element>({ collapseParameters: { minBlockSize } }: UseBasePropsCollapseParameters<E>) {
+export function useBasePropsCollapse({ collapseParameters: { minBlockSize } }: UseBasePropsCollapseParameters) {
     const { GetBaseClass } = useCssClasses();
     return {
         className: `${GetBaseClass()}-collapse`,
@@ -39,8 +39,8 @@ export function useBasePropsCollapse<E extends Element>({ collapseParameters: { 
 
 export interface CollapseProps<E extends HTMLElement> extends
     TransitionParametersBase<E>,
-    Partial<Get<UseBasePropsCollapseParameters<E>, "collapseParameters">>,
-    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { };
+    Partial<Get<UseBasePropsCollapseParameters, "collapseParameters">>,
+    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { }
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Collapse effect.

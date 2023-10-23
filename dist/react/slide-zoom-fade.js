@@ -5,7 +5,6 @@ import { useBasePropsSlide } from "./slide.js";
 import { useTransition } from "./transitionable.js";
 import { forwardElementRef } from "./util/util.js";
 import { useBasePropsZoom } from "./zoom.js";
-;
 export const SlideZoomFade = memo(forwardElementRef(function SlideZoomFade({ duration, exclusivityKey, easing, easingIn, easingOut, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, show, animateOnMount, delayMountUntilShown, slideTargetBlock, slideTargetInline, fadeMax, fadeMin, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }, ref) {
     return useTransition({
         refElementParameters: { onElementChange, onMount, onUnmount },

@@ -4,7 +4,6 @@ import { useBasePropsCollapse } from "./collapse.js";
 import { useBasePropsFade } from "./fade.js";
 import { useTransition } from "./transitionable.js";
 import { forwardElementRef } from "./util/util.js";
-;
 export const CollapseFade = memo(forwardElementRef(function CollapseFade({ show, exclusivityKey, easing, easingIn, easingOut, duration, animateOnMount, delayMountUntilShown, fadeMin, fadeMax, exitVisibility, minBlockSize, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }, ref) {
     return useTransition({
         refElementParameters: { onElementChange, onMount, onUnmount },

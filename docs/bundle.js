@@ -1,10 +1,10 @@
-(function (_process, _globalThis$_process, _globalThis$process, _env, _globalThis$process$_, _window, _window$requestIdleCa) {
+(function () {
   'use strict';
 
   var n,
     l$1,
     u$1,
-    i$2,
+    i$1,
     o$2,
     r$2,
     f$1,
@@ -70,11 +70,11 @@
     }
   }
   function w$2(n) {
-    (!n.__d && (n.__d = !0) && i$2.push(n) && !x$1.__r++ || o$2 !== l$1.debounceRendering) && ((o$2 = l$1.debounceRendering) || r$2)(x$1);
+    (!n.__d && (n.__d = !0) && i$1.push(n) && !x$1.__r++ || o$2 !== l$1.debounceRendering) && ((o$2 = l$1.debounceRendering) || r$2)(x$1);
   }
   function x$1() {
     var n, l, u, t, o, r, e, c, s;
-    for (i$2.sort(f$1); n = i$2.shift();) n.__d && (l = i$2.length, t = void 0, o = void 0, r = void 0, c = (e = (u = n).__v).__e, (s = u.__P) && (t = [], o = [], (r = h$1({}, e)).__v = e.__v + 1, z$1(s, e, r, u.__n, void 0 !== s.ownerSVGElement, null != e.__h ? [c] : null, t, null == c ? g$2(e) : c, e.__h, o), L$1(t, e, o), e.__e != c && m$1(e)), i$2.length > l && i$2.sort(f$1));
+    for (i$1.sort(f$1); n = i$1.shift();) n.__d && (l = i$1.length, t = void 0, o = void 0, r = void 0, c = (e = (u = n).__v).__e, (s = u.__P) && (t = [], o = [], (r = h$1({}, e)).__v = e.__v + 1, z$1(s, e, r, u.__n, void 0 !== s.ownerSVGElement, null != e.__h ? [c] : null, t, null == c ? g$2(e) : c, e.__h, o), L$1(t, e, o), e.__e != c && m$1(e)), i$1.length > l && i$1.sort(f$1));
     x$1.__r = 0;
   }
   function P(n, l, u, t, i, o, r, f, e, a, h) {
@@ -319,7 +319,7 @@
     u = null != this.__s && this.__s !== this.state ? this.__s : this.__s = h$1({}, this.state), "function" == typeof n && (n = n(h$1({}, u), this.props)), n && h$1(u, n), null != n && this.__v && (l && this._sb.push(l), w$2(this));
   }, b$1.prototype.forceUpdate = function (n) {
     this.__v && (this.__e = !0, n && this.__h.push(n), w$2(this));
-  }, b$1.prototype.render = k$2, i$2 = [], r$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function (n, l) {
+  }, b$1.prototype.render = k$2, i$1 = [], r$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function (n, l) {
     return n.__v.__b - l.__v.__b;
   }, x$1.__r = 0, e$1 = 0;
   var _$1 = 0;
@@ -351,7 +351,7 @@
   var t,
     r$1,
     u,
-    i$1,
+    i,
     o = 0,
     f = [],
     c = [],
@@ -465,7 +465,7 @@
   }, l$1.diffed = function (t) {
     v && v(t);
     var o = t.__c;
-    o && o.__H && (o.__H.__h.length && (1 !== f.push(o) && i$1 === l$1.requestAnimationFrame || ((i$1 = l$1.requestAnimationFrame) || j)(b)), o.__H.__.forEach(function (n) {
+    o && o.__H && (o.__H.__h.length && (1 !== f.push(o) && i === l$1.requestAnimationFrame || ((i = l$1.requestAnimationFrame) || j)(b)), o.__H.__.forEach(function (n) {
       n.i && (n.__H = n.i), n.__V !== c && (n.__ = n.__V), n.i = void 0, n.__V = c;
     })), u = r$1 = null;
   }, l$1.__c = function (t, r) {
@@ -847,21 +847,17 @@
   // Also, in theory this could be replaced with `useInsertionEffect`,
   // but that probably won't be available in Preact for awhile.
   const commitName = "diffed";
-  const newCommit = function (vnode) {
-    for (const [id, effectInfo] of toRun) {
+  const newCommit = (vnode, ...args) => {
+    for (const [_id, effectInfo] of toRun) {
       const oldInputs = effectInfo.prevInputs;
       if (argsChanged(oldInputs, effectInfo.inputs)) {
-        var _effectInfo$cleanup;
-        (_effectInfo$cleanup = effectInfo.cleanup) === null || _effectInfo$cleanup === void 0 || _effectInfo$cleanup.call(effectInfo);
+        effectInfo.cleanup?.();
         effectInfo.cleanup = effectInfo.effect();
         effectInfo.prevInputs = effectInfo.inputs;
       }
     }
     toRun.clear();
-    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-    originalCommit === null || originalCommit === void 0 || originalCommit(vnode, ...args);
+    originalCommit?.(vnode, ...args);
   };
   const originalCommit = l$1[commitName];
   l$1[commitName] = newCommit;
@@ -882,11 +878,10 @@
    * @param inputs
    */
   const useBeforeLayoutEffect = function useBeforeLayoutEffect(effect, inputs) {
-    var _ref$current;
     // Note to self: This is by far the most called hook by sheer volume of dependencies.
     // So it should ideally be as quick as possible.
     const ref = _(null);
-    (_ref$current = ref.current) !== null && _ref$current !== void 0 ? _ref$current : ref.current = nextId();
+    ref.current ??= nextId();
     const id = ref.current;
     if (effect) toRun.set(id, {
       effect,
@@ -902,11 +897,10 @@
   };
 
   function argsChanged(oldArgs, newArgs) {
-    return !!(!oldArgs || oldArgs.length !== (newArgs === null || newArgs === void 0 ? void 0 : newArgs.length) || newArgs !== null && newArgs !== void 0 && newArgs.some((arg, index) => arg !== oldArgs[index]));
+    return !!(!oldArgs || oldArgs.length !== newArgs?.length || newArgs?.some((arg, index) => arg !== oldArgs[index]));
   }
   function debounceRendering(f) {
-    var _l$1$debounceRenderin;
-    ((_l$1$debounceRenderin = l$1.debounceRendering) !== null && _l$1$debounceRenderin !== void 0 ? _l$1$debounceRenderin : queueMicrotask)(f);
+    (l$1.debounceRendering ?? queueMicrotask)(f);
   }
   const EventMapping = {
     dblclick: "onDblClick",
@@ -922,28 +916,8 @@
    *
    * @remarks Eventually, when useEvent lands, we hopefully won't need this.
    */
-  function useEnsureStability(parentHookName) {
-    for (var _len2 = arguments.length, values = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-      values[_key2 - 1] = arguments[_key2];
-    }
-    const helperToEnsureStability = _([]);
-    const shownError = _([]);
-    useHelper(values.length, -1);
-    values.forEach(useHelper);
+  function useEnsureStability(parentHookName, ...values) {
     return;
-    function useHelper(value, i) {
-      const index = i + 1;
-      // Make sure that the provided functions are perfectly stable across renders
-      if (helperToEnsureStability.current[index] === undefined) helperToEnsureStability.current[index] = value;
-      if (helperToEnsureStability.current[index] != value) {
-        if (!shownError.current[index]) {
-          /* eslint-disable no-debugger */
-          debugger;
-          console.error("The hook ".concat(parentHookName, " requires some or all of its arguments remain stable across each render; please check the ").concat(i, "-indexed argument (").concat(i >= 0 ? JSON.stringify(values[i]) : "the number of supposedly stable elements", ")."));
-          shownError.current[index] = true;
-        }
-      }
-    }
   }
   /**
    * Similar to `useState`, but for values that aren't "render-important" &ndash; updates don't cause a re-render and so the value shouldn't be used during render (though it certainly can, at least by re-rendering again).
@@ -973,8 +947,6 @@
     const warningRef = _(false);
     const dependencyToCompareAgainst = _(Unset$1);
     const cleanupCallbackRef = _(undefined);
-    // Make sure that the provided functions are perfectly stable across renders
-    useEnsureStability("usePassiveState", onChange, getInitialValue, customDebounceRendering);
     // Shared between "dependency changed" and "component unmounted".
     const onShouldCleanUp = T$1(() => {
       const cleanupCallback = cleanupCallbackRef.current;
@@ -987,10 +959,9 @@
     const tryEnsureValue = T$1(() => {
       if (valueRef.current === Unset$1 && getInitialValue != undefined) {
         try {
-          var _onChange;
           const initialValue = getInitialValue();
           valueRef.current = initialValue;
-          cleanupCallbackRef.current = (_onChange = onChange === null || onChange === void 0 ? void 0 : onChange(initialValue, undefined, undefined)) !== null && _onChange !== void 0 ? _onChange : undefined;
+          cleanupCallbackRef.current = onChange?.(initialValue, undefined, undefined) ?? undefined;
         } catch (ex) {
           // Exceptions are intentional to allow bailout (without exposing the Unset symbol)
         }
@@ -1025,7 +996,7 @@
         valueRef.current = nextValue;
         reasonRef.current = reason;
         // Schedule the actual check and invocation of onChange later to let effects settle
-        (customDebounceRendering !== null && customDebounceRendering !== void 0 ? customDebounceRendering : debounceRendering)(() => {
+        (customDebounceRendering ?? debounceRendering)(() => {
           const nextReason = reasonRef.current;
           const nextDep = valueRef.current;
           const prevDep = dependencyToCompareAgainst.current;
@@ -1037,11 +1008,10 @@
             valueRef.current = dependencyToCompareAgainst.current = Unset$1;
             warningRef.current = true;
             try {
-              var _onChange2;
               // Call any registered cleanup function
               onShouldCleanUp();
               valueRef.current = nextDep; // Needs to happen before onChange in case onChange is recursive (e.g. focusing causing a focus causing a focus)
-              cleanupCallbackRef.current = (_onChange2 = onChange === null || onChange === void 0 ? void 0 : onChange(nextDep, prevDep === Unset$1 ? undefined : prevDep, nextReason)) !== null && _onChange2 !== void 0 ? _onChange2 : undefined;
+              cleanupCallbackRef.current = onChange?.(nextDep, prevDep === Unset$1 ? undefined : prevDep, nextReason) ?? undefined;
             } finally {
               // Allow the user to normally call getValue again
               warningRef.current = false;
@@ -1090,6 +1060,12 @@
       return ref.current;
     }, []);
   };
+  /**
+   * Like useMemo, but checks objects (shallowly)
+   *
+   * @param t
+   * @returns
+   */
   function useMemoObject(t) {
     return F$1(() => {
       return t;
@@ -1112,12 +1088,12 @@
    * truly has no dependencies/only stable dependencies!!
    */
   const useStableCallback = function useStableCallback(fn, noDeps) {
-    useEnsureStability("useStableCallback", noDeps == null, noDeps === null || noDeps === void 0 ? void 0 : noDeps.length, isStableGetter());
+    useEnsureStability("useStableCallback", noDeps == null, noDeps?.length, isStableGetter());
     if (isStableGetter()) return fn;
     if (noDeps == null) {
       const currentCallbackGetter = useStableGetter(fn);
-      return setIsStableGetter(T$1(function () {
-        return currentCallbackGetter()(...arguments);
+      return setIsStableGetter(T$1((...args) => {
+        return currentCallbackGetter()(...args);
       }, []));
     } else {
       console.assert(noDeps.length === 0);
@@ -1127,16 +1103,16 @@
 
   // Get/set the value of process?.env?.NODE_ENV delicately (also fun fact @rollup/plugin-replace works in comments!)
   // (i.e. in a way that doesn't throw an error)
-  (_globalThis$_process = globalThis[_process = "process"]) !== null && _globalThis$_process !== void 0 ? _globalThis$_process : globalThis[_process] = {};
-  (_globalThis$process$_ = (_globalThis$process = globalThis["process"])[_env = "env"]) !== null && _globalThis$process$_ !== void 0 ? _globalThis$process$_ : _globalThis$process[_env] = {};
-  globalThis["process"]["env"]["NODE_ENV"] = "development";
+  globalThis["process"] ??= {};
+  globalThis["process"]["env"] ??= {};
+  globalThis["process"]["env"]["NODE_ENV"] = "production";
   // The above statement looks redundant, but it ensures that manual
-  // reads to `"development"` work regardless of if the bundler 
-  // replaces `"development"` with the string `"development"` or not.
+  // reads to `"production"` work regardless of if the bundler 
+  // replaces `"production"` with the string `"development"` or not.
 
   // TODO: This shouldn't be in every build, I don't think it's in core-js? I think?
   // And it's extremely small anyway and basically does nothing.
-  (_window$requestIdleCa = (_window = window).requestIdleCallback) !== null && _window$requestIdleCa !== void 0 ? _window$requestIdleCa : _window.requestIdleCallback = callback => {
+  window.requestIdleCallback ??= callback => {
     return setTimeout(() => {
       callback({
         didTimeout: false,
@@ -1146,92 +1122,24 @@
       });
     }, 5);
   };
-  let timeoutHandle = null;
-  let i = 0;
   /**
-   * Adds a function to your browser's Performance tab, under "markers", so you can watch the call stack more clearly than random interval sampling (only if "development" is "development").
+   * Adds a function to your browser's Performance tab, under "markers", so you can watch the call stack more clearly than random interval sampling (only if "production" is "development").
    *
    * @remarks Some functions in this library are parenthesized but not wrapped in `monitored` --
    * they are so small that their duration generally rounds down to 0 (or epsilon), so using
    * this function usually makes no sense on them. The performance monitoring takes more time
    * than the function itself.
    *
-   * Important for Typescript: If passed a generic function its types may be slightly erased (see usePersistentState). No clue why or what's happening.
+   * important for Typescript: If passed a generic function its types may be slightly erased (see usePersistentState). No clue why or what's happening.
    *
    * @param hook
    * @returns
    */
   function monitored(hook) {
-    const h = hook;
     {
-      return function () {
-        const r = _(++i);
-        monitorCallCount(h);
-        const start = performance.mark("".concat(h.name, "-start-").concat(r.current));
-        const ret = h(...arguments);
-        const end = performance.mark("".concat(h.name, "-end-").concat(r.current));
-        performance.measure(h.name, start.name, end.name);
-        return ret;
-      };
+      return hook;
     }
   }
-  /**
-   * When called inside a hook, monitors each call of that hook and prints the results to a table once things settle.
-   *
-   * @remarks Re-renders and such are all collected together when the table is printed to the console with `requestIdleCallback`.
-   */
-  function monitorCallCount(hook) {
-    var _window2, _window2$_hookCallCou, _window$_hookCallCoun, _window$_hookCallCoun2;
-    const name = hook.name;
-    if (filters.has(name)) return;
-    console.assert(name.length > 0);
-    (_window2$_hookCallCou = (_window2 = window)._hookCallCount) !== null && _window2$_hookCallCou !== void 0 ? _window2$_hookCallCou : _window2._hookCallCount = {
-      callCounts: {}
-    };
-    (_window$_hookCallCoun2 = (_window$_hookCallCoun = window._hookCallCount.callCounts)[name]) !== null && _window$_hookCallCoun2 !== void 0 ? _window$_hookCallCoun2 : _window$_hookCallCoun[name] = {
-      moment: 0,
-      total: 0
-    };
-    window._hookCallCount.callCounts[name].moment += 1;
-    window._hookCallCount.callCounts[name].total += 1;
-    if (timeoutHandle == null) {
-      timeoutHandle = requestIdleCallback(() => {
-        //console.log((window as WindowWithHookCallCount)._hookCallCount.callCountsMoment);
-        //(window as WindowWithHookCallCount)._hookCallCount.callCountsMoment = {};
-        const o = Object.entries(window._hookCallCount.callCounts).map(_ref => {
-          let [hook, counts] = _ref;
-          return {
-            Hook: hook || "?",
-            Now: (counts === null || counts === void 0 ? void 0 : counts.moment) || 0,
-            Total: (counts === null || counts === void 0 ? void 0 : counts.total) || 0
-          };
-        }).filter(_ref2 => {
-          let {
-            Now
-          } = _ref2;
-          return !!Now;
-        }).sort((_ref3, _ref4) => {
-          let {
-            Now: lhsM
-          } = _ref3;
-          let {
-            Now: rhsM
-          } = _ref4;
-          if (!lhsM && !rhsM) return 0;
-          lhsM || (lhsM = Infinity);
-          rhsM || (rhsM = Infinity);
-          return lhsM - rhsM;
-        });
-        console.table(o, ['Hook', 'Now', 'Total']);
-        Object.entries(window._hookCallCount.callCounts).forEach(_ref5 => {
-          let [, counts] = _ref5;
-          counts.moment = 0;
-        });
-        timeoutHandle = null;
-      });
-    }
-  }
-  const filters = new Set();
 
   /** Detect free variable `global` from Node.js. */
   var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
@@ -2018,13 +1926,10 @@
    *
    * @remarks Duplicate classes are removed (order doesn't matter anyway).
    */
-  const useMergedClasses = function useMergedClasses() {
+  const useMergedClasses = function useMergedClasses(...classes) {
     // Note: For the sake of forward compatibility, this function is labelled as
     // a hook, but as it uses no other hooks it technically isn't one.
     let classesSet = new Set();
-    for (var _len3 = arguments.length, classes = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-      classes[_key3] = arguments[_key3];
-    }
     for (let c of classes) {
       if (typeof c == "string" && c.trim()) classesSet.add(c);
     }
@@ -2059,10 +1964,8 @@
     if (lhs == null && rhs == null) {
       return undefined;
     } else if (lhs == null) {
-      console.assert(typeof rhs == "function" || "current" in rhs, "Unknown ref type found that was neither a RefCallback nor a RefObject");
       return rhs;
     } else if (rhs == null) {
-      console.assert(typeof lhs == "function" || "current" in lhs, "Unknown ref type found that was neither a RefCallback nor a RefObject");
       return lhs;
     } else {
       return combined;
@@ -2098,12 +2001,12 @@
     }
     // They're both strings, just concatenate them.
     if (typeof lhs == "string") {
-      return "".concat(lhs, ";").concat(rhs !== null && rhs !== void 0 ? rhs : "");
+      return `${lhs};${rhs ?? ""}`;
     }
     // They're both objects, just merge them.
     return {
-      ...(lhs !== null && lhs !== void 0 ? lhs : {}),
-      ...(rhs !== null && rhs !== void 0 ? rhs : {})
+      ...(lhs ?? {}),
+      ...(rhs ?? {})
     };
   };
   let log = console.warn;
@@ -2125,10 +2028,7 @@
    *
    * @returns A single object with all the provided props merged into one.
    */
-  const useMergedProps = function useMergedProps() {
-    for (var _len4 = arguments.length, allProps = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-      allProps[_key4] = arguments[_key4];
-    }
+  const useMergedProps = function useMergedProps(...allProps) {
     useEnsureStability("useMergedProps", allProps.length);
     let ret = {};
     for (let nextProps of allProps) {
@@ -2156,7 +2056,7 @@
       } else {
         // Ugh.
         // No good strategies here, just log it if requested
-        log === null || log === void 0 || log("The prop \"".concat(key, "\" cannot simultaneously be the values ").concat(lhsValue, " and ").concat(rhsValue, ". One must be chosen outside of useMergedProps."));
+        log?.(`The prop "${key}" cannot simultaneously be the values ${lhsValue} and ${rhsValue}. One must be chosen outside of useMergedProps.`);
         return rhsValue;
       }
     }
@@ -2186,122 +2086,24 @@
   const mergeFunctions = function mergeFunctions(lhs, rhs) {
     if (!lhs) return rhs;
     if (!rhs) return lhs;
-    return function () {
-      const lv = lhs(...arguments);
-      const rv = rhs(...arguments);
+    return (...args) => {
+      const lv = lhs(...args);
+      const rv = rhs(...args);
       if (lv instanceof Promise || rv instanceof Promise) return Promise.all([lv, rv]);
     };
   };
-  function generateStack() {
-    if (window._generate_setState_stacks) {
-      try {
-        throw new Error();
-      } catch (e) {
-        return e.stack;
-      }
-    }
-    return undefined;
-  }
-  /**
-   * Returns a function that retrieves the stack at the time this hook was called (in development mode only).
-   *
-   * @remarks The global variable `_generate_setState_stacks` must be true, or no stack will be generated.
-   */
-  function useStack() {
-    {
-      const stack = F$1(generateStack, []);
-      const getStack = T$1(() => stack, []);
-      return getStack;
-    }
-  }
 
-  /**
-   * Runs a function the specified number of milliseconds after the component renders.
-   *
-   * @remarks This is particularly useful to function as "useEffect on a delay".
-   *
-   * @remarks
-   * {@include } {@link UseTimeoutParameters}
-   */
-  const useTimeout = monitored(function useTimeout(_ref6) {
-    let {
-      timeout,
-      callback,
-      triggerIndex
-    } = _ref6;
-    const stableCallback = useStableCallback(() => {
-      startTimeRef.current = null;
-      callback();
-    });
-    const getTimeout = useStableGetter(timeout);
-    // Set any time we start timeout.
-    // Unset any time the timeout completes
-    const startTimeRef = _(null);
-    const timeoutIsNull = timeout == null;
-    // Any time the triggerIndex changes (including on mount)
-    // restart the timeout.  The timeout does NOT reset
-    // when the duration or callback changes, only triggerIndex.
-    p(() => {
-      if (!timeoutIsNull) {
-        const timeout = getTimeout();
-        console.assert(timeoutIsNull == (timeout == null));
-        if (timeout != null) {
-          startTimeRef.current = +new Date();
-          const handle = setTimeout(stableCallback, timeout);
-          return () => clearTimeout(handle);
-        }
-      }
-    }, [triggerIndex, timeoutIsNull]);
-    const getElapsedTime = T$1(() => {
-      var _startTimeRef$current;
-      return +new Date() - +((_startTimeRef$current = startTimeRef.current) !== null && _startTimeRef$current !== void 0 ? _startTimeRef$current : new Date());
-    }, []);
-    const getRemainingTime = T$1(() => {
-      const timeout = getTimeout();
-      return timeout == null ? null : Math.max(0, timeout - getElapsedTime());
-    }, []);
-    return {
-      getElapsedTime,
-      getRemainingTime
-    };
-  });
-  let idIndex = 0;
   /**
    * Debug function that yells at you if your forgot to use the props a hook returns.
    *
-   * @remarks Like other debug hooks, only has any effect IFF there is a global variable called `"development"` and it contains the value `"development"`, AND there is a global variable called `_generate_useTagProps_tags` set to true, and stacks are only generated if `_generate_setState_stacks` is true..
+   * @remarks Like other debug hooks, only has any effect IFF there is a global variable called `"production"` and it contains the value `"development"`, AND there is a global variable called `_generate_useTagProps_tags` set to true, and stacks are only generated if `_generate_setState_stacks` is true..
    *
    * @param props - The props to return a modified copy of
    * @param tag - Should be unique
    * @returns A modified copy of the given props
    */
   function useTagProps(props, tag) {
-    if (window._generate_useTagProps_tags) {
-      const [id] = h(() => ++idIndex);
-      const propsIdTag = "data-props-".concat(tag, "-").concat(id);
-      const getStack = useStack();
-      // Don't have multiple tags of the same type on the same props, means a hook has been called twice!
-      console.assert(!(props && typeof props == "object" && tag in props));
-      useTimeout({
-        callback: () => {
-          let element = document.querySelectorAll("[".concat(propsIdTag, "]"));
-          if (element.length != 1) {
-            console.error("A hook returned props that were not properly spread to any HTMLElement:");
-            console.log(getStack());
-            /* eslint-disable no-debugger */
-            debugger;
-          }
-        },
-        timeout: 250,
-        triggerIndex: tag
-      });
-      return F$1(() => {
-        return {
-          ...props,
-          [propsIdTag]: true /*, [tag as never]: true*/
-        };
-      }, [props, tag]);
-    } else {
+    {
       return props;
     }
   }
@@ -2329,7 +2131,6 @@
       },
       ...rest
     } = parentParameters;
-    useEnsureStability("useManagedChildren", onAfterChildLayoutEffect, onChildrenMountChange, onChildrenCountChange);
     const getHighestIndex = T$1(() => {
       return managedChildrenArray.current.highestIndex;
     }, []);
@@ -2383,7 +2184,6 @@
     // more children mount/unmount.
     const hasRemoteULEChildMounted = _(null);
     const remoteULEChildMounted = T$1((index, mounted) => {
-      var _hasRemoteULEChildMou, _hasRemoteULEChildMou2;
       if (!hasRemoteULEChildMounted.current) {
         hasRemoteULEChildMounted.current = {
           mounts: new Set(),
@@ -2391,8 +2191,8 @@
         };
         debounceRendering(() => {
           if (onChildrenCountChange || onChildrenMountChange) {
-            onChildrenMountChange === null || onChildrenMountChange === void 0 || onChildrenMountChange(hasRemoteULEChildMounted.current.mounts, hasRemoteULEChildMounted.current.unmounts);
-            onChildrenCountChange === null || onChildrenCountChange === void 0 || onChildrenCountChange(getChildren().getHighestIndex() + 1);
+            onChildrenMountChange?.(hasRemoteULEChildMounted.current.mounts, hasRemoteULEChildMounted.current.unmounts);
+            onChildrenCountChange?.(getChildren().getHighestIndex() + 1);
             hasRemoteULEChildMounted.current = null;
           }
         });
@@ -2419,7 +2219,7 @@
         }
       }
 
-      hasRemoteULEChildMounted === null || hasRemoteULEChildMounted === void 0 || (_hasRemoteULEChildMou = hasRemoteULEChildMounted.current) === null || _hasRemoteULEChildMou === void 0 || (_hasRemoteULEChildMou = _hasRemoteULEChildMou[mounted ? "mounts" : "unmounts"]) === null || _hasRemoteULEChildMou === void 0 || (_hasRemoteULEChildMou2 = _hasRemoteULEChildMou.add) === null || _hasRemoteULEChildMou2 === void 0 || _hasRemoteULEChildMou2.call(_hasRemoteULEChildMou, index);
+      hasRemoteULEChildMounted?.current?.[mounted ? "mounts" : "unmounts"]?.add?.(index);
     }, [/* Must remain stable */]);
     const managedChildren = useMemoObject({
       ...{
@@ -2458,18 +2258,17 @@
   /**
    * @compositeParams
    */
-  const useManagedChild = monitored(function useManagedChild(_ref7) {
-    let {
-      context,
-      info
-    } = _ref7;
+  const useManagedChild = monitored(function useManagedChild({
+    context,
+    info
+  }) {
     const {
       managedChildContext: {
         getChildren,
         managedChildrenArray,
         remoteULEChildMounted
       }
-    } = context !== null && context !== void 0 ? context : {
+    } = context ?? {
       managedChildContext: {}
     };
     const index = info.index;
@@ -2497,8 +2296,8 @@
     // Note: It's important that this comes AFTER remoteULEChildChanged
     // so that remoteULEChildMounted has access to all the info on mount.
     y(() => {
-      remoteULEChildMounted === null || remoteULEChildMounted === void 0 || remoteULEChildMounted(index, true);
-      return () => remoteULEChildMounted === null || remoteULEChildMounted === void 0 ? void 0 : remoteULEChildMounted(index, false);
+      remoteULEChildMounted?.(index, true);
+      return () => remoteULEChildMounted?.(index, false);
     }, [index]);
     return {
       managedChildReturn: {
@@ -2520,18 +2319,16 @@
    * Also because of that, the types of this function are rather odd.  It's better to start off using a hook that already uses a flag, such as `useRovingTabIndex`, as an example.
    *
    */
-  function useChildrenFlag(_ref8) {
-    let {
-      getChildren,
-      initialIndex,
-      closestFit,
-      onClosestFit,
-      onIndexChange,
-      getAt,
-      setAt,
-      isValid
-    } = _ref8;
-    useEnsureStability("useChildrenFlag", onIndexChange, getAt, setAt, isValid);
+  function useChildrenFlag({
+    getChildren,
+    initialIndex,
+    closestFit,
+    onClosestFit,
+    onIndexChange,
+    getAt,
+    setAt,
+    isValid
+  }) {
     // TODO (maybe?): Even if there is an initial index, it's not set until mount. Is that fine?
     const [getCurrentIndex, setCurrentIndex] = usePassiveState(onIndexChange);
     const [getRequestedIndex, setRequestedIndex] = usePassiveState(null);
@@ -2622,7 +2419,7 @@
     }, []);
     // Run once, on mount
     y(() => {
-      changeIndex(initialIndex !== null && initialIndex !== void 0 ? initialIndex : null, reasonRef.current);
+      changeIndex(initialIndex ?? null, reasonRef.current);
     }, []);
     return {
       changeIndex,
@@ -2642,16 +2439,12 @@
    * @param initialState - Same as the built-in `setState`'s
    */
   const useState = function useState(initialState) {
-    const getStack = useStack();
     // We keep both, but override the `setState` functionality
     const [state, setStateP] = h(initialState);
     const ref = _(state);
     // Hijack the normal setter function 
     // to also set our ref to the new value
     const setState = _(value => {
-      {
-        window._setState_stack = getStack();
-      }
       if (typeof value === "function") {
         const callback = value;
         setStateP(prevValue => {
@@ -2719,30 +2512,29 @@
       nonElementWarn.current = false;
       // There are two of these to catch the problem in the two most useful areas --
       // when it initially happens, and also in the component stack.
-      console.assert(false, "useRefElement was used on a component that didn't forward its ref onto a DOM element, so it's attached to that component's VNode instead.");
+      console.assert(false, `useRefElement was used on a component that didn't forward its ref onto a DOM element, so it's attached to that component's VNode instead.`);
     }
     const {
       onElementChange,
       onMount,
       onUnmount
     } = args.refElementParameters || {};
-    useEnsureStability("useRefElement", onElementChange, onMount, onUnmount);
     // Called (indirectly) by the ref that the element receives.
     const handler = T$1((e, prevValue) => {
       if (!(e == null || e instanceof Element)) {
-        console.assert(e == null || e instanceof Element, "useRefElement was used on a component that didn't forward its ref onto a DOM element, so it's attached to that component's VNode instead.");
+        console.assert(e == null || e instanceof Element, `useRefElement was used on a component that didn't forward its ref onto a DOM element, so it's attached to that component's VNode instead.`);
         nonElementWarn.current = true;
       }
-      const cleanup = onElementChange === null || onElementChange === void 0 ? void 0 : onElementChange(e, prevValue);
-      if (prevValue) onUnmount === null || onUnmount === void 0 || onUnmount(prevValue);
-      if (e) onMount === null || onMount === void 0 || onMount(e);
+      const cleanup = onElementChange?.(e, prevValue);
+      if (prevValue) onUnmount?.(prevValue);
+      if (e) onMount?.(e);
       return cleanup;
     }, []);
     // Let us store the actual (reference to) the element we capture
     const [getElement, setElement] = usePassiveState(handler, returnNull, runImmediately);
     const propsStable = _(useTagProps({
       ref: setElement
-    }, "data-use-ref-element"));
+    }));
     // Return both the element and the hook that modifies 
     // the props and allows us to actually find the element
     return {
@@ -3915,9 +3707,8 @@
   });
   let templateElement = null;
   function htmlToElement(parent, html) {
-    var _templateElement;
     const document = parent.ownerDocument;
-    (_templateElement = templateElement) !== null && _templateElement !== void 0 ? _templateElement : templateElement = document.createElement("template");
+    templateElement ??= document.createElement("template");
     templateElement.innerHTML = html.trim(); // TODO: Trim ensures whitespace doesn't add anything, but with a better explanation of why
     return templateElement.content.firstChild;
   }
@@ -3938,12 +3729,11 @@
    *
    * @compositeParams
    */
-  const useImperativeProps = monitored(function useImperativeProps(_ref9) {
-    let {
-      refElementReturn: {
-        getElement
-      }
-    } = _ref9;
+  const useImperativeProps = monitored(function useImperativeProps({
+    refElementReturn: {
+      getElement
+    }
+  }) {
     const currentImperativeProps = _({
       className: new Set(),
       style: {},
@@ -3956,8 +3746,7 @@
     }, []);
     const setClass = T$1((cls, enabled) => {
       if (hasClass(cls) == !enabled) {
-        var _getElement;
-        (_getElement = getElement()) === null || _getElement === void 0 || _getElement.classList[enabled ? "add" : "remove"](cls);
+        getElement()?.classList[enabled ? "add" : "remove"](cls);
         currentImperativeProps.current.className[enabled ? "add" : "delete"](cls);
       }
     }, []);
@@ -3967,9 +3756,9 @@
         if (currentImperativeProps.current.style[prop] != value) {
           currentImperativeProps.current.style[prop] = value;
           if (prop.startsWith("--")) {
-            if (value != null) element.style.setProperty(prop, "".concat(value));else element.style.removeProperty(prop);
+            if (value != null) element.style.setProperty(prop, `${value}`);else element.style.removeProperty(prop);
           } else {
-            element.style[prop] = value !== null && value !== void 0 ? value : "";
+            element.style[prop] = value ?? "";
           }
         }
       }
@@ -3996,9 +3785,8 @@
         const newChild = htmlToElement(e, children);
         console.assert(newChild && newChild instanceof Node);
         if (newChild && newChild instanceof Node) {
-          var _currentImperativePro;
           currentImperativeProps.current.children = null;
-          (_currentImperativePro = currentImperativeProps.current).html || (_currentImperativePro.html = "");
+          currentImperativeProps.current.html ||= "";
           currentImperativeProps.current.html += children;
           e.appendChild(newChild);
           return newChild;
@@ -4012,15 +3800,13 @@
     const setAttribute = T$1((prop, value) => {
       if (value != null) {
         if (getAttribute(prop) != value) {
-          var _getElement2;
           currentImperativeProps.current.others[prop] = value;
-          (_getElement2 = getElement()) === null || _getElement2 === void 0 || _getElement2.setAttribute(prop, value);
+          getElement()?.setAttribute(prop, value);
         }
       } else {
         if (getAttribute(prop) != undefined) {
-          var _getElement3;
           delete currentImperativeProps.current.others[prop];
-          (_getElement3 = getElement()) === null || _getElement3 === void 0 || _getElement3.removeAttribute(prop);
+          getElement()?.removeAttribute(prop);
         }
       }
     }, []);
@@ -4061,12 +3847,11 @@
       }, currentImperativeProps.current.others)
     };
   });
-  function ImperativeElementU(_ref10, ref) {
-    let {
-      tag: Tag,
-      handle,
-      ...props
-    } = _ref10;
+  function ImperativeElementU({
+    tag: Tag,
+    handle,
+    ...props
+  }, ref) {
     const {
       propsStable,
       refElementReturn
@@ -4150,16 +3935,13 @@
     };
   }
   let globalCount = -1;
-  function ExclusiveTransitionProvider(_ref11) {
-    let {
-      exclusivityKey,
-      children
-    } = _ref11;
-    useEnsureStability("ExclusiveTransitionProvider", exclusivityKey);
+  function ExclusiveTransitionProvider({
+    exclusivityKey,
+    children
+  }) {
     const [getNextIndexInLine, setNextIndexInLine] = usePassiveState(null);
     const {
       context,
-      managedChildrenReturn,
       managedChildrenReturn: {
         getChildren
       }
@@ -4178,7 +3960,7 @@
         m.setExclusivelyOpen(v);
       }, []),
       getAt: T$1(m => m.getExclusivelyOpen(), []),
-      isValid: T$1(m => {
+      isValid: T$1(_m => {
         return true;
       }, []),
       onClosestFit: null
@@ -4196,8 +3978,7 @@
         if (currentInLine == null) {
           changeIndex(index);
         } else {
-          var _getChildren$getAt, _getChildren$getAt$fo;
-          (_getChildren$getAt = getChildren().getAt(currentInLine)) === null || _getChildren$getAt === void 0 || (_getChildren$getAt$fo = _getChildren$getAt.forceClose) === null || _getChildren$getAt$fo === void 0 || _getChildren$getAt$fo.call(_getChildren$getAt);
+          getChildren().getAt(currentInLine)?.forceClose?.();
           setNextIndexInLine(index);
         }
       } else if (visible == "hidden") {
@@ -4222,23 +4003,21 @@
       })
     });
     const ExclusiveTransitionContext = GetExclusiveTransitionContext(exclusivityKey);
-    return ExclusiveTransitionContext == null ? children !== null && children !== void 0 ? children : null : o$1(ExclusiveTransitionContext.Provider, {
+    return ExclusiveTransitionContext == null ? children ?? null : o$1(ExclusiveTransitionContext.Provider, {
       value: context2,
       children: children
     });
   }
-  function useExclusiveTransition(_ref12) {
-    let {
-      transitionParameters: {
-        show
-      },
-      exclusiveTransitionParameters: {
-        forceClose,
-        exclusivityKey
-      }
-    } = _ref12;
+  function useExclusiveTransition({
+    transitionParameters: {
+      show
+    },
+    exclusiveTransitionParameters: {
+      forceClose,
+      exclusivityKey
+    }
+  }) {
     const c = GetExclusiveTransitionContext(exclusivityKey);
-    useEnsureStability("useExclusiveTransition", c == null);
     const context = c ? q$1(c) : null;
     const index = F$1(() => {
       globalCount += 1;
@@ -4254,12 +4033,12 @@
         forceClose
       }
     });
-    const parentOnVisChange = context === null || context === void 0 ? void 0 : context.exclusiveTransitionContext.onVisibilityChange;
+    const parentOnVisChange = context?.exclusiveTransitionContext.onVisibilityChange;
     const onVisibilityChange = T$1(visible => {
-      parentOnVisChange === null || parentOnVisChange === void 0 || parentOnVisChange(index, visible == false ? "hidden" : "show");
+      parentOnVisChange?.(index, visible == false ? "hidden" : "show");
     }, [parentOnVisChange, index]);
     y(() => {
-      if (show) parentOnVisChange === null || parentOnVisChange === void 0 || parentOnVisChange(index, "show");
+      if (show) parentOnVisChange?.(index, "show");
     }, [show, parentOnVisChange, index]);
     return {
       exclusiveTransitionReturn: {
@@ -4272,7 +4051,7 @@
     };
   }
   function getTimeoutDuration(element) {
-    return Math.max(...window.getComputedStyle(element || document.body).getPropertyValue("transition-duration").split(",").map(str => {
+    return Math.max(...window.getComputedStyle(element || document.body).getPropertyValue(`transition-duration`).split(",").map(str => {
       if (str.endsWith("ms")) return +str.substring(0, str.length - 2);
       if (str.endsWith("s")) return +str.substring(0, str.length - 1) * 1000;
       return 1000;
@@ -4286,40 +4065,37 @@
    *
    * @compositeParams
    */
-  function useTransition(_ref13) {
-    var _animateOnMount, _measure, _easingIn, _easingOut;
-    let {
-      transitionParameters: {
-        propsIncoming: {
-          children,
-          ...p$1
-        },
-        show,
-        animateOnMount,
-        measure,
-        exitVisibility,
-        duration,
-        delayMountUntilShown,
-        easing,
-        easingIn,
-        easingOut,
-        onVisibilityChange,
-        ...void2
+  function useTransition({
+    transitionParameters: {
+      propsIncoming: {
+        children,
+        ...p$1
       },
-      exclusiveTransitionParameters: {
-        exclusivityKey,
-        ...void3
-      },
-      refElementParameters,
-      ...void1
-    } = _ref13;
-    useEnsureStability("useTransition", onVisibilityChange);
+      show,
+      animateOnMount,
+      measure,
+      exitVisibility,
+      duration,
+      delayMountUntilShown,
+      easing,
+      easingIn,
+      easingOut,
+      onVisibilityChange,
+      ...void2
+    },
+    exclusiveTransitionParameters: {
+      exclusivityKey,
+      ...void3
+    },
+    refElementParameters,
+    ...void1
+  }) {
     const {
       getAnimateOnMount
     } = q$1(SwappableContext);
-    exitVisibility || (exitVisibility = "hidden");
-    (_animateOnMount = animateOnMount) !== null && _animateOnMount !== void 0 ? _animateOnMount : animateOnMount = getAnimateOnMount();
-    (_measure = measure) !== null && _measure !== void 0 ? _measure : measure = false;
+    exitVisibility ||= "hidden";
+    animateOnMount ??= getAnimateOnMount();
+    measure ??= false;
     const getExitVisibility = useStableGetter(exitVisibility);
     const {
       GetBaseClass,
@@ -4362,19 +4138,19 @@
       refElementParameters
     });
     const cssProperties = _({});
-    const classNames = _(new Set([// This is removed during useLayoutEffect on the first render
+    const classNames = _(new Set([
+    // This is removed during useLayoutEffect on the first render
     // (at least once `show` is non-null)
-    "".concat(GetBaseClass(), "-pending")]));
+    `${GetBaseClass()}-pending`]));
     const handleTransitionFinished = T$1(() => {
       const state = getState();
       console.assert(!!state);
       if (state) {
         const [direction, phase] = parseState(state);
         if (phase == "transition") {
-          setState("".concat(direction, "-finalize"));
+          setState(`${direction}-finalize`);
           if (timeoutHandle.current > 0) {
-            var _timeoutClearFunction;
-            (_timeoutClearFunction = timeoutClearFunction.current) === null || _timeoutClearFunction === void 0 || _timeoutClearFunction.call(timeoutClearFunction, timeoutHandle.current);
+            timeoutClearFunction.current?.(timeoutHandle.current);
             timeoutHandle.current = -1;
           }
         }
@@ -4394,8 +4170,8 @@
     const updateClasses = T$1((element, direction, phase) => {
       if (element == null) return;
       const exitVisibility = getExitVisibility();
-      const allClassesToRemove = ["".concat(GetBaseClass(), "-").concat(GetEnterClass()), "".concat(GetBaseClass(), "-").concat(GetExitClass()), "".concat(GetBaseClass(), "-").concat(GetEnterClass(), "-").concat(GetMeasureClass()), "".concat(GetBaseClass(), "-").concat(GetEnterClass(), "-").concat(GetInitClass()), "".concat(GetBaseClass(), "-").concat(GetEnterClass(), "-").concat(GetTransitionClass()), "".concat(GetBaseClass(), "-").concat(GetEnterClass(), "-").concat(GetFinalizeClass()), "".concat(GetBaseClass(), "-").concat(GetExitClass(), "-").concat(GetMeasureClass()), "".concat(GetBaseClass(), "-").concat(GetExitClass(), "-").concat(GetInitClass()), "".concat(GetBaseClass(), "-").concat(GetExitClass(), "-").concat(GetTransitionClass()), "".concat(GetBaseClass(), "-").concat(GetExitClass(), "-").concat(GetFinalizeClass()), "".concat(GetBaseClass(), "-ev-", "inert"), "".concat(GetBaseClass(), "-ev-", "removed"), "".concat(GetBaseClass(), "-ev-", "hidden"), "".concat(GetBaseClass(), "-ev-", "visible"), "".concat(GetBaseClass(), "-pending")];
-      const allClassesToAdd = ["".concat(GetBaseClass()), "".concat(GetBaseClass(), "-").concat(GetDirectionClass(direction)), phase ? "".concat(GetBaseClass(), "-").concat(GetDirectionClass(direction), "-").concat(GetPhaseClass(phase)) : "", "".concat(GetBaseClass(), "-ev-").concat(exitVisibility)];
+      const allClassesToRemove = [`${GetBaseClass()}-${GetEnterClass()}`, `${GetBaseClass()}-${GetExitClass()}`, `${GetBaseClass()}-${GetEnterClass()}-${GetMeasureClass()}`, `${GetBaseClass()}-${GetEnterClass()}-${GetInitClass()}`, `${GetBaseClass()}-${GetEnterClass()}-${GetTransitionClass()}`, `${GetBaseClass()}-${GetEnterClass()}-${GetFinalizeClass()}`, `${GetBaseClass()}-${GetExitClass()}-${GetMeasureClass()}`, `${GetBaseClass()}-${GetExitClass()}-${GetInitClass()}`, `${GetBaseClass()}-${GetExitClass()}-${GetTransitionClass()}`, `${GetBaseClass()}-${GetExitClass()}-${GetFinalizeClass()}`, `${GetBaseClass()}-ev-${"inert"}`, `${GetBaseClass()}-ev-${"removed"}`, `${GetBaseClass()}-ev-${"hidden"}`, `${GetBaseClass()}-ev-${"visible"}`, `${GetBaseClass()}-pending`];
+      const allClassesToAdd = [`${GetBaseClass()}`, `${GetBaseClass()}-${GetDirectionClass(direction)}`, phase ? `${GetBaseClass()}-${GetDirectionClass(direction)}-${GetPhaseClass(phase)}` : "", `${GetBaseClass()}-ev-${exitVisibility}`];
       element.classList.remove(...allClassesToRemove);
       allClassesToRemove.map(v => classNames.current.delete(v));
       element.classList.add(...allClassesToAdd);
@@ -4406,7 +4182,7 @@
      */
     const updateSizeProperty = T$1((element, varName, value) => {
       if (value != null) {
-        value = "".concat(value, "px");
+        value = `${value}px`;
         element.style.setProperty(varName, value);
         cssProperties.current[varName] = value;
       } else {
@@ -4419,15 +4195,14 @@
      */
     const measureElementAndUpdateProperties = T$1((element, measure) => {
       if (element) {
-        var _size, _size2, _size3, _size4;
         let size = null;
         if (measure) {
           size = element.getBoundingClientRect();
         }
-        updateSizeProperty(element, "--".concat(GetBaseClass(), "-measure-top"), (_size = size) === null || _size === void 0 ? void 0 : _size.top);
-        updateSizeProperty(element, "--".concat(GetBaseClass(), "-measure-left"), (_size2 = size) === null || _size2 === void 0 ? void 0 : _size2.left);
-        updateSizeProperty(element, "--".concat(GetBaseClass(), "-measure-width"), (_size3 = size) === null || _size3 === void 0 ? void 0 : _size3.width);
-        updateSizeProperty(element, "--".concat(GetBaseClass(), "-measure-height"), (_size4 = size) === null || _size4 === void 0 ? void 0 : _size4.height);
+        updateSizeProperty(element, `--${GetBaseClass()}-measure-top`, size?.top);
+        updateSizeProperty(element, `--${GetBaseClass()}-measure-left`, size?.left);
+        updateSizeProperty(element, `--${GetBaseClass()}-measure-width`, size?.width);
+        updateSizeProperty(element, `--${GetBaseClass()}-measure-height`, size?.height);
       }
     }, []);
     // We use both useTimeout and requestAnimationFrame for timing certain things --
@@ -4449,7 +4224,7 @@
      *
      * Any change in state or classes/styles does not implicitly cause a re-render.
      */
-    const onStateChange = T$1((nextState, prevState, reason) => {
+    const onStateChange = T$1((nextState, prevState, _reason) => {
       if (nextState == null) return;
       const [nextDirection, nextPhase] = parseState(nextState);
       const element = getElement();
@@ -4463,8 +4238,8 @@
         if (element) element.inert = inert || false;
       }
       const isBeingPainted = nextDirection == "enter" || nextDirection == "exit" && nextPhase != "finalize";
-      onVisibilityChange === null || onVisibilityChange === void 0 || onVisibilityChange(isBeingPainted);
-      exclusiveTransitionVisibilityChange === null || exclusiveTransitionVisibilityChange === void 0 || exclusiveTransitionVisibilityChange(isBeingPainted);
+      onVisibilityChange?.(isBeingPainted);
+      exclusiveTransitionVisibilityChange?.(isBeingPainted);
       updateClasses(element, nextDirection, nextPhase);
       if (element && (nextPhase == "init" || nextPhase == "transition")) forceReflow(element);
       switch (nextPhase) {
@@ -4475,12 +4250,13 @@
             updateClasses(element, nextDirection, "init");
             if (element) forceReflow(element);
             // !!Intentional fall-through!!
+            /* eslint-disable no-fallthrough */
           }
 
         case "init":
           {
             timeoutHandle.current = requestAnimationFrame(() => {
-              setState("".concat(nextDirection, "-transition"));
+              setState(`${nextDirection}-transition`);
             });
             timeoutClearFunction.current = f => cancelAnimationFrame(f);
             break;
@@ -4501,8 +4277,9 @@
           }
         default:
           {
+            /* eslint-disable no-debugger */
             debugger; // Intentional
-            console.log("Invalid state used in transition: ".concat(nextState, ". Previous state was ").concat(prevState !== null && prevState !== void 0 ? prevState : "null"));
+            console.log(`Invalid state used in transition: ${nextState}. Previous state was ${prevState ?? "null"}`);
             break;
           }
       }
@@ -4519,22 +4296,22 @@
       const currentState = getState();
       let nextPhase = measure ? "measure" : "init";
       if (currentState) {
-        const [currentDirection, currentPhase] = parseState(currentState);
+        const [_currentDirection, currentPhase] = parseState(currentState);
         if (currentPhase != "finalize") nextPhase = "transition";
       }
       // Note: the setState change handler runs immediately with no debounce.
       if (show) {
-        if (hasMounted.current || animateOnMount) setState("enter-".concat(nextPhase));else setState("enter-finalize");
+        if (hasMounted.current || animateOnMount) setState(`enter-${nextPhase}`);else setState("enter-finalize");
       } else {
-        if (hasMounted.current || animateOnMount) setState("exit-".concat(nextPhase));else setState("exit-finalize");
+        if (hasMounted.current || animateOnMount) setState(`exit-${nextPhase}`);else setState("exit-finalize");
       }
       hasMounted.current = true;
     }
-    if (duration != null) cssProperties.current["--".concat(GetBaseClass(), "-duration")] = duration + "ms";else delete cssProperties.current["--".concat(GetBaseClass(), "-duration")];
-    (_easingIn = easingIn) !== null && _easingIn !== void 0 ? _easingIn : easingIn = easing;
-    (_easingOut = easingOut) !== null && _easingOut !== void 0 ? _easingOut : easingOut = easing;
-    if (easingOut != null) cssProperties.current["--".concat(GetBaseClass(), "-").concat(GetExitClass(), "-timing-function")] = easingOut;else delete cssProperties.current["--".concat(GetBaseClass(), "-").concat(GetExitClass(), "-timing-function")];
-    if (easingIn != null) cssProperties.current["--".concat(GetBaseClass(), "-").concat(GetEnterClass(), "-timing-function")] = easingIn;else delete cssProperties.current["--".concat(GetBaseClass(), "-").concat(GetEnterClass(), "-timing-function")];
+    if (duration != null) cssProperties.current[`--${GetBaseClass()}-duration`] = duration + "ms";else delete cssProperties.current[`--${GetBaseClass()}-duration`];
+    easingIn ??= easing;
+    easingOut ??= easing;
+    if (easingOut != null) cssProperties.current[`--${GetBaseClass()}-${GetExitClass()}-timing-function`] = easingOut;else delete cssProperties.current[`--${GetBaseClass()}-${GetExitClass()}-timing-function`];
+    if (easingIn != null) cssProperties.current[`--${GetBaseClass()}-${GetEnterClass()}-timing-function`] = easingIn;else delete cssProperties.current[`--${GetBaseClass()}-${GetEnterClass()}-timing-function`];
     // No matter what delayMountUntilShown is,
     // once we've rendered our children once, 
     // ensure that we don't unmount them again and waste all that work.
@@ -4543,11 +4320,11 @@
     const hasRenderedChildren = _(false);
     const renderChildren = definitelyShouldMountChildren || hasRenderedChildren.current;
     p(() => {
-      if (definitelyShouldMountChildren) hasRenderedChildren.current || (hasRenderedChildren.current = true);
+      if (definitelyShouldMountChildren) hasRenderedChildren.current ||= true;
     }, [hasRenderedChildren.current ? false : definitelyShouldMountChildren]);
     const childrenIsVnode = children && children.type && children.props;
     const finalProps = useMergedProps(p$1, propsStable, otherProps.current, {
-      className: [...classNames.current, "".concat(GetBaseClass()), "".concat(GetBaseClass(), "-ev-").concat(exitVisibility), "".concat(GetBaseClass(), "-inline-direction-", "ltr"), "".concat(GetBaseClass(), "-block-direction-", "ttb")].join(" "),
+      className: [...classNames.current, `${GetBaseClass()}`, `${GetBaseClass()}-ev-${exitVisibility}`, `${GetBaseClass()}-inline-direction-${"ltr"}`, `${GetBaseClass()}-block-direction-${"ttb"}`].join(" "),
       style: cssProperties.current
     }, childrenIsVnode ? {
       ref: children.ref,
@@ -4584,6 +4361,10 @@
     return e;
   }
 
+  //type ForwardedFunctionalComponentProps<P, E> = Omit<P, "ref"> & { ref?: Ref<E> }
+  //type ForwardedFunctionalComponent<P, E> = (p: ForwardedFunctionalComponentProps<P, E>) => VNode<ForwardedFunctionalComponentProps<P, E>>
+  //type ElementFromProps<P extends h.JSX.HTMLAttributes<any>> = P extends h.JSX.HTMLAttributes<infer E> ? E : EventTarget;
+  //type PropsFromComponent<C extends FunctionalComponent<any>> = C extends FunctionalComponent<infer P> ? P : unknown;
   /**
    * Shortcut for preact/compat's `forwardRef` that auto-assumes some things that are useful for forwarding refs to `HTMLElements` specifically.
    * Namely it involves de-gunking the type system by letting us return *generic* function and playing nice with React. In all other respects, it acts like `forwardRef`.
@@ -4606,56 +4387,53 @@
     p(() => {
       if (value != null) lastNonNullValue.current = value;
     }, [value]);
-    return value !== null && value !== void 0 ? value : lastNonNullValue.current;
+    return value ?? lastNonNullValue.current;
   }
-  function useBasePropsClip(_ref14) {
-    var _ref15, _ref16, _ref17, _ref18;
-    let {
-      clipParameters: {
-        clipMin,
-        clipMinBlock,
-        clipMinInline,
-        clipOrigin,
-        clipOriginBlock,
-        clipOriginInline
-      }
-    } = _ref14;
+  function useBasePropsClip({
+    clipParameters: {
+      clipMin,
+      clipMinBlock,
+      clipMinInline,
+      clipOrigin,
+      clipOriginBlock,
+      clipOriginInline
+    }
+  }) {
     const {
       GetBaseClass
     } = useCssClasses();
     return {
-      className: clsx("".concat(GetBaseClass(), "-clip")),
+      className: clsx(`${GetBaseClass()}-clip`),
       style: {
-        ["--".concat(GetBaseClass(), "-clip-origin-inline")]: (_ref15 = clipOriginInline !== null && clipOriginInline !== void 0 ? clipOriginInline : clipOrigin) !== null && _ref15 !== void 0 ? _ref15 : 0.5,
-        ["--".concat(GetBaseClass(), "-clip-origin-block")]: (_ref16 = clipOriginBlock !== null && clipOriginBlock !== void 0 ? clipOriginBlock : clipOrigin) !== null && _ref16 !== void 0 ? _ref16 : 0,
-        ["--".concat(GetBaseClass(), "-clip-min-inline")]: (_ref17 = clipMinInline !== null && clipMinInline !== void 0 ? clipMinInline : clipMin) !== null && _ref17 !== void 0 ? _ref17 : 1,
-        ["--".concat(GetBaseClass(), "-clip-min-block")]: (_ref18 = clipMinBlock !== null && clipMinBlock !== void 0 ? clipMinBlock : clipMin) !== null && _ref18 !== void 0 ? _ref18 : 0
+        [`--${GetBaseClass()}-clip-origin-inline`]: clipOriginInline ?? clipOrigin ?? 0.5,
+        [`--${GetBaseClass()}-clip-origin-block`]: clipOriginBlock ?? clipOrigin ?? 0,
+        [`--${GetBaseClass()}-clip-min-inline`]: clipMinInline ?? clipMin ?? 1,
+        [`--${GetBaseClass()}-clip-min-block`]: clipMinBlock ?? clipMin ?? 0
       }
     };
   }
-  const Clip = x(forwardElementRef(function Clip(_ref19, ref) {
-    let {
-      duration,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      delayMountUntilShown,
-      clipOrigin,
-      clipOriginInline,
-      clipOriginBlock,
-      clipMin,
-      clipMinInline,
-      clipMinBlock,
-      show,
-      animateOnMount,
-      exitVisibility,
-      onVisibilityChange,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref19;
+  const Clip = x(forwardElementRef(function Clip({
+    duration,
+    exclusivityKey,
+    easing,
+    easingIn,
+    easingOut,
+    delayMountUntilShown,
+    clipOrigin,
+    clipOriginInline,
+    clipOriginBlock,
+    clipMin,
+    clipMinInline,
+    clipMinBlock,
+    show,
+    animateOnMount,
+    exitVisibility,
+    onVisibilityChange,
+    onElementChange,
+    onMount,
+    onUnmount,
+    ...rest
+  }, ref) {
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -4697,21 +4475,20 @@
    * Creates a set of props that implement a Fade transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    * Be sure to merge these returned props with whatever the user passed in.
    */
-  function useBasePropsFade(_ref20) {
-    let {
-      fadeParameters: {
-        fadeMin,
-        fadeMax
-      }
-    } = _ref20;
+  function useBasePropsFade({
+    fadeParameters: {
+      fadeMin,
+      fadeMax
+    }
+  }) {
     const {
       GetBaseClass
     } = useCssClasses();
     return {
-      className: "".concat(GetBaseClass(), "-fade"),
+      className: `${GetBaseClass()}-fade`,
       style: {
-        ["--".concat(GetBaseClass(), "-fade-min")]: fadeMin !== null && fadeMin !== void 0 ? fadeMin : 0,
-        ["--".concat(GetBaseClass(), "-fade-max")]: fadeMax !== null && fadeMax !== void 0 ? fadeMax : 1
+        [`--${GetBaseClass()}-fade-min`]: fadeMin ?? 0,
+        [`--${GetBaseClass()}-fade-max`]: fadeMax ?? 1
       }
     };
   }
@@ -4725,25 +4502,24 @@
    *
    * @see `Transitionable`
    */
-  const Fade = x(forwardElementRef(function Fade(_ref21, ref) {
-    let {
-      duration,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      delayMountUntilShown,
-      fadeMin,
-      fadeMax,
-      show,
-      animateOnMount,
-      exitVisibility,
-      onVisibilityChange,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref21;
+  const Fade = x(forwardElementRef(function Fade({
+    duration,
+    exclusivityKey,
+    easing,
+    easingIn,
+    easingOut,
+    delayMountUntilShown,
+    fadeMin,
+    fadeMax,
+    show,
+    animateOnMount,
+    exitVisibility,
+    onVisibilityChange,
+    onElementChange,
+    onMount,
+    onUnmount,
+    ...rest
+  }, ref) {
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -4758,6 +4534,9 @@
         exitVisibility,
         delayMountUntilShown,
         onVisibilityChange,
+        easing,
+        easingIn,
+        easingOut,
         propsIncoming: useMergedProps({
           ref,
           ...rest
@@ -4773,31 +4552,30 @@
       }
     });
   }));
-  const ClipFade = x(forwardElementRef(function ClipFade(_ref22, ref) {
-    let {
-      delayMountUntilShown,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      duration,
-      fadeMin,
-      fadeMax,
-      show,
-      animateOnMount,
-      clipMin,
-      clipMinBlock,
-      clipMinInline,
-      clipOrigin,
-      clipOriginBlock,
-      clipOriginInline,
-      exitVisibility,
-      onVisibilityChange,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref22;
+  const ClipFade = x(forwardElementRef(function ClipFade({
+    delayMountUntilShown,
+    exclusivityKey,
+    easing,
+    easingIn,
+    easingOut,
+    duration,
+    fadeMin,
+    fadeMax,
+    show,
+    animateOnMount,
+    clipMin,
+    clipMinBlock,
+    clipMinInline,
+    clipOrigin,
+    clipOriginBlock,
+    clipOriginInline,
+    exitVisibility,
+    onVisibilityChange,
+    onElementChange,
+    onMount,
+    onUnmount,
+    ...rest
+  }, ref) {
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -4848,19 +4626,18 @@
    *
    * @example <Transitionable measure {...useCreateCollapseProps(...)} />
    */
-  function useBasePropsCollapse(_ref23) {
-    let {
-      collapseParameters: {
-        minBlockSize
-      }
-    } = _ref23;
+  function useBasePropsCollapse({
+    collapseParameters: {
+      minBlockSize
+    }
+  }) {
     const {
       GetBaseClass
     } = useCssClasses();
     return {
-      className: "".concat(GetBaseClass(), "-collapse"),
+      className: `${GetBaseClass()}-collapse`,
       style: {
-        ["--".concat(GetBaseClass(), "-collapse-min-block")]: minBlockSize !== null && minBlockSize !== void 0 ? minBlockSize : 0
+        [`--${GetBaseClass()}-collapse-min-block`]: minBlockSize ?? 0
       }
     };
   }
@@ -4873,24 +4650,23 @@
    *
    * @see `Transitionable`
    */
-  const Collapse = x(forwardElementRef(function Collapse(_ref24, ref) {
-    let {
-      show,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      duration,
-      delayMountUntilShown,
-      minBlockSize,
-      animateOnMount,
-      exitVisibility,
-      onVisibilityChange,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref24;
+  const Collapse = x(forwardElementRef(function Collapse({
+    show,
+    exclusivityKey,
+    easing,
+    easingIn,
+    easingOut,
+    duration,
+    delayMountUntilShown,
+    minBlockSize,
+    animateOnMount,
+    exitVisibility,
+    onVisibilityChange,
+    onElementChange,
+    onMount,
+    onUnmount,
+    ...rest
+  }, ref) {
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -4922,26 +4698,25 @@
       }
     });
   }));
-  const CollapseFade = x(forwardElementRef(function CollapseFade(_ref25, ref) {
-    let {
-      show,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      duration,
-      animateOnMount,
-      delayMountUntilShown,
-      fadeMin,
-      fadeMax,
-      exitVisibility,
-      minBlockSize,
-      onVisibilityChange,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref25;
+  const CollapseFade = x(forwardElementRef(function CollapseFade({
+    show,
+    exclusivityKey,
+    easing,
+    easingIn,
+    easingOut,
+    duration,
+    animateOnMount,
+    delayMountUntilShown,
+    fadeMin,
+    fadeMax,
+    exitVisibility,
+    minBlockSize,
+    onVisibilityChange,
+    onElementChange,
+    onMount,
+    onUnmount,
+    ...rest
+  }, ref) {
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -4982,29 +4757,27 @@
   /**
    * Creates a set of props that implement a Flip transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    */
-  function useBasePropsFlip(_ref26) {
-    var _ref27, _ref28, _useLastNonNullValue, _useLastNonNullValue2;
-    let {
-      flipParameters: {
-        flipAngleBlock,
-        flipAngleInline,
-        flipPerspective,
-        flipOrigin,
-        flipOriginInline,
-        flipOriginBlock
-      }
-    } = _ref26;
+  function useBasePropsFlip({
+    flipParameters: {
+      flipAngleBlock,
+      flipAngleInline,
+      flipPerspective,
+      flipOrigin,
+      flipOriginInline,
+      flipOriginBlock
+    }
+  }) {
     const {
       GetBaseClass
     } = useCssClasses();
     return {
-      className: "".concat(GetBaseClass(), "-flip"),
+      className: `${GetBaseClass()}-flip`,
       style: {
-        ["--".concat(GetBaseClass(), "-flip-origin-inline")]: "".concat((_ref27 = flipOriginInline !== null && flipOriginInline !== void 0 ? flipOriginInline : flipOrigin) !== null && _ref27 !== void 0 ? _ref27 : 0.5),
-        ["--".concat(GetBaseClass(), "-flip-origin-block")]: "".concat((_ref28 = flipOriginBlock !== null && flipOriginBlock !== void 0 ? flipOriginBlock : flipOrigin) !== null && _ref28 !== void 0 ? _ref28 : 0.5),
-        ["--".concat(GetBaseClass(), "-flip-angle-inline")]: "".concat((_useLastNonNullValue = useLastNonNullValue(flipAngleInline)) !== null && _useLastNonNullValue !== void 0 ? _useLastNonNullValue : 0, "deg"),
-        ["--".concat(GetBaseClass(), "-flip-angle-block")]: "".concat((_useLastNonNullValue2 = useLastNonNullValue(flipAngleBlock)) !== null && _useLastNonNullValue2 !== void 0 ? _useLastNonNullValue2 : 0, "deg"),
-        ["--".concat(GetBaseClass(), "-perspective")]: "".concat(flipPerspective !== null && flipPerspective !== void 0 ? flipPerspective : 800, "px")
+        [`--${GetBaseClass()}-flip-origin-inline`]: `${flipOriginInline ?? flipOrigin ?? 0.5}`,
+        [`--${GetBaseClass()}-flip-origin-block`]: `${flipOriginBlock ?? flipOrigin ?? 0.5}`,
+        [`--${GetBaseClass()}-flip-angle-inline`]: `${useLastNonNullValue(flipAngleInline) ?? 0}deg`,
+        [`--${GetBaseClass()}-flip-angle-block`]: `${useLastNonNullValue(flipAngleBlock) ?? 0}deg`,
+        [`--${GetBaseClass()}-perspective`]: `${flipPerspective ?? 800}px`
       }
     };
   }
@@ -5020,29 +4793,28 @@
    *
    * @see `Transitionable`
    */
-  const Flip = x(forwardElementRef(function Flip(_ref29, ref) {
-    let {
-      duration,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      delayMountUntilShown,
-      flipAngleInline,
-      flipAngleBlock,
-      flipPerspective,
-      flipOrigin,
-      flipOriginInline,
-      flipOriginBlock,
-      show,
-      animateOnMount,
-      exitVisibility,
-      onVisibilityChange,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref29;
+  const Flip = x(forwardElementRef(function Flip({
+    duration,
+    exclusivityKey,
+    easing,
+    easingIn,
+    easingOut,
+    delayMountUntilShown,
+    flipAngleInline,
+    flipAngleBlock,
+    flipPerspective,
+    flipOrigin,
+    flipOriginInline,
+    flipOriginBlock,
+    show,
+    animateOnMount,
+    exitVisibility,
+    onVisibilityChange,
+    onElementChange,
+    onMount,
+    onUnmount,
+    ...rest
+  }, ref) {
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5079,31 +4851,30 @@
       }
     });
   }));
-  const FlipFade = x(forwardElementRef(function FlipFade(_ref30, ref) {
-    let {
-      duration,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      fadeMin,
-      fadeMax,
-      show,
-      animateOnMount,
-      delayMountUntilShown,
-      flipAngleInline,
-      flipAngleBlock,
-      flipPerspective,
-      flipOrigin,
-      flipOriginInline,
-      flipOriginBlock,
-      exitVisibility,
-      onVisibilityChange,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref30;
+  const FlipFade = x(forwardElementRef(function FlipFade({
+    duration,
+    exclusivityKey,
+    easing,
+    easingIn,
+    easingOut,
+    fadeMin,
+    fadeMax,
+    show,
+    animateOnMount,
+    delayMountUntilShown,
+    flipAngleInline,
+    flipAngleBlock,
+    flipPerspective,
+    flipOrigin,
+    flipOriginInline,
+    flipOriginBlock,
+    exitVisibility,
+    onVisibilityChange,
+    onElementChange,
+    onMount,
+    onUnmount,
+    ...rest
+  }, ref) {
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5149,24 +4920,22 @@
   /**
    * Creates a set of props that implement a Slide transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    */
-  function useBasePropsSlide(_ref31) {
-    var _slideTargetInline, _slideTargetBlock;
-    let {
-      slideParameters: {
-        slideTargetInline,
-        slideTargetBlock
-      }
-    } = _ref31;
+  function useBasePropsSlide({
+    slideParameters: {
+      slideTargetInline,
+      slideTargetBlock
+    }
+  }) {
     slideTargetInline = useLastNonNullValue(slideTargetInline);
     slideTargetBlock = useLastNonNullValue(slideTargetBlock);
     const {
       GetBaseClass
     } = useCssClasses();
     return {
-      className: "".concat(GetBaseClass(), "-slide"),
+      className: `${GetBaseClass()}-slide`,
       style: {
-        ["--".concat(GetBaseClass(), "-slide-target-inline")]: "".concat((_slideTargetInline = slideTargetInline) !== null && _slideTargetInline !== void 0 ? _slideTargetInline : 0),
-        ["--".concat(GetBaseClass(), "-slide-target-block")]: "".concat((_slideTargetBlock = slideTargetBlock) !== null && _slideTargetBlock !== void 0 ? _slideTargetBlock : 0)
+        [`--${GetBaseClass()}-slide-target-inline`]: `${slideTargetInline ?? 0}`,
+        [`--${GetBaseClass()}-slide-target-block`]: `${slideTargetBlock ?? 0}`
       }
     };
   }
@@ -5182,25 +4951,24 @@
    *
    * @see `Transitionable`
    */
-  const Slide = x(forwardElementRef(function Slide(_ref32, ref) {
-    let {
-      duration,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      onVisibilityChange,
-      slideTargetInline,
-      slideTargetBlock,
-      show,
-      animateOnMount,
-      exitVisibility,
-      delayMountUntilShown,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref32;
+  const Slide = x(forwardElementRef(function Slide({
+    duration,
+    exclusivityKey,
+    easing,
+    easingIn,
+    easingOut,
+    onVisibilityChange,
+    slideTargetInline,
+    slideTargetBlock,
+    show,
+    animateOnMount,
+    exitVisibility,
+    delayMountUntilShown,
+    onElementChange,
+    onMount,
+    onUnmount,
+    ...rest
+  }, ref) {
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5233,27 +5001,26 @@
       }
     });
   }));
-  const SlideFade = x(forwardElementRef(function SlideFade(_ref33, ref) {
-    let {
-      duration,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      fadeMin,
-      fadeMax,
-      show,
-      animateOnMount,
-      delayMountUntilShown,
-      slideTargetBlock,
-      slideTargetInline,
-      exitVisibility,
-      onVisibilityChange,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref33;
+  const SlideFade = x(forwardElementRef(function SlideFade({
+    duration,
+    exclusivityKey,
+    easing,
+    easingIn,
+    easingOut,
+    fadeMin,
+    fadeMax,
+    show,
+    animateOnMount,
+    delayMountUntilShown,
+    slideTargetBlock,
+    slideTargetInline,
+    exitVisibility,
+    onVisibilityChange,
+    onElementChange,
+    onMount,
+    onUnmount,
+    ...rest
+  }, ref) {
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5295,28 +5062,26 @@
   /**
    * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
    */
-  function useBasePropsZoom(_ref34) {
-    var _ref35, _ref36, _ref37, _ref38;
-    let {
-      zoomParameters: {
-        zoomOrigin,
-        zoomOriginInline,
-        zoomOriginBlock,
-        zoomMin,
-        zoomMinInline,
-        zoomMinBlock
-      }
-    } = _ref34;
+  function useBasePropsZoom({
+    zoomParameters: {
+      zoomOrigin,
+      zoomOriginInline,
+      zoomOriginBlock,
+      zoomMin,
+      zoomMinInline,
+      zoomMinBlock
+    }
+  }) {
     const {
       GetBaseClass
     } = useCssClasses();
     return {
-      className: "".concat(GetBaseClass(), "-zoom"),
+      className: `${GetBaseClass()}-zoom`,
       style: {
-        ["--".concat(GetBaseClass(), "-zoom-origin-inline")]: "".concat((_ref35 = zoomOriginInline !== null && zoomOriginInline !== void 0 ? zoomOriginInline : zoomOrigin) !== null && _ref35 !== void 0 ? _ref35 : 0.5),
-        ["--".concat(GetBaseClass(), "-zoom-origin-block")]: "".concat((_ref36 = zoomOriginBlock !== null && zoomOriginBlock !== void 0 ? zoomOriginBlock : zoomOrigin) !== null && _ref36 !== void 0 ? _ref36 : 0.5),
-        ["--".concat(GetBaseClass(), "-zoom-min-inline")]: "".concat((_ref37 = zoomMinInline !== null && zoomMinInline !== void 0 ? zoomMinInline : zoomMin) !== null && _ref37 !== void 0 ? _ref37 : 0),
-        ["--".concat(GetBaseClass(), "-zoom-min-block")]: "".concat((_ref38 = zoomMinBlock !== null && zoomMinBlock !== void 0 ? zoomMinBlock : zoomMin) !== null && _ref38 !== void 0 ? _ref38 : 0)
+        [`--${GetBaseClass()}-zoom-origin-inline`]: `${zoomOriginInline ?? zoomOrigin ?? 0.5}`,
+        [`--${GetBaseClass()}-zoom-origin-block`]: `${zoomOriginBlock ?? zoomOrigin ?? 0.5}`,
+        [`--${GetBaseClass()}-zoom-min-inline`]: `${zoomMinInline ?? zoomMin ?? 0}`,
+        [`--${GetBaseClass()}-zoom-min-block`]: `${zoomMinBlock ?? zoomMin ?? 0}`
       }
     };
   }
@@ -5324,29 +5089,28 @@
    * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
    * @see `Transitionable` `ZoomFade`
    */
-  const Zoom = x(forwardElementRef(function Zoom(_ref39, ref) {
-    let {
-      duration,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      delayMountUntilShown,
-      zoomOrigin,
-      zoomOriginInline,
-      zoomOriginBlock,
-      zoomMin,
-      zoomMinInline,
-      zoomMinBlock,
-      show,
-      animateOnMount,
-      exitVisibility,
-      onVisibilityChange,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref39;
+  const Zoom = x(forwardElementRef(function Zoom({
+    duration,
+    exclusivityKey,
+    easing,
+    easingIn,
+    easingOut,
+    delayMountUntilShown,
+    zoomOrigin,
+    zoomOriginInline,
+    zoomOriginBlock,
+    zoomMin,
+    zoomMinInline,
+    zoomMinBlock,
+    show,
+    animateOnMount,
+    exitVisibility,
+    onVisibilityChange,
+    onElementChange,
+    onMount,
+    onUnmount,
+    ...rest
+  }, ref) {
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5383,33 +5147,32 @@
       }
     });
   }));
-  const SlideZoomFade = x(forwardElementRef(function SlideZoomFade(_ref40, ref) {
-    let {
-      duration,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      zoomMin,
-      zoomMinBlock,
-      zoomMinInline,
-      zoomOrigin,
-      zoomOriginBlock,
-      zoomOriginInline,
-      show,
-      animateOnMount,
-      delayMountUntilShown,
-      slideTargetBlock,
-      slideTargetInline,
-      fadeMax,
-      fadeMin,
-      exitVisibility,
-      onVisibilityChange,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref40;
+  const SlideZoomFade = x(forwardElementRef(function SlideZoomFade({
+    duration,
+    exclusivityKey,
+    easing,
+    easingIn,
+    easingOut,
+    zoomMin,
+    zoomMinBlock,
+    zoomMinInline,
+    zoomOrigin,
+    zoomOriginBlock,
+    zoomOriginInline,
+    show,
+    animateOnMount,
+    delayMountUntilShown,
+    slideTargetBlock,
+    slideTargetInline,
+    fadeMax,
+    fadeMin,
+    exitVisibility,
+    onVisibilityChange,
+    onElementChange,
+    onMount,
+    onUnmount,
+    ...rest
+  }, ref) {
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5456,31 +5219,30 @@
       }
     });
   }));
-  const SlideZoom = x(forwardElementRef(function SlideZoom(_ref41, ref) {
-    let {
-      duration,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      zoomMin,
-      zoomMinBlock,
-      zoomMinInline,
-      zoomOrigin,
-      zoomOriginBlock,
-      zoomOriginInline,
-      show,
-      animateOnMount,
-      delayMountUntilShown,
-      slideTargetBlock,
-      slideTargetInline,
-      exitVisibility,
-      onVisibilityChange,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref41;
+  const SlideZoom = x(forwardElementRef(function SlideZoom({
+    duration,
+    exclusivityKey,
+    easing,
+    easingIn,
+    easingOut,
+    zoomMin,
+    zoomMinBlock,
+    zoomMinInline,
+    zoomOrigin,
+    zoomOriginBlock,
+    zoomOriginInline,
+    show,
+    animateOnMount,
+    delayMountUntilShown,
+    slideTargetBlock,
+    slideTargetInline,
+    exitVisibility,
+    onVisibilityChange,
+    onElementChange,
+    onMount,
+    onUnmount,
+    ...rest
+  }, ref) {
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5527,15 +5289,14 @@
    * Creates a set of props that implement a swap container.
    * Be sure to merge these returned props with whatever the user passed in.
    */
-  function useCreateSwappableProps(_ref42, otherProps) {
-    let {
-      inline
-    } = _ref42;
+  function useCreateSwappableProps({
+    inline
+  }, otherProps) {
     const {
       GetBaseClass
     } = useCssClasses();
     return useMergedProps({
-      className: clsx("".concat(GetBaseClass(), "-swap-container"), inline && "".concat(GetBaseClass(), "-swap-container-inline"))
+      className: clsx(`${GetBaseClass()}-swap-container`, inline && `${GetBaseClass()}-swap-container-inline`)
     }, otherProps);
   }
   /**
@@ -5547,22 +5308,20 @@
    * @param param0
    * @returns
    */
-  const Swappable = x(forwardElementRef(function Swappable(_ref43, ref) {
-    var _inline;
-    let {
-      children: c,
-      inline,
-      childrenAnimateOnMount,
-      exclusivityKey,
-      ...p$1
-    } = _ref43;
+  const Swappable = x(forwardElementRef(function Swappable({
+    children: c,
+    inline,
+    childrenAnimateOnMount,
+    exclusivityKey,
+    ...p$1
+  }, ref) {
     let children = c;
     if (!children.type) children = !inline ? o$1("div", {
       children: children
     }) : o$1("span", {
       children: children
     });
-    (_inline = inline) !== null && _inline !== void 0 ? _inline : inline = typeof children.type === "string" && inlineElements.has(children.type);
+    inline ??= typeof children.type === "string" && inlineElements.has(children.type);
     const transitionProps = useCreateSwappableProps({
       inline
     }, {
@@ -5570,7 +5329,7 @@
       ref
     });
     const mergedWithChildren = useMergedProps(transitionProps, children.props);
-    const animateOnMount = _(childrenAnimateOnMount !== null && childrenAnimateOnMount !== void 0 ? childrenAnimateOnMount : false);
+    const animateOnMount = _(childrenAnimateOnMount ?? false);
     p(() => {
       animateOnMount.current = true;
     }, []);
@@ -5595,31 +5354,30 @@
   // If "inline" isn't explicitly provided, we try to implicitly do it based on the child's tag.
   // Not perfect, but it's not supposed to be. `inline` is for perfect.
   const inlineElements = new Set(["a", "abbr", "acronym", "audio", "b", "bdi", "bdo", "big", "br", "button", "canvas", "cite", "code", "data", "datalist", "del", "dfn", "em", "embed", "i", "iframe", "img", "input", "ins", "kbd", "label", "map", "mark", "meter", "noscript", "object", "output", "picture", "progress", "q", "ruby", "s", "samp", "script", "select", "slot", "small", "span", "strong", "sub", "sup", "svg", "template", "textarea", "time", "u", "tt", "var", "video", "wbr"]);
-  const ZoomFade = x(forwardElementRef(function ZoomFade(_ref44, ref) {
-    let {
-      duration,
-      exclusivityKey,
-      easing,
-      easingIn,
-      easingOut,
-      fadeMin,
-      fadeMax,
-      show,
-      animateOnMount,
-      delayMountUntilShown,
-      zoomMin,
-      zoomMinBlock,
-      zoomMinInline,
-      zoomOrigin,
-      zoomOriginBlock,
-      zoomOriginInline,
-      exitVisibility,
-      onVisibilityChange,
-      onElementChange,
-      onMount,
-      onUnmount,
-      ...rest
-    } = _ref44;
+  const ZoomFade = x(forwardElementRef(function ZoomFade({
+    duration,
+    exclusivityKey,
+    easing,
+    easingIn,
+    easingOut,
+    fadeMin,
+    fadeMax,
+    show,
+    animateOnMount,
+    delayMountUntilShown,
+    zoomMin,
+    zoomMinBlock,
+    zoomMinInline,
+    zoomOrigin,
+    zoomOriginBlock,
+    zoomOriginInline,
+    exitVisibility,
+    onVisibilityChange,
+    onElementChange,
+    onMount,
+    onUnmount,
+    ...rest
+  }, ref) {
     return useTransition({
       refElementParameters: {
         onElementChange,
@@ -5937,9 +5695,9 @@
         })]
       }), o$1("div", {
         id: "root-body",
-        className: "writing-mode-".concat(writingMode),
+        className: `writing-mode-${writingMode}`,
         style: {
-          ["--".concat(useCssClasses().GetBaseClass(), "-duration")]: "".concat(duration, "ms")
+          [`--${useCssClasses().GetBaseClass()}-duration`]: `${duration}ms`
         },
         children: [o$1(FadeDemo, {
           cardShow: show1,
@@ -5994,15 +5752,14 @@
       }, writingMode)]
     });
   }
-  function FadeDemo(_ref45) {
-    let {
-      cardShow,
-      contentIndex,
-      exitVisibility,
-      text,
-      animateOnMount,
-      exclusive
-    } = _ref45;
+  function FadeDemo({
+    cardShow,
+    contentIndex,
+    exitVisibility,
+    text,
+    animateOnMount,
+    exclusive
+  }) {
     const [min, setMin] = h(0);
     const [max, setMax] = h(1);
     const onMinInput = T$1(e => {
@@ -6073,21 +5830,40 @@
           })
         }), o$1("code", {
           children: o$1("pre", {
-            children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(min != 0 ? " \n  fadeMin={".concat(min, "}") : "").concat(max != 1 ? " \n  fadeMax={".concat(max, "}") : "").concat(exitVisibility != "hidden" ? "\n  exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  <Swappable>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 0}").concat(min != 0 ? " \n        fadeMin={".concat(min, "}") : "").concat(max != 1 ? " \n        fadeMax={".concat(max, "}") : "").concat(exitVisibility != "hidden" ? "\n        exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 1} [...] />\n      <").concat(CS, " show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 2} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
+            children: `<${CS} 
+  show={${(cardShow ?? "null").toString()}}${min != 0 ? ` 
+  fadeMin={${min}}` : ``}${max != 1 ? ` 
+  fadeMax={${max}}` : ``}${exitVisibility != "hidden" ? `
+  exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+  <Swappable>
+    <div className="card">
+      <${CS} 
+        show={${contentIndex ?? "null"} == 0}${min != 0 ? ` 
+        fadeMin={${min}}` : ``}${max != 1 ? ` 
+        fadeMax={${max}}` : ``}${exitVisibility != "hidden" ? `
+        exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+        <div className="card-contents">
+          {text}
+        </div>
+      </${CS}>
+      <${CS} show={${contentIndex ?? "null"} == 1} [...] />
+      <${CS} show={${contentIndex ?? "null"} == 2} [...] />
+    </div>
+  </Swappable>
+</${CS}>`
           })
         })]
       })]
     });
   }
-  function ClipDemo(_ref46) {
-    let {
-      cardShow,
-      contentIndex,
-      exitVisibility,
-      text,
-      animateOnMount,
-      exclusive
-    } = _ref46;
+  function ClipDemo({
+    cardShow,
+    contentIndex,
+    exitVisibility,
+    text,
+    animateOnMount,
+    exclusive
+  }) {
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(1);
@@ -6202,21 +5978,44 @@
           })
         }), o$1("code", {
           children: o$1("pre", {
-            children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(originX != 0.5 ? " \n  clipOriginX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n  clipOriginY={".concat(originY, "}") : "").concat(minX != 0 ? " \n  clipMinX={".concat(minX, "}") : "").concat(minY != 0 ? " \n  clipMinY={".concat(minY, "}") : "").concat(exitVisibility ? "\n  exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  <Swappable>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 0}").concat(originX != 0.5 ? " \n        clipOriginX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n        clipOriginY={".concat(originY, "}") : "").concat(minX != 0 ? " \n        clipMinX={".concat(minX, "}") : "").concat(minY != 0 ? " \n        clipMinY={".concat(minY, "}") : "").concat(exitVisibility ? "\n        exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 1} [...] />\n      <").concat(CS, " show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 2} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
+            children: `<${CS} 
+  show={${(cardShow ?? "null").toString()}}${originX != 0.5 ? ` 
+  clipOriginX={${originX}}` : ``}${originY != 0.5 ? ` 
+  clipOriginY={${originY}}` : ``}${minX != 0 ? ` 
+  clipMinX={${minX}}` : ``}${minY != 0 ? ` 
+  clipMinY={${minY}}` : ``}${exitVisibility ? `
+  exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+  <Swappable>
+    <div className="card">
+      <${CS} 
+        show={${contentIndex ?? "null"} == 0}${originX != 0.5 ? ` 
+        clipOriginX={${originX}}` : ``}${originY != 0.5 ? ` 
+        clipOriginY={${originY}}` : ``}${minX != 0 ? ` 
+        clipMinX={${minX}}` : ``}${minY != 0 ? ` 
+        clipMinY={${minY}}` : ``}${exitVisibility ? `
+        exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+        <div className="card-contents">
+          {text}
+        </div>
+      </${CS}>
+      <${CS} show={${contentIndex ?? "null"} == 1} [...] />
+      <${CS} show={${contentIndex ?? "null"} == 2} [...] />
+    </div>
+  </Swappable>
+</${CS}>`
           })
         })]
       })]
     });
   }
-  function ZoomSlideDemo(_ref47) {
-    let {
-      cardShow,
-      contentIndex,
-      exitVisibility,
-      text,
-      animateOnMount,
-      exclusive
-    } = _ref47;
+  function ZoomSlideDemo({
+    cardShow,
+    contentIndex,
+    exitVisibility,
+    text,
+    animateOnMount,
+    exclusive
+  }) {
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(0.75);
@@ -6259,8 +6058,8 @@
       show: contentIndex === i,
       exclusivityKey: E,
       exitVisibility: exitVisibility,
-      slideTargetInline: slideX * Math.sign(i - (contentIndex !== null && contentIndex !== void 0 ? contentIndex : 0)) || null,
-      slideTargetBlock: slideY * Math.sign(i - (contentIndex !== null && contentIndex !== void 0 ? contentIndex : 0)) || null,
+      slideTargetInline: slideX * Math.sign(i - (contentIndex ?? 0)) || null,
+      slideTargetBlock: slideY * Math.sign(i - (contentIndex ?? 0)) || null,
       zoomOriginInline: originX,
       zoomOriginBlock: originY,
       zoomMinInline: minX,
@@ -6362,21 +6161,48 @@
           })
         }), o$1("code", {
           children: o$1("pre", {
-            children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(originX != 0.5 ? " \n  originX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n  originY={".concat(originY, "}") : "").concat(minX != 0 ? " \n  minX={".concat(minX, "}") : "").concat(minY != 0 ? " \n  minY={".concat(minY, "}") : "").concat(slideX != 0 ? " \n  slideTargetInline={".concat(slideX, "}") : "").concat(slideY != 0 ? " \n  slideTargetBlock={".concat(slideY, "}") : "").concat(exitVisibility ? "\n  exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  <Swappable>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={0 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "}").concat(originX != 0.5 ? " \n        originX={".concat(originX, " * Math.sign(0 - ").concat(contentIndex, "}") : "").concat(originY != 0.5 ? " \n        originY={".concat(originY, " * Math.sign(0 - ").concat(contentIndex, "}") : "").concat(minX != 0 ? " \n        minX={".concat(minX, "}") : "").concat(minY != 0 ? " \n        minY={".concat(minY, "}") : "").concat(slideX != 0 ? " \n        slideTargetInline={".concat(slideX, "}") : "").concat(slideY != 0 ? " \n        slideTargetBlock={".concat(slideY, "}") : "").concat(exitVisibility ? "\n        exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={1 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "} [...] />\n      <").concat(CS, " show={2 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
+            children: `<${CS} 
+  show={${(cardShow ?? "null").toString()}}${originX != 0.5 ? ` 
+  originX={${originX}}` : ``}${originY != 0.5 ? ` 
+  originY={${originY}}` : ``}${minX != 0 ? ` 
+  minX={${minX}}` : ``}${minY != 0 ? ` 
+  minY={${minY}}` : ``}${slideX != 0 ? ` 
+  slideTargetInline={${slideX}}` : ``}${slideY != 0 ? ` 
+  slideTargetBlock={${slideY}}` : ``}${exitVisibility ? `
+  exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+  <Swappable>
+    <div className="card">
+      <${CS} 
+        show={0 == ${contentIndex ?? "null"}}${originX != 0.5 ? ` 
+        originX={${originX} * Math.sign(0 - ${contentIndex}}` : ``}${originY != 0.5 ? ` 
+        originY={${originY} * Math.sign(0 - ${contentIndex}}` : ``}${minX != 0 ? ` 
+        minX={${minX}}` : ``}${minY != 0 ? ` 
+        minY={${minY}}` : ``}${slideX != 0 ? ` 
+        slideTargetInline={${slideX}}` : ``}${slideY != 0 ? ` 
+        slideTargetBlock={${slideY}}` : ``}${exitVisibility ? `
+        exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+        <div className="card-contents">
+          {text}
+        </div>
+      </${CS}>
+      <${CS} show={1 == ${contentIndex ?? "null"}} [...] />
+      <${CS} show={2 == ${contentIndex ?? "null"}} [...] />
+    </div>
+  </Swappable>
+</${CS}>`
           })
         })]
       })]
     });
   }
-  function ZoomDemo(_ref48) {
-    let {
-      cardShow,
-      contentIndex,
-      exitVisibility,
-      text,
-      animateOnMount,
-      exclusive
-    } = _ref48;
+  function ZoomDemo({
+    cardShow,
+    contentIndex,
+    exitVisibility,
+    text,
+    animateOnMount,
+    exclusive
+  }) {
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0);
     const [minX, setMinX] = h(0.75);
@@ -6490,21 +6316,44 @@
           })
         }), o$1("code", {
           children: o$1("pre", {
-            children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(originX != 0.5 ? " \n  originX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n  originY={".concat(originY, "}") : "").concat(minX != 0 ? " \n  minX={".concat(minX, "}") : "").concat(minY != 0 ? " \n  minY={".concat(minY, "}") : "").concat(exitVisibility ? "\n  exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  <Swappable>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 0}").concat(originX != 0.5 ? " \n        originX={".concat(originX, "}") : "").concat(originY != 0.5 ? " \n        originY={".concat(originY, "}") : "").concat(minX != 0 ? " \n        minX={".concat(minX, "}") : "").concat(minY != 0 ? " \n        minY={".concat(minY, "}") : "").concat(exitVisibility ? " \n        exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 1} [...] />\n      <").concat(CS, " show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 2} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
+            children: `<${CS} 
+  show={${(cardShow ?? "null").toString()}}${originX != 0.5 ? ` 
+  originX={${originX}}` : ``}${originY != 0.5 ? ` 
+  originY={${originY}}` : ``}${minX != 0 ? ` 
+  minX={${minX}}` : ``}${minY != 0 ? ` 
+  minY={${minY}}` : ``}${exitVisibility ? `
+  exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+  <Swappable>
+    <div className="card">
+      <${CS} 
+        show={${contentIndex ?? "null"} == 0}${originX != 0.5 ? ` 
+        originX={${originX}}` : ``}${originY != 0.5 ? ` 
+        originY={${originY}}` : ``}${minX != 0 ? ` 
+        minX={${minX}}` : ``}${minY != 0 ? ` 
+        minY={${minY}}` : ``}${exitVisibility ? ` 
+        exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+        <div className="card-contents">
+          {text}
+        </div>
+      </${CS}>
+      <${CS} show={${contentIndex ?? "null"} == 1} [...] />
+      <${CS} show={${contentIndex ?? "null"} == 2} [...] />
+    </div>
+  </Swappable>
+</${CS}>`
           })
         })]
       })]
     });
   }
-  function SlideDemo(_ref49) {
-    let {
-      cardShow,
-      contentIndex,
-      exitVisibility,
-      text,
-      animateOnMount,
-      exclusive
-    } = _ref49;
+  function SlideDemo({
+    cardShow,
+    contentIndex,
+    exitVisibility,
+    text,
+    animateOnMount,
+    exclusive
+  }) {
     const [slideX, setSlideX] = h(0.25);
     const [slideY, setSlideY] = h(0);
     const [withFade, setWithFade] = h(true);
@@ -6529,8 +6378,8 @@
       show: contentIndex === i,
       exclusivityKey: E,
       exitVisibility: exitVisibility,
-      slideTargetInline: slideX * Math.sign(i - (contentIndex !== null && contentIndex !== void 0 ? contentIndex : 0)) || null,
-      slideTargetBlock: slideY * Math.sign(i - (contentIndex !== null && contentIndex !== void 0 ? contentIndex : 0)),
+      slideTargetInline: slideX * Math.sign(i - (contentIndex ?? 0)) || null,
+      slideTargetBlock: slideY * Math.sign(i - (contentIndex ?? 0)),
       children: o$1("div", {
         className: "card-contents",
         children: [halfText(text, i), o$1("div", {
@@ -6588,21 +6437,39 @@
           })
         }), o$1("code", {
           children: o$1("pre", {
-            children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "} \n  slideTargetInline={").concat(slideX, "}\n  slideTargetBlock={").concat(slideY, "}\n  exitVisibility={").concat(JSON.stringify(exitVisibility), "}>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={0 == ").concat(contentIndex, "}\n        exitVisibility={").concat(JSON.stringify(exitVisibility), "}\n        slideTargetInline={").concat(slideX, " * Math.sign(0 - ").concat(contentIndex, ")}\n        slideTargetBlock={").concat(slideY, " * Math.sign(0 - ").concat(contentIndex, "}>\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={1 == ").concat(contentIndex, "} [...] />\n      <").concat(CS, " show={2 == ").concat(contentIndex, "} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
+            children: `<${CS} 
+  show={${(cardShow ?? "null").toString()}} 
+  slideTargetInline={${slideX}}
+  slideTargetBlock={${slideY}}
+  exitVisibility={${JSON.stringify(exitVisibility)}}>
+    <div className="card">
+      <${CS} 
+        show={0 == ${contentIndex}}
+        exitVisibility={${JSON.stringify(exitVisibility)}}
+        slideTargetInline={${slideX} * Math.sign(0 - ${contentIndex})}
+        slideTargetBlock={${slideY} * Math.sign(0 - ${contentIndex}}>
+        <div className="card-contents">
+          {text}
+        </div>
+      </${CS}>
+      <${CS} show={1 == ${contentIndex}} [...] />
+      <${CS} show={2 == ${contentIndex}} [...] />
+    </div>
+  </Swappable>
+</${CS}>`
           })
         })]
       })]
     });
   }
-  function CollapseDemo(_ref50) {
-    let {
-      cardShow,
-      contentIndex,
-      exitVisibility,
-      text,
-      animateOnMount,
-      exclusive
-    } = _ref50;
+  function CollapseDemo({
+    cardShow,
+    contentIndex,
+    exitVisibility,
+    text,
+    animateOnMount,
+    exclusive
+  }) {
     const [minBlockSize, setMinBlockSize] = h("0px");
     const onWithFadeInput = T$1(e => {
       setWithFade(e.target.checked);
@@ -6677,21 +6544,40 @@
           })
         }), o$1("code", {
           children: o$1("pre", {
-            children: "<".concat(CS, " show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "}").concat(minBlockSize && minBlockSize != "0px" ? " minBlockSize={".concat(JSON.stringify(minBlockSize), "}") : "").concat(exitVisibility ? " exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n  {/* These cards have padding, \n      and height doesn't include that, \n      but a wrapper's would */}\n  <div>\n    <Swappable>\n      <div className=\"card\">\n        <").concat(CS, " \n          show={").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", " == 0}").concat(minBlockSize && minBlockSize != "0px" ? " \n          minBlockSize={".concat(JSON.stringify(minBlockSize), "}") : "").concat(exitVisibility ? " \n          exitVisibility={".concat(JSON.stringify(exitVisibility), "}") : "", ">\n          <div className=\"card-contents\">\n             {text}\n          </div>\n        </").concat(CS, ">\n      </div>\n    </Swappable>\n  </div>\n</").concat(CS, ">\n<").concat(CS, " show={1 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "} [...] />\n<").concat(CS, " show={2 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "} [...] />")
+            children: `<${CS} show={${(cardShow ?? "null").toString()}}${minBlockSize && minBlockSize != "0px" ? ` minBlockSize={${JSON.stringify(minBlockSize)}}` : ""}${exitVisibility ? ` exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+  {/* These cards have padding, 
+      and height doesn't include that, 
+      but a wrapper's would */}
+  <div>
+    <Swappable>
+      <div className="card">
+        <${CS} 
+          show={${contentIndex ?? "null"} == 0}${minBlockSize && minBlockSize != "0px" ? ` 
+          minBlockSize={${JSON.stringify(minBlockSize)}}` : ""}${exitVisibility ? ` 
+          exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
+          <div className="card-contents">
+             {text}
+          </div>
+        </${CS}>
+      </div>
+    </Swappable>
+  </div>
+</${CS}>
+<${CS} show={1 == ${contentIndex ?? "null"}} [...] />
+<${CS} show={2 == ${contentIndex ?? "null"}} [...] />`
           })
         })]
       })]
     });
   }
-  function FlipDemo(_ref51) {
-    let {
-      cardShow,
-      contentIndex,
-      exitVisibility,
-      text,
-      animateOnMount,
-      exclusive
-    } = _ref51;
+  function FlipDemo({
+    cardShow,
+    contentIndex,
+    exitVisibility,
+    text,
+    animateOnMount,
+    exclusive
+  }) {
     const [originX, setOriginX] = h(0.5);
     const [originY, setOriginY] = h(0.5);
     const [flipX, setFlipX] = h(0);
@@ -6724,8 +6610,8 @@
       show: contentIndex === i,
       exclusivityKey: E,
       exitVisibility: exitVisibility,
-      flipAngleInline: flipX * Math.sign(i - (contentIndex !== null && contentIndex !== void 0 ? contentIndex : 0)) || null,
-      flipAngleBlock: flipY * Math.sign(i - (contentIndex !== null && contentIndex !== void 0 ? contentIndex : 0)) || null,
+      flipAngleInline: flipX * Math.sign(i - (contentIndex ?? 0)) || null,
+      flipAngleBlock: flipY * Math.sign(i - (contentIndex ?? 0)) || null,
       flipOriginInline: originX,
       flipOriginBlock: flipY,
       children: o$1("div", {
@@ -6799,7 +6685,26 @@
           })
         }), o$1("code", {
           children: o$1("pre", {
-            children: "<".concat(CS, " \n  show={").concat((cardShow !== null && cardShow !== void 0 ? cardShow : "null").toString(), "} \n  flipAngleInline={").concat(JSON.stringify(flipX), "} \n  flipAngleBlock={").concat(JSON.stringify(flipY), "} \n  exitVisibility={").concat(JSON.stringify(exitVisibility), "}}>\n    <div className=\"card\">\n      <").concat(CS, " \n        show={0 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "}\n        flipAngleInline={").concat(JSON.stringify(flipX), " * Math.sign(0 - ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", ")} \n        flipAngleBlock={").concat(JSON.stringify(flipY), " * Math.sign(0 - ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", ")} \n        exitVisibility={").concat(JSON.stringify(exitVisibility), "}>\n        <div className=\"card-contents\">\n          {text}\n        </div>\n      </").concat(CS, ">\n      <").concat(CS, " show={1 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "} [...] />\n      <").concat(CS, " show={2 == ").concat(contentIndex !== null && contentIndex !== void 0 ? contentIndex : "null", "} [...] />\n    </div>\n  </Swappable>\n</").concat(CS, ">")
+            children: `<${CS} 
+  show={${(cardShow ?? "null").toString()}} 
+  flipAngleInline={${JSON.stringify(flipX)}} 
+  flipAngleBlock={${JSON.stringify(flipY)}} 
+  exitVisibility={${JSON.stringify(exitVisibility)}}}>
+    <div className="card">
+      <${CS} 
+        show={0 == ${contentIndex ?? "null"}}
+        flipAngleInline={${JSON.stringify(flipX)} * Math.sign(0 - ${contentIndex ?? "null"})} 
+        flipAngleBlock={${JSON.stringify(flipY)} * Math.sign(0 - ${contentIndex ?? "null"})} 
+        exitVisibility={${JSON.stringify(exitVisibility)}}>
+        <div className="card-contents">
+          {text}
+        </div>
+      </${CS}>
+      <${CS} show={1 == ${contentIndex ?? "null"}} [...] />
+      <${CS} show={2 == ${contentIndex ?? "null"}} [...] />
+    </div>
+  </Swappable>
+</${CS}>`
           })
         })]
       })]

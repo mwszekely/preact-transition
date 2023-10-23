@@ -18,7 +18,6 @@ export function useBasePropsZoom({ zoomParameters: { zoomOrigin, zoomOriginInlin
         },
     });
 }
-;
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
  * @see `Transitionable` `ZoomFade`

@@ -19,7 +19,6 @@ export function useBasePropsFlip({ flipParameters: { flipAngleBlock, flipAngleIn
         }
     };
 }
-;
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Flip effect.
  *

@@ -17,7 +17,6 @@ export function useBasePropsFade({ fadeParameters: { fadeMin, fadeMax } }) {
         }
     };
 }
-;
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Fade effect.
  *
@@ -39,6 +38,9 @@ export const Fade = memo(forwardElementRef(function Fade({ duration, exclusivity
             exitVisibility,
             delayMountUntilShown,
             onVisibilityChange,
+            easing,
+            easingIn,
+            easingOut,
             propsIncoming: useMergedProps({ ref, ...rest }, useBasePropsFade({ fadeParameters: { fadeMax, fadeMin } }))
         },
         exclusiveTransitionParameters: { exclusivityKey }

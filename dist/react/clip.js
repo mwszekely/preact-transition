@@ -16,7 +16,6 @@ export function useBasePropsClip({ clipParameters: { clipMin, clipMinBlock, clip
         },
     });
 }
-;
 export const Clip = memo(forwardElementRef(function Clip({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }, ref) {
     return useTransition({
         refElementParameters: { onElementChange, onMount, onUnmount },

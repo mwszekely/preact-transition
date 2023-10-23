@@ -9,9 +9,9 @@ import { forwardElementRef } from "./util/util.js";
 
 export interface SlideFadeProps<E extends Element> extends
     TransitionParametersBase<E>,
-    Partial<Get<UseBasePropsFadeParameters<E>, "fadeParameters">>,
-    Partial<Get<UseBasePropsSlideParameters<E>, "slideParameters">>,
-    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { };
+    Partial<Get<UseBasePropsFadeParameters, "fadeParameters">>,
+    Partial<Get<UseBasePropsSlideParameters, "slideParameters">>,
+    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { }
 
 export const SlideFade = memo(forwardElementRef(function SlideFade<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, fadeMin, fadeMax, show, animateOnMount, delayMountUntilShown, slideTargetBlock, slideTargetInline, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: SlideFadeProps<E>, ref: Ref<E>) {
     return useTransition({

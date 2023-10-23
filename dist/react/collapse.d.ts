@@ -1,16 +1,17 @@
 import { Ref } from "preact";
 import { UseRefElementParameters } from "preact-prop-helpers";
 import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types.js";
+export interface UseBasePropsCollapseParametersSelf {
+    /**
+    * The smallest size the component collapses to.
+    */
+    minBlockSize: string | null | undefined;
+}
 /**
  * Properties that allow adjusting the direction of the collapse effect.
  */
-export interface UseBasePropsCollapseParameters<E extends Element> extends UseBasePropsBaseParameters<E> {
-    collapseParameters: {
-        /**
-        * The smallest size the component collapses to.
-        */
-        minBlockSize: string | null | undefined;
-    };
+export interface UseBasePropsCollapseParameters extends UseBasePropsBaseParameters {
+    collapseParameters: UseBasePropsCollapseParametersSelf;
 }
 /**
  * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
@@ -20,13 +21,13 @@ export interface UseBasePropsCollapseParameters<E extends Element> extends UseBa
  *
  * @example <Transitionable measure {...useCreateCollapseProps(...)} />
  */
-export declare function useBasePropsCollapse<E extends Element>({ collapseParameters: { minBlockSize } }: UseBasePropsCollapseParameters<E>): {
+export declare function useBasePropsCollapse({ collapseParameters: { minBlockSize } }: UseBasePropsCollapseParameters): {
     className: string;
     style: {
         [x: string]: string | number;
     };
 };
-export interface CollapseProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsCollapseParameters<E>, "collapseParameters">>, Partial<Get<UseRefElementParameters<E>, "refElementParameters">> {
+export interface CollapseProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsCollapseParameters, "collapseParameters">>, Partial<Get<UseRefElementParameters<E>, "refElementParameters">> {
 }
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Collapse effect.

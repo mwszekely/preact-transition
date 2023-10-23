@@ -20,7 +20,6 @@ export function useBasePropsCollapse({ collapseParameters: { minBlockSize } }) {
         }
     };
 }
-;
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Collapse effect.
  *

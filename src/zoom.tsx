@@ -6,53 +6,55 @@ import { useCssClasses } from "./util/context.js";
 import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types.js";
 import { forwardElementRef } from "./util/util.js";
 
+export interface UseBasePropsZoomParametersSelf {
+    /**
+     * The target point to zoom out of/into (with X & Y components identical)
+     * @default 0.5
+     */
+    zoomOrigin: number | null | undefined;
+
+    /**
+     * The target point to zoom out of/into (X component)
+     * @default 0.5
+     */
+    zoomOriginInline: number | undefined | null;
+
+    /**
+     * The target point to zoom out of/into (Y component)
+     * @default 0.5
+     */
+    zoomOriginBlock: number | undefined | null;
+
+    /**
+     * The minimum size to shrink to/from, from 0 to 1 (with X & Y components identical).
+     * @default 0
+     */
+    zoomMin: number | null | undefined;
+
+    /**
+     * The minimum size to shrink to/from, from 0 to 1 (X component in horizontal writing modes).
+     * @default 0
+     */
+    zoomMinInline: number | undefined | null;
+
+    /**
+     * The minimum size to shrink to/from, from 0 to 1 (Y component in horizontal writing modes).
+     * @default 0
+     */
+    zoomMinBlock: number | undefined | null;
+}
+
 /**
  * Properties that allow adjusting the origin, minimum size, and direction of the zoom effect.
  */
-export interface UseBasePropsZoomParameters<E extends Element> extends UseBasePropsBaseParameters<E> {
-    zoomParameters: {
-        /**
-         * The target point to zoom out of/into (with X & Y components identical)
-         * @default 0.5
-         */
-        zoomOrigin: number | null | undefined;
-
-        /**
-         * The target point to zoom out of/into (X component)
-         * @default 0.5
-         */
-        zoomOriginInline: number | undefined | null;
-
-        /**
-         * The target point to zoom out of/into (Y component)
-         * @default 0.5
-         */
-        zoomOriginBlock: number | undefined | null;
-
-        /**
-         * The minimum size to shrink to/from, from 0 to 1 (with X & Y components identical).
-         * @default 0
-         */
-        zoomMin: number | null | undefined;
-
-        /**
-         * The minimum size to shrink to/from, from 0 to 1 (X component in horizontal writing modes).
-         * @default 0
-         */
-        zoomMinInline: number | undefined | null;
-
-        /**
-         * The minimum size to shrink to/from, from 0 to 1 (Y component in horizontal writing modes).
-         * @default 0
-         */
-        zoomMinBlock: number | undefined | null;
-    }
+export interface UseBasePropsZoomParameters extends UseBasePropsBaseParameters {
+    zoomParameters: UseBasePropsZoomParametersSelf;
 }
 
 /**
  * Creates a set of props that implement a Zoom transition. Like all `useCreate*Props` hooks, must be used in tandem with a `Transitionable` component (or `useTransition`).
  */
-export function useBasePropsZoom<E extends Element>({ zoomParameters: { zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock } }: UseBasePropsZoomParameters<E>) {
+export function useBasePropsZoom({ zoomParameters: { zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock } }: UseBasePropsZoomParameters) {
     const { GetBaseClass } = useCssClasses();
     return ({
         className: `${GetBaseClass()}-zoom`,
@@ -67,8 +69,8 @@ export function useBasePropsZoom<E extends Element>({ zoomParameters: { zoomOrig
 
 export interface ZoomProps<E extends HTMLElement> extends
     TransitionParametersBase<E>,
-    Partial<Get<UseBasePropsZoomParameters<E>, "zoomParameters">>,
-    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { };
+    Partial<Get<UseBasePropsZoomParameters, "zoomParameters">>,
+    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { }
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.

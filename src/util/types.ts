@@ -15,14 +15,13 @@ export type PseudoPartial<T> = { [P in keyof T]: T[P] | undefined; };
 // Needed for `extends` statements for some reason??
 export type Get<T, K extends keyof T> = Pick<T, K>[K];
 
+/* eslint-disable @typescript-eslint/no-empty-interface */
 /**
  * The hooks that create the base props have parameters that inherit from this.
  * 
  * All of them need the transition's `classBase`, and some also inspect `show`.
  */
-export interface UseBasePropsBaseParameters<E extends Element> {
-    //transitionParameters: Pick<UseTransitionParameters<E>["transitionParameters"], Needed>;
-}
+export interface UseBasePropsBaseParameters {}
 
 export interface UseTransitionParametersSelf<E extends Element> {
 

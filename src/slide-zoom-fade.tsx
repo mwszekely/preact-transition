@@ -10,10 +10,10 @@ import { useBasePropsZoom, UseBasePropsZoomParameters } from "./zoom.js";
 
 export interface SlideZoomFadeProps<E extends Element> extends
     TransitionParametersBase<E>,
-    Partial<Get<UseBasePropsZoomParameters<E>, "zoomParameters">>,
-    Partial<Get<UseBasePropsSlideParameters<E>, "slideParameters">>,
-    Partial<Get<UseBasePropsFadeParameters<E>, "fadeParameters">>,
-    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { };
+    Partial<Get<UseBasePropsZoomParameters, "zoomParameters">>,
+    Partial<Get<UseBasePropsSlideParameters, "slideParameters">>,
+    Partial<Get<UseBasePropsFadeParameters, "fadeParameters">>,
+    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { }
 
 export const SlideZoomFade = memo(forwardElementRef(function SlideZoomFade<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, show, animateOnMount, delayMountUntilShown, slideTargetBlock, slideTargetInline, fadeMax, fadeMin, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: SlideZoomFadeProps<E>, ref: Ref<E>) {
     return useTransition({
