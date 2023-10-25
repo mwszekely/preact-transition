@@ -1,10 +1,10 @@
 import { clsx } from "clsx";
 import { h, Ref } from "preact";
-import { useMergedProps, UseRefElementParameters } from "preact-prop-helpers";
+import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
-import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types.js";
+import { Get, TransitionParametersBase } from "./util/types.js";
 import { forwardElementRef } from "./util/util.js";
 
 export interface UseBasePropsClickParametersSelf {
@@ -45,7 +45,8 @@ export interface UseBasePropsClickParametersSelf {
     clipMinBlock: number | undefined | null;
 }
 
-export interface UseBasePropsClipParameters extends UseBasePropsBaseParameters {
+//  extends TargetedPick<UseTransitionParameters<any>, "transitionParameters", "">
+export interface UseBasePropsClipParameters {
     clipParameters: UseBasePropsClickParametersSelf;
 }
 
@@ -66,8 +67,7 @@ export function useBasePropsClip({ clipParameters: { clipMin, clipMinBlock, clip
 
 export interface ClipProps<E extends HTMLElement> extends
     TransitionParametersBase<E>,
-    Partial<Get<UseBasePropsClipParameters, "clipParameters">>,
-    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { }
+    Partial<Get<UseBasePropsClipParameters, "clipParameters">> { }
 
 export const Clip = memo(forwardElementRef(function Clip<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, clipOrigin, clipOriginInline, clipOriginBlock, clipMin, clipMinInline, clipMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: ClipProps<E>, ref: Ref<E>) {
 

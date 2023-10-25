@@ -1,9 +1,9 @@
 import { h, Ref } from "preact";
-import { useMergedProps, UseRefElementParameters } from "preact-prop-helpers";
+import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
-import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types.js";
+import { Get, TransitionParametersBase } from "./util/types.js";
 import { forwardElementRef } from "./util/util.js";
 
 export interface UseBasePropsZoomParametersSelf {
@@ -47,7 +47,7 @@ export interface UseBasePropsZoomParametersSelf {
 /**
  * Properties that allow adjusting the origin, minimum size, and direction of the zoom effect.
  */
-export interface UseBasePropsZoomParameters extends UseBasePropsBaseParameters {
+export interface UseBasePropsZoomParameters {
     zoomParameters: UseBasePropsZoomParametersSelf;
 }
 
@@ -69,8 +69,7 @@ export function useBasePropsZoom({ zoomParameters: { zoomOrigin, zoomOriginInlin
 
 export interface ZoomProps<E extends HTMLElement> extends
     TransitionParametersBase<E>,
-    Partial<Get<UseBasePropsZoomParameters, "zoomParameters">>,
-    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { }
+    Partial<Get<UseBasePropsZoomParameters, "zoomParameters">> { }
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.

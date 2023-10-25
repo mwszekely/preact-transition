@@ -1,5 +1,5 @@
 import { Ref } from "preact";
-import { useMergedProps, UseRefElementParameters } from "preact-prop-helpers";
+import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useBasePropsCollapse, UseBasePropsCollapseParameters } from "./collapse.js";
 import { useBasePropsFade, UseBasePropsFadeParameters } from "./fade.js";
@@ -10,8 +10,7 @@ import { forwardElementRef } from "./util/util.js";
 export interface CollapseFadeProps<E extends Element> extends
     TransitionParametersBase<E>,
     Partial<Get<UseBasePropsFadeParameters, "fadeParameters">>,
-    Partial<Get<UseBasePropsCollapseParameters, "collapseParameters">>,
-    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { }
+    Partial<Get<UseBasePropsCollapseParameters, "collapseParameters">> { }
 
 export const CollapseFade = memo(forwardElementRef(function CollapseFade<E extends HTMLElement>({ show, exclusivityKey, easing, easingIn, easingOut, duration, animateOnMount, delayMountUntilShown, fadeMin, fadeMax, exitVisibility, minBlockSize, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: CollapseFadeProps<E>, ref: Ref<E>) {
     return useTransition({

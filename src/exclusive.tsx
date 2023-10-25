@@ -1,7 +1,7 @@
-import { RenderableProps, UseManagedChildParameters, VNode, useChildrenFlag, useEnsureStability, useManagedChild, useManagedChildren, useMemoObject, usePassiveState, useState } from "preact-prop-helpers";
+import { RenderableProps, TargetedPick, UseManagedChildParameters, VNode, useChildrenFlag, useEnsureStability, useManagedChild, useManagedChildren, useMemoObject, usePassiveState, useState } from "preact-prop-helpers";
 import { useCallback, useContext, useLayoutEffect, useMemo } from "preact/hooks";
 import { GetExclusiveTransitionContext } from "./util/context.js";
-import { ExclusiveContextType, ExclusiveInfo, OmitStrong, TransitionParametersBase } from "./util/types.js";
+import { ExclusiveContextType, ExclusiveInfo, OmitStrong, TransitionParametersBase, UseTransitionParameters } from "./util/types.js";
 
 
 
@@ -77,9 +77,12 @@ export function ExclusiveTransitionProvider({ exclusivityKey, children }: Render
 
 
 
-export interface UseExclusiveTransitionParameters extends OmitStrong<UseManagedChildParameters<ExclusiveInfo>, "info" | "context"> {
-    transitionParameters: Pick<TransitionParametersBase<any>, "show">;
-    exclusiveTransitionParameters: { forceClose: () => void; exclusivityKey?: string | null | undefined; }
+export interface UseExclusiveTransitionParametersSelf { forceClose: () => void; exclusivityKey?: string | null | undefined; }
+
+export interface UseExclusiveTransitionParameters extends 
+    OmitStrong<UseManagedChildParameters<ExclusiveInfo>, "info" | "context">,
+    TargetedPick<UseTransitionParameters<any>, "transitionParameters", "show"> {
+    exclusiveTransitionParameters: UseExclusiveTransitionParametersSelf;
 }
 
 export function useExclusiveTransition({ transitionParameters: { show }, exclusiveTransitionParameters: { forceClose, exclusivityKey } }: UseExclusiveTransitionParameters) {

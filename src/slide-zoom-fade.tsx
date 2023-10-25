@@ -1,5 +1,5 @@
 import { Ref } from "preact";
-import { useMergedProps, UseRefElementParameters } from "preact-prop-helpers";
+import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useBasePropsFade, UseBasePropsFadeParameters } from "./fade.js";
 import { useBasePropsSlide, UseBasePropsSlideParameters } from "./slide.js";
@@ -12,8 +12,7 @@ export interface SlideZoomFadeProps<E extends Element> extends
     TransitionParametersBase<E>,
     Partial<Get<UseBasePropsZoomParameters, "zoomParameters">>,
     Partial<Get<UseBasePropsSlideParameters, "slideParameters">>,
-    Partial<Get<UseBasePropsFadeParameters, "fadeParameters">>,
-    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { }
+    Partial<Get<UseBasePropsFadeParameters, "fadeParameters">> { }
 
 export const SlideZoomFade = memo(forwardElementRef(function SlideZoomFade<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, show, animateOnMount, delayMountUntilShown, slideTargetBlock, slideTargetInline, fadeMax, fadeMin, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: SlideZoomFadeProps<E>, ref: Ref<E>) {
     return useTransition({

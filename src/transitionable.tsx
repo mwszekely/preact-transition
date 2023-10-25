@@ -152,6 +152,8 @@ export function useTransition<E extends HTMLElement>({
 
     /**
      * Adds the "measure" variupdateClassesables to the element if requested.
+     * 
+     * TODO: This is only used once and could/should be inlined
      */
     const measureElementAndUpdateProperties = useCallback((element: E | null, measure: boolean) => {
         if (element) {
@@ -225,7 +227,6 @@ export function useTransition<E extends HTMLElement>({
             case "measure": {
                 if (element)
                     measureElementAndUpdateProperties(element, true);
-                //setState(`${nextDirection}-init`);
                 updateClasses(element, nextDirection, "init");
                 if (element)
                     forceReflow(element);
@@ -268,7 +269,7 @@ export function useTransition<E extends HTMLElement>({
     useLayoutEffect(() => internalOnShowChanged(show, measure), [measure, show]);
 
 
-    // This has no dependences and is relied on in two different areas
+    // This has no dependencies and is relied on in two different areas
     function internalOnShowChanged(show: boolean | null, measure: boolean) {
 
         // If `show` is null, then we don't change anything.
@@ -363,11 +364,12 @@ export function useTransition<E extends HTMLElement>({
     let modifiedChildren: VNode;
 
     if (childrenIsVnode) {
-        modifiedChildren = <SwappableContext.Provider value={resetContext}>{cloneElement(children as VNode, finalProps)}</SwappableContext.Provider>
+        modifiedChildren = cloneElement(children as VNode, finalProps)
     }
     else {
-        modifiedChildren = <SwappableContext.Provider value={resetContext}><span {...finalProps as h.JSX.HTMLAttributes<any>}>{children}</span></SwappableContext.Provider>
+        modifiedChildren = <span {...finalProps as h.JSX.HTMLAttributes<any>}>{children}</span>
     }
+    modifiedChildren = <SwappableContext.Provider value={resetContext}>{modifiedChildren}</SwappableContext.Provider>
 
     return renderChildren ? modifiedChildren : null;
 }

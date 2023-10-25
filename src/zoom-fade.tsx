@@ -1,5 +1,5 @@
 import { Ref } from "preact";
-import { useMergedProps, UseRefElementParameters } from "preact-prop-helpers";
+import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useBasePropsFade, UseBasePropsFadeParameters } from "./fade.js";
 import { useTransition } from "./transitionable.js";
@@ -10,8 +10,7 @@ import { useBasePropsZoom, UseBasePropsZoomParameters } from "./zoom.js";
 export interface ZoomFadeProps<E extends Element> extends 
 TransitionParametersBase<E>, 
 Partial<Get<UseBasePropsFadeParameters, "fadeParameters">>, 
-Partial<Get<UseBasePropsZoomParameters, "zoomParameters">>, 
-Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { }
+Partial<Get<UseBasePropsZoomParameters, "zoomParameters">> { }
 
 export const ZoomFade = memo(forwardElementRef(function ZoomFade<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, fadeMin, fadeMax, show, animateOnMount, delayMountUntilShown, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: ZoomFadeProps<E>, ref: Ref<E>) {
     return (

@@ -1,5 +1,5 @@
 import { Ref } from "preact";
-import { useMergedProps, UseRefElementParameters } from "preact-prop-helpers";
+import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useBasePropsClip, UseBasePropsClipParameters } from "./clip.js";
 import { useBasePropsFade, UseBasePropsFadeParameters } from "./fade.js";
@@ -11,8 +11,7 @@ import { forwardElementRef } from "./util/util.js";
 export interface ClipFadeProps<E extends HTMLElement> extends
     TransitionParametersBase<E>,
     Partial<Get<UseBasePropsClipParameters, "clipParameters">>,
-    Partial<Get<UseBasePropsFadeParameters, "fadeParameters">>,
-    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { }
+    Partial<Get<UseBasePropsFadeParameters, "fadeParameters">> { }
 
 export const ClipFade = memo(forwardElementRef(function ClipFade<E extends HTMLElement>({ delayMountUntilShown, exclusivityKey, easing, easingIn, easingOut, duration, fadeMin, fadeMax, show, animateOnMount, clipMin, clipMinBlock, clipMinInline, clipOrigin, clipOriginBlock, clipOriginInline, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: ClipFadeProps<E>, ref: Ref<E>) {
     return useTransition({

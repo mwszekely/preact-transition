@@ -21,7 +21,7 @@ export type Get<T, K extends keyof T> = Pick<T, K>[K];
  * 
  * All of them need the transition's `classBase`, and some also inspect `show`.
  */
-export interface UseBasePropsBaseParameters {}
+//export interface UseBasePropsBaseParameters {}
 
 export interface UseTransitionParametersSelf<E extends Element> {
 
@@ -158,5 +158,9 @@ export interface NonIntrusiveElementAttributes<E extends Element> extends Pick<h
 /**
  * Full components can inherit from this to get a useful default of props for consumers to use as an interface
  */
-export interface TransitionParametersBase<E extends Element> extends OmitStrong<Get<UseTransitionParameters<E>, "transitionParameters">, "measure" | "propsIncoming">, Get<UseTransitionParameters<E>, "exclusiveTransitionParameters">, NonIntrusiveElementAttributes<E> { }
+export interface TransitionParametersBase<E extends Element> extends 
+OmitStrong<Get<UseTransitionParameters<E>, "transitionParameters">, "measure" | "propsIncoming">, 
+Get<UseTransitionParameters<E>, "exclusiveTransitionParameters">, 
+Partial<Get<UseRefElementParameters<E>, "refElementParameters">>,
+NonIntrusiveElementAttributes<E> { }
 

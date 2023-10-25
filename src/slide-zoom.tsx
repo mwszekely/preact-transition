@@ -1,5 +1,5 @@
 import { Ref } from "preact";
-import { useMergedProps, UseRefElementParameters } from "preact-prop-helpers";
+import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useBasePropsSlide, UseBasePropsSlideParameters } from "./slide.js";
 import { useTransition } from "./transitionable.js";
@@ -10,8 +10,7 @@ import { useBasePropsZoom, UseBasePropsZoomParameters } from "./zoom.js";
 export interface SlideZoomProps<E extends Element> extends
     TransitionParametersBase<E>,
     Partial<Get<UseBasePropsZoomParameters, "zoomParameters">>,
-    Partial<Get<UseBasePropsSlideParameters, "slideParameters">>,
-    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { }
+    Partial<Get<UseBasePropsSlideParameters, "slideParameters">> { }
 
 export const SlideZoom = memo(forwardElementRef(function SlideZoom<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, zoomMin, zoomMinBlock, zoomMinInline, zoomOrigin, zoomOriginBlock, zoomOriginInline, show, animateOnMount, delayMountUntilShown, slideTargetBlock, slideTargetInline, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: SlideZoomProps<E>, ref: Ref<E>) {
     return useTransition({

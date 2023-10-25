@@ -1,9 +1,9 @@
 import { h, Ref } from "preact";
-import { useMergedProps, UseRefElementParameters } from "preact-prop-helpers";
+import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
-import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types.js";
+import { Get, TransitionParametersBase } from "./util/types.js";
 import { forwardElementRef, useLastNonNullValue } from "./util/util.js";
 
 export interface UseBasePropsFlipParametersSelf {
@@ -46,7 +46,7 @@ export interface UseBasePropsFlipParametersSelf {
  * Values are relative, with 1 or -1 being the size of the component in that direction.
  * `0.5`, for example, would flip to the right by 50% of the element's width.
  */
-export interface UseBasePropsFlipParameters extends UseBasePropsBaseParameters {
+export interface UseBasePropsFlipParameters {
     flipParameters: UseBasePropsFlipParametersSelf;
 }
 
@@ -69,8 +69,7 @@ export function useBasePropsFlip({ flipParameters: { flipAngleBlock, flipAngleIn
 
 export interface FlipProps<E extends HTMLElement> extends
     TransitionParametersBase<E>,
-    Partial<Get<UseBasePropsFlipParameters, "flipParameters">>,
-    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { }
+    Partial<Get<UseBasePropsFlipParameters, "flipParameters">> { }
 
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Flip effect.

@@ -1,5 +1,5 @@
 import { Ref } from "preact";
-import { useMergedProps, UseRefElementParameters } from "preact-prop-helpers";
+import { useMergedProps } from "preact-prop-helpers";
 import { memo } from "preact/compat";
 import { useBasePropsFade, UseBasePropsFadeParameters } from "./fade.js";
 import { useBasePropsFlip, UseBasePropsFlipParameters } from "./flip.js";
@@ -10,8 +10,7 @@ import { forwardElementRef } from "./util/util.js";
 export interface FlipFadeProps<E extends Element> extends
     TransitionParametersBase<E>,
     Partial<Get<UseBasePropsFadeParameters, "fadeParameters">>,
-    Partial<Get<UseBasePropsFlipParameters, "flipParameters">>,
-    Partial<Get<UseRefElementParameters<E>, "refElementParameters">> { }
+    Partial<Get<UseBasePropsFlipParameters, "flipParameters">> { }
 
 export const FlipFade = memo(forwardElementRef(function FlipFade<E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, fadeMin, fadeMax, show, animateOnMount, delayMountUntilShown, flipAngleInline, flipAngleBlock, flipPerspective, flipOrigin, flipOriginInline, flipOriginBlock, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: FlipFadeProps<E>, ref: Ref<E>) {
     return (
