@@ -13,7 +13,7 @@ export { Slide, useBasePropsSlide, type SlideProps, type UseBasePropsSlideParame
 export { Swappable, useCreateSwappableProps, type CreateSwappableProps, type SwapProps } from "./swappable.js";
 export { useTransition } from "./transitionable.js";
 export { useCssClasses } from "./util/context.js";
-export type { ExitVisibility, NonIntrusiveElementAttributes, TransitionDirection, TransitionParametersBase, TransitionPhase, TransitionState, UseBasePropsBaseParameters, UseTransitionParameters } from "./util/types.js";
+export type { ExitVisibility, NonIntrusiveElementAttributes, TransitionDirection, TransitionParametersBase, TransitionPhase, TransitionState, UseTransitionParameters } from "./util/types.js";
 export { ZoomFade, type ZoomFadeProps } from "./zoom-fade.js";
 export { Zoom, useBasePropsZoom, type UseBasePropsZoomParameters, type UseBasePropsZoomParametersSelf, type ZoomProps } from "./zoom.js";
 //# sourceMappingURL=index.d.ts.map

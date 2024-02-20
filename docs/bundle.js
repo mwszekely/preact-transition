@@ -3,17 +3,17 @@
 
   var n,
     l$1,
-    u$1,
+    u$2,
     i$1,
-    o$2,
+    o$1,
     r$2,
-    f$1,
+    f$2,
     e$1,
     c$1 = {},
     s$1 = [],
     a$1 = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i,
-    v$1 = Array.isArray;
-  function h$1(n, l) {
+    h$1 = Array.isArray;
+  function v$1(n, l) {
     for (var u in l) n[u] = l[u];
     return n;
   }
@@ -42,108 +42,126 @@
       __e: null,
       __d: void 0,
       __c: null,
-      __h: null,
       constructor: void 0,
-      __v: null == r ? ++u$1 : r
+      __v: null == r ? ++u$2 : r,
+      __i: -1,
+      __u: 0
     };
     return null == r && null != l$1.vnode && l$1.vnode(f), f;
   }
-  function k$2(n) {
+  function g$1(n) {
     return n.children;
   }
-  function b$1(n, l) {
+  function b(n, l) {
     this.props = n, this.context = l;
   }
-  function g$2(n, l) {
-    if (null == l) return n.__ ? g$2(n.__, n.__.__k.indexOf(n) + 1) : null;
-    for (var u; l < n.__k.length; l++) if (null != (u = n.__k[l]) && null != u.__e) return u.__d || u.__e;
-    return "function" == typeof n.type ? g$2(n) : null;
+  function m$1(n, l) {
+    if (null == l) return n.__ ? m$1(n.__, n.__i + 1) : null;
+    for (var u; l < n.__k.length; l++) if (null != (u = n.__k[l]) && null != u.__e) return u.__e;
+    return "function" == typeof n.type ? m$1(n) : null;
   }
-  function m$1(n) {
+  function w$2(n, u, t) {
+    var i,
+      o = n.__v,
+      r = o.__e,
+      f = n.__P;
+    if (f) return (i = v$1({}, o)).__v = o.__v + 1, l$1.vnode && l$1.vnode(i), M$1(f, i, o, n.__n, void 0 !== f.ownerSVGElement, 32 & o.__u ? [r] : null, u, null == r ? m$1(o) : r, !!(32 & o.__u), t), i.__v = o.__v, i.__.__k[i.__i] = i, i.__d = void 0, i.__e != r && k$1(i), i;
+  }
+  function k$1(n) {
     var l, u;
     if (null != (n = n.__) && null != n.__c) {
       for (n.__e = n.__c.base = null, l = 0; l < n.__k.length; l++) if (null != (u = n.__k[l]) && null != u.__e) {
         n.__e = n.__c.base = u.__e;
         break;
       }
-      return m$1(n);
+      return k$1(n);
     }
   }
-  function w$2(n) {
-    (!n.__d && (n.__d = !0) && i$1.push(n) && !x$1.__r++ || o$2 !== l$1.debounceRendering) && ((o$2 = l$1.debounceRendering) || r$2)(x$1);
+  function x$2(n) {
+    (!n.__d && (n.__d = !0) && i$1.push(n) && !C$2.__r++ || o$1 !== l$1.debounceRendering) && ((o$1 = l$1.debounceRendering) || r$2)(C$2);
   }
-  function x$1() {
-    var n, l, u, t, o, r, e, c, s;
-    for (i$1.sort(f$1); n = i$1.shift();) n.__d && (l = i$1.length, t = void 0, o = void 0, r = void 0, c = (e = (u = n).__v).__e, (s = u.__P) && (t = [], o = [], (r = h$1({}, e)).__v = e.__v + 1, z$1(s, e, r, u.__n, void 0 !== s.ownerSVGElement, null != e.__h ? [c] : null, t, null == c ? g$2(e) : c, e.__h, o), L$1(t, e, o), e.__e != c && m$1(e)), i$1.length > l && i$1.sort(f$1));
-    x$1.__r = 0;
+  function C$2() {
+    var n,
+      u,
+      t,
+      o = [],
+      r = [];
+    for (i$1.sort(f$2); n = i$1.shift();) n.__d && (t = i$1.length, u = w$2(n, o, r) || u, 0 === t || i$1.length > t ? (j$1(o, u, r), r.length = o.length = 0, u = void 0, i$1.sort(f$2)) : u && l$1.__c && l$1.__c(u, s$1));
+    u && j$1(o, u, r), C$2.__r = 0;
   }
-  function P(n, l, u, t, i, o, r, f, e, a, h) {
-    var p,
+  function P$1(n, l, u, t, i, o, r, f, e, a, h) {
+    var v,
+      p,
       y,
+      d,
       _,
-      b,
-      m,
-      w,
-      x,
-      P,
-      C,
-      D = 0,
-      H = t && t.__k || s$1,
-      I = H.length,
-      T = I,
-      j = l.length;
-    for (u.__k = [], p = 0; p < j; p++) null != (b = u.__k[p] = null == (b = l[p]) || "boolean" == typeof b || "function" == typeof b ? null : "string" == typeof b || "number" == typeof b || "bigint" == typeof b ? d$1(null, b, null, null, b) : v$1(b) ? d$1(k$2, {
-      children: b
-    }, null, null, null) : b.__b > 0 ? d$1(b.type, b.props, b.key, b.ref ? b.ref : null, b.__v) : b) ? (b.__ = u, b.__b = u.__b + 1, -1 === (P = A$1(b, H, x = p + D, T)) ? _ = c$1 : (_ = H[P] || c$1, H[P] = void 0, T--), z$1(n, b, _, i, o, r, f, e, a, h), m = b.__e, (y = b.ref) && _.ref != y && (_.ref && N$1(_.ref, null, b), h.push(y, b.__c || m, b)), null != m && (null == w && (w = m), (C = _ === c$1 || null === _.__v) ? -1 == P && D-- : P !== x && (P === x + 1 ? D++ : P > x ? T > j - x ? D += P - x : D-- : D = P < x && P == x - 1 ? P - x : 0), x = p + D, "function" != typeof b.type || P === x && _.__k !== b.__k ? "function" == typeof b.type || P === x && !C ? void 0 !== b.__d ? (e = b.__d, b.__d = void 0) : e = m.nextSibling : e = S(n, m, e) : e = $$1(b, e, n), "function" == typeof u.type && (u.__d = e))) : (_ = H[p]) && null == _.key && _.__e && (_.__e == e && (_.__ = t, e = g$2(_)), O(_, _, !1), H[p] = null);
-    for (u.__e = w, p = I; p--;) null != H[p] && ("function" == typeof u.type && null != H[p].__e && H[p].__e == u.__d && (u.__d = H[p].__e.nextSibling), O(H[p], H[p]));
-  }
-  function $$1(n, l, u) {
-    for (var t, i = n.__k, o = 0; i && o < i.length; o++) (t = i[o]) && (t.__ = n, l = "function" == typeof t.type ? $$1(t, l, u) : S(u, t.__e, l));
-    return l;
-  }
-  function C$1(n, l) {
-    return l = l || [], null == n || "boolean" == typeof n || (v$1(n) ? n.some(function (n) {
-      C$1(n, l);
-    }) : l.push(n)), l;
+      g = t && t.__k || s$1,
+      b = l.length;
+    for (u.__d = e, S(u, l, g), e = u.__d, v = 0; v < b; v++) null != (y = u.__k[v]) && "boolean" != typeof y && "function" != typeof y && (p = -1 === y.__i ? c$1 : g[y.__i] || c$1, y.__i = v, M$1(n, y, p, i, o, r, f, e, a, h), d = y.__e, y.ref && p.ref != y.ref && (p.ref && N$1(p.ref, null, y), h.push(y.ref, y.__c || d, y)), null == _ && null != d && (_ = d), 65536 & y.__u || p.__k === y.__k ? e = $$1(y, e, n) : "function" == typeof y.type && void 0 !== y.__d ? e = y.__d : d && (e = d.nextSibling), y.__d = void 0, y.__u &= -196609);
+    u.__d = e, u.__e = _;
   }
   function S(n, l, u) {
-    return null == u || u.parentNode !== n ? n.insertBefore(l, null) : l == u && null != l.parentNode || n.insertBefore(l, u), l.nextSibling;
+    var t,
+      i,
+      o,
+      r,
+      f,
+      e = l.length,
+      c = u.length,
+      s = c,
+      a = 0;
+    for (n.__k = [], t = 0; t < e; t++) null != (i = n.__k[t] = null == (i = l[t]) || "boolean" == typeof i || "function" == typeof i ? null : "string" == typeof i || "number" == typeof i || "bigint" == typeof i || i.constructor == String ? d$1(null, i, null, null, i) : h$1(i) ? d$1(g$1, {
+      children: i
+    }, null, null, null) : void 0 === i.constructor && i.__b > 0 ? d$1(i.type, i.props, i.key, i.ref ? i.ref : null, i.__v) : i) ? (i.__ = n, i.__b = n.__b + 1, f = I$1(i, u, r = t + a, s), i.__i = f, o = null, -1 !== f && (s--, (o = u[f]) && (o.__u |= 131072)), null == o || null === o.__v ? (-1 == f && a--, "function" != typeof i.type && (i.__u |= 65536)) : f !== r && (f === r + 1 ? a++ : f > r ? s > e - r ? a += f - r : a-- : a = f < r && f == r - 1 ? f - r : 0, f !== t + a && (i.__u |= 65536))) : (o = u[t]) && null == o.key && o.__e && 0 == (131072 & o.__u) && (o.__e == n.__d && (n.__d = m$1(o)), O$1(o, o, !1), u[t] = null, s--);
+    if (s) for (t = 0; t < c; t++) null != (o = u[t]) && 0 == (131072 & o.__u) && (o.__e == n.__d && (n.__d = m$1(o)), O$1(o, o));
   }
-  function A$1(n, l, u, t) {
+  function $$1(n, l, u) {
+    var t, i;
+    if ("function" == typeof n.type) {
+      for (t = n.__k, i = 0; t && i < t.length; i++) t[i] && (t[i].__ = n, l = $$1(t[i], l, u));
+      return l;
+    }
+    n.__e != l && (u.insertBefore(n.__e, l || null), l = n.__e);
+    do {
+      l = l && l.nextSibling;
+    } while (null != l && 8 === l.nodeType);
+    return l;
+  }
+  function H$1(n, l) {
+    return l = l || [], null == n || "boolean" == typeof n || (h$1(n) ? n.some(function (n) {
+      H$1(n, l);
+    }) : l.push(n)), l;
+  }
+  function I$1(n, l, u, t) {
     var i = n.key,
       o = n.type,
       r = u - 1,
       f = u + 1,
       e = l[u];
     if (null === e || e && i == e.key && o === e.type) return u;
-    if (t > (null != e ? 1 : 0)) for (; r >= 0 || f < l.length;) {
+    if (t > (null != e && 0 == (131072 & e.__u) ? 1 : 0)) for (; r >= 0 || f < l.length;) {
       if (r >= 0) {
-        if ((e = l[r]) && i == e.key && o === e.type) return r;
+        if ((e = l[r]) && 0 == (131072 & e.__u) && i == e.key && o === e.type) return r;
         r--;
       }
       if (f < l.length) {
-        if ((e = l[f]) && i == e.key && o === e.type) return f;
+        if ((e = l[f]) && 0 == (131072 & e.__u) && i == e.key && o === e.type) return f;
         f++;
       }
     }
     return -1;
   }
-  function D$1(n, l, u, t, i) {
-    var o;
-    for (o in u) "children" === o || "key" === o || o in l || I$1(n, o, null, u[o], t);
-    for (o in l) i && "function" != typeof l[o] || "children" === o || "key" === o || "value" === o || "checked" === o || u[o] === l[o] || I$1(n, o, l[o], u[o], t);
-  }
-  function H$1(n, l, u) {
+  function T$2(n, l, u) {
     "-" === l[0] ? n.setProperty(l, null == u ? "" : u) : n[l] = null == u ? "" : "number" != typeof u || a$1.test(l) ? u : u + "px";
   }
-  function I$1(n, l, u, t, i) {
+  function A$1(n, l, u, t, i) {
     var o;
     n: if ("style" === l) {
       if ("string" == typeof u) n.style.cssText = u;else {
-        if ("string" == typeof t && (n.style.cssText = t = ""), t) for (l in t) u && l in u || H$1(n.style, l, "");
-        if (u) for (l in u) t && u[l] === t[l] || H$1(n.style, l, u[l]);
+        if ("string" == typeof t && (n.style.cssText = t = ""), t) for (l in t) u && l in u || T$2(n.style, l, "");
+        if (u) for (l in u) t && u[l] === t[l] || T$2(n.style, l, u[l]);
       }
-    } else if ("o" === l[0] && "n" === l[1]) o = l !== (l = l.replace(/(PointerCapture)$|Capture$/, "$1")), l = l.toLowerCase() in n ? l.toLowerCase().slice(2) : l.slice(2), n.l || (n.l = {}), n.l[l + o] = u, u ? t ? u.u = t.u : (u.u = Date.now(), n.addEventListener(l, o ? j$1 : T$2, o)) : n.removeEventListener(l, o ? j$1 : T$2, o);else if ("dangerouslySetInnerHTML" !== l) {
+    } else if ("o" === l[0] && "n" === l[1]) o = l !== (l = l.replace(/(PointerCapture)$|Capture$/i, "$1")), l = l.toLowerCase() in n ? l.toLowerCase().slice(2) : l.slice(2), n.l || (n.l = {}), n.l[l + o] = u, u ? t ? u.u = t.u : (u.u = Date.now(), n.addEventListener(l, o ? L$1 : D$1, o)) : n.removeEventListener(l, o ? L$1 : D$1, o);else {
       if (i) l = l.replace(/xlink(H|:h)/, "h").replace(/sName$/, "s");else if ("width" !== l && "height" !== l && "href" !== l && "list" !== l && "form" !== l && "tabIndex" !== l && "download" !== l && "rowSpan" !== l && "colSpan" !== l && "role" !== l && l in n) try {
         n[l] = null == u ? "" : u;
         break n;
@@ -151,61 +169,63 @@
       "function" == typeof u || (null == u || !1 === u && "-" !== l[4] ? n.removeAttribute(l) : n.setAttribute(l, u));
     }
   }
-  function T$2(n) {
-    var u = this.l[n.type + !1];
-    if (n.t) {
-      if (n.t <= u.u) return;
-    } else n.t = Date.now();
-    return u(l$1.event ? l$1.event(n) : n);
+  function D$1(n) {
+    if (this.l) {
+      var u = this.l[n.type + !1];
+      if (n.t) {
+        if (n.t <= u.u) return;
+      } else n.t = Date.now();
+      return u(l$1.event ? l$1.event(n) : n);
+    }
   }
-  function j$1(n) {
-    return this.l[n.type + !0](l$1.event ? l$1.event(n) : n);
+  function L$1(n) {
+    if (this.l) return this.l[n.type + !0](l$1.event ? l$1.event(n) : n);
   }
-  function z$1(n, u, t, i, o, r, f, e, c, s) {
+  function M$1(n, u, t, i, o, r, f, e, c, s) {
     var a,
       p,
       y,
       d,
       _,
-      g,
       m,
       w,
+      k,
       x,
-      $,
       C,
       S,
-      A,
-      D,
+      $,
       H,
-      I = u.type;
+      I,
+      T,
+      A = u.type;
     if (void 0 !== u.constructor) return null;
-    null != t.__h && (c = t.__h, e = u.__e = t.__e, u.__h = null, r = [e]), (a = l$1.__b) && a(u);
-    n: if ("function" == typeof I) try {
-      if (w = u.props, x = (a = I.contextType) && i[a.__c], $ = a ? x ? x.props.value : a.__ : i, t.__c ? m = (p = u.__c = t.__c).__ = p.__E : ("prototype" in I && I.prototype.render ? u.__c = p = new I(w, $) : (u.__c = p = new b$1(w, $), p.constructor = I, p.render = q$2), x && x.sub(p), p.props = w, p.state || (p.state = {}), p.context = $, p.__n = i, y = p.__d = !0, p.__h = [], p._sb = []), null == p.__s && (p.__s = p.state), null != I.getDerivedStateFromProps && (p.__s == p.state && (p.__s = h$1({}, p.__s)), h$1(p.__s, I.getDerivedStateFromProps(w, p.__s))), d = p.props, _ = p.state, p.__v = u, y) null == I.getDerivedStateFromProps && null != p.componentWillMount && p.componentWillMount(), null != p.componentDidMount && p.__h.push(p.componentDidMount);else {
-        if (null == I.getDerivedStateFromProps && w !== d && null != p.componentWillReceiveProps && p.componentWillReceiveProps(w, $), !p.__e && (null != p.shouldComponentUpdate && !1 === p.shouldComponentUpdate(w, p.__s, $) || u.__v === t.__v)) {
-          for (u.__v !== t.__v && (p.props = w, p.state = p.__s, p.__d = !1), u.__e = t.__e, u.__k = t.__k, u.__k.forEach(function (n) {
+    128 & t.__u && (c = !!(32 & t.__u), r = [e = u.__e = t.__e]), (a = l$1.__b) && a(u);
+    n: if ("function" == typeof A) try {
+      if (k = u.props, x = (a = A.contextType) && i[a.__c], C = a ? x ? x.props.value : a.__ : i, t.__c ? w = (p = u.__c = t.__c).__ = p.__E : ("prototype" in A && A.prototype.render ? u.__c = p = new A(k, C) : (u.__c = p = new b(k, C), p.constructor = A, p.render = q$1), x && x.sub(p), p.props = k, p.state || (p.state = {}), p.context = C, p.__n = i, y = p.__d = !0, p.__h = [], p._sb = []), null == p.__s && (p.__s = p.state), null != A.getDerivedStateFromProps && (p.__s == p.state && (p.__s = v$1({}, p.__s)), v$1(p.__s, A.getDerivedStateFromProps(k, p.__s))), d = p.props, _ = p.state, p.__v = u, y) null == A.getDerivedStateFromProps && null != p.componentWillMount && p.componentWillMount(), null != p.componentDidMount && p.__h.push(p.componentDidMount);else {
+        if (null == A.getDerivedStateFromProps && k !== d && null != p.componentWillReceiveProps && p.componentWillReceiveProps(k, C), !p.__e && (null != p.shouldComponentUpdate && !1 === p.shouldComponentUpdate(k, p.__s, C) || u.__v === t.__v)) {
+          for (u.__v !== t.__v && (p.props = k, p.state = p.__s, p.__d = !1), u.__e = t.__e, u.__k = t.__k, u.__k.forEach(function (n) {
             n && (n.__ = u);
-          }), C = 0; C < p._sb.length; C++) p.__h.push(p._sb[C]);
+          }), S = 0; S < p._sb.length; S++) p.__h.push(p._sb[S]);
           p._sb = [], p.__h.length && f.push(p);
           break n;
         }
-        null != p.componentWillUpdate && p.componentWillUpdate(w, p.__s, $), null != p.componentDidUpdate && p.__h.push(function () {
-          p.componentDidUpdate(d, _, g);
+        null != p.componentWillUpdate && p.componentWillUpdate(k, p.__s, C), null != p.componentDidUpdate && p.__h.push(function () {
+          p.componentDidUpdate(d, _, m);
         });
       }
-      if (p.context = $, p.props = w, p.__P = n, p.__e = !1, S = l$1.__r, A = 0, "prototype" in I && I.prototype.render) {
-        for (p.state = p.__s, p.__d = !1, S && S(u), a = p.render(p.props, p.state, p.context), D = 0; D < p._sb.length; D++) p.__h.push(p._sb[D]);
+      if (p.context = C, p.props = k, p.__P = n, p.__e = !1, $ = l$1.__r, H = 0, "prototype" in A && A.prototype.render) {
+        for (p.state = p.__s, p.__d = !1, $ && $(u), a = p.render(p.props, p.state, p.context), I = 0; I < p._sb.length; I++) p.__h.push(p._sb[I]);
         p._sb = [];
       } else do {
-        p.__d = !1, S && S(u), a = p.render(p.props, p.state, p.context), p.state = p.__s;
-      } while (p.__d && ++A < 25);
-      p.state = p.__s, null != p.getChildContext && (i = h$1(h$1({}, i), p.getChildContext())), y || null == p.getSnapshotBeforeUpdate || (g = p.getSnapshotBeforeUpdate(d, _)), P(n, v$1(H = null != a && a.type === k$2 && null == a.key ? a.props.children : a) ? H : [H], u, t, i, o, r, f, e, c, s), p.base = u.__e, u.__h = null, p.__h.length && f.push(p), m && (p.__E = p.__ = null);
+        p.__d = !1, $ && $(u), a = p.render(p.props, p.state, p.context), p.state = p.__s;
+      } while (p.__d && ++H < 25);
+      p.state = p.__s, null != p.getChildContext && (i = v$1(v$1({}, i), p.getChildContext())), y || null == p.getSnapshotBeforeUpdate || (m = p.getSnapshotBeforeUpdate(d, _)), P$1(n, h$1(T = null != a && a.type === g$1 && null == a.key ? a.props.children : a) ? T : [T], u, t, i, o, r, f, e, c, s), p.base = u.__e, u.__u &= -161, p.__h.length && f.push(p), w && (p.__E = p.__ = null);
     } catch (n) {
-      u.__v = null, (c || null != r) && (u.__e = e, u.__h = !!c, r[r.indexOf(e)] = null), l$1.__e(n, u, t);
-    } else null == r && u.__v === t.__v ? (u.__k = t.__k, u.__e = t.__e) : u.__e = M(t.__e, u, t, i, o, r, f, c, s);
+      u.__v = null, c || null != r ? (u.__e = e, u.__u |= c ? 160 : 32, r[r.indexOf(e)] = null) : (u.__e = t.__e, u.__k = t.__k), l$1.__e(n, u, t);
+    } else null == r && u.__v === t.__v ? (u.__k = t.__k, u.__e = t.__e) : u.__e = z$2(t.__e, u, t, i, o, r, f, c, s);
     (a = l$1.diffed) && a(u);
   }
-  function L$1(n, u, t) {
+  function j$1(n, u, t) {
     for (var i = 0; i < t.length; i++) N$1(t[i], t[++i], t[++i]);
     l$1.__c && l$1.__c(u, n), n.some(function (u) {
       try {
@@ -217,29 +237,31 @@
       }
     });
   }
-  function M(l, u, t, i, o, r, f, e, s) {
+  function z$2(l, u, t, i, o, r, f, e, s) {
     var a,
-      h,
+      v,
       y,
-      d = t.props,
-      _ = u.props,
-      k = u.type,
-      b = 0;
-    if ("svg" === k && (o = !0), null != r) for (; b < r.length; b++) if ((a = r[b]) && "setAttribute" in a == !!k && (k ? a.localName === k : 3 === a.nodeType)) {
-      l = a, r[b] = null;
+      d,
+      _,
+      g,
+      b,
+      w = t.props,
+      k = u.props,
+      x = u.type;
+    if ("svg" === x && (o = !0), null != r) for (a = 0; a < r.length; a++) if ((_ = r[a]) && "setAttribute" in _ == !!x && (x ? _.localName === x : 3 === _.nodeType)) {
+      l = _, r[a] = null;
       break;
     }
     if (null == l) {
-      if (null === k) return document.createTextNode(_);
-      l = o ? document.createElementNS("http://www.w3.org/2000/svg", k) : document.createElement(k, _.is && _), r = null, e = !1;
+      if (null === x) return document.createTextNode(k);
+      l = o ? document.createElementNS("http://www.w3.org/2000/svg", x) : document.createElement(x, k.is && k), r = null, e = !1;
     }
-    if (null === k) d === _ || e && l.data === _ || (l.data = _);else {
-      if (r = r && n.call(l.childNodes), h = (d = t.props || c$1).dangerouslySetInnerHTML, y = _.dangerouslySetInnerHTML, !e) {
-        if (null != r) for (d = {}, b = 0; b < l.attributes.length; b++) d[l.attributes[b].name] = l.attributes[b].value;
-        (y || h) && (y && (h && y.__html == h.__html || y.__html === l.innerHTML) || (l.innerHTML = y && y.__html || ""));
-      }
-      if (D$1(l, _, d, o, e), y) u.__k = [];else if (P(l, v$1(b = u.props.children) ? b : [b], u, t, i, o && "foreignObject" !== k, r, f, r ? r[0] : t.__k && g$2(t, 0), e, s), null != r) for (b = r.length; b--;) null != r[b] && p$1(r[b]);
-      e || ("value" in _ && void 0 !== (b = _.value) && (b !== l.value || "progress" === k && !b || "option" === k && b !== d.value) && I$1(l, "value", b, d.value, !1), "checked" in _ && void 0 !== (b = _.checked) && b !== l.checked && I$1(l, "checked", b, d.checked, !1));
+    if (null === x) w === k || e && l.data === k || (l.data = k);else {
+      if (r = r && n.call(l.childNodes), w = t.props || c$1, !e && null != r) for (w = {}, a = 0; a < l.attributes.length; a++) w[(_ = l.attributes[a]).name] = _.value;
+      for (a in w) _ = w[a], "children" == a || ("dangerouslySetInnerHTML" == a ? y = _ : "key" === a || a in k || A$1(l, a, null, _, o));
+      for (a in k) _ = k[a], "children" == a ? d = _ : "dangerouslySetInnerHTML" == a ? v = _ : "value" == a ? g = _ : "checked" == a ? b = _ : "key" === a || e && "function" != typeof _ || w[a] === _ || A$1(l, a, _, w[a], o);
+      if (v) e || y && (v.__html === y.__html || v.__html === l.innerHTML) || (l.innerHTML = v.__html), u.__k = [];else if (y && (l.innerHTML = ""), P$1(l, h$1(d) ? d : [d], u, t, i, o && "foreignObject" !== x, r, f, r ? r[0] : t.__k && m$1(t, 0), e, s), null != r) for (a = r.length; a--;) null != r[a] && p$1(r[a]);
+      e || (a = "value", void 0 !== g && (g !== l[a] || "progress" === x && !g || "option" === x && g !== w[a]) && A$1(l, a, g, w[a], !1), a = "checked", void 0 !== b && b !== l[a] && A$1(l, a, b, w[a], !1));
     }
     return l;
   }
@@ -250,7 +272,7 @@
       l$1.__e(n, t);
     }
   }
-  function O(n, u, t) {
+  function O$1(n, u, t) {
     var i, o;
     if (l$1.unmount && l$1.unmount(n), (i = n.ref) && (i.current && i.current !== n.__e || N$1(i, null, u)), null != (i = n.__c)) {
       if (i.componentWillUnmount) try {
@@ -260,22 +282,22 @@
       }
       i.base = i.__P = null, n.__c = void 0;
     }
-    if (i = n.__k) for (o = 0; o < i.length; o++) i[o] && O(i[o], u, t || "function" != typeof n.type);
+    if (i = n.__k) for (o = 0; o < i.length; o++) i[o] && O$1(i[o], u, t || "function" != typeof n.type);
     t || null == n.__e || p$1(n.__e), n.__ = n.__e = n.__d = void 0;
   }
-  function q$2(n, l, u) {
+  function q$1(n, l, u) {
     return this.constructor(n, u);
   }
   function B$2(u, t, i) {
     var o, r, f, e;
-    l$1.__ && l$1.__(u, t), r = (o = "function" == typeof i) ? null : i && i.__k || t.__k, f = [], e = [], z$1(t, u = (!o && i || t).__k = y$1(k$2, null, [u]), r || c$1, c$1, void 0 !== t.ownerSVGElement, !o && i ? [i] : r ? null : t.firstChild ? n.call(t.childNodes) : null, f, !o && i ? i : r ? r.__e : t.firstChild, o, e), L$1(f, u, e);
+    l$1.__ && l$1.__(u, t), r = (o = "function" == typeof i) ? null : i && i.__k || t.__k, f = [], e = [], M$1(t, u = (!o && i || t).__k = y$1(g$1, null, [u]), r || c$1, c$1, void 0 !== t.ownerSVGElement, !o && i ? [i] : r ? null : t.firstChild ? n.call(t.childNodes) : null, f, !o && i ? i : r ? r.__e : t.firstChild, o, e), u.__d = void 0, j$1(f, u, e);
   }
   function F$2(l, u, t) {
     var i,
       o,
       r,
       f,
-      e = h$1({}, l.props);
+      e = v$1({}, l.props);
     for (r in l.type && l.type.defaultProps && (f = l.type.defaultProps), u) "key" == r ? i = u[r] : "ref" == r ? o = u[r] : e[r] = void 0 === u[r] && void 0 !== f ? f[r] : u[r];
     return arguments.length > 2 && (e.children = arguments.length > 3 ? n.call(arguments, 2) : t), d$1(l.type, e, i || l.key, o || l.ref, null);
   }
@@ -292,7 +314,7 @@
           return t;
         }, this.shouldComponentUpdate = function (n) {
           this.props.value !== n.value && u.some(function (n) {
-            n.__e = !0, w$2(n);
+            n.__e = !0, x$2(n);
           });
         }, this.sub = function (n) {
           u.push(n);
@@ -314,39 +336,40 @@
       }
       throw n;
     }
-  }, u$1 = 0, b$1.prototype.setState = function (n, l) {
+  }, u$2 = 0, b.prototype.setState = function (n, l) {
     var u;
-    u = null != this.__s && this.__s !== this.state ? this.__s : this.__s = h$1({}, this.state), "function" == typeof n && (n = n(h$1({}, u), this.props)), n && h$1(u, n), null != n && this.__v && (l && this._sb.push(l), w$2(this));
-  }, b$1.prototype.forceUpdate = function (n) {
-    this.__v && (this.__e = !0, n && this.__h.push(n), w$2(this));
-  }, b$1.prototype.render = k$2, i$1 = [], r$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$1 = function (n, l) {
+    u = null != this.__s && this.__s !== this.state ? this.__s : this.__s = v$1({}, this.state), "function" == typeof n && (n = n(v$1({}, u), this.props)), n && v$1(u, n), null != n && this.__v && (l && this._sb.push(l), x$2(this));
+  }, b.prototype.forceUpdate = function (n) {
+    this.__v && (this.__e = !0, n && this.__h.push(n), x$2(this));
+  }, b.prototype.render = g$1, i$1 = [], r$2 = "function" == typeof Promise ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, f$2 = function (n, l) {
     return n.__v.__b - l.__v.__b;
-  }, x$1.__r = 0, e$1 = 0;
-  var _$1 = 0;
-  function o$1(o, e, n, t, f, l) {
-    var s,
-      u,
-      a = {};
-    for (u in e) "ref" == u ? s = e[u] : a[u] = e[u];
-    var i = {
-      type: o,
-      props: a,
+  }, C$2.__r = 0, e$1 = 0;
+  var f$1 = 0;
+  function u$1(e, t, n, o, i, u) {
+    var a,
+      c,
+      p = {};
+    for (c in t) "ref" == c ? a = t[c] : p[c] = t[c];
+    var l = {
+      type: e,
+      props: p,
       key: n,
-      ref: s,
+      ref: a,
       __k: null,
       __: null,
       __b: 0,
       __e: null,
       __d: void 0,
       __c: null,
-      __h: null,
       constructor: void 0,
-      __v: --_$1,
-      __source: f,
-      __self: l
+      __v: --f$1,
+      __i: -1,
+      __u: 0,
+      __source: i,
+      __self: u
     };
-    if ("function" == typeof o && (s = o.defaultProps)) for (u in s) void 0 === a[u] && (a[u] = s[u]);
-    return l$1.vnode && l$1.vnode(i), i;
+    if ("function" == typeof e && (a = e.defaultProps)) for (c in a) void 0 === p[c] && (p[c] = a[c]);
+    return l$1.vnode && l$1.vnode(l), l;
   }
   var t,
     r$1,
@@ -355,27 +378,29 @@
     o = 0,
     f = [],
     c = [],
-    e = l$1.__b,
-    a = l$1.__r,
-    v = l$1.diffed,
-    l = l$1.__c,
-    m = l$1.unmount;
-  function d(t, u) {
-    l$1.__h && l$1.__h(r$1, t, o || u), o = 0;
-    var i = r$1.__H || (r$1.__H = {
+    e = l$1,
+    a = e.__b,
+    v = e.__r,
+    l = e.diffed,
+    m = e.__c,
+    s = e.unmount,
+    d = e.__;
+  function h(n, t) {
+    e.__h && e.__h(r$1, n, o || t), o = 0;
+    var u = r$1.__H || (r$1.__H = {
       __: [],
       __h: []
     });
-    return t >= i.__.length && i.__.push({
+    return n >= u.__.length && u.__.push({
       __V: c
-    }), i.__[t];
+    }), u.__[n];
   }
-  function h(n) {
-    return o = 1, s(B$1, n);
+  function p(n) {
+    return o = 1, y(D, n);
   }
-  function s(n, u, i) {
-    var o = d(t++, 2);
-    if (o.t = n, !o.__c && (o.__ = [i ? i(u) : B$1(void 0, u), function (n) {
+  function y(n, u, i) {
+    var o = h(t++, 2);
+    if (o.t = n, !o.__c && (o.__ = [i ? i(u) : D(void 0, u), function (n) {
       var t = o.__N ? o.__N[0] : o.__[0],
         r = o.t(t, n);
       t !== r && (o.__N = [r, o.__[1]], o.__c.setState({}));
@@ -383,7 +408,7 @@
       var f = function (n, t, r) {
         if (!o.__c.__H) return !0;
         var u = o.__c.__H.__.filter(function (n) {
-          return n.__c;
+          return !!n.__c;
         });
         if (u.every(function (n) {
           return !n.__N;
@@ -409,23 +434,23 @@
     }
     return o.__N || o.__;
   }
-  function p(u, i) {
-    var o = d(t++, 3);
-    !l$1.__s && z(o.__H, i) && (o.__ = u, o.i = i, r$1.__H.__h.push(o));
+  function _(n, u) {
+    var i = h(t++, 3);
+    !e.__s && C$1(i.__H, u) && (i.__ = n, i.i = u, r$1.__H.__h.push(i));
   }
-  function y(u, i) {
-    var o = d(t++, 4);
-    !l$1.__s && z(o.__H, i) && (o.__ = u, o.i = i, r$1.__h.push(o));
+  function A(n, u) {
+    var i = h(t++, 4);
+    !e.__s && C$1(i.__H, u) && (i.__ = n, i.i = u, r$1.__h.push(i));
   }
-  function _(n) {
-    return o = 5, F$1(function () {
+  function F$1(n) {
+    return o = 5, q(function () {
       return {
         current: n
       };
     }, []);
   }
-  function A(n, t, r) {
-    o = 6, y(function () {
+  function T$1(n, t, r) {
+    o = 6, A(function () {
       return "function" == typeof n ? (n(t()), function () {
         return n(null);
       }) : n ? (n.current = t(), function () {
@@ -433,89 +458,91 @@
       }) : void 0;
     }, null == r ? r : r.concat(n));
   }
-  function F$1(n, r) {
-    var u = d(t++, 7);
-    return z(u.__H, r) ? (u.__V = n(), u.i = r, u.__h = n, u.__V) : u.__;
+  function q(n, r) {
+    var u = h(t++, 7);
+    return C$1(u.__H, r) ? (u.__V = n(), u.i = r, u.__h = n, u.__V) : u.__;
   }
-  function T$1(n, t) {
-    return o = 8, F$1(function () {
+  function x$1(n, t) {
+    return o = 8, q(function () {
       return n;
     }, t);
   }
-  function q$1(n) {
+  function P(n) {
     var u = r$1.context[n.__c],
-      i = d(t++, 9);
+      i = h(t++, 9);
     return i.c = n, u ? (null == i.__ && (i.__ = !0, u.sub(r$1)), u.props.value) : n.__;
   }
-  function b() {
-    for (var t; t = f.shift();) if (t.__P && t.__H) try {
-      t.__H.__h.forEach(k$1), t.__H.__h.forEach(w$1), t.__H.__h = [];
-    } catch (r) {
-      t.__H.__h = [], l$1.__e(r, t.__v);
+  function j() {
+    for (var n; n = f.shift();) if (n.__P && n.__H) try {
+      n.__H.__h.forEach(z$1), n.__H.__h.forEach(B$1), n.__H.__h = [];
+    } catch (t) {
+      n.__H.__h = [], e.__e(t, n.__v);
     }
   }
-  l$1.__b = function (n) {
-    r$1 = null, e && e(n);
-  }, l$1.__r = function (n) {
-    a && a(n), t = 0;
+  e.__b = function (n) {
+    r$1 = null, a && a(n);
+  }, e.__ = function (n, t) {
+    n && t.__k && t.__k.__m && (n.__m = t.__k.__m), d && d(n, t);
+  }, e.__r = function (n) {
+    v && v(n), t = 0;
     var i = (r$1 = n.__c).__H;
     i && (u === r$1 ? (i.__h = [], r$1.__h = [], i.__.forEach(function (n) {
       n.__N && (n.__ = n.__N), n.__V = c, n.__N = n.i = void 0;
-    })) : (i.__h.forEach(k$1), i.__h.forEach(w$1), i.__h = [], t = 0)), u = r$1;
-  }, l$1.diffed = function (t) {
-    v && v(t);
-    var o = t.__c;
-    o && o.__H && (o.__H.__h.length && (1 !== f.push(o) && i === l$1.requestAnimationFrame || ((i = l$1.requestAnimationFrame) || j)(b)), o.__H.__.forEach(function (n) {
+    })) : (i.__h.forEach(z$1), i.__h.forEach(B$1), i.__h = [], t = 0)), u = r$1;
+  }, e.diffed = function (n) {
+    l && l(n);
+    var t = n.__c;
+    t && t.__H && (t.__H.__h.length && (1 !== f.push(t) && i === e.requestAnimationFrame || ((i = e.requestAnimationFrame) || w$1)(j)), t.__H.__.forEach(function (n) {
       n.i && (n.__H = n.i), n.__V !== c && (n.__ = n.__V), n.i = void 0, n.__V = c;
     })), u = r$1 = null;
-  }, l$1.__c = function (t, r) {
-    r.some(function (t) {
+  }, e.__c = function (n, t) {
+    t.some(function (n) {
       try {
-        t.__h.forEach(k$1), t.__h = t.__h.filter(function (n) {
-          return !n.__ || w$1(n);
+        n.__h.forEach(z$1), n.__h = n.__h.filter(function (n) {
+          return !n.__ || B$1(n);
         });
-      } catch (u) {
-        r.some(function (n) {
+      } catch (r) {
+        t.some(function (n) {
           n.__h && (n.__h = []);
-        }), r = [], l$1.__e(u, t.__v);
+        }), t = [], e.__e(r, n.__v);
       }
-    }), l && l(t, r);
-  }, l$1.unmount = function (t) {
-    m && m(t);
-    var r,
-      u = t.__c;
-    u && u.__H && (u.__H.__.forEach(function (n) {
+    }), m && m(n, t);
+  }, e.unmount = function (n) {
+    s && s(n);
+    var t,
+      r = n.__c;
+    r && r.__H && (r.__H.__.forEach(function (n) {
       try {
-        k$1(n);
+        z$1(n);
       } catch (n) {
-        r = n;
+        t = n;
       }
-    }), u.__H = void 0, r && l$1.__e(r, u.__v));
+    }), r.__H = void 0, t && e.__e(t, r.__v));
   };
-  var g$1 = "function" == typeof requestAnimationFrame;
-  function j(n) {
+  var k = "function" == typeof requestAnimationFrame;
+  function w$1(n) {
     var t,
       r = function () {
-        clearTimeout(u), g$1 && cancelAnimationFrame(t), setTimeout(n);
+        clearTimeout(u), k && cancelAnimationFrame(t), setTimeout(n);
       },
       u = setTimeout(r, 100);
-    g$1 && (t = requestAnimationFrame(r));
+    k && (t = requestAnimationFrame(r));
   }
-  function k$1(n) {
+  function z$1(n) {
     var t = r$1,
       u = n.__c;
     "function" == typeof u && (n.__c = void 0, u()), r$1 = t;
   }
-  function w$1(n) {
+  function B$1(n) {
     var t = r$1;
     n.__c = n.__(), r$1 = t;
   }
-  function z(n, t) {
+  function C$1(n, t) {
     return !n || n.length !== t.length || t.some(function (t, r) {
       return t !== n[r];
     });
   }
-  function B$1(n, t) {
+  function D(n, t) {
     return "function" == typeof t ? t(n) : t;
   }
   function g(n, t) {
@@ -527,10 +554,10 @@
     for (var r in t) if ("__source" !== r && n[r] !== t[r]) return !0;
     return !1;
   }
-  function w(n) {
-    this.props = n;
+  function E(n, t) {
+    this.props = n, this.context = t;
   }
-  function x(n, e) {
+  function w(n, e) {
     function r(n) {
       var t = this.props.ref,
         r = t == n.ref;
@@ -541,131 +568,130 @@
     }
     return u.displayName = "Memo(" + (n.displayName || n.name) + ")", u.prototype.isReactComponent = !0, u.__f = !0, u;
   }
-  (w.prototype = new b$1()).isPureReactComponent = !0, w.prototype.shouldComponentUpdate = function (n, t) {
+  (E.prototype = new b()).isPureReactComponent = !0, E.prototype.shouldComponentUpdate = function (n, t) {
     return C(this.props, n) || C(this.state, t);
   };
-  var R = l$1.__b;
+  var x = l$1.__b;
   l$1.__b = function (n) {
-    n.type && n.type.__f && n.ref && (n.props.ref = n.ref, n.ref = null), R && R(n);
+    n.type && n.type.__f && n.ref && (n.props.ref = n.ref, n.ref = null), x && x(n);
   };
-  var N = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.forward_ref") || 3911;
-  function k(n) {
+  var R = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.forward_ref") || 3911;
+  function N(n) {
     function t(t) {
       var e = g({}, t);
       return delete e.ref, n(e, t.ref || null);
     }
-    return t.$$typeof = N, t.render = t, t.prototype.isReactComponent = t.__f = !0, t.displayName = "ForwardRef(" + (n.displayName || n.name) + ")", t;
+    return t.$$typeof = R, t.render = t, t.prototype.isReactComponent = t.__f = !0, t.displayName = "ForwardRef(" + (n.displayName || n.name) + ")", t;
   }
-  var T = l$1.__e;
+  var O = l$1.__e;
   l$1.__e = function (n, t, e, r) {
     if (n.then) for (var u, o = t; o = o.__;) if ((u = o.__c) && u.__c) return null == t.__e && (t.__e = e.__e, t.__k = e.__k), u.__c(n, t);
-    T(n, t, e, r);
+    O(n, t, e, r);
   };
-  var F = l$1.unmount;
-  function I(n, t, e) {
+  var T = l$1.unmount;
+  function F(n, t, e) {
     return n && (n.__c && n.__c.__H && (n.__c.__H.__.forEach(function (n) {
       "function" == typeof n.__c && n.__c();
     }), n.__c.__H = null), null != (n = g({}, n)).__c && (n.__c.__P === e && (n.__c.__P = t), n.__c = null), n.__k = n.__k && n.__k.map(function (n) {
-      return I(n, t, e);
+      return F(n, t, e);
     })), n;
   }
-  function L(n, t, e) {
+  function I(n, t, e) {
     return n && e && (n.__v = null, n.__k = n.__k && n.__k.map(function (n) {
-      return L(n, t, e);
-    }), n.__c && n.__c.__P === t && (n.__e && e.insertBefore(n.__e, n.__d), n.__c.__e = !0, n.__c.__P = e)), n;
+      return I(n, t, e);
+    }), n.__c && n.__c.__P === t && (n.__e && e.appendChild(n.__e), n.__c.__e = !0, n.__c.__P = e)), n;
   }
-  function U() {
+  function L() {
     this.__u = 0, this.t = null, this.__b = null;
   }
-  function D(n) {
+  function U(n) {
     var t = n.__.__c;
     return t && t.__a && t.__a(n);
   }
-  function V() {
+  function M() {
     this.u = null, this.o = null;
   }
   l$1.unmount = function (n) {
     var t = n.__c;
-    t && t.__R && t.__R(), t && !0 === n.__h && (n.type = null), F && F(n);
-  }, (U.prototype = new b$1()).__c = function (n, t) {
+    t && t.__R && t.__R(), t && 32 & n.__u && (n.type = null), T && T(n);
+  }, (L.prototype = new b()).__c = function (n, t) {
     var e = t.__c,
       r = this;
     null == r.t && (r.t = []), r.t.push(e);
-    var u = D(r.__v),
+    var u = U(r.__v),
       o = !1,
       i = function () {
         o || (o = !0, e.__R = null, u ? u(l) : l());
       };
     e.__R = i;
     var l = function () {
-        if (! --r.__u) {
-          if (r.state.__a) {
-            var n = r.state.__a;
-            r.__v.__k[0] = L(n, n.__c.__P, n.__c.__O);
-          }
-          var t;
-          for (r.setState({
-            __a: r.__b = null
-          }); t = r.t.pop();) t.forceUpdate();
+      if (! --r.__u) {
+        if (r.state.__a) {
+          var n = r.state.__a;
+          r.__v.__k[0] = I(n, n.__c.__P, n.__c.__O);
         }
-      },
-      c = !0 === t.__h;
-    r.__u++ || c || r.setState({
+        var t;
+        for (r.setState({
+          __a: r.__b = null
+        }); t = r.t.pop();) t.forceUpdate();
+      }
+    };
+    r.__u++ || 32 & t.__u || r.setState({
       __a: r.__b = r.__v.__k[0]
     }), n.then(i, i);
-  }, U.prototype.componentWillUnmount = function () {
+  }, L.prototype.componentWillUnmount = function () {
     this.t = [];
-  }, U.prototype.render = function (n, e) {
+  }, L.prototype.render = function (n, e) {
     if (this.__b) {
       if (this.__v.__k) {
         var r = document.createElement("div"),
           o = this.__v.__k[0].__c;
-        this.__v.__k[0] = I(this.__b, r, o.__O = o.__P);
+        this.__v.__k[0] = F(this.__b, r, o.__O = o.__P);
       }
       this.__b = null;
     }
-    var i = e.__a && y$1(k$2, null, n.fallback);
-    return i && (i.__h = null), [y$1(k$2, null, e.__a ? null : n.children), i];
+    var i = e.__a && y$1(g$1, null, n.fallback);
+    return i && (i.__u &= -33), [y$1(g$1, null, e.__a ? null : n.children), i];
   };
-  var W = function (n, t, e) {
+  var V = function (n, t, e) {
     if (++e[1] === e[0] && n.o.delete(t), n.props.revealOrder && ("t" !== n.props.revealOrder[0] || !n.o.size)) for (e = n.u; e;) {
       for (; e.length > 3;) e.pop()();
       if (e[1] < e[0]) break;
       n.u = e = e[2];
     }
   };
-  (V.prototype = new b$1()).__a = function (n) {
+  (M.prototype = new b()).__a = function (n) {
     var t = this,
-      e = D(t.__v),
+      e = U(t.__v),
       r = t.o.get(n);
     return r[0]++, function (u) {
       var o = function () {
-        t.props.revealOrder ? (r.push(u), W(t, n, r)) : u();
+        t.props.revealOrder ? (r.push(u), V(t, n, r)) : u();
       };
       e ? e(o) : o();
     };
-  }, V.prototype.render = function (n) {
+  }, M.prototype.render = function (n) {
     this.u = null, this.o = new Map();
-    var t = C$1(n.children);
+    var t = H$1(n.children);
     n.revealOrder && "b" === n.revealOrder[0] && t.reverse();
     for (var e = t.length; e--;) this.o.set(t[e], this.u = [1, 0, this.u]);
     return n.children;
-  }, V.prototype.componentDidUpdate = V.prototype.componentDidMount = function () {
+  }, M.prototype.componentDidUpdate = M.prototype.componentDidMount = function () {
     var n = this;
     this.o.forEach(function (t, e) {
-      W(n, e, t);
+      V(n, e, t);
     });
   };
-  var B = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.element") || 60103,
-    H = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image(!S)|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/,
-    Z = /^on(Ani|Tra|Tou|BeforeInp|Compo)/,
-    Y = /[A-Z0-9]/g,
-    $ = "undefined" != typeof document,
-    q = function (n) {
+  var z = "undefined" != typeof Symbol && Symbol.for && Symbol.for("react.element") || 60103,
+    B = /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image(!S)|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/,
+    H = /^on(Ani|Tra|Tou|BeforeInp|Compo)/,
+    Z = /[A-Z0-9]/g,
+    Y = "undefined" != typeof document,
+    $ = function (n) {
       return ("undefined" != typeof Symbol && "symbol" == typeof Symbol() ? /fil|che|rad/ : /fil|che|ra/).test(n);
     };
-  b$1.prototype.isReactComponent = {}, ["componentWillMount", "componentWillReceiveProps", "componentWillUpdate"].forEach(function (t) {
-    Object.defineProperty(b$1.prototype, t, {
+  b.prototype.isReactComponent = {}, ["componentWillMount", "componentWillReceiveProps", "componentWillUpdate"].forEach(function (t) {
+    Object.defineProperty(b.prototype, t, {
       configurable: !0,
       get: function () {
         return this["UNSAFE_" + t];
@@ -679,25 +705,25 @@
       }
     });
   });
-  var K = l$1.event;
-  function Q() {}
-  function X() {
+  var J = l$1.event;
+  function K() {}
+  function Q() {
     return this.cancelBubble;
   }
-  function nn() {
+  function X() {
     return this.defaultPrevented;
   }
   l$1.event = function (n) {
-    return K && (n = K(n)), n.persist = Q, n.isPropagationStopped = X, n.isDefaultPrevented = nn, n.nativeEvent = n;
+    return J && (n = J(n)), n.persist = K, n.isPropagationStopped = Q, n.isDefaultPrevented = X, n.nativeEvent = n;
   };
-  var en = {
+  var tn = {
       enumerable: !1,
       configurable: !0,
       get: function () {
         return this.class;
       }
     },
-    rn = l$1.vnode;
+    en = l$1.vnode;
   l$1.vnode = function (n) {
     "string" == typeof n.type && function (n) {
       var t = n.props,
@@ -705,25 +731,25 @@
         u = {};
       for (var o in t) {
         var i = t[o];
-        if (!("value" === o && "defaultValue" in t && null == i || $ && "children" === o && "noscript" === e || "class" === o || "className" === o)) {
+        if (!("value" === o && "defaultValue" in t && null == i || Y && "children" === o && "noscript" === e || "class" === o || "className" === o)) {
           var l = o.toLowerCase();
-          "defaultValue" === o && "value" in t && null == t.value ? o = "value" : "download" === o && !0 === i ? i = "" : "ondoubleclick" === l ? o = "ondblclick" : "onchange" !== l || "input" !== e && "textarea" !== e || q(t.type) ? "onfocus" === l ? o = "onfocusin" : "onblur" === l ? o = "onfocusout" : Z.test(o) ? o = l : -1 === e.indexOf("-") && H.test(o) ? o = o.replace(Y, "-$&").toLowerCase() : null === i && (i = void 0) : l = o = "oninput", "oninput" === l && u[o = l] && (o = "oninputCapture"), u[o] = i;
+          "defaultValue" === o && "value" in t && null == t.value ? o = "value" : "download" === o && !0 === i ? i = "" : "translate" === l && "no" === i ? i = !1 : "ondoubleclick" === l ? o = "ondblclick" : "onchange" !== l || "input" !== e && "textarea" !== e || $(t.type) ? "onfocus" === l ? o = "onfocusin" : "onblur" === l ? o = "onfocusout" : H.test(o) ? o = l : -1 === e.indexOf("-") && B.test(o) ? o = o.replace(Z, "-$&").toLowerCase() : null === i && (i = void 0) : l = o = "oninput", "oninput" === l && u[o = l] && (o = "oninputCapture"), u[o] = i;
         }
       }
-      "select" == e && u.multiple && Array.isArray(u.value) && (u.value = C$1(t.children).forEach(function (n) {
+      "select" == e && u.multiple && Array.isArray(u.value) && (u.value = H$1(t.children).forEach(function (n) {
         n.props.selected = -1 != u.value.indexOf(n.props.value);
-      })), "select" == e && null != u.defaultValue && (u.value = C$1(t.children).forEach(function (n) {
+      })), "select" == e && null != u.defaultValue && (u.value = H$1(t.children).forEach(function (n) {
         n.props.selected = u.multiple ? -1 != u.defaultValue.indexOf(n.props.value) : u.defaultValue == n.props.value;
-      })), t.class && !t.className ? (u.class = t.class, Object.defineProperty(u, "className", en)) : (t.className && !t.class || t.class && t.className) && (u.class = u.className = t.className), n.props = u;
-    }(n), n.$$typeof = B, rn && rn(n);
+      })), t.class && !t.className ? (u.class = t.class, Object.defineProperty(u, "className", tn)) : (t.className && !t.class || t.class && t.className) && (u.class = u.className = t.className), n.props = u;
+    }(n), n.$$typeof = z, en && en(n);
   };
-  var un = l$1.__r;
+  var rn = l$1.__r;
   l$1.__r = function (n) {
-    un && un(n), n.__c;
+    rn && rn(n), n.__c;
   };
-  var on = l$1.diffed;
+  var un = l$1.diffed;
   l$1.diffed = function (n) {
-    on && on(n);
+    un && un(n);
     var t = n.props,
       e = n.__e;
     null != e && "textarea" === n.type && "value" in t && t.value !== e.value && (e.value = null == t.value ? "" : t.value);
@@ -880,7 +906,7 @@
   const useBeforeLayoutEffect = function useBeforeLayoutEffect(effect, inputs) {
     // Note to self: This is by far the most called hook by sheer volume of dependencies.
     // So it should ideally be as quick as possible.
-    const ref = _(null);
+    const ref = F$1(null);
     ref.current ??= nextId();
     const id = ref.current;
     if (effect) toRun.set(id, {
@@ -895,10 +921,12 @@
         }
     }, [id])*/
   };
-
   function argsChanged(oldArgs, newArgs) {
     return !!(!oldArgs || oldArgs.length !== newArgs?.length || newArgs?.some((arg, index) => arg !== oldArgs[index]));
   }
+
+  // Patch the type (only the type) of useCallback to allow for nullable functions
+  const useCallback = x$1;
   function debounceRendering(f) {
     (l$1.debounceRendering ?? queueMicrotask)(f);
   }
@@ -942,13 +970,13 @@
    */
   function usePassiveState(onChange, getInitialValue, customDebounceRendering) {
     //let [id, ,getId] = useState(() => generateRandomId());
-    const valueRef = _(Unset$1);
-    const reasonRef = _(Unset$1);
-    const warningRef = _(false);
-    const dependencyToCompareAgainst = _(Unset$1);
-    const cleanupCallbackRef = _(undefined);
+    const valueRef = F$1(Unset$1);
+    const reasonRef = F$1(Unset$1);
+    const warningRef = F$1(false);
+    const dependencyToCompareAgainst = F$1(Unset$1);
+    const cleanupCallbackRef = F$1(undefined);
     // Shared between "dependency changed" and "component unmounted".
-    const onShouldCleanUp = T$1(() => {
+    const onShouldCleanUp = useCallback(() => {
       const cleanupCallback = cleanupCallbackRef.current;
       if (cleanupCallback) cleanupCallback();
     }, []);
@@ -956,7 +984,7 @@
     // value in place of having no value at all yet.
     // This is the shared code for that, used on mount and whenever
     // getValue is called.
-    const tryEnsureValue = T$1(() => {
+    const tryEnsureValue = useCallback(() => {
       if (valueRef.current === Unset$1 && getInitialValue != undefined) {
         try {
           const initialValue = getInitialValue();
@@ -967,7 +995,7 @@
         }
       }
     }, [/* getInitialValue and onChange intentionally omitted */]);
-    const getValue = T$1(() => {
+    const getValue = useCallback(() => {
       if (warningRef.current) console.warn("During onChange, prefer using the (value, prevValue) arguments instead of getValue -- it's ambiguous as to if you're asking for the old or new value at this point in time for this component.");
       // The first time we call getValue, if we haven't been given a value yet,
       // (and we were given an initial value to use)
@@ -975,13 +1003,13 @@
       if (valueRef.current === Unset$1) tryEnsureValue();
       return valueRef.current === Unset$1 ? undefined : valueRef.current;
     }, []);
-    y(() => {
+    A(() => {
       // Make sure we've run our effect at least once on mount.
       // (If we have an initial value, of course)
       tryEnsureValue();
     }, []);
     // The actual code the user calls to (possibly) run a new effect.
-    const setValue = T$1((arg, reason) => {
+    const setValue = useCallback((arg, reason) => {
       // Regardless of anything else, figure out what our next value is about to be.
       const nextValue = arg instanceof Function ? arg(valueRef.current === Unset$1 ? undefined : valueRef.current) : arg;
       //let id = getId();
@@ -1049,11 +1077,11 @@
    * ref assignment. This means this getter is safe to use anywhere ***except the render phase***.
    */
   const useStableGetter = function useStableGetter(value) {
-    const ref = _(Unset);
+    const ref = F$1(Unset);
     useBeforeLayoutEffect(() => {
       ref.current = value;
     }, [value]);
-    return T$1(() => {
+    return useCallback(() => {
       if (ref.current === Unset) {
         throw new Error('Value retrieved from useStableGetter() cannot be called during render.');
       }
@@ -1067,7 +1095,7 @@
    * @returns
    */
   function useMemoObject(t) {
-    return F$1(() => {
+    return q(() => {
       return t;
     }, Object.values(t));
   }
@@ -1092,12 +1120,12 @@
     if (isStableGetter()) return fn;
     if (noDeps == null) {
       const currentCallbackGetter = useStableGetter(fn);
-      return setIsStableGetter(T$1((...args) => {
+      return setIsStableGetter(useCallback((...args) => {
         return currentCallbackGetter()(...args);
       }, []));
     } else {
       console.assert(noDeps.length === 0);
-      return setIsStableGetter(T$1(fn, []));
+      return setIsStableGetter(useCallback(fn, []));
     }
   };
 
@@ -1143,18 +1171,15 @@
 
   /** Detect free variable `global` from Node.js. */
   var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
-  var freeGlobal$1 = freeGlobal;
 
   /** Detect free variable `self`. */
   var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
 
   /** Used as a reference to the global object. */
-  var root = freeGlobal$1 || freeSelf || Function('return this')();
-  var root$1 = root;
+  var root = freeGlobal || freeSelf || Function('return this')();
 
   /** Built-in value references. */
-  var Symbol$1 = root$1.Symbol;
-  var Symbol$2 = Symbol$1;
+  var Symbol$1 = root.Symbol;
 
   /** Used for built-in method references. */
   var objectProto$4 = Object.prototype;
@@ -1170,7 +1195,7 @@
   var nativeObjectToString$1 = objectProto$4.toString;
 
   /** Built-in value references. */
-  var symToStringTag$1 = Symbol$2 ? Symbol$2.toStringTag : undefined;
+  var symToStringTag$1 = Symbol$1 ? Symbol$1.toStringTag : undefined;
 
   /**
    * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
@@ -1223,7 +1248,7 @@
     undefinedTag = '[object Undefined]';
 
   /** Built-in value references. */
-  var symToStringTag = Symbol$2 ? Symbol$2.toStringTag : undefined;
+  var symToStringTag = Symbol$1 ? Symbol$1.toStringTag : undefined;
 
   /**
    * The base implementation of `getTag` without fallbacks for buggy environments.
@@ -1303,12 +1328,11 @@
   }
 
   /** Used to detect overreaching core-js shims. */
-  var coreJsData = root$1['__core-js_shared__'];
-  var coreJsData$1 = coreJsData;
+  var coreJsData = root['__core-js_shared__'];
 
   /** Used to detect methods masquerading as native. */
   var maskSrcKey = function () {
-    var uid = /[^.]+$/.exec(coreJsData$1 && coreJsData$1.keys && coreJsData$1.keys.IE_PROTO || '');
+    var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
     return uid ? 'Symbol(src)_1.' + uid : '';
   }();
 
@@ -1449,7 +1473,6 @@
 
   /* Built-in method references that are verified to be native. */
   var nativeCreate = getNative(Object, 'create');
-  var nativeCreate$1 = nativeCreate;
 
   /**
    * Removes all key-value entries from the hash.
@@ -1459,7 +1482,7 @@
    * @memberOf Hash
    */
   function hashClear() {
-    this.__data__ = nativeCreate$1 ? nativeCreate$1(null) : {};
+    this.__data__ = nativeCreate ? nativeCreate(null) : {};
     this.size = 0;
   }
 
@@ -1499,7 +1522,7 @@
    */
   function hashGet(key) {
     var data = this.__data__;
-    if (nativeCreate$1) {
+    if (nativeCreate) {
       var result = data[key];
       return result === HASH_UNDEFINED$1 ? undefined : result;
     }
@@ -1523,7 +1546,7 @@
    */
   function hashHas(key) {
     var data = this.__data__;
-    return nativeCreate$1 ? data[key] !== undefined : hasOwnProperty.call(data, key);
+    return nativeCreate ? data[key] !== undefined : hasOwnProperty.call(data, key);
   }
 
   /** Used to stand-in for `undefined` hash values. */
@@ -1542,7 +1565,7 @@
   function hashSet(key, value) {
     var data = this.__data__;
     this.size += this.has(key) ? 0 : 1;
-    data[key] = nativeCreate$1 && value === undefined ? HASH_UNDEFINED : value;
+    data[key] = nativeCreate && value === undefined ? HASH_UNDEFINED : value;
     return this;
   }
 
@@ -1706,8 +1729,7 @@
   ListCache.prototype.set = listCacheSet;
 
   /* Built-in method references that are verified to be native. */
-  var Map$1 = getNative(root$1, 'Map');
-  var Map$2 = Map$1;
+  var Map$1 = getNative(root, 'Map');
 
   /**
    * Removes all key-value entries from the map.
@@ -1720,7 +1742,7 @@
     this.size = 0;
     this.__data__ = {
       'hash': new Hash(),
-      'map': new (Map$2 || ListCache)(),
+      'map': new (Map$1 || ListCache)(),
       'string': new Hash()
     };
   }
@@ -1917,7 +1939,7 @@
     } else if (rhs == null) {
       return lhs;
     } else {
-      return y$1(k$2, {}, lhs, rhs);
+      return y$1(g$1, {}, lhs, rhs);
     }
   };
 
@@ -2131,15 +2153,15 @@
       },
       ...rest
     } = parentParameters;
-    const getHighestIndex = T$1(() => {
+    const getHighestIndex = useCallback(() => {
       return managedChildrenArray.current.highestIndex;
     }, []);
-    const getLowestIndex = T$1(() => {
+    const getLowestIndex = useCallback(() => {
       return managedChildrenArray.current.lowestIndex;
     }, []);
     // All the information we have about our children is stored in this **stable** array.
     // Any mutations to this array **DO NOT** trigger any sort of a re-render.
-    const managedChildrenArray = _({
+    const managedChildrenArray = F$1({
       arr: [],
       rec: {},
       highestIndex: 0,
@@ -2150,7 +2172,7 @@
     // TODO: The primary use for this is flaggable closest fits
     // which needs to search all children for that closest fit.
     // It would be nice if there was something better for that.
-    const forEachChild = T$1(f => {
+    const forEachChild = useCallback(f => {
       for (const child of managedChildrenArray.current.arr) {
         if (child) {
           if (f(child) == 'break') return;
@@ -2163,7 +2185,7 @@
     }, []);
     // Retrieves the information associated with the child with the given index.
     // `undefined` if not child there, or it's unmounted.
-    const getManagedChildInfo = T$1(index => {
+    const getManagedChildInfo = useCallback(index => {
       if (typeof index == "number") return managedChildrenArray.current.arr[index];else return managedChildrenArray.current.rec[index];
     }, []);
     // tl;dr this is a way to have run useLayoutEffect once after all N children
@@ -2182,8 +2204,8 @@
     // the microtask (by checking hasRemoteULE first) so that the "effect" only
     // runs once. When it's done, hasRemoteULE is reset so it can run again if
     // more children mount/unmount.
-    const hasRemoteULEChildMounted = _(null);
-    const remoteULEChildMounted = T$1((index, mounted) => {
+    const hasRemoteULEChildMounted = F$1(null);
+    const remoteULEChildMounted = useCallback((index, mounted) => {
       if (!hasRemoteULEChildMounted.current) {
         hasRemoteULEChildMounted.current = {
           mounts: new Set(),
@@ -2218,7 +2240,6 @@
           // managedChildrenArray.current.lowestIndex = managedChildrenArray.current.arr.length - 1;
         }
       }
-
       hasRemoteULEChildMounted?.current?.[mounted ? "mounts" : "unmounts"]?.add?.(index);
     }, [/* Must remain stable */]);
     const managedChildren = useMemoObject({
@@ -2229,7 +2250,7 @@
       getAt: getManagedChildInfo,
       getHighestIndex: getHighestIndex,
       getLowestIndex: getLowestIndex,
-      _arraySlice: T$1(() => {
+      _arraySlice: useCallback(() => {
         let ret = managedChildrenArray.current.arr.slice();
         const max = getHighestIndex();
         for (let i = 0; i <= max; ++i) {
@@ -2240,7 +2261,7 @@
         return ret;
       }, [])
     });
-    const getChildren = T$1(() => managedChildren, []);
+    const getChildren = useCallback(() => managedChildren, []);
     return {
       context: useMemoObject({
         managedChildContext: useMemoObject({
@@ -2276,7 +2297,7 @@
     // the parent if they need it.
     // The parent can listen for all updates and only act on the ones it cares about,
     // and multiple children updating in the same tick will all be sent at once.
-    y(() => {
+    A(() => {
       if (managedChildrenArray == null) return;
       // Insert this information in-place
       if (typeof index == "number") {
@@ -2295,7 +2316,7 @@
     // Do the same on unmount.
     // Note: It's important that this comes AFTER remoteULEChildChanged
     // so that remoteULEChildMounted has access to all the info on mount.
-    y(() => {
+    A(() => {
       remoteULEChildMounted?.(index, true);
       return () => remoteULEChildMounted?.(index, false);
     }, [index]);
@@ -2334,7 +2355,7 @@
     const [getRequestedIndex, setRequestedIndex] = usePassiveState(null);
     // Shared between onChildrenMountChange and changeIndex, not public
     // Only called when `closestFit` is false, naturally.
-    const getClosestFit = T$1(requestedIndex => {
+    const getClosestFit = useCallback(requestedIndex => {
       const children = getChildren();
       let closestDistance = Infinity;
       let closestIndex = null;
@@ -2377,8 +2398,8 @@
         }
       }
     });
-    const reasonRef = _(undefined);
-    const changeIndex = T$1((arg, reason) => {
+    const reasonRef = F$1(undefined);
+    const changeIndex = useCallback((arg, reason) => {
       const children = getChildren();
       const requestedIndex = arg instanceof Function ? arg(getRequestedIndex()) : arg;
       reasonRef.current = reason;
@@ -2418,7 +2439,7 @@
       }
     }, []);
     // Run once, on mount
-    y(() => {
+    A(() => {
       changeIndex(initialIndex ?? null, reasonRef.current);
     }, []);
     return {
@@ -2440,11 +2461,11 @@
    */
   const useState = function useState(initialState) {
     // We keep both, but override the `setState` functionality
-    const [state, setStateP] = h(initialState);
-    const ref = _(state);
+    const [state, setStateP] = p(initialState);
+    const ref = F$1(state);
     // Hijack the normal setter function 
     // to also set our ref to the new value
-    const setState = _(value => {
+    const setState = F$1(value => {
       if (typeof value === "function") {
         const callback = value;
         setStateP(prevValue => {
@@ -2465,7 +2486,7 @@
         setStateP(value);
       }
     });
-    const getState = T$1(() => {
+    const getState = useCallback(() => {
       return ref.current;
     }, []);
     return [state, setState.current, getState];
@@ -2507,7 +2528,7 @@
    * @compositeParams
    */
   const useRefElement = function useRefElement(args) {
-    const nonElementWarn = _(false);
+    const nonElementWarn = F$1(false);
     if (nonElementWarn.current) {
       nonElementWarn.current = false;
       // There are two of these to catch the problem in the two most useful areas --
@@ -2520,7 +2541,7 @@
       onUnmount
     } = args.refElementParameters || {};
     // Called (indirectly) by the ref that the element receives.
-    const handler = T$1((e, prevValue) => {
+    const handler = useCallback((e, prevValue) => {
       if (!(e == null || e instanceof Element)) {
         console.assert(e == null || e instanceof Element, `useRefElement was used on a component that didn't forward its ref onto a DOM element, so it's attached to that component's VNode instead.`);
         nonElementWarn.current = true;
@@ -2532,7 +2553,7 @@
     }, []);
     // Let us store the actual (reference to) the element we capture
     const [getElement, setElement] = usePassiveState(handler, returnNull, runImmediately);
-    const propsStable = _(useTagProps({
+    const propsStable = F$1(useTagProps({
       ref: setElement
     }));
     // Return both the element and the hook that modifies 
@@ -2879,7 +2900,6 @@
           }
           // No need to search for <content>.
         }
-
         return result;
       }
     }
@@ -3356,8 +3376,7 @@
       }, {
         key: 'destroyed',
         get: function get() {
-          return (/** @type {!InertNode} */this._destroyed
-          );
+          return /** @type {!InertNode} */this._destroyed;
         }
       }, {
         key: 'hasSavedTabIndex',
@@ -3695,11 +3714,14 @@
     var t,
       f,
       n = "";
-    if ("string" == typeof e || "number" == typeof e) n += e;else if ("object" == typeof e) if (Array.isArray(e)) for (t = 0; t < e.length; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);else for (t in e) e[t] && (n && (n += " "), n += t);
+    if ("string" == typeof e || "number" == typeof e) n += e;else if ("object" == typeof e) if (Array.isArray(e)) {
+      var o = e.length;
+      for (t = 0; t < o; t++) e[t] && (f = r(e[t])) && (n && (n += " "), n += f);
+    } else for (f in e) e[f] && (n && (n += " "), n += f);
     return n;
   }
   function clsx() {
-    for (var e, t, f = 0, n = ""; f < arguments.length;) (e = arguments[f++]) && (t = r(e)) && (n && (n += " "), n += t);
+    for (var e, t, f = 0, n = "", o = arguments.length; f < o; f++) (e = arguments[f]) && (t = r(e)) && (n && (n += " "), n += t);
     return n;
   }
   document.addEventListener("click", e => {}, {
@@ -3719,7 +3741,7 @@
    *
    * The `handle` prop should be e.g. `useRef<ImperativeHandle<HTMLDivElement>>(null)`
    */
-  x(k(ImperativeElementU));
+  w(N(ImperativeElementU));
   /**
    * Allows controlling an element's `class`, `style`, etc. with functions like `setStyle` in addition to being reactive to incoming props.
    *
@@ -3734,23 +3756,23 @@
       getElement
     }
   }) {
-    const currentImperativeProps = _({
+    const currentImperativeProps = F$1({
       className: new Set(),
       style: {},
       children: null,
       html: null,
       others: {}
     });
-    const hasClass = T$1(cls => {
+    const hasClass = useCallback(cls => {
       return currentImperativeProps.current.className.has(cls);
     }, []);
-    const setClass = T$1((cls, enabled) => {
+    const setClass = useCallback((cls, enabled) => {
       if (hasClass(cls) == !enabled) {
         getElement()?.classList[enabled ? "add" : "remove"](cls);
         currentImperativeProps.current.className[enabled ? "add" : "delete"](cls);
       }
     }, []);
-    const setStyle = T$1((prop, value) => {
+    const setStyle = useCallback((prop, value) => {
       const element = getElement();
       if (element) {
         if (currentImperativeProps.current.style[prop] != value) {
@@ -3763,7 +3785,7 @@
         }
       }
     }, []);
-    const setChildren = T$1(children => {
+    const setChildren = useCallback(children => {
       let e = getElement();
       if (e && currentImperativeProps.current.children != children) {
         currentImperativeProps.current.children = children;
@@ -3771,7 +3793,7 @@
         e.textContent = children;
       }
     }, []);
-    const dangerouslySetInnerHTML = T$1(children => {
+    const dangerouslySetInnerHTML = useCallback(children => {
       let e = getElement();
       if (e && currentImperativeProps.current.html != children) {
         currentImperativeProps.current.children = null;
@@ -3779,7 +3801,7 @@
         e.innerHTML = children;
       }
     }, []);
-    const dangerouslyAppendHTML = T$1(children => {
+    const dangerouslyAppendHTML = useCallback(children => {
       let e = getElement();
       if (e && children) {
         const newChild = htmlToElement(e, children);
@@ -3794,10 +3816,10 @@
       }
       return null;
     }, []);
-    const getAttribute = T$1(prop => {
+    const getAttribute = useCallback(prop => {
       return currentImperativeProps.current.others[prop];
     }, []);
-    const setAttribute = T$1((prop, value) => {
+    const setAttribute = useCallback((prop, value) => {
       if (value != null) {
         if (getAttribute(prop) != value) {
           currentImperativeProps.current.others[prop] = value;
@@ -3810,7 +3832,7 @@
         }
       }
     }, []);
-    const setEventHandler = T$1((type, handler, options) => {
+    const setEventHandler = useCallback((type, handler, options) => {
       const element = getElement();
       const mappedKey = EventMapping[type];
       if (element) {
@@ -3824,7 +3846,7 @@
       }
     }, []);
     return {
-      imperativePropsReturn: _({
+      imperativePropsReturn: F$1({
         hasClass,
         setClass,
         setStyle,
@@ -3864,7 +3886,7 @@
     } = useImperativeProps({
       refElementReturn
     });
-    A(handle, () => imperativeHandle);
+    T$1(handle, () => imperativeHandle);
     return y$1(Tag, useMergedProps(propsStable, imperativeProps, props, {
       ref
     }));
@@ -3901,8 +3923,8 @@
       GetInitClass,
       GetTransitionClass,
       GetFinalizeClass
-    } = q$1(CssClassContext);
-    const GetDirectionClass = T$1(direction => {
+    } = P(CssClassContext);
+    const GetDirectionClass = x$1(direction => {
       switch (direction) {
         case "enter":
           return GetEnterClass();
@@ -3910,7 +3932,7 @@
           return GetExitClass();
       }
     }, []);
-    const GetPhaseClass = T$1(phase => {
+    const GetPhaseClass = x$1(phase => {
       switch (phase) {
         case "measure":
           return GetMeasureClass();
@@ -3956,16 +3978,16 @@
       closestFit: false,
       initialIndex: null,
       onIndexChange: null,
-      setAt: T$1((m, v) => {
+      setAt: x$1((m, v) => {
         m.setExclusivelyOpen(v);
       }, []),
-      getAt: T$1(m => m.getExclusivelyOpen(), []),
-      isValid: T$1(_m => {
+      getAt: x$1(m => m.getExclusivelyOpen(), []),
+      isValid: x$1(_m => {
         return true;
       }, []),
       onClosestFit: null
     });
-    const onVisibilityChange = T$1((index, visible) => {
+    const onVisibilityChange = x$1((index, visible) => {
       const nextInLine = getNextIndexInLine();
       const currentInLine = getCurrentIndex();
       if (visible == "show" && index != currentInLine) {
@@ -4003,7 +4025,7 @@
       })
     });
     const ExclusiveTransitionContext = GetExclusiveTransitionContext(exclusivityKey);
-    return ExclusiveTransitionContext == null ? children ?? null : o$1(ExclusiveTransitionContext.Provider, {
+    return ExclusiveTransitionContext == null ? children ?? null : u$1(ExclusiveTransitionContext.Provider, {
       value: context2,
       children: children
     });
@@ -4018,8 +4040,8 @@
     }
   }) {
     const c = GetExclusiveTransitionContext(exclusivityKey);
-    const context = c ? q$1(c) : null;
-    const index = F$1(() => {
+    const context = c ? P(c) : null;
+    const index = q(() => {
       globalCount += 1;
       return globalCount.toString();
     }, []);
@@ -4034,10 +4056,10 @@
       }
     });
     const parentOnVisChange = context?.exclusiveTransitionContext.onVisibilityChange;
-    const onVisibilityChange = T$1(visible => {
+    const onVisibilityChange = x$1(visible => {
       parentOnVisChange?.(index, visible == false ? "hidden" : "show");
     }, [parentOnVisChange, index]);
-    y(() => {
+    A(() => {
       if (show) parentOnVisChange?.(index, "show");
     }, [show, parentOnVisChange, index]);
     return {
@@ -4069,7 +4091,7 @@
     transitionParameters: {
       propsIncoming: {
         children,
-        ...p$1
+        ...p
       },
       show,
       animateOnMount,
@@ -4092,7 +4114,7 @@
   }) {
     const {
       getAnimateOnMount
-    } = q$1(SwappableContext);
+    } = P(SwappableContext);
     exitVisibility ||= "hidden";
     animateOnMount ??= getAnimateOnMount();
     measure ??= false;
@@ -4137,12 +4159,12 @@
     } = useRefElement({
       refElementParameters
     });
-    const cssProperties = _({});
-    const classNames = _(new Set([
+    const cssProperties = F$1({});
+    const classNames = F$1(new Set([
     // This is removed during useLayoutEffect on the first render
     // (at least once `show` is non-null)
     `${GetBaseClass()}-pending`]));
-    const handleTransitionFinished = T$1(() => {
+    const handleTransitionFinished = x$1(() => {
       const state = getState();
       console.assert(!!state);
       if (state) {
@@ -4156,18 +4178,18 @@
         }
       }
     }, []);
-    const otherProps = _({
+    const otherProps = F$1({
       onTransitionEnd: e => {
         if (e.target == getElement() && e.elapsedTime) {
           handleTransitionFinished();
         }
       }
     });
-    const hasMounted = _(false);
+    const hasMounted = F$1(false);
     /**
      * Sets the element's CSS class to match the given direction and phase.
      */
-    const updateClasses = T$1((element, direction, phase) => {
+    const updateClasses = x$1((element, direction, phase) => {
       if (element == null) return;
       const exitVisibility = getExitVisibility();
       const allClassesToRemove = [`${GetBaseClass()}-${GetEnterClass()}`, `${GetBaseClass()}-${GetExitClass()}`, `${GetBaseClass()}-${GetEnterClass()}-${GetMeasureClass()}`, `${GetBaseClass()}-${GetEnterClass()}-${GetInitClass()}`, `${GetBaseClass()}-${GetEnterClass()}-${GetTransitionClass()}`, `${GetBaseClass()}-${GetEnterClass()}-${GetFinalizeClass()}`, `${GetBaseClass()}-${GetExitClass()}-${GetMeasureClass()}`, `${GetBaseClass()}-${GetExitClass()}-${GetInitClass()}`, `${GetBaseClass()}-${GetExitClass()}-${GetTransitionClass()}`, `${GetBaseClass()}-${GetExitClass()}-${GetFinalizeClass()}`, `${GetBaseClass()}-ev-${"inert"}`, `${GetBaseClass()}-ev-${"removed"}`, `${GetBaseClass()}-ev-${"hidden"}`, `${GetBaseClass()}-ev-${"visible"}`, `${GetBaseClass()}-pending`];
@@ -4180,7 +4202,7 @@
     /**
      * Updates a single "measure" variable (or removes it)
      */
-    const updateSizeProperty = T$1((element, varName, value) => {
+    const updateSizeProperty = x$1((element, varName, value) => {
       if (value != null) {
         value = `${value}px`;
         element.style.setProperty(varName, value);
@@ -4192,8 +4214,10 @@
     }, []);
     /**
      * Adds the "measure" variupdateClassesables to the element if requested.
+     *
+     * TODO: This is only used once and could/should be inlined
      */
-    const measureElementAndUpdateProperties = T$1((element, measure) => {
+    const measureElementAndUpdateProperties = x$1((element, measure) => {
       if (element) {
         let size = null;
         if (measure) {
@@ -4214,8 +4238,8 @@
     //
     // Also of note, we store "(f) => window.clearTimeout(f)" instead of just "window.clearTimeout" because
     // of the implicit window object -- problems with a missing `this` object and all that nonsense.
-    const timeoutHandle = _(-1);
-    const timeoutClearFunction = _(null);
+    const timeoutHandle = F$1(-1);
+    const timeoutClearFunction = F$1(null);
     /**
      * Any time the state changes, there's some logic we need to run:
      *
@@ -4224,7 +4248,7 @@
      *
      * Any change in state or classes/styles does not implicitly cause a re-render.
      */
-    const onStateChange = T$1((nextState, prevState, _reason) => {
+    const onStateChange = x$1((nextState, prevState, _reason) => {
       if (nextState == null) return;
       const [nextDirection, nextPhase] = parseState(nextState);
       const element = getElement();
@@ -4246,13 +4270,11 @@
         case "measure":
           {
             if (element) measureElementAndUpdateProperties(element, true);
-            //setState(`${nextDirection}-init`);
             updateClasses(element, nextDirection, "init");
             if (element) forceReflow(element);
             // !!Intentional fall-through!!
             /* eslint-disable no-fallthrough */
           }
-
         case "init":
           {
             timeoutHandle.current = requestAnimationFrame(() => {
@@ -4287,8 +4309,8 @@
     const [getState, setState] = usePassiveState(onStateChange, returnNull, runImmediately);
     // When we mount, and every time thereafter that `show` changes,
     // change our current state according to that `show` value.
-    y(() => internalOnShowChanged(show, measure), [measure, show]);
-    // This has no dependences and is relied on in two different areas
+    A(() => internalOnShowChanged(show, measure), [measure, show]);
+    // This has no dependencies and is relied on in two different areas
     function internalOnShowChanged(show, measure) {
       // If `show` is null, then we don't change anything.
       if (show == null) return;
@@ -4317,37 +4339,35 @@
     // ensure that we don't unmount them again and waste all that work.
     // (If you really need this you can just unmount the entire transition itself)
     const definitelyShouldMountChildren = show || !delayMountUntilShown;
-    const hasRenderedChildren = _(false);
+    const hasRenderedChildren = F$1(false);
     const renderChildren = definitelyShouldMountChildren || hasRenderedChildren.current;
-    p(() => {
+    _(() => {
       if (definitelyShouldMountChildren) hasRenderedChildren.current ||= true;
     }, [hasRenderedChildren.current ? false : definitelyShouldMountChildren]);
     const childrenIsVnode = children && children.type && children.props;
-    const finalProps = useMergedProps(p$1, propsStable, otherProps.current, {
+    const finalProps = useMergedProps(p, propsStable, otherProps.current, {
       className: [...classNames.current, `${GetBaseClass()}`, `${GetBaseClass()}-ev-${exitVisibility}`, `${GetBaseClass()}-inline-direction-${"ltr"}`, `${GetBaseClass()}-block-direction-${"ttb"}`].join(" "),
       style: cssProperties.current
     }, childrenIsVnode ? {
       ref: children.ref,
       ...children.props
     } : {});
-    const resetContext = _({
+    const resetContext = F$1({
       getAnimateOnMount: returnFalse
     }).current;
     let modifiedChildren;
     if (childrenIsVnode) {
-      modifiedChildren = o$1(SwappableContext.Provider, {
-        value: resetContext,
-        children: F$2(children, finalProps)
-      });
+      modifiedChildren = F$2(children, finalProps);
     } else {
-      modifiedChildren = o$1(SwappableContext.Provider, {
-        value: resetContext,
-        children: o$1("span", {
-          ...finalProps,
-          children: children
-        })
+      modifiedChildren = u$1("span", {
+        ...finalProps,
+        children: children
       });
     }
+    modifiedChildren = u$1(SwappableContext.Provider, {
+      value: resetContext,
+      children: modifiedChildren
+    });
     return renderChildren ? modifiedChildren : null;
   }
   function forceReflow(e) {
@@ -4372,7 +4392,7 @@
    * TODO: Still needed?
    */
   function forwardElementRef(Component) {
-    const ForwardedComponent = k(Component);
+    const ForwardedComponent = N(Component);
     return ForwardedComponent;
   }
   /**
@@ -4383,8 +4403,8 @@
    * when it's the current panel (and the difference is 0)
    */
   function useLastNonNullValue(value) {
-    const lastNonNullValue = _(null);
-    p(() => {
+    const lastNonNullValue = F$1(null);
+    _(() => {
       if (value != null) lastNonNullValue.current = value;
     }, [value]);
     return value ?? lastNonNullValue.current;
@@ -4412,7 +4432,7 @@
       }
     };
   }
-  const Clip = x(forwardElementRef(function Clip({
+  const Clip = w(forwardElementRef(function Clip({
     duration,
     exclusivityKey,
     easing,
@@ -4502,7 +4522,7 @@
    *
    * @see `Transitionable`
    */
-  const Fade = x(forwardElementRef(function Fade({
+  const Fade = w(forwardElementRef(function Fade({
     duration,
     exclusivityKey,
     easing,
@@ -4552,7 +4572,7 @@
       }
     });
   }));
-  const ClipFade = x(forwardElementRef(function ClipFade({
+  const ClipFade = w(forwardElementRef(function ClipFade({
     delayMountUntilShown,
     exclusivityKey,
     easing,
@@ -4650,7 +4670,7 @@
    *
    * @see `Transitionable`
    */
-  const Collapse = x(forwardElementRef(function Collapse({
+  const Collapse = w(forwardElementRef(function Collapse({
     show,
     exclusivityKey,
     easing,
@@ -4698,7 +4718,7 @@
       }
     });
   }));
-  const CollapseFade = x(forwardElementRef(function CollapseFade({
+  const CollapseFade = w(forwardElementRef(function CollapseFade({
     show,
     exclusivityKey,
     easing,
@@ -4793,7 +4813,7 @@
    *
    * @see `Transitionable`
    */
-  const Flip = x(forwardElementRef(function Flip({
+  const Flip = w(forwardElementRef(function Flip({
     duration,
     exclusivityKey,
     easing,
@@ -4851,7 +4871,7 @@
       }
     });
   }));
-  const FlipFade = x(forwardElementRef(function FlipFade({
+  const FlipFade = w(forwardElementRef(function FlipFade({
     duration,
     exclusivityKey,
     easing,
@@ -4951,7 +4971,7 @@
    *
    * @see `Transitionable`
    */
-  const Slide = x(forwardElementRef(function Slide({
+  const Slide = w(forwardElementRef(function Slide({
     duration,
     exclusivityKey,
     easing,
@@ -5001,7 +5021,7 @@
       }
     });
   }));
-  const SlideFade = x(forwardElementRef(function SlideFade({
+  const SlideFade = w(forwardElementRef(function SlideFade({
     duration,
     exclusivityKey,
     easing,
@@ -5089,7 +5109,7 @@
    * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
    * @see `Transitionable` `ZoomFade`
    */
-  const Zoom = x(forwardElementRef(function Zoom({
+  const Zoom = w(forwardElementRef(function Zoom({
     duration,
     exclusivityKey,
     easing,
@@ -5147,7 +5167,7 @@
       }
     });
   }));
-  const SlideZoomFade = x(forwardElementRef(function SlideZoomFade({
+  const SlideZoomFade = w(forwardElementRef(function SlideZoomFade({
     duration,
     exclusivityKey,
     easing,
@@ -5219,7 +5239,7 @@
       }
     });
   }));
-  const SlideZoom = x(forwardElementRef(function SlideZoom({
+  const SlideZoom = w(forwardElementRef(function SlideZoom({
     duration,
     exclusivityKey,
     easing,
@@ -5308,43 +5328,43 @@
    * @param param0
    * @returns
    */
-  const Swappable = x(forwardElementRef(function Swappable({
+  const Swappable = w(forwardElementRef(function Swappable({
     children: c,
     inline,
     childrenAnimateOnMount,
     exclusivityKey,
-    ...p$1
+    ...p
   }, ref) {
     let children = c;
-    if (!children.type) children = !inline ? o$1("div", {
+    if (!children.type) children = !inline ? u$1("div", {
       children: children
-    }) : o$1("span", {
+    }) : u$1("span", {
       children: children
     });
     inline ??= typeof children.type === "string" && inlineElements.has(children.type);
     const transitionProps = useCreateSwappableProps({
       inline
     }, {
-      ...p$1,
+      ...p,
       ref
     });
     const mergedWithChildren = useMergedProps(transitionProps, children.props);
-    const animateOnMount = _(childrenAnimateOnMount ?? false);
-    p(() => {
+    const animateOnMount = F$1(childrenAnimateOnMount ?? false);
+    _(() => {
       animateOnMount.current = true;
     }, []);
-    const contextValue = _({
+    const contextValue = F$1({
       getAnimateOnMount: () => {
         return animateOnMount.current;
       }
     });
     let ret = F$2(children, mergedWithChildren);
-    ret = o$1(SwappableContext.Provider, {
+    ret = u$1(SwappableContext.Provider, {
       value: contextValue.current,
       children: ret
     });
     if (exclusivityKey) {
-      ret = o$1(ExclusiveTransitionProvider, {
+      ret = u$1(ExclusiveTransitionProvider, {
         exclusivityKey: exclusivityKey,
         children: ret
       }, exclusivityKey);
@@ -5354,7 +5374,7 @@
   // If "inline" isn't explicitly provided, we try to implicitly do it based on the child's tag.
   // Not perfect, but it's not supposed to be. `inline` is for perfect.
   const inlineElements = new Set(["a", "abbr", "acronym", "audio", "b", "bdi", "bdo", "big", "br", "button", "canvas", "cite", "code", "data", "datalist", "del", "dfn", "em", "embed", "i", "iframe", "img", "input", "ins", "kbd", "label", "map", "mark", "meter", "noscript", "object", "output", "picture", "progress", "q", "ruby", "s", "samp", "script", "select", "slot", "small", "span", "strong", "sub", "sup", "svg", "template", "textarea", "time", "u", "tt", "var", "video", "wbr"]);
-  const ZoomFade = x(forwardElementRef(function ZoomFade({
+  const ZoomFade = w(forwardElementRef(function ZoomFade({
     duration,
     exclusivityKey,
     easing,
@@ -5427,97 +5447,97 @@
   }
   function Demo() {
     //const [mounted, setMounted] = useState(false);
-    const [exclusive, setExclusive] = h(false);
-    const [animateOnMount, setAnimateOnMount] = h(true);
-    const [writingMode, setWritingMode] = h("horizontal");
-    const [show1, setShow1] = h("pending");
-    const [show3, setShow3] = h(0);
-    const [reflow, setReflow] = h("hidden");
-    const [duration, setDuration] = h(500);
-    const [text, setText] = h("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
-    const [flicker, setFlicker] = h(0);
-    y(() => {
+    const [exclusive, setExclusive] = p(false);
+    const [animateOnMount, setAnimateOnMount] = p(true);
+    const [writingMode, setWritingMode] = p("horizontal");
+    const [show1, setShow1] = p("pending");
+    const [show3, setShow3] = p(0);
+    const [reflow, setReflow] = p("hidden");
+    const [duration, setDuration] = p(500);
+    const [text, setText] = p("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+    const [flicker, setFlicker] = p(0);
+    A(() => {
       if (flicker > 0) {
         setShow1(s => s == "showing" ? "hiding" : "showing");
         setFlicker(f => f - 1);
       }
     }, [flicker]);
     //const onInput1 = useCallback((e: h.JSX.TargetedEvent<HTMLInputElement>) => { setShow1(o => !o); e.preventDefault(); }, []);
-    const onInput3 = T$1(e => {
+    const onInput3 = x$1(e => {
       setText(e.target.value);
       e.preventDefault();
     }, []);
-    const onInput4 = T$1(e => {
+    const onInput4 = x$1(e => {
       setReflow("hidden");
       e.preventDefault();
     }, []);
-    const onInput5 = T$1(e => {
+    const onInput5 = x$1(e => {
       setReflow("removed");
       e.preventDefault();
     }, []);
-    const onInput5b = T$1(e => {
+    const onInput5b = x$1(e => {
       setReflow("visible");
       e.preventDefault();
     }, []);
-    const onInput6 = T$1(e => {
+    const onInput6 = x$1(e => {
       setWritingMode("horizontal");
       e.preventDefault();
     }, []);
-    const onInput7 = T$1(e => {
+    const onInput7 = x$1(e => {
       setWritingMode("vertical");
       e.preventDefault();
     }, []);
-    const onInput8 = T$1(e => {
+    const onInput8 = x$1(e => {
       setDuration(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onInput9 = T$1(e => {
+    const onInput9 = x$1(e => {
       setExclusive(e.target.checked);
       e.preventDefault();
     }, []);
-    const onInputA = T$1(e => {
+    const onInputA = x$1(e => {
       setShow3(0);
       e.preventDefault();
     }, []);
-    const onInputB = T$1(e => {
+    const onInputB = x$1(e => {
       setShow3(1);
       e.preventDefault();
     }, []);
-    const onInputC = T$1(e => {
+    const onInputC = x$1(e => {
       setShow3(2);
       e.preventDefault();
     }, []);
-    const onInputD = T$1(e => {
+    const onInputD = x$1(e => {
       setShow3(null);
       e.preventDefault();
     }, []);
-    return o$1(k$2, {
-      children: [o$1("div", {
+    return u$1(g$1, {
+      children: [u$1("div", {
         id: "controls",
-        children: [o$1("h1", {
+        children: [u$1("h1", {
           children: "Preact Transition"
-        }), o$1("div", {
+        }), u$1("div", {
           className: "radiogroup",
-          children: [o$1("button", {
+          children: [u$1("button", {
             onClick: () => setFlicker(1),
             children: "Flicker 1"
-          }), o$1("button", {
+          }), u$1("button", {
             onClick: () => setFlicker(2),
             children: "Flicker 2"
-          }), o$1("button", {
+          }), u$1("button", {
             onClick: () => setFlicker(3),
             children: "Flicker 3"
-          }), o$1("button", {
+          }), u$1("button", {
             onClick: () => setFlicker(4),
             children: "Flicker 4"
           })]
-        }), o$1("div", {
+        }), u$1("div", {
           className: "radiogroup",
-          children: [o$1("div", {
+          children: [u$1("div", {
             children: "Outer card visible state: "
-          }), o$1("label", {
+          }), u$1("label", {
             className: "",
-            children: [o$1("input", {
+            children: [u$1("input", {
               type: "radio",
               name: "outer-card-show",
               onInput: e => {
@@ -5526,9 +5546,9 @@
               },
               checked: show1 == "unmounted"
             }), "Unmounted"]
-          }), o$1("label", {
+          }), u$1("label", {
             className: "",
-            children: [o$1("input", {
+            children: [u$1("input", {
               type: "radio",
               name: "outer-card-show",
               onInput: e => {
@@ -5538,9 +5558,9 @@
               checked: show1 == "pending",
               disabled: show1 == "hiding" || show1 == "showing"
             }), "Mounted, `show` is `null`"]
-          }), o$1("label", {
+          }), u$1("label", {
             className: "",
-            children: [o$1("input", {
+            children: [u$1("input", {
               type: "radio",
               name: "outer-card-show",
               onInput: e => {
@@ -5549,9 +5569,9 @@
               },
               checked: show1 == "hiding"
             }), "Mounted, `show` is `false`"]
-          }), o$1("label", {
+          }), u$1("label", {
             className: "",
-            children: [o$1("input", {
+            children: [u$1("input", {
               type: "radio",
               name: "outer-card-show",
               onInput: e => {
@@ -5561,13 +5581,13 @@
               checked: show1 == "showing"
             }), "Mounted, `show` is `true`"]
           })]
-        }), o$1("div", {
+        }), u$1("div", {
           className: "radiogroup",
-          children: [o$1("div", {
+          children: [u$1("div", {
             children: "Outer card mount animation: "
-          }), o$1("label", {
+          }), u$1("label", {
             className: "",
-            children: [o$1("input", {
+            children: [u$1("input", {
               type: "radio",
               name: "outer-card-mount-animate",
               onInput: e => {
@@ -5576,9 +5596,9 @@
               },
               checked: animateOnMount == false
             }), "Don't animate on mount"]
-          }), o$1("label", {
+          }), u$1("label", {
             className: "",
-            children: [o$1("input", {
+            children: [u$1("input", {
               type: "radio",
               name: "outer-card-mount-animate",
               onInput: e => {
@@ -5588,160 +5608,160 @@
               checked: animateOnMount == true
             }), "Animate on mount"]
           })]
-        }), o$1("div", {
+        }), u$1("div", {
           className: "radiogroup",
-          children: [o$1("div", {
+          children: [u$1("div", {
             children: "Visible Swappable child: "
-          }), o$1("label", {
+          }), u$1("label", {
             className: "code-mimic",
-            children: [o$1("input", {
+            children: [u$1("input", {
               type: "radio",
               name: "swap-index",
               onInput: onInputD,
               checked: show3 == null
             }), "(none)"]
-          }), o$1("label", {
+          }), u$1("label", {
             className: "code-mimic",
-            children: [o$1("input", {
+            children: [u$1("input", {
               type: "radio",
               name: "swap-index",
               onInput: onInputA,
               checked: show3 == 0
             }), "#0"]
-          }), o$1("label", {
+          }), u$1("label", {
             className: "code-mimic",
-            children: [o$1("input", {
+            children: [u$1("input", {
               type: "radio",
               name: "swap-index",
               onInput: onInputB,
               checked: show3 == 1
             }), "#1"]
-          }), o$1("label", {
+          }), u$1("label", {
             className: "code-mimic",
-            children: [o$1("input", {
+            children: [u$1("input", {
               type: "radio",
               name: "swap-index",
               onInput: onInputC,
               checked: show3 == 2
             }), "#2"]
-          }), o$1("label", {
-            children: [o$1("input", {
+          }), u$1("label", {
+            children: [u$1("input", {
               type: "checkbox",
               onInput: onInput9,
               checked: exclusive
             }), "Exclusive"]
           })]
-        }), o$1("div", {
+        }), u$1("div", {
           className: "radiogroup",
-          children: [o$1("div", {
+          children: [u$1("div", {
             children: "When transitioned out:"
-          }), o$1("label", {
+          }), u$1("label", {
             className: "code-mimic",
-            children: [o$1("input", {
+            children: [u$1("input", {
               type: "radio",
               name: "hidden-type",
               onInput: onInput5b,
               checked: reflow == "visible"
             }), "Do not hide (incl. focusables)"]
-          }), o$1("label", {
+          }), u$1("label", {
             className: "code-mimic",
-            children: [o$1("input", {
+            children: [u$1("input", {
               type: "radio",
               name: "hidden-type",
               onInput: onInput4,
               checked: reflow == "hidden"
             }), "visibility: hidden"]
-          }), o$1("label", {
+          }), u$1("label", {
             className: "code-mimic",
-            children: [o$1("input", {
+            children: [u$1("input", {
               type: "radio",
               name: "hidden-type",
               onInput: onInput5,
               checked: reflow == "removed"
             }), "display: none"]
           })]
-        }), o$1("div", {
-          children: o$1("label", {
-            children: [o$1("input", {
+        }), u$1("div", {
+          children: u$1("label", {
+            children: [u$1("input", {
               onInput: onInput8,
               type: "number",
               value: duration
             }), " Duration"]
           })
-        }), o$1("div", {
+        }), u$1("div", {
           className: "radiogroup",
-          children: [o$1("div", {
+          children: [u$1("div", {
             children: "Demo's writing mode: "
-          }), o$1("label", {
-            children: [o$1("input", {
+          }), u$1("label", {
+            children: [u$1("input", {
               type: "radio",
               name: "writing-mode",
               onInput: onInput6,
               checked: writingMode == "horizontal"
             }), "Horizontal"]
-          }), o$1("label", {
-            children: [o$1("input", {
+          }), u$1("label", {
+            children: [u$1("input", {
               type: "radio",
               name: "writing-mode",
               onInput: onInput7,
               checked: writingMode == "vertical"
             }), "Vertical"]
           })]
-        }), o$1("textarea", {
+        }), u$1("textarea", {
           cols: 30,
           rows: 5,
           onInput: onInput3,
           value: text
         })]
-      }), o$1("div", {
+      }), u$1("div", {
         id: "root-body",
         className: `writing-mode-${writingMode}`,
         style: {
           [`--${useCssClasses().GetBaseClass()}-duration`]: `${duration}ms`
         },
-        children: [o$1(FadeDemo, {
+        children: [u$1(FadeDemo, {
           cardShow: show1,
           animateOnMount: animateOnMount,
           exclusive: exclusive,
           contentIndex: show3,
           exitVisibility: reflow,
           text: text
-        }), o$1(SlideDemo, {
+        }), u$1(SlideDemo, {
           cardShow: show1,
           animateOnMount: animateOnMount,
           exclusive: exclusive,
           contentIndex: show3,
           exitVisibility: reflow,
           text: text
-        }), o$1(ZoomDemo, {
+        }), u$1(ZoomDemo, {
           cardShow: show1,
           animateOnMount: animateOnMount,
           exclusive: exclusive,
           contentIndex: show3,
           exitVisibility: reflow,
           text: text
-        }), o$1(ClipDemo, {
+        }), u$1(ClipDemo, {
           cardShow: show1,
           animateOnMount: animateOnMount,
           exclusive: exclusive,
           contentIndex: show3,
           exitVisibility: reflow,
           text: text
-        }), o$1(ZoomSlideDemo, {
+        }), u$1(ZoomSlideDemo, {
           cardShow: show1,
           animateOnMount: animateOnMount,
           exclusive: exclusive,
           contentIndex: show3,
           exitVisibility: reflow,
           text: text
-        }), o$1(CollapseDemo, {
+        }), u$1(CollapseDemo, {
           cardShow: show1,
           animateOnMount: animateOnMount,
           exclusive: exclusive,
           contentIndex: show3,
           exitVisibility: reflow,
           text: text
-        }), o$1(FlipDemo, {
+        }), u$1(FlipDemo, {
           cardShow: show1,
           animateOnMount: animateOnMount,
           exclusive: exclusive,
@@ -5760,44 +5780,44 @@
     animateOnMount,
     exclusive
   }) {
-    const [min, setMin] = h(0);
-    const [max, setMax] = h(1);
-    const onMinInput = T$1(e => {
+    const [min, setMin] = p(0);
+    const [max, setMax] = p(1);
+    const onMinInput = x$1(e => {
       setMin(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onMaxInput = T$1(e => {
+    const onMaxInput = x$1(e => {
       setMax(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
     const C = Fade;
     const CS = "Fade";
     const E = exclusive ? "e" : null;
-    const makeChild = i => o$1(C, {
+    const makeChild = i => u$1(C, {
       show: contentIndex === i,
       exclusivityKey: E,
       exitVisibility: exitVisibility,
       fadeMin: min,
       fadeMax: max,
-      children: o$1("div", {
+      children: u$1("div", {
         className: "card-contents",
-        children: [halfText(text, i), o$1("div", {
-          children: o$1("button", {
+        children: [halfText(text, i), u$1("div", {
+          children: u$1("button", {
             children: "Focusable element"
           })
         })]
       })
     });
-    return o$1("div", {
+    return u$1("div", {
       className: "demo-section",
-      children: [o$1("h2", {
+      children: [u$1("h2", {
         children: "Fade"
-      }), o$1("div", {
+      }), u$1("div", {
         className: "demo",
-        children: [o$1("div", {
+        children: [u$1("div", {
           className: "demo-controls",
-          children: [o$1("label", {
-            children: ["Minimum fade ", o$1("input", {
+          children: [u$1("label", {
+            children: ["Minimum fade ", u$1("input", {
               onInput: onMinInput,
               value: min,
               type: "number",
@@ -5805,8 +5825,8 @@
               max: 1,
               step: 0.0125
             })]
-          }), o$1("label", {
-            children: ["Maximum fade ", o$1("input", {
+          }), u$1("label", {
+            children: ["Maximum fade ", u$1("input", {
               onInput: onMaxInput,
               value: max,
               type: "number",
@@ -5815,21 +5835,21 @@
               step: 0.0125
             })]
           })]
-        }), cardShow != "unmounted" && o$1(C, {
+        }), cardShow != "unmounted" && u$1(C, {
           show: cardShow == "pending" ? null : cardShow == "showing",
           animateOnMount: animateOnMount,
           exitVisibility: exitVisibility,
           fadeMin: min,
           fadeMax: max,
-          children: o$1(Swappable, {
+          children: u$1(Swappable, {
             exclusivityKey: E,
-            children: o$1("div", {
+            children: u$1("div", {
               className: "card",
               children: [makeChild(0), makeChild(1), makeChild(2)]
             })
           })
-        }), o$1("code", {
-          children: o$1("pre", {
+        }), u$1("code", {
+          children: u$1("pre", {
             children: `<${CS} 
   show={${(cardShow ?? "null").toString()}}${min != 0 ? ` 
   fadeMin={${min}}` : ``}${max != 1 ? ` 
@@ -5864,36 +5884,36 @@
     animateOnMount,
     exclusive
   }) {
-    const [originX, setOriginX] = h(0.5);
-    const [originY, setOriginY] = h(0);
-    const [minX, setMinX] = h(1);
-    const [minY, setMinY] = h(0);
-    const [withFade, setWithFade] = h(true);
-    h(false);
-    const onOriginXInput = T$1(e => {
+    const [originX, setOriginX] = p(0.5);
+    const [originY, setOriginY] = p(0);
+    const [minX, setMinX] = p(1);
+    const [minY, setMinY] = p(0);
+    const [withFade, setWithFade] = p(true);
+    p(false);
+    const onOriginXInput = x$1(e => {
       setOriginX(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onOriginYInput = T$1(e => {
+    const onOriginYInput = x$1(e => {
       setOriginY(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onMinXInput = T$1(e => {
+    const onMinXInput = x$1(e => {
       setMinX(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onMinYInput = T$1(e => {
+    const onMinYInput = x$1(e => {
       setMinY(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onWithFadeInput = T$1(e => {
+    const onWithFadeInput = x$1(e => {
       setWithFade(e.target.checked);
       e.preventDefault();
     }, []);
     const C = withFade ? ClipFade : Clip;
     const CS = withFade ? "ClipFade" : "Clip";
     const E = exclusive ? "e" : null;
-    const makeChild = i => o$1(C, {
+    const makeChild = i => u$1(C, {
       show: contentIndex === i,
       exclusivityKey: E,
       exitVisibility: exitVisibility,
@@ -5901,25 +5921,25 @@
       clipOriginBlock: originY,
       clipMinInline: minX,
       clipMinBlock: minY,
-      children: o$1("div", {
+      children: u$1("div", {
         className: "card-contents",
-        children: [halfText(text, i), o$1("div", {
-          children: o$1("button", {
+        children: [halfText(text, i), u$1("div", {
+          children: u$1("button", {
             children: "Focusable element"
           })
         })]
       })
     });
-    return o$1("div", {
+    return u$1("div", {
       className: "demo-section",
-      children: [o$1("h2", {
+      children: [u$1("h2", {
         children: "Clip"
-      }), o$1("div", {
+      }), u$1("div", {
         className: "demo",
-        children: [o$1("div", {
+        children: [u$1("div", {
           className: "demo-controls",
-          children: [o$1("label", {
-            children: ["Origin to center the effect around on the inline-axis position (X-axis in English, etc.) ", o$1("input", {
+          children: [u$1("label", {
+            children: ["Origin to center the effect around on the inline-axis position (X-axis in English, etc.) ", u$1("input", {
               onInput: onOriginXInput,
               value: originX,
               type: "number",
@@ -5927,8 +5947,8 @@
               min: -2,
               max: 2
             })]
-          }), o$1("label", {
-            children: ["Origin to center the effect around on the block-axis position (Y-axis in English, etc.)  ", o$1("input", {
+          }), u$1("label", {
+            children: ["Origin to center the effect around on the block-axis position (Y-axis in English, etc.)  ", u$1("input", {
               onInput: onOriginYInput,
               value: originY,
               type: "number",
@@ -5936,8 +5956,8 @@
               min: -2,
               max: 2
             })]
-          }), o$1("label", {
-            children: ["Minimum size on the inline-axis ", o$1("input", {
+          }), u$1("label", {
+            children: ["Minimum size on the inline-axis ", u$1("input", {
               onInput: onMinXInput,
               value: minX,
               type: "number",
@@ -5945,8 +5965,8 @@
               min: 0,
               max: 1
             })]
-          }), o$1("label", {
-            children: ["Minimum size on the block-axis  ", o$1("input", {
+          }), u$1("label", {
+            children: ["Minimum size on the block-axis  ", u$1("input", {
               onInput: onMinYInput,
               value: minY,
               type: "number",
@@ -5954,14 +5974,14 @@
               min: 0,
               max: 1
             })]
-          }), o$1("label", {
-            children: ["With fade", o$1("input", {
+          }), u$1("label", {
+            children: ["With fade", u$1("input", {
               checked: withFade,
               onInput: onWithFadeInput,
               type: "checkbox"
             })]
           })]
-        }), cardShow != "unmounted" && o$1(C, {
+        }), cardShow != "unmounted" && u$1(C, {
           show: cardShow == "pending" ? null : cardShow == "showing",
           animateOnMount: animateOnMount,
           exitVisibility: exitVisibility,
@@ -5969,15 +5989,15 @@
           clipMinBlock: minY,
           clipOriginInline: originX,
           clipOriginBlock: originY,
-          children: o$1(Swappable, {
+          children: u$1(Swappable, {
             exclusivityKey: E,
-            children: o$1("div", {
+            children: u$1("div", {
               className: "card",
               children: [makeChild(0), makeChild(1), makeChild(2)]
             })
           })
-        }), o$1("code", {
-          children: o$1("pre", {
+        }), u$1("code", {
+          children: u$1("pre", {
             children: `<${CS} 
   show={${(cardShow ?? "null").toString()}}${originX != 0.5 ? ` 
   clipOriginX={${originX}}` : ``}${originY != 0.5 ? ` 
@@ -6016,45 +6036,45 @@
     animateOnMount,
     exclusive
   }) {
-    const [originX, setOriginX] = h(0.5);
-    const [originY, setOriginY] = h(0);
-    const [minX, setMinX] = h(0.75);
-    const [minY, setMinY] = h(0.75);
-    const [slideX, setSlideX] = h(0.25);
-    const [slideY, setSlideY] = h(0);
-    const [withFade, setWithFade] = h(true);
-    const onSlideXInput = T$1(e => {
+    const [originX, setOriginX] = p(0.5);
+    const [originY, setOriginY] = p(0);
+    const [minX, setMinX] = p(0.75);
+    const [minY, setMinY] = p(0.75);
+    const [slideX, setSlideX] = p(0.25);
+    const [slideY, setSlideY] = p(0);
+    const [withFade, setWithFade] = p(true);
+    const onSlideXInput = x$1(e => {
       setSlideX(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onSlideYInput = T$1(e => {
+    const onSlideYInput = x$1(e => {
       setSlideY(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onWithFadeInput = T$1(e => {
+    const onWithFadeInput = x$1(e => {
       setWithFade(e.target.checked);
       e.preventDefault();
     }, []);
-    const onOriginXInput = T$1(e => {
+    const onOriginXInput = x$1(e => {
       setOriginX(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onOriginYInput = T$1(e => {
+    const onOriginYInput = x$1(e => {
       setOriginY(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onMinXInput = T$1(e => {
+    const onMinXInput = x$1(e => {
       setMinX(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onMinYInput = T$1(e => {
+    const onMinYInput = x$1(e => {
       setMinY(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
     const C = withFade ? SlideZoomFade : SlideZoom;
     const CS = withFade ? "SlideZoomFade" : "SlideZoom";
     const E = exclusive ? "e" : null;
-    const makeChild = i => o$1(C, {
+    const makeChild = i => u$1(C, {
       show: contentIndex === i,
       exclusivityKey: E,
       exitVisibility: exitVisibility,
@@ -6064,25 +6084,25 @@
       zoomOriginBlock: originY,
       zoomMinInline: minX,
       zoomMinBlock: minY,
-      children: o$1("div", {
+      children: u$1("div", {
         className: "card-contents",
-        children: [halfText(text, i), o$1("div", {
-          children: o$1("button", {
+        children: [halfText(text, i), u$1("div", {
+          children: u$1("button", {
             children: "Focusable element"
           })
         })]
       })
     });
-    return o$1("div", {
+    return u$1("div", {
       className: "demo-section",
-      children: [o$1("h2", {
+      children: [u$1("h2", {
         children: "Zoom & Slide"
-      }), o$1("div", {
+      }), u$1("div", {
         className: "demo",
-        children: [o$1("div", {
+        children: [u$1("div", {
           className: "demo-controls",
-          children: [o$1("label", {
-            children: ["Transform origin on the inline-axis position (X-axis in English, etc.) ", o$1("input", {
+          children: [u$1("label", {
+            children: ["Transform origin on the inline-axis position (X-axis in English, etc.) ", u$1("input", {
               onInput: onOriginXInput,
               value: originX,
               type: "number",
@@ -6090,8 +6110,8 @@
               min: -2,
               max: 2
             })]
-          }), o$1("label", {
-            children: ["Transform origin on the block-axis position (Y-axis in English, etc.)  ", o$1("input", {
+          }), u$1("label", {
+            children: ["Transform origin on the block-axis position (Y-axis in English, etc.)  ", u$1("input", {
               onInput: onOriginYInput,
               value: originY,
               type: "number",
@@ -6099,8 +6119,8 @@
               min: -2,
               max: 2
             })]
-          }), o$1("label", {
-            children: ["Target block-axis position (X-axis in English, etc.) ", o$1("input", {
+          }), u$1("label", {
+            children: ["Target block-axis position (X-axis in English, etc.) ", u$1("input", {
               onInput: onSlideXInput,
               value: slideX,
               type: "number",
@@ -6108,8 +6128,8 @@
               min: -2,
               max: 2
             })]
-          }), o$1("label", {
-            children: ["Target inline-axis position (Y-axis in English, etc.)  ", o$1("input", {
+          }), u$1("label", {
+            children: ["Target inline-axis position (Y-axis in English, etc.)  ", u$1("input", {
               onInput: onSlideYInput,
               value: slideY,
               type: "number",
@@ -6117,8 +6137,8 @@
               min: -2,
               max: 2
             })]
-          }), o$1("label", {
-            children: ["Minimum size on the inline-axis ", o$1("input", {
+          }), u$1("label", {
+            children: ["Minimum size on the inline-axis ", u$1("input", {
               onInput: onMinXInput,
               value: minX,
               type: "number",
@@ -6126,8 +6146,8 @@
               min: 0,
               max: 1
             })]
-          }), o$1("label", {
-            children: ["Minimum size on the block-axis  ", o$1("input", {
+          }), u$1("label", {
+            children: ["Minimum size on the block-axis  ", u$1("input", {
               onInput: onMinYInput,
               value: minY,
               type: "number",
@@ -6135,14 +6155,14 @@
               min: 0,
               max: 1
             })]
-          }), o$1("label", {
-            children: ["With fade", o$1("input", {
+          }), u$1("label", {
+            children: ["With fade", u$1("input", {
               checked: withFade,
               onInput: onWithFadeInput,
               type: "checkbox"
             })]
           })]
-        }), cardShow != "unmounted" && o$1(C, {
+        }), cardShow != "unmounted" && u$1(C, {
           show: cardShow == "pending" ? null : cardShow == "showing",
           animateOnMount: animateOnMount,
           exitVisibility: exitVisibility,
@@ -6152,15 +6172,15 @@
           zoomMinBlock: minY,
           zoomOriginInline: originX,
           zoomOriginBlock: originY,
-          children: o$1(Swappable, {
+          children: u$1(Swappable, {
             exclusivityKey: E,
-            children: o$1("div", {
+            children: u$1("div", {
               className: "card",
               children: [makeChild(0), makeChild(1), makeChild(2)]
             })
           })
-        }), o$1("code", {
-          children: o$1("pre", {
+        }), u$1("code", {
+          children: u$1("pre", {
             children: `<${CS} 
   show={${(cardShow ?? "null").toString()}}${originX != 0.5 ? ` 
   originX={${originX}}` : ``}${originY != 0.5 ? ` 
@@ -6203,35 +6223,35 @@
     animateOnMount,
     exclusive
   }) {
-    const [originX, setOriginX] = h(0.5);
-    const [originY, setOriginY] = h(0);
-    const [minX, setMinX] = h(0.75);
-    const [minY, setMinY] = h(0.75);
-    const [withFade, setWithFade] = h(true);
-    const onOriginXInput = T$1(e => {
+    const [originX, setOriginX] = p(0.5);
+    const [originY, setOriginY] = p(0);
+    const [minX, setMinX] = p(0.75);
+    const [minY, setMinY] = p(0.75);
+    const [withFade, setWithFade] = p(true);
+    const onOriginXInput = x$1(e => {
       setOriginX(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onOriginYInput = T$1(e => {
+    const onOriginYInput = x$1(e => {
       setOriginY(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onMinXInput = T$1(e => {
+    const onMinXInput = x$1(e => {
       setMinX(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onMinYInput = T$1(e => {
+    const onMinYInput = x$1(e => {
       setMinY(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onWithFadeInput = T$1(e => {
+    const onWithFadeInput = x$1(e => {
       setWithFade(e.target.checked);
       e.preventDefault();
     }, []);
     const C = withFade ? ZoomFade : Zoom;
     const CS = withFade ? "ZoomFade" : "Zoom";
     const E = exclusive ? "e" : null;
-    const makeChild = i => o$1(C, {
+    const makeChild = i => u$1(C, {
       show: contentIndex === i,
       exclusivityKey: E,
       exitVisibility: exitVisibility,
@@ -6239,25 +6259,25 @@
       zoomOriginBlock: originY,
       zoomMinInline: minX,
       zoomMinBlock: minY,
-      children: o$1("div", {
+      children: u$1("div", {
         className: "card-contents",
-        children: [halfText(text, i), o$1("div", {
-          children: o$1("button", {
+        children: [halfText(text, i), u$1("div", {
+          children: u$1("button", {
             children: "Focusable element"
           })
         })]
       })
     });
-    return o$1("div", {
+    return u$1("div", {
       className: "demo-section",
-      children: [o$1("h2", {
+      children: [u$1("h2", {
         children: "Zoom"
-      }), o$1("div", {
+      }), u$1("div", {
         className: "demo",
-        children: [o$1("div", {
+        children: [u$1("div", {
           className: "demo-controls",
-          children: [o$1("label", {
-            children: ["Transform origin on the inline-axis position (X-axis in English, etc.) ", o$1("input", {
+          children: [u$1("label", {
+            children: ["Transform origin on the inline-axis position (X-axis in English, etc.) ", u$1("input", {
               onInput: onOriginXInput,
               value: originX,
               type: "number",
@@ -6265,8 +6285,8 @@
               min: -2,
               max: 2
             })]
-          }), o$1("label", {
-            children: ["Transform origin on the block-axis position (Y-axis in English, etc.)  ", o$1("input", {
+          }), u$1("label", {
+            children: ["Transform origin on the block-axis position (Y-axis in English, etc.)  ", u$1("input", {
               onInput: onOriginYInput,
               value: originY,
               type: "number",
@@ -6274,8 +6294,8 @@
               min: -2,
               max: 2
             })]
-          }), o$1("label", {
-            children: ["Minimum size on the inline-axis ", o$1("input", {
+          }), u$1("label", {
+            children: ["Minimum size on the inline-axis ", u$1("input", {
               onInput: onMinXInput,
               value: minX,
               type: "number",
@@ -6283,8 +6303,8 @@
               min: 0,
               max: 1
             })]
-          }), o$1("label", {
-            children: ["Minimum size on the block-axis  ", o$1("input", {
+          }), u$1("label", {
+            children: ["Minimum size on the block-axis  ", u$1("input", {
               onInput: onMinYInput,
               value: minY,
               type: "number",
@@ -6292,14 +6312,14 @@
               min: 0,
               max: 1
             })]
-          }), o$1("label", {
-            children: ["With fade", o$1("input", {
+          }), u$1("label", {
+            children: ["With fade", u$1("input", {
               checked: withFade,
               onInput: onWithFadeInput,
               type: "checkbox"
             })]
           })]
-        }), cardShow != "unmounted" && o$1(C, {
+        }), cardShow != "unmounted" && u$1(C, {
           show: cardShow == "pending" ? null : cardShow == "showing",
           animateOnMount: animateOnMount,
           exitVisibility: exitVisibility,
@@ -6307,15 +6327,15 @@
           zoomMinBlock: minY,
           zoomOriginInline: originX,
           zoomOriginBlock: originY,
-          children: o$1(Swappable, {
+          children: u$1(Swappable, {
             exclusivityKey: E,
-            children: o$1("div", {
+            children: u$1("div", {
               className: "card",
               children: [makeChild(0), makeChild(1), makeChild(2)]
             })
           })
-        }), o$1("code", {
-          children: o$1("pre", {
+        }), u$1("code", {
+          children: u$1("pre", {
             children: `<${CS} 
   show={${(cardShow ?? "null").toString()}}${originX != 0.5 ? ` 
   originX={${originX}}` : ``}${originY != 0.5 ? ` 
@@ -6354,18 +6374,18 @@
     animateOnMount,
     exclusive
   }) {
-    const [slideX, setSlideX] = h(0.25);
-    const [slideY, setSlideY] = h(0);
-    const [withFade, setWithFade] = h(true);
-    const onSlideXInput = T$1(e => {
+    const [slideX, setSlideX] = p(0.25);
+    const [slideY, setSlideY] = p(0);
+    const [withFade, setWithFade] = p(true);
+    const onSlideXInput = x$1(e => {
       setSlideX(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onSlideYInput = T$1(e => {
+    const onSlideYInput = x$1(e => {
       setSlideY(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onWithFadeInput = T$1(e => {
+    const onWithFadeInput = x$1(e => {
       setWithFade(e.target.checked);
       e.preventDefault();
     }, []);
@@ -6374,31 +6394,31 @@
     const C = withFade ? SlideFade : Slide;
     const CS = withFade ? "SlideFade" : "Slide";
     const E = exclusive ? "e" : null;
-    const makeChild = i => o$1(C, {
+    const makeChild = i => u$1(C, {
       show: contentIndex === i,
       exclusivityKey: E,
       exitVisibility: exitVisibility,
       slideTargetInline: slideX * Math.sign(i - (contentIndex ?? 0)) || null,
       slideTargetBlock: slideY * Math.sign(i - (contentIndex ?? 0)),
-      children: o$1("div", {
+      children: u$1("div", {
         className: "card-contents",
-        children: [halfText(text, i), o$1("div", {
-          children: o$1("button", {
+        children: [halfText(text, i), u$1("div", {
+          children: u$1("button", {
             children: "Focusable element"
           })
         })]
       })
     });
-    return o$1("div", {
+    return u$1("div", {
       className: "demo-section",
-      children: [o$1("h2", {
+      children: [u$1("h2", {
         children: "Slide"
-      }), o$1("div", {
+      }), u$1("div", {
         className: "demo",
-        children: [o$1("div", {
+        children: [u$1("div", {
           className: "demo-controls",
-          children: [o$1("label", {
-            children: ["Target block-axis position (X-axis in English, etc.) ", o$1("input", {
+          children: [u$1("label", {
+            children: ["Target block-axis position (X-axis in English, etc.) ", u$1("input", {
               onInput: onSlideXInput,
               value: slideX,
               type: "number",
@@ -6406,8 +6426,8 @@
               min: -2,
               max: 2
             })]
-          }), o$1("label", {
-            children: ["Target inline-axis position (Y-axis in English, etc.)  ", o$1("input", {
+          }), u$1("label", {
+            children: ["Target inline-axis position (Y-axis in English, etc.)  ", u$1("input", {
               onInput: onSlideYInput,
               value: slideY,
               type: "number",
@@ -6415,28 +6435,28 @@
               min: -2,
               max: 2
             })]
-          }), o$1("label", {
-            children: ["With fade", o$1("input", {
+          }), u$1("label", {
+            children: ["With fade", u$1("input", {
               checked: withFade,
               onInput: onWithFadeInput,
               type: "checkbox"
             })]
           })]
-        }), cardShow != "unmounted" && o$1(C, {
+        }), cardShow != "unmounted" && u$1(C, {
           show: cardShow == "pending" ? null : cardShow == "showing",
           animateOnMount: animateOnMount,
           exitVisibility: exitVisibility,
           slideTargetInline: slideX || null,
           slideTargetBlock: slideY || null,
-          children: o$1(Swappable, {
+          children: u$1(Swappable, {
             exclusivityKey: E,
-            children: o$1("div", {
+            children: u$1("div", {
               className: "card",
               children: [makeChild(0), makeChild(1), makeChild(2)]
             })
           })
-        }), o$1("code", {
-          children: o$1("pre", {
+        }), u$1("code", {
+          children: u$1("pre", {
             children: `<${CS} 
   show={${(cardShow ?? "null").toString()}} 
   slideTargetInline={${slideX}}
@@ -6470,80 +6490,80 @@
     animateOnMount,
     exclusive
   }) {
-    const [minBlockSize, setMinBlockSize] = h("0px");
-    const onWithFadeInput = T$1(e => {
+    const [minBlockSize, setMinBlockSize] = p("0px");
+    const onWithFadeInput = x$1(e => {
       setWithFade(e.target.checked);
       e.preventDefault();
     }, []);
-    const [withFade, setWithFade] = h(true);
+    const [withFade, setWithFade] = p(true);
     const C = withFade ? CollapseFade : Collapse;
     const CS = withFade ? "CollapseFade" : "Collapse";
     const E = exclusive ? "e" : null;
-    const onMinSize = T$1(e => {
+    const onMinSize = x$1(e => {
       setMinBlockSize(e.target.value);
       e.preventDefault();
     }, []);
-    const makeChild = i => o$1(C, {
+    const makeChild = i => u$1(C, {
       show: contentIndex === i,
       exclusivityKey: E,
       exitVisibility: exitVisibility,
       minBlockSize: minBlockSize,
-      children: o$1("div", {
+      children: u$1("div", {
         className: "card-contents",
-        children: [halfText(text, i), o$1("div", {
-          children: o$1("button", {
+        children: [halfText(text, i), u$1("div", {
+          children: u$1("button", {
             children: "Focusable element"
           })
         })]
       })
     });
-    return o$1("div", {
+    return u$1("div", {
       className: "demo-section",
-      children: [o$1("h2", {
+      children: [u$1("h2", {
         children: "Collapse"
-      }), o$1("div", {
+      }), u$1("div", {
         className: "demo",
-        children: [o$1("div", {
+        children: [u$1("div", {
           className: "demo-controls",
-          children: [o$1("label", {
-            children: ["Minimum size: ", o$1("input", {
+          children: [u$1("label", {
+            children: ["Minimum size: ", u$1("input", {
               type: "text",
               value: minBlockSize,
               onInput: onMinSize
             })]
-          }), o$1("div", {
+          }), u$1("div", {
             children: "Direction cannot be directly controlled. Only the size along the block axis (Y-axis in horizontal languages) can be resized."
-          }), o$1("div", {
-            children: ["In general, only use this component if you ", o$1("em", {
+          }), u$1("div", {
+            children: ["In general, only use this component if you ", u$1("em", {
               children: "specifically"
-            }), " need its reflow transitioning properties, because it's very taxing on, well, ", o$1("em", {
+            }), " need its reflow transitioning properties, because it's very taxing on, well, ", u$1("em", {
               children: "most"
             }), " devices, unless you take other precautions. If you want a \"disappear in place without zooming out\", consider a Clip effect."]
-          }), o$1("label", {
-            children: ["With fade", o$1("input", {
+          }), u$1("label", {
+            children: ["With fade", u$1("input", {
               checked: withFade,
               onInput: onWithFadeInput,
               type: "checkbox"
             })]
           })]
-        }), o$1("div", {
-          children: cardShow != "unmounted" && o$1(C, {
+        }), u$1("div", {
+          children: cardShow != "unmounted" && u$1(C, {
             show: cardShow == "pending" ? null : cardShow == "showing",
             animateOnMount: animateOnMount,
             exitVisibility: exitVisibility,
             minBlockSize: minBlockSize,
-            children: o$1("div", {
-              children: o$1(Swappable, {
+            children: u$1("div", {
+              children: u$1(Swappable, {
                 exclusivityKey: E,
-                children: o$1("div", {
+                children: u$1("div", {
                   className: "card",
                   children: [makeChild(0), makeChild(1), makeChild(2)]
                 })
               }, E)
             })
           })
-        }), o$1("code", {
-          children: o$1("pre", {
+        }), u$1("code", {
+          children: u$1("pre", {
             children: `<${CS} show={${(cardShow ?? "null").toString()}}${minBlockSize && minBlockSize != "0px" ? ` minBlockSize={${JSON.stringify(minBlockSize)}}` : ""}${exitVisibility ? ` exitVisibility={${JSON.stringify(exitVisibility)}}` : ""}>
   {/* These cards have padding, 
       and height doesn't include that, 
@@ -6578,35 +6598,35 @@
     animateOnMount,
     exclusive
   }) {
-    const [originX, setOriginX] = h(0.5);
-    const [originY, setOriginY] = h(0.5);
-    const [flipX, setFlipX] = h(0);
-    const [flipY, setFlipY] = h(180);
-    const onOriginXInput = T$1(e => {
+    const [originX, setOriginX] = p(0.5);
+    const [originY, setOriginY] = p(0.5);
+    const [flipX, setFlipX] = p(0);
+    const [flipY, setFlipY] = p(180);
+    const onOriginXInput = x$1(e => {
       setOriginX(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onOriginYInput = T$1(e => {
+    const onOriginYInput = x$1(e => {
       setOriginY(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onFlipXInput = T$1(e => {
+    const onFlipXInput = x$1(e => {
       setFlipX(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onFlipYInput = T$1(e => {
+    const onFlipYInput = x$1(e => {
       setFlipY(e.target.valueAsNumber);
       e.preventDefault();
     }, []);
-    const onWithFadeInput = T$1(e => {
+    const onWithFadeInput = x$1(e => {
       setWithFade(e.target.checked);
       e.preventDefault();
     }, []);
-    const [withFade, setWithFade] = h(true);
+    const [withFade, setWithFade] = p(true);
     const C = withFade ? FlipFade : Flip;
     const CS = withFade ? "FlipFade" : "Flip";
     const E = exclusive ? "e" : null;
-    const makeChild = i => o$1(C, {
+    const makeChild = i => u$1(C, {
       show: contentIndex === i,
       exclusivityKey: E,
       exitVisibility: exitVisibility,
@@ -6614,25 +6634,25 @@
       flipAngleBlock: flipY * Math.sign(i - (contentIndex ?? 0)) || null,
       flipOriginInline: originX,
       flipOriginBlock: flipY,
-      children: o$1("div", {
+      children: u$1("div", {
         className: "card-contents",
-        children: [halfText(text, i), o$1("div", {
-          children: o$1("button", {
+        children: [halfText(text, i), u$1("div", {
+          children: u$1("button", {
             children: "Focusable element"
           })
         })]
       })
     });
-    return o$1("div", {
+    return u$1("div", {
       className: "demo-section",
-      children: [o$1("h2", {
+      children: [u$1("h2", {
         children: "Flip"
-      }), o$1("div", {
+      }), u$1("div", {
         className: "demo",
-        children: [o$1("div", {
+        children: [u$1("div", {
           className: "demo-controls",
-          children: [o$1("label", {
-            children: ["Transform origin on the inline-axis position (X-axis in English, etc.) ", o$1("input", {
+          children: [u$1("label", {
+            children: ["Transform origin on the inline-axis position (X-axis in English, etc.) ", u$1("input", {
               onInput: onOriginXInput,
               value: originX,
               type: "number",
@@ -6640,8 +6660,8 @@
               min: -2,
               max: 2
             })]
-          }), o$1("label", {
-            children: ["Transform origin on the block-axis position (Y-axis in English, etc.)  ", o$1("input", {
+          }), u$1("label", {
+            children: ["Transform origin on the block-axis position (Y-axis in English, etc.)  ", u$1("input", {
               onInput: onOriginYInput,
               value: originY,
               type: "number",
@@ -6649,26 +6669,26 @@
               min: -2,
               max: 2
             })]
-          }), o$1("label", {
-            children: ["Rotate on inline axis ", o$1("input", {
+          }), u$1("label", {
+            children: ["Rotate on inline axis ", u$1("input", {
               type: "number",
               onInput: onFlipXInput,
               value: flipX
             })]
-          }), o$1("label", {
-            children: ["Rotate along block axis ", o$1("input", {
+          }), u$1("label", {
+            children: ["Rotate along block axis ", u$1("input", {
               type: "number",
               onInput: onFlipYInput,
               value: flipY
             })]
-          }), o$1("label", {
-            children: ["With fade", o$1("input", {
+          }), u$1("label", {
+            children: ["With fade", u$1("input", {
               checked: withFade,
               onInput: onWithFadeInput,
               type: "checkbox"
             })]
           })]
-        }), cardShow != "unmounted" && o$1(C, {
+        }), cardShow != "unmounted" && u$1(C, {
           show: cardShow == "pending" ? null : cardShow == "showing",
           animateOnMount: animateOnMount,
           exitVisibility: exitVisibility,
@@ -6676,15 +6696,15 @@
           flipAngleBlock: flipY,
           flipOriginInline: originX,
           flipOriginBlock: originY,
-          children: o$1(Swappable, {
+          children: u$1(Swappable, {
             exclusivityKey: E,
-            children: o$1("div", {
+            children: u$1("div", {
               className: "card",
               children: [makeChild(0), makeChild(1), makeChild(2)]
             })
           })
-        }), o$1("code", {
-          children: o$1("pre", {
+        }), u$1("code", {
+          children: u$1("pre", {
             children: `<${CS} 
   show={${(cardShow ?? "null").toString()}} 
   flipAngleInline={${JSON.stringify(flipX)}} 
@@ -6711,7 +6731,7 @@
     });
   }
   requestAnimationFrame(() => {
-    B$2(o$1(Demo, {}), document.getElementById("root"));
+    B$2(u$1(Demo, {}), document.getElementById("root"));
   });
 })();
 //# sourceMappingURL=bundle.js.map

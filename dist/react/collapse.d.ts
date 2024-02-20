@@ -1,6 +1,5 @@
 import { Ref } from "preact";
-import { UseRefElementParameters } from "preact-prop-helpers";
-import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types.js";
+import { Get, TransitionParametersBase } from "./util/types.js";
 export interface UseBasePropsCollapseParametersSelf {
     /**
     * The smallest size the component collapses to.
@@ -10,7 +9,7 @@ export interface UseBasePropsCollapseParametersSelf {
 /**
  * Properties that allow adjusting the direction of the collapse effect.
  */
-export interface UseBasePropsCollapseParameters extends UseBasePropsBaseParameters {
+export interface UseBasePropsCollapseParameters {
     collapseParameters: UseBasePropsCollapseParametersSelf;
 }
 /**
@@ -27,7 +26,7 @@ export declare function useBasePropsCollapse({ collapseParameters: { minBlockSiz
         [x: string]: string | number;
     };
 };
-export interface CollapseProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsCollapseParameters, "collapseParameters">>, Partial<Get<UseRefElementParameters<E>, "refElementParameters">> {
+export interface CollapseProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsCollapseParameters, "collapseParameters">> {
 }
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Collapse effect.

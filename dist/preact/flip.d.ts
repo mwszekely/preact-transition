@@ -1,6 +1,5 @@
 import { h, Ref } from "preact";
-import { UseRefElementParameters } from "preact-prop-helpers";
-import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types.js";
+import { Get, TransitionParametersBase } from "./util/types.js";
 export interface UseBasePropsFlipParametersSelf {
     /**
      * The target angle (in degrees) to rotate towards on the inline axis (X axis for horizontal writing modes)
@@ -35,7 +34,7 @@ export interface UseBasePropsFlipParametersSelf {
  * Values are relative, with 1 or -1 being the size of the component in that direction.
  * `0.5`, for example, would flip to the right by 50% of the element's width.
  */
-export interface UseBasePropsFlipParameters extends UseBasePropsBaseParameters {
+export interface UseBasePropsFlipParameters {
     flipParameters: UseBasePropsFlipParametersSelf;
 }
 /**
@@ -45,7 +44,7 @@ export declare function useBasePropsFlip({ flipParameters: { flipAngleBlock, fli
     className: string;
     style: h.JSX.CSSProperties;
 };
-export interface FlipProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFlipParameters, "flipParameters">>, Partial<Get<UseRefElementParameters<E>, "refElementParameters">> {
+export interface FlipProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFlipParameters, "flipParameters">> {
 }
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Flip effect.

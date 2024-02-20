@@ -1,6 +1,5 @@
 import { h, Ref } from "preact";
-import { UseRefElementParameters } from "preact-prop-helpers";
-import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types.js";
+import { Get, TransitionParametersBase } from "./util/types.js";
 export interface UseBasePropsSlideParametersSelf {
     /**
      * The target point to slide to/from (X component in horizontal writing modes).
@@ -18,7 +17,7 @@ export interface UseBasePropsSlideParametersSelf {
  * Values are relative, with 1 or -1 being the size of the component in that direction.
  * `0.5`, for example, would slide to the right by 50% of the element's width.
  */
-export interface UseBasePropsSlideParameters extends UseBasePropsBaseParameters {
+export interface UseBasePropsSlideParameters {
     slideParameters: UseBasePropsSlideParametersSelf;
 }
 /**
@@ -28,7 +27,7 @@ export declare function useBasePropsSlide({ slideParameters: { slideTargetInline
     className: string;
     style: h.JSX.CSSProperties;
 };
-export interface SlideProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsSlideParameters, "slideParameters">>, Partial<Get<UseRefElementParameters<E>, "refElementParameters">> {
+export interface SlideProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsSlideParameters, "slideParameters">> {
 }
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Slide effect.

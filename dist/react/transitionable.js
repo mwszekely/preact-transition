@@ -113,6 +113,8 @@ export function useTransition({ transitionParameters: { propsIncoming: { childre
     }, []);
     /**
      * Adds the "measure" variupdateClassesables to the element if requested.
+     *
+     * TODO: This is only used once and could/should be inlined
      */
     const measureElementAndUpdateProperties = useCallback((element, measure) => {
         if (element) {
@@ -174,7 +176,6 @@ export function useTransition({ transitionParameters: { propsIncoming: { childre
             case "measure": {
                 if (element)
                     measureElementAndUpdateProperties(element, true);
-                //setState(`${nextDirection}-init`);
                 updateClasses(element, nextDirection, "init");
                 if (element)
                     forceReflow(element);
@@ -210,7 +211,7 @@ export function useTransition({ transitionParameters: { propsIncoming: { childre
     // When we mount, and every time thereafter that `show` changes,
     // change our current state according to that `show` value.
     useLayoutEffect(() => internalOnShowChanged(show, measure), [measure, show]);
-    // This has no dependences and is relied on in two different areas
+    // This has no dependencies and is relied on in two different areas
     function internalOnShowChanged(show, measure) {
         // If `show` is null, then we don't change anything.
         if (show == null)
@@ -280,11 +281,12 @@ export function useTransition({ transitionParameters: { propsIncoming: { childre
     const resetContext = useRef({ getAnimateOnMount: returnFalse }).current;
     let modifiedChildren;
     if (childrenIsVnode) {
-        modifiedChildren = _jsx(SwappableContext.Provider, { value: resetContext, children: cloneElement(children, finalProps) });
+        modifiedChildren = cloneElement(children, finalProps);
     }
     else {
-        modifiedChildren = _jsx(SwappableContext.Provider, { value: resetContext, children: _jsx("span", { ...finalProps, children: children }) });
+        modifiedChildren = _jsx("span", { ...finalProps, children: children });
     }
+    modifiedChildren = _jsx(SwappableContext.Provider, { value: resetContext, children: modifiedChildren });
     return renderChildren ? modifiedChildren : null;
 }
 function forceReflow(e) {

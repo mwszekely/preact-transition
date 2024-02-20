@@ -1,6 +1,5 @@
 import { h, Ref } from "preact";
-import { UseRefElementParameters } from "preact-prop-helpers";
-import { Get, TransitionParametersBase, UseBasePropsBaseParameters } from "./util/types.js";
+import { Get, TransitionParametersBase } from "./util/types.js";
 export interface UseBasePropsFadeParametersSelf {
     /**
      * The opacity to use when faded out.
@@ -16,7 +15,7 @@ export interface UseBasePropsFadeParametersSelf {
 /**
  * Properties that allow adjusting the minimum or maximum opacity values to use for the fade effect.
  */
-export interface UseBasePropsFadeParameters extends UseBasePropsBaseParameters {
+export interface UseBasePropsFadeParameters {
     fadeParameters: UseBasePropsFadeParametersSelf;
 }
 /**
@@ -27,7 +26,7 @@ export declare function useBasePropsFade({ fadeParameters: { fadeMin, fadeMax } 
     className: string;
     style: h.JSX.CSSProperties;
 };
-export interface FadeProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFadeParameters, "fadeParameters">>, Partial<Get<UseRefElementParameters<E>, "refElementParameters">> {
+export interface FadeProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFadeParameters, "fadeParameters">> {
 }
 /**
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Fade effect.
