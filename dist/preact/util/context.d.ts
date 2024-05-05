@@ -1,4 +1,4 @@
-import { Context, h, RenderableProps } from "preact";
+import { Context, RenderableProps } from "preact-prop-helpers/preact";
 import { ExclusiveContextType, SwappableContextType, TransitionDirection, TransitionPhase } from "./types.js";
 declare function getExclusiveTransitionContextPrememoization(exclusivityKey: string): Context<ExclusiveContextType | null>;
 declare function getExclusiveTransitionContextPrememoization(exclusivityKey: null | undefined): null;
@@ -19,7 +19,7 @@ interface CssClassesProviderProps {
     transition: string;
     finalize: string;
 }
-export declare function CssClassesProvider({ base, enter, exit, measure, init, transition, finalize, children, ...rest }: RenderableProps<Partial<CssClassesProviderProps>>): h.JSX.Element;
+export declare function CssClassesProvider({ base, enter, exit, measure, init, transition, finalize, children, ...rest }: RenderableProps<Partial<CssClassesProviderProps>>): import("preact-prop-helpers").JSX.Element;
 export declare function useCssClasses(): {
     GetBaseClass: () => string;
     GetEnterClass: () => string;

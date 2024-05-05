@@ -19,17 +19,20 @@
       "browser": "./dist/react/index.js",
       "import": "./dist/react/index.js"
     },
+    "./preact": {
+      "types": "./dist/preact/index.d.ts",
+      "browser": "./dist/preact/index.js",
+      "import": "./dist/preact/index.js"
+    },
     "./package.json": "./package.json"
   },
   "scripts": {
     "build": "npx npm-run-all --npm-path npm -pc clean build:*",
     "watch": "npx npm-run-all --npm-path npm -pc clean watch:*",
-    "build:preact": "tsc",
     "watch:preact": "tsc --watch",
-    "build:react": "tsc --project ./tsconfig.react.json",
-    "watch:react": "tsc --project ./tsconfig.react.json --watch",
-    "build:sass": "sass --load-path=\"../node_modules\" ./sass/preact-transition/index.scss:./dist/index.css",
-    "watch:sass": "sass --watch --load-path=\"../node_modules\" ./sass/preact-transition/index.scss:./dist/index.css",
+    "build:preact": "tsc",
+    "build:react": "npx rollup -c",
+    "watch:react": "npx rollup -c --watch",
     "test": "playwright test --ui",
     "lint": "npx eslint ./src",
     "clean": "tsc --build --clean",
@@ -38,21 +41,26 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "preact": "^10.18.1"
+    "preact": "^10.21.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.202",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-replace": "^5.0.5",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/lodash-es": "^4.17.12",
-    "@typescript-eslint/eslint-plugin": "^7.0.2",
-    "@typescript-eslint/parser": "^7.0.2",
-    "eslint": "^8.56.0",
+    "@types/react": "^18.3.1",
     "npm-run-all": "^4.1.5",
-    "sass": "^1.71.0",
-    "typescript": "^5.3.3"
+    "rollup": "^4.17.2",
+    "rollup-plugin-sourcemaps": "^0.6.3",
+    "sass": "^1.76.0",
+    "typescript": "^5.4.5"
   },
   "dependencies": {
-    "clsx": "^2.1.0",
+    "clsx": "^2.1.1",
     "lodash-es": "^4.17.21",
-    "preact-prop-helpers": "github:mwszekely/preact-prop-helpers"
+    "preact": "^10.21.0",
+    "preact-prop-helpers": "github:mwszekely/preact-prop-helpers",
+    "react": "^18.3.1"
   }
 }

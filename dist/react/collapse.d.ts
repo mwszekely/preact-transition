@@ -1,4 +1,4 @@
-import { Ref } from "preact";
+import { Ref } from "preact-prop-helpers/preact";
 import { Get, TransitionParametersBase } from "./util/types.js";
 export interface UseBasePropsCollapseParametersSelf {
     /**
@@ -37,5 +37,5 @@ export interface CollapseProps<E extends HTMLElement> extends TransitionParamete
  *
  * @see `Transitionable`
  */
-export declare const Collapse: <E extends HTMLElement>({ show, exclusivityKey, easing, easingIn, easingOut, duration, delayMountUntilShown, minBlockSize, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: CollapseProps<E>, ref: Ref<E>) => import("preact").VNode<import("preact").JSX.HTMLAttributes<E>> | null;
+export declare const Collapse: <E extends HTMLElement>({ show, exclusivityKey, easing, easingIn, easingOut, duration, delayMountUntilShown, minBlockSize, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: CollapseProps<E>, ref: Ref<E>) => import("preact-prop-helpers").JSX.Element | null;
 //# sourceMappingURL=collapse.d.ts.map

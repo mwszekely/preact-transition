@@ -1,6 +1,4 @@
-import { h, Ref } from "preact";
-import { useMergedProps } from "preact-prop-helpers";
-import { memo } from "preact/compat";
+import { JSX, memo, Ref, useMergedProps } from "preact-prop-helpers/preact";
 import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
 import { Get, TransitionParametersBase } from "./util/types.js";
@@ -63,7 +61,7 @@ export function useBasePropsZoom({ zoomParameters: { zoomOrigin, zoomOriginInlin
             [`--${GetBaseClass()}-zoom-origin-block`]: `${(zoomOriginBlock ?? zoomOrigin ?? 0.5)}`,
             [`--${GetBaseClass()}-zoom-min-inline`]: `${(zoomMinInline ?? zoomMin ?? 0)}`,
             [`--${GetBaseClass()}-zoom-min-block`]: `${(zoomMinBlock ?? zoomMin ?? 0)}`,
-        } as h.JSX.CSSProperties,
+        } as JSX.CSSProperties,
     });
 }
 

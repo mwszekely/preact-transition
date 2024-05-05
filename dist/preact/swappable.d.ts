@@ -1,4 +1,4 @@
-import { ComponentChildren, h, Ref, VNode } from "preact";
+import { ComponentChildren, JSX, Ref } from "preact-prop-helpers/preact";
 import { NonIntrusiveElementAttributes } from "./util/types.js";
 export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappableProps>, NonIntrusiveElementAttributes<E> {
     children: ComponentChildren;
@@ -30,7 +30,7 @@ export interface CreateSwappableProps {
  * Creates a set of props that implement a swap container.
  * Be sure to merge these returned props with whatever the user passed in.
  */
-export declare function useCreateSwappableProps<P extends {}>({ inline }: CreateSwappableProps, otherProps: P): import("preact-prop-helpers").ElementProps<P extends h.JSX.HTMLAttributes<infer E_1 extends EventTarget> ? E_1 : HTMLElement>;
+export declare function useCreateSwappableProps<P extends {}>({ inline }: CreateSwappableProps, otherProps: P): import("preact-prop-helpers").ElementProps<(P extends JSX.HTMLAttributes<infer E extends EventTarget> ? E : HTMLElement) & Element>;
 /**
  * Allows a set of child <Transitionable> components to animate in & out in-place. Very useful for, e.g., tab panels.
  *
@@ -40,5 +40,5 @@ export declare function useCreateSwappableProps<P extends {}>({ inline }: Create
  * @param param0
  * @returns
  */
-export declare const Swappable: <E extends HTMLElement>({ children: c, inline, childrenAnimateOnMount, exclusivityKey, ...p }: SwapProps<E>, ref: Ref<E>) => VNode<{}>;
+export declare const Swappable: <E extends HTMLElement>({ children: c, inline, childrenAnimateOnMount, exclusivityKey, ...p }: SwapProps<E>, ref: Ref<E>) => import("preact").VNode<any>;
 //# sourceMappingURL=swappable.d.ts.map

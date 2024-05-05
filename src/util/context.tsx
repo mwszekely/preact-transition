@@ -1,6 +1,5 @@
 import { memoize } from "lodash-es";
-import { Context, createContext, h, RenderableProps } from "preact";
-import { useCallback, useContext, useMemo } from "preact/hooks";
+import { Context, createContext, RenderableProps, useCallback, useContext, useMemo } from "preact-prop-helpers/preact";
 import { ExclusiveContextType, SwappableContextType, TransitionDirection, TransitionPhase } from "./types.js";
 
 function getExclusiveTransitionContextPrememoization(exclusivityKey: string): Context<ExclusiveContextType | null>;

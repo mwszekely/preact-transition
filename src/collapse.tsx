@@ -1,6 +1,4 @@
-import { Ref } from "preact";
-import { useMergedProps } from "preact-prop-helpers";
-import { memo } from "preact/compat";
+import { Ref, memo, useMergedProps } from "preact-prop-helpers/preact";
 import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
 import { Get, TransitionParametersBase } from "./util/types.js";

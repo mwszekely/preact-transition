@@ -1,4 +1,4 @@
-import { h, Ref } from "preact";
+import { JSX, Ref } from "preact-prop-helpers/preact";
 import { Get, TransitionParametersBase } from "./util/types.js";
 export interface UseBasePropsZoomParametersSelf {
     /**
@@ -43,7 +43,7 @@ export interface UseBasePropsZoomParameters {
  */
 export declare function useBasePropsZoom({ zoomParameters: { zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock } }: UseBasePropsZoomParameters): {
     className: string;
-    style: h.JSX.CSSProperties;
+    style: JSX.CSSProperties;
 };
 export interface ZoomProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsZoomParameters, "zoomParameters">> {
 }
@@ -51,5 +51,5 @@ export interface ZoomProps<E extends HTMLElement> extends TransitionParametersBa
  * Wraps a div (etc.) and allows it to transition in/out smoothly with a Zoom effect.
  * @see `Transitionable` `ZoomFade`
  */
-export declare const Zoom: <E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: ZoomProps<E>, ref: Ref<E>) => import("preact").VNode<h.JSX.HTMLAttributes<E>> | null;
+export declare const Zoom: <E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, zoomOrigin, zoomOriginInline, zoomOriginBlock, zoomMin, zoomMinInline, zoomMinBlock, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: ZoomProps<E>, ref: Ref<E>) => JSX.Element | null;
 //# sourceMappingURL=zoom.d.ts.map

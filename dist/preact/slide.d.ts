@@ -1,4 +1,4 @@
-import { h, Ref } from "preact";
+import { JSX, Ref } from "preact-prop-helpers/preact";
 import { Get, TransitionParametersBase } from "./util/types.js";
 export interface UseBasePropsSlideParametersSelf {
     /**
@@ -25,7 +25,7 @@ export interface UseBasePropsSlideParameters {
  */
 export declare function useBasePropsSlide({ slideParameters: { slideTargetInline, slideTargetBlock } }: UseBasePropsSlideParameters): {
     className: string;
-    style: h.JSX.CSSProperties;
+    style: JSX.CSSProperties;
 };
 export interface SlideProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsSlideParameters, "slideParameters">> {
 }
@@ -41,5 +41,5 @@ export interface SlideProps<E extends HTMLElement> extends TransitionParametersB
  *
  * @see `Transitionable`
  */
-export declare const Slide: <E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, onVisibilityChange, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, onElementChange, onMount, onUnmount, ...rest }: SlideProps<E>, ref: Ref<E>) => import("preact").VNode<h.JSX.HTMLAttributes<E>> | null;
+export declare const Slide: <E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, onVisibilityChange, slideTargetInline, slideTargetBlock, show, animateOnMount, exitVisibility, delayMountUntilShown, onElementChange, onMount, onUnmount, ...rest }: SlideProps<E>, ref: Ref<E>) => JSX.Element | null;
 //# sourceMappingURL=slide.d.ts.map

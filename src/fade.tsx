@@ -1,6 +1,4 @@
-import { h, Ref } from "preact";
-import { useMergedProps } from "preact-prop-helpers";
-import { memo } from "preact/compat";
+import { JSX, memo, Ref, useMergedProps } from "preact-prop-helpers/preact";
 import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
 import { Get, TransitionParametersBase } from "./util/types.js";
@@ -38,7 +36,7 @@ export function useBasePropsFade({ fadeParameters: { fadeMin, fadeMax } }: UseBa
         style: {
             [`--${GetBaseClass()}-fade-min`]: (fadeMin ?? 0),
             [`--${GetBaseClass()}-fade-max`]: (fadeMax ?? 1),
-        } as h.JSX.CSSProperties
+        } as JSX.CSSProperties
     };
 }
 

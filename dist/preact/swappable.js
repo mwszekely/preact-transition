@@ -1,9 +1,6 @@
 import { jsx as _jsx } from "preact/jsx-runtime";
 import { clsx } from "clsx";
-import { cloneElement } from "preact";
-import { useMergedProps } from "preact-prop-helpers";
-import { memo } from "preact/compat";
-import { useEffect, useRef } from "preact/hooks";
+import { cloneElement, memo, useEffect, useMergedProps, useRef } from "preact-prop-helpers/preact";
 import { ExclusiveTransitionProvider } from "./exclusive.js";
 import { SwappableContext, useCssClasses } from "./util/context.js";
 import { forwardElementRef } from "./util/util.js";

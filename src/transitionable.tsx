@@ -1,6 +1,4 @@
-import { cloneElement, h, VNode } from "preact";
-import { assertEmptyObject, OnPassiveStateChange, returnFalse, returnNull, runImmediately, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableCallback, useStableGetter } from "preact-prop-helpers";
-import { useCallback, useContext, useEffect, useLayoutEffect, useRef } from "preact/hooks";
+import { assertEmptyObject, cloneElement, JSX, OnPassiveStateChange, returnFalse, returnNull, runImmediately, useCallback, useContext, useEffect, useEnsureStability, useLayoutEffect, useMergedProps, usePassiveState, useRef, useRefElement, useStableCallback, useStableGetter, VNode } from "preact-prop-helpers/preact";
 import { useExclusiveTransition } from "./exclusive.js";
 import { SwappableContext, useCssClasses } from "./util/context.js";
 import { SwappableContextType, TransitionDirection, TransitionPhase, TransitionState, UseTransitionParameters } from "./util/types.js";
@@ -46,7 +44,7 @@ export function useTransition<E extends HTMLElement>({
     },
     refElementParameters,
     ...void1
-}: UseTransitionParameters<E>): VNode<h.JSX.HTMLAttributes<E>> | null {
+}: UseTransitionParameters<E>): VNode | null {
     useEnsureStability("useTransition", onVisibilityChange);
     assertEmptyObject(void1);
     assertEmptyObject(void2);
@@ -69,7 +67,7 @@ export function useTransition<E extends HTMLElement>({
     }
 
     const { refElementReturn: { getElement }, propsStable } = useRefElement<E>({ refElementParameters })
-    const cssProperties = useRef<h.JSX.CSSProperties>({});
+    const cssProperties = useRef<JSX.CSSProperties>({});
     const classNames = useRef(new Set<string>([
         // This is removed during useLayoutEffect on the first render
         // (at least once `show` is non-null)
@@ -89,8 +87,8 @@ export function useTransition<E extends HTMLElement>({
             }
         }
     }, [])
-    const otherProps = useRef<h.JSX.HTMLAttributes<E>>({
-        onTransitionEnd: (e) => {
+    const otherProps = useRef<JSX.HTMLAttributes<E>>({
+        onTransitionEnd: (e: TransitionEvent) => {
             if (e.target == getElement() && e.elapsedTime) {
                 handleTransitionFinished();
             }
@@ -138,7 +136,7 @@ export function useTransition<E extends HTMLElement>({
     /**
      * Updates a single "measure" variable (or removes it)
      */
-    const updateSizeProperty = useCallback((element: E, varName: (keyof h.JSX.CSSProperties) & string, value: string | number | null | undefined) => {
+    const updateSizeProperty = useCallback((element: E, varName: (keyof JSX.CSSProperties) & string, value: string | number | null | undefined) => {
         if (value != null) {
             value = `${value}px`;
             element.style.setProperty(varName, value);
@@ -367,7 +365,7 @@ export function useTransition<E extends HTMLElement>({
         modifiedChildren = cloneElement(children as VNode, finalProps)
     }
     else {
-        modifiedChildren = <span {...finalProps as h.JSX.HTMLAttributes<any>}>{children}</span>
+        modifiedChildren = <span {...finalProps as JSX.HTMLAttributes<any>}>{children}</span>
     }
     modifiedChildren = <SwappableContext.Provider value={resetContext}>{modifiedChildren}</SwappableContext.Provider>
 
@@ -376,7 +374,7 @@ export function useTransition<E extends HTMLElement>({
 
 
 
-function forceReflow<E extends HTMLElement>(e: E) {
+export function forceReflow<E extends HTMLElement>(e: E) {
 
     // Try really hard to make sure this isn't optimized out by anything.
     // We need it for its document reflow side effect.

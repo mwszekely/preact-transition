@@ -1,4 +1,4 @@
-import { h, Ref } from "preact";
+import { JSX, Ref } from "preact-prop-helpers/preact";
 import { Get, TransitionParametersBase } from "./util/types.js";
 export interface UseBasePropsFlipParametersSelf {
     /**
@@ -42,7 +42,7 @@ export interface UseBasePropsFlipParameters {
  */
 export declare function useBasePropsFlip({ flipParameters: { flipAngleBlock, flipAngleInline, flipPerspective, flipOrigin, flipOriginInline, flipOriginBlock } }: UseBasePropsFlipParameters): {
     className: string;
-    style: h.JSX.CSSProperties;
+    style: JSX.CSSProperties;
 };
 export interface FlipProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFlipParameters, "flipParameters">> {
 }
@@ -58,5 +58,5 @@ export interface FlipProps<E extends HTMLElement> extends TransitionParametersBa
  *
  * @see `Transitionable`
  */
-export declare const Flip: <E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, flipAngleInline, flipAngleBlock, flipPerspective, flipOrigin, flipOriginInline, flipOriginBlock, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: FlipProps<E>, ref: Ref<E>) => import("preact").VNode<h.JSX.HTMLAttributes<E>> | null;
+export declare const Flip: <E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, flipAngleInline, flipAngleBlock, flipPerspective, flipOrigin, flipOriginInline, flipOriginBlock, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: FlipProps<E>, ref: Ref<E>) => JSX.Element | null;
 //# sourceMappingURL=flip.d.ts.map

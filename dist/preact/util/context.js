@@ -1,7 +1,6 @@
 import { jsx as _jsx } from "preact/jsx-runtime";
 import { memoize } from "lodash-es";
-import { createContext } from "preact";
-import { useCallback, useContext, useMemo } from "preact/hooks";
+import { createContext, useCallback, useContext, useMemo } from "preact-prop-helpers/preact";
 function getExclusiveTransitionContextPrememoization(exclusivityKey) {
     if (exclusivityKey == null)
         return null;

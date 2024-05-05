@@ -1,5 +1,4 @@
-import { useMergedProps } from "preact-prop-helpers";
-import { memo } from "preact/compat";
+import { memo, useMergedProps } from "preact-prop-helpers/preact";
 import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
 import { forwardElementRef } from "./util/util.js";

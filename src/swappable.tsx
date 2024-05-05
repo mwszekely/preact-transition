@@ -1,8 +1,5 @@
 import { clsx } from "clsx";
-import { cloneElement, ComponentChildren, h, Ref, VNode } from "preact";
-import { useMergedProps } from "preact-prop-helpers";
-import { memo } from "preact/compat";
-import { useEffect, useRef } from "preact/hooks";
+import { ComponentChildren, JSX, Ref, VNode, cloneElement, memo, useEffect, useMergedProps, useRef } from "preact-prop-helpers/preact";
 import { ExclusiveTransitionProvider } from "./exclusive.js";
 import { SwappableContext, useCssClasses } from "./util/context.js";
 import { NonIntrusiveElementAttributes } from "./util/types.js";
@@ -43,9 +40,9 @@ export interface CreateSwappableProps {
  * Be sure to merge these returned props with whatever the user passed in.
  */
 export function useCreateSwappableProps<P extends {}>({ inline }: CreateSwappableProps, otherProps: P) {
-    type E = P extends h.JSX.HTMLAttributes<infer E> ? E : HTMLElement;
+    type E = P extends JSX.HTMLAttributes<infer E> ? E : HTMLElement;
     const { GetBaseClass } = useCssClasses();
-    return useMergedProps<E>({
+    return useMergedProps<E & Element>({
         className: clsx(`${GetBaseClass()}-swap-container`, inline && `${GetBaseClass()}-swap-container-inline`)
     }, otherProps);
 }
@@ -62,7 +59,7 @@ export function useCreateSwappableProps<P extends {}>({ inline }: CreateSwappabl
 export const Swappable = memo(forwardElementRef(function Swappable<E extends HTMLElement>({ children: c, inline, childrenAnimateOnMount, exclusivityKey, ...p }: SwapProps<E>, ref: Ref<E>) {
     let children = c as VNode;
     if (!(children as VNode).type)
-        children = (!inline ? <div>{children}</div> : <span>{children}</span>)
+        children = (!inline ? <div>{children as any as JSX.Element}</div> : <span>{children as JSX.Element}</span>)
     inline ??= typeof children.type === "string" && inlineElements.has(children.type);
 
     const transitionProps = useCreateSwappableProps({ inline }, { ...p, ref });

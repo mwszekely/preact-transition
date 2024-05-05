@@ -1,6 +1,4 @@
-import { Ref } from "preact";
-import { useMergedProps } from "preact-prop-helpers";
-import { memo } from "preact/compat";
+import { memo, Ref, useMergedProps } from "preact-prop-helpers/preact";
 import { useBasePropsSlide, UseBasePropsSlideParameters } from "./slide.js";
 import { useTransition } from "./transitionable.js";
 import { Get, TransitionParametersBase } from "./util/types.js";

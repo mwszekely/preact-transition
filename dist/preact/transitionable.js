@@ -1,7 +1,5 @@
 import { jsx as _jsx } from "preact/jsx-runtime";
-import { cloneElement } from "preact";
-import { assertEmptyObject, returnFalse, returnNull, runImmediately, useEnsureStability, useMergedProps, usePassiveState, useRefElement, useStableCallback, useStableGetter } from "preact-prop-helpers";
-import { useCallback, useContext, useEffect, useLayoutEffect, useRef } from "preact/hooks";
+import { assertEmptyObject, cloneElement, returnFalse, returnNull, runImmediately, useCallback, useContext, useEffect, useEnsureStability, useLayoutEffect, useMergedProps, usePassiveState, useRef, useRefElement, useStableCallback, useStableGetter } from "preact-prop-helpers/preact";
 import { useExclusiveTransition } from "./exclusive.js";
 import { SwappableContext, useCssClasses } from "./util/context.js";
 function getTimeoutDuration(element) {
@@ -289,7 +287,7 @@ export function useTransition({ transitionParameters: { propsIncoming: { childre
     modifiedChildren = _jsx(SwappableContext.Provider, { value: resetContext, children: modifiedChildren });
     return renderChildren ? modifiedChildren : null;
 }
-function forceReflow(e) {
+export function forceReflow(e) {
     // Try really hard to make sure this isn't optimized out by anything.
     // We need it for its document reflow side effect.
     const p = globalThis._dummy;

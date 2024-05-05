@@ -1,6 +1,4 @@
-import { h, Ref } from "preact";
-import { useMergedProps } from "preact-prop-helpers";
-import { memo } from "preact/compat";
+import { JSX, memo, Ref, useMergedProps } from "preact-prop-helpers/preact";
 import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
 import { Get, TransitionParametersBase } from "./util/types.js";
@@ -42,7 +40,7 @@ export function useBasePropsSlide({ slideParameters: { slideTargetInline, slideT
         style: {
             [`--${GetBaseClass()}-slide-target-inline`]: `${(slideTargetInline ?? 0)}`,
             [`--${GetBaseClass()}-slide-target-block`]: `${(slideTargetBlock ?? 0)}`
-        } as h.JSX.CSSProperties
+        } as JSX.CSSProperties
     };
 }
 

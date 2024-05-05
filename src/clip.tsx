@@ -1,7 +1,5 @@
 import { clsx } from "clsx";
-import { h, Ref } from "preact";
-import { useMergedProps } from "preact-prop-helpers";
-import { memo } from "preact/compat";
+import { JSX, memo, Ref, useMergedProps } from "preact-prop-helpers/preact";
 import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
 import { Get, TransitionParametersBase } from "./util/types.js";
@@ -60,7 +58,7 @@ export function useBasePropsClip({ clipParameters: { clipMin, clipMinBlock, clip
                 [`--${GetBaseClass()}-clip-origin-block`]: (clipOriginBlock ?? clipOrigin ?? 0),
                 [`--${GetBaseClass()}-clip-min-inline`]: (clipMinInline ?? clipMin ?? 1),
                 [`--${GetBaseClass()}-clip-min-block`]: (clipMinBlock ?? clipMin ?? 0),
-            } as h.JSX.CSSProperties,
+            } as JSX.CSSProperties,
         }
     )
 }

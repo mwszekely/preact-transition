@@ -1,5 +1,4 @@
-import { h } from "preact";
-import { ManagedChildInfo, TargetedOmit, UseManagedChildrenContext, UseRefElementParameters } from "preact-prop-helpers";
+import { JSX, ManagedChildInfo, TargetedOmit, UseManagedChildrenContext, UseRefElementParameters } from "preact-prop-helpers/preact";
 import { UseExclusiveTransitionParameters } from "../exclusive.js";
 
 export type ExitVisibility = "inert" | "removed" | "hidden" | "visible"
@@ -51,7 +50,7 @@ export interface UseTransitionParametersSelf<E extends Element> {
      * and returned as a separate object.
      * 
      */
-    propsIncoming: h.JSX.HTMLAttributes<E>;
+    propsIncoming: JSX.HTMLAttributes<E>;
 
     /**
      * 
@@ -153,7 +152,7 @@ export interface ExclusiveContextType extends UseManagedChildrenContext<Exclusiv
  * 
  * Again, though, **all props are merged and forwarded, not just these ones!** You can use any/all of the usual attributes, including `onTransitionEnd`.
  */
-export interface NonIntrusiveElementAttributes<E extends Element> extends Pick<h.JSX.HTMLAttributes<E>, "children" | "ref" | "style" | "class" | "className"> { }
+export interface NonIntrusiveElementAttributes<E extends Element> extends Pick<JSX.HTMLAttributes<E>, "children" | "style" | "class" | "className"> { }
 
 /**
  * Full components can inherit from this to get a useful default of props for consumers to use as an interface

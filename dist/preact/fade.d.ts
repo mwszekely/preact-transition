@@ -1,4 +1,4 @@
-import { h, Ref } from "preact";
+import { JSX, Ref } from "preact-prop-helpers/preact";
 import { Get, TransitionParametersBase } from "./util/types.js";
 export interface UseBasePropsFadeParametersSelf {
     /**
@@ -24,7 +24,7 @@ export interface UseBasePropsFadeParameters {
  */
 export declare function useBasePropsFade({ fadeParameters: { fadeMin, fadeMax } }: UseBasePropsFadeParameters): {
     className: string;
-    style: h.JSX.CSSProperties;
+    style: JSX.CSSProperties;
 };
 export interface FadeProps<E extends HTMLElement> extends TransitionParametersBase<E>, Partial<Get<UseBasePropsFadeParameters, "fadeParameters">> {
 }
@@ -38,5 +38,5 @@ export interface FadeProps<E extends HTMLElement> extends TransitionParametersBa
  *
  * @see `Transitionable`
  */
-export declare const Fade: <E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: FadeProps<E>, ref: Ref<E>) => import("preact").VNode<h.JSX.HTMLAttributes<E>> | null;
+export declare const Fade: <E extends HTMLElement>({ duration, exclusivityKey, easing, easingIn, easingOut, delayMountUntilShown, fadeMin, fadeMax, show, animateOnMount, exitVisibility, onVisibilityChange, onElementChange, onMount, onUnmount, ...rest }: FadeProps<E>, ref: Ref<E>) => JSX.Element | null;
 //# sourceMappingURL=fade.d.ts.map

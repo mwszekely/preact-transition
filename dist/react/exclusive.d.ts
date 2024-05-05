@@ -1,8 +1,8 @@
-import { RenderableProps, TargetedPick, UseManagedChildParameters } from "preact-prop-helpers";
+import { RenderableProps, TargetedPick, UseManagedChildParameters } from "preact-prop-helpers/preact";
 import { ExclusiveInfo, OmitStrong, UseTransitionParameters } from "./util/types.js";
 export declare function ExclusiveTransitionProvider({ exclusivityKey, children }: RenderableProps<{
     exclusivityKey?: string | null | undefined;
-}>): import("preact-prop-helpers").JSX.Element;
+}>): import("react/jsx-runtime").JSX.Element | import("preact-prop-helpers").JSX.Element;
 export interface UseExclusiveTransitionParametersSelf {
     forceClose: () => void;
     exclusivityKey?: string | null | undefined;

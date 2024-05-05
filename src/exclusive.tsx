@@ -1,5 +1,4 @@
-import { RenderableProps, TargetedPick, UseManagedChildParameters, VNode, useChildrenFlag, useEnsureStability, useManagedChild, useManagedChildren, useMemoObject, usePassiveState, useState } from "preact-prop-helpers";
-import { useCallback, useContext, useLayoutEffect, useMemo } from "preact/hooks";
+import { Context, RenderableProps, TargetedPick, UseManagedChildParameters, VNode, useCallback, useChildrenFlag, useContext, useEnsureStability, useLayoutEffect, useManagedChild, useManagedChildren, useMemo, useMemoObject, usePassiveState, useState } from "preact-prop-helpers/preact";
 import { GetExclusiveTransitionContext } from "./util/context.js";
 import { ExclusiveContextType, ExclusiveInfo, OmitStrong, TransitionParametersBase, UseTransitionParameters } from "./util/types.js";
 
@@ -70,7 +69,7 @@ export function ExclusiveTransitionProvider({ exclusivityKey, children }: Render
         })
     });
 
-    const ExclusiveTransitionContext = GetExclusiveTransitionContext(exclusivityKey);
+    const ExclusiveTransitionContext: Context<ExclusiveContextType | null> | null = GetExclusiveTransitionContext(exclusivityKey);
 
     return (ExclusiveTransitionContext == null) ? ((children as VNode) ?? null) : <ExclusiveTransitionContext.Provider value={context2}>{children}</ExclusiveTransitionContext.Provider>;
 }
