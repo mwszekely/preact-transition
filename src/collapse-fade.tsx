@@ -1,4 +1,4 @@
-import { memo, Ref, useMergedProps } from "preact-prop-helpers/preact";
+import { memo, Ref, useMergedProps } from "preact-prop-helpers";
 import { useBasePropsCollapse, UseBasePropsCollapseParameters } from "./collapse.js";
 import { useBasePropsFade, UseBasePropsFadeParameters } from "./fade.js";
 import { useTransition } from "./transitionable.js";

@@ -1,4 +1,4 @@
-import { JSX, ManagedChildInfo, TargetedOmit, UseManagedChildrenContext, UseRefElementParameters } from "preact-prop-helpers/preact";
+import { JSX, ManagedChildInfo, TargetedOmit, UseManagedChildrenContext, UseRefElementParameters } from "preact-prop-helpers";
 import { UseExclusiveTransitionParameters } from "../exclusive.js";
 export type ExitVisibility = "inert" | "removed" | "hidden" | "visible";
 export type TransitionPhase = 'measure' | 'init' | 'transition' | 'finalize';

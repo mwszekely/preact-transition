@@ -1,4 +1,4 @@
-import { VNode } from "preact-prop-helpers/preact";
+import { VNode } from "preact-prop-helpers";
 import { UseTransitionParameters } from "./util/types.js";
 /**
  * Provide props that can be used to animate a transition.

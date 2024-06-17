@@ -1,5 +1,5 @@
 
-import { Ref, VNode, forwardRef, useEffect, useRef } from "preact-prop-helpers/preact";
+import { Ref, VNode, forwardRef, useEffect, useRef } from "preact-prop-helpers";
 
 /**
  * Shortcut for preact/compat's `forwardRef` that auto-assumes some things that are useful for forwarding refs to `HTMLElements` specifically.

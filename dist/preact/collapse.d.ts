@@ -1,4 +1,4 @@
-import { Ref } from "preact-prop-helpers/preact";
+import { Ref } from "preact-prop-helpers";
 import { Get, TransitionParametersBase } from "./util/types.js";
 export interface UseBasePropsCollapseParametersSelf {
     /**

@@ -1,4 +1,4 @@
-import { ComponentChildren, JSX, Ref } from "preact-prop-helpers/preact";
+import { ComponentChildren, JSX, Ref } from "preact-prop-helpers";
 import { NonIntrusiveElementAttributes } from "./util/types.js";
 export interface SwapProps<E extends HTMLElement> extends Partial<CreateSwappableProps>, NonIntrusiveElementAttributes<E> {
     children: ComponentChildren;

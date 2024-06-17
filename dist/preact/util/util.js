@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef } from "preact-prop-helpers/preact";
+import { forwardRef, useEffect, useRef } from "preact-prop-helpers";
 /**
  * Shortcut for preact/compat's `forwardRef` that auto-assumes some things that are useful for forwarding refs to `HTMLElements` specifically.
  * Namely it involves de-gunking the type system by letting us return *generic* function and playing nice with React. In all other respects, it acts like `forwardRef`.

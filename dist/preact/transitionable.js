@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "preact/jsx-runtime";
-import { assertEmptyObject, cloneElement, returnFalse, returnNull, runImmediately, useCallback, useContext, useEffect, useEnsureStability, useLayoutEffect, useMergedProps, usePassiveState, useRef, useRefElement, useStableCallback, useStableGetter } from "preact-prop-helpers/preact";
+import { assertEmptyObject, cloneElement, returnFalse, returnNull, runImmediately, useCallback, useContext, useEffect, useEnsureStability, useLayoutEffect, useMergedProps, usePassiveState, useRef, useRefElement, useStableCallback, useStableGetter } from "preact-prop-helpers";
 import { useExclusiveTransition } from "./exclusive.js";
 import { SwappableContext, useCssClasses } from "./util/context.js";
 function getTimeoutDuration(element) {

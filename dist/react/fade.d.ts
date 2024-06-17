@@ -1,4 +1,4 @@
-import { JSX, Ref } from "preact-prop-helpers/preact";
+import { JSX, Ref } from "preact-prop-helpers";
 import { Get, TransitionParametersBase } from "./util/types.js";
 export interface UseBasePropsFadeParametersSelf {
     /**

@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { ComponentChildren, JSX, Ref, VNode, cloneElement, memo, useEffect, useMergedProps, useRef } from "preact-prop-helpers/preact";
+import { ComponentChildren, JSX, Ref, VNode, cloneElement, memo, useEffect, useMergedProps, useRef } from "preact-prop-helpers";
 import { ExclusiveTransitionProvider } from "./exclusive.js";
 import { SwappableContext, useCssClasses } from "./util/context.js";
 import { NonIntrusiveElementAttributes } from "./util/types.js";

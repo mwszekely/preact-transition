@@ -1,4 +1,4 @@
-import { Context, RenderableProps } from "preact-prop-helpers/preact";
+import { Context, RenderableProps } from "preact-prop-helpers";
 import { ExclusiveContextType, SwappableContextType, TransitionDirection, TransitionPhase } from "./types.js";
 declare function getExclusiveTransitionContextPrememoization(exclusivityKey: string): Context<ExclusiveContextType | null>;
 declare function getExclusiveTransitionContextPrememoization(exclusivityKey: null | undefined): null;

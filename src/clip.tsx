@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { JSX, memo, Ref, useMergedProps } from "preact-prop-helpers/preact";
+import { JSX, memo, Ref, useMergedProps } from "preact-prop-helpers";
 import { useTransition } from "./transitionable.js";
 import { useCssClasses } from "./util/context.js";
 import { Get, TransitionParametersBase } from "./util/types.js";

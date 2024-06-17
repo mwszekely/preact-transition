@@ -1,4 +1,4 @@
-import { assertEmptyObject, cloneElement, JSX, OnPassiveStateChange, returnFalse, returnNull, runImmediately, useCallback, useContext, useEffect, useEnsureStability, useLayoutEffect, useMergedProps, usePassiveState, useRef, useRefElement, useStableCallback, useStableGetter, VNode } from "preact-prop-helpers/preact";
+import { assertEmptyObject, cloneElement, JSX, OnPassiveStateChange, returnFalse, returnNull, runImmediately, useCallback, useContext, useEffect, useEnsureStability, useLayoutEffect, useMergedProps, usePassiveState, useRef, useRefElement, useStableCallback, useStableGetter, VNode } from "preact-prop-helpers";
 import { useExclusiveTransition } from "./exclusive.js";
 import { SwappableContext, useCssClasses } from "./util/context.js";
 import { SwappableContextType, TransitionDirection, TransitionPhase, TransitionState, UseTransitionParameters } from "./util/types.js";

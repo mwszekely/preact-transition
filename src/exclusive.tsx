@@ -1,4 +1,4 @@
-import { Context, RenderableProps, TargetedPick, UseManagedChildParameters, VNode, useCallback, useChildrenFlag, useContext, useEnsureStability, useLayoutEffect, useManagedChild, useManagedChildren, useMemo, useMemoObject, usePassiveState, useState } from "preact-prop-helpers/preact";
+import { Context, RenderableProps, TargetedPick, UseManagedChildParameters, VNode, useCallback, useChildrenFlag, useContext, useEnsureStability, useLayoutEffect, useManagedChild, useManagedChildren, useMemo, useMemoObject, usePassiveState, useState } from "preact-prop-helpers";
 import { GetExclusiveTransitionContext } from "./util/context.js";
 import { ExclusiveContextType, ExclusiveInfo, OmitStrong, TransitionParametersBase, UseTransitionParameters } from "./util/types.js";
 

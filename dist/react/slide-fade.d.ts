@@ -1,4 +1,4 @@
-import { Ref } from "preact-prop-helpers/preact";
+import { Ref } from "preact-prop-helpers";
 import { UseBasePropsFadeParameters } from "./fade.js";
 import { UseBasePropsSlideParameters } from "./slide.js";
 import { Get, TransitionParametersBase } from "./util/types.js";

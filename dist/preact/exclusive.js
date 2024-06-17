@@ -1,5 +1,5 @@
 import { jsx as _jsx } from "preact/jsx-runtime";
-import { useCallback, useChildrenFlag, useContext, useEnsureStability, useLayoutEffect, useManagedChild, useManagedChildren, useMemo, useMemoObject, usePassiveState, useState } from "preact-prop-helpers/preact";
+import { useCallback, useChildrenFlag, useContext, useEnsureStability, useLayoutEffect, useManagedChild, useManagedChildren, useMemo, useMemoObject, usePassiveState, useState } from "preact-prop-helpers";
 import { GetExclusiveTransitionContext } from "./util/context.js";
 let globalCount = -1;
 export function ExclusiveTransitionProvider({ exclusivityKey, children }) {
