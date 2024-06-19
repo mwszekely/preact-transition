@@ -6461,6 +6461,8 @@ function useExclusiveTransition({ transitionParameters: { show }, exclusiveTrans
 }
 
 function getTimeoutDuration(element) {
+    if (typeof window === 'undefined')
+        return 250;
     return Math.max(...(window.getComputedStyle(element || document.body).getPropertyValue(`transition-duration`)).split(",").map(str => {
         if (str.endsWith("ms"))
             return +str.substring(0, str.length - 2);

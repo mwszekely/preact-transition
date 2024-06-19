@@ -3,6 +3,8 @@ import { assertEmptyObject, cloneElement, returnFalse, returnNull, runImmediatel
 import { useExclusiveTransition } from "./exclusive.js";
 import { SwappableContext, useCssClasses } from "./util/context.js";
 function getTimeoutDuration(element) {
+    if (typeof window === 'undefined')
+        return 250;
     return Math.max(...(window.getComputedStyle(element || document.body).getPropertyValue(`transition-duration`)).split(",").map(str => {
         if (str.endsWith("ms"))
             return +str.substring(0, str.length - 2);

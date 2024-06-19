@@ -5,6 +5,9 @@ import { SwappableContextType, TransitionDirection, TransitionPhase, TransitionS
 
 
 function getTimeoutDuration<E extends HTMLElement>(element: E | null) {
+    if (typeof window === 'undefined')
+        return 250;
+    
     return Math.max(...(window.getComputedStyle(element || document.body).getPropertyValue(`transition-duration`)).split(",").map(str => {
         if (str.endsWith("ms"))
             return +str.substring(0, str.length - 2);

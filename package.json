@@ -33,6 +33,8 @@
     "build:preact": "tsc",
     "build:react": "npx rollup -c",
     "watch:react": "npx rollup -c --watch",
+    "watch:sass": "sass --watch ./sass/preact-transition/index.scss:./dist/index.css",
+    "build:sass": "sass         ./sass/preact-transition/index.scss:./dist/index.css",
     "test": "playwright test --ui",
     "lint": "npx eslint ./src",
     "clean": "tsc --build --clean",
